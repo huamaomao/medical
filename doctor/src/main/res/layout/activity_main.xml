@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v">
+   <include layout="@layout/toolbar" />
+    <View android:background="@color/title_border"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+   <include layout="@layout/public_frame" />
+   <View android:background="@color/tab_boder"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+   <RadioGroup android:id="@id/rg_group"
+      style="@style/rg_choose">
+        <RadioButton android:id="@id/rb_tab_1"
+            android:text="@string/title_message"
+            android:drawableTop="@drawable/s_tab_message"
+           style="@style/rb_choose" />
+       <RadioButton android:id="@id/rb_tab_2"
+           android:text="@string/title_patient"
+           android:drawableTop="@drawable/s_tab_patient"
+           style="@style/rb_choose" />
+       <RadioButton android:id="@id/rb_tab_3"
+           android:drawableTop="@drawable/s_tab_doctors_circle"
+           android:text="@string/title_doctors_circle"
+           style="@style/rb_choose"
+           />
+       <RadioButton android:id="@id/rb_tab_4"
+           android:drawableTop="@drawable/s_tab_my"
+           android:text="@string/title_my"
+           style="@style/rb_choose" />
+   </RadioGroup>
+</LinearLayout>

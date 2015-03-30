@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_wh_match_v">
+    <include layout="@layout/seachview" />
+    <include layout="@layout/pulic_listview" />
+</LinearLayout>

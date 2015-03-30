@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/appbg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+   <RelativeLayout
+       android:layout_marginTop="10dp"
+       android:layout_marginBottom="10dp"
+       android:layout_marginLeft="20dp"
+       android:layout_marginRight="20dp"
+       android:orientation="horizontal"
+       android:background="@drawable/round_bg_write"
+       android:layout_width="match_parent"
+       android:layout_height="30dp">
+                <ImageView android:id="@id/iv_seach"
+                    android:src="@drawable/icon_seach"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="-20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/iv_seach"
+                    android:text="@string/seach"
+                    android:paddingLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/seach"
+                    android:textSize="@dimen/font_size_15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+     </RelativeLayout>
+
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/write"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+           <ImageView
+               android:layout_gravity="center_vertical"
+               android:src="@drawable/icon_new_friend"
+
+               android:layout_width="@dimen/photo_height"
+               android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:text="新的朋友"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+     </LinearLayout>
+</LinearLayout>
