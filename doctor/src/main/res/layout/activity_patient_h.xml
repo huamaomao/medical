@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/it.neokree.materialtabs"
+   style="@style/style_wh_match_v"
+    >
+   <include layout="@layout/toolbar_back" />
+    <RadioGroup
+        android:id="@id/rg_group"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/write"
+        android:orientation="horizontal"
+        android:scrollbars="none">
+        <RadioButton
+        android:id="@id/rb_tab_1"
+        style="@style/tab_title"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/s_tab_h_1"
+        />
+
+        <RadioButton
+            android:id="@id/rb_tab_2"
+            style="@style/tab_title"
+            android:gravity="center"
+            android:background="@drawable/s_tab_h_2"
+            />
+
+    </RadioGroup>
+    <View
+        android:background="@color/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <android.support.v4.view.ViewPager
+        android:id="@id/viewpage"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+    </android.support.v4.view.ViewPager>
+
+    <View
+        android:background="@color/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <ImageView
+        android:layout_marginBottom="0px"
+        android:scaleType="fitXY"
+        android:layout_gravity="bottom"
+        android:src="@drawable/btn_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+</LinearLayout>

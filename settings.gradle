@@ -1,0 +1,3 @@
+include ':doctor'
+include ':libraries:CommonLibrary'
+include ':libraries:MaterialTabsModule'

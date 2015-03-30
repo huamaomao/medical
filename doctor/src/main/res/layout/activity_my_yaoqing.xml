@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appbg"
+   style="@style/style_wh_match_v"
+    >
+   <include layout="@layout/toolbar_back" />
+    <GridLayout
+        android:background="@color/write"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:columnCount="2"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView  android:text="我的邀请码"   android:layout_gravity="fill" android:textColor="@color/black" />
+        <TextView  android:text="4fdsfr"     android:layout_width="50dp"  android:textColor="@color/text_a4"
+            android:gravity="left"
+           />
+        <View android:layout_columnSpan="2"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <TextView  android:text="已邀请人数" android:layout_gravity="fill"  android:textColor="@color/black" />
+        <TextView  android:text="14" android:gravity="left" android:layout_width="50dp"
+            android:textColor="@color/text_a4"  />
+    </GridLayout>
+
+    <Button
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/icon_yaoqing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/icon_yaoqing_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

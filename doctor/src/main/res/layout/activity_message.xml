@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    >
+   <include layout="@layout/toolbar_h_back" />
+    <ImageView
+        android:background="@drawable/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:id="@id/lv_list"
+        android:background="@color/appbg"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0px" />
+    <View android:background="@color/message_border"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+   <LinearLayout
+       android:background="@color/write"
+       android:layout_width="match_parent"
+       android:paddingLeft="20dp"
+       android:paddingRight="20dp"
+       android:layout_height="60dp">
+        <ImageView android:id="@id/iv_seach"
+            android:src="@drawable/icon_photo_to"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
+       <EditText
+           android:layout_width="0px"
+           android:layout_weight="1"
+           android:hint="输入文字 ..."
+           android:background="@drawable/icon_et_boder"
+           android:layout_gravity="center_vertical"
+           android:layout_height="wrap_content" />
+       <ImageView
+           android:background="@drawable/icon_send"
+           android:layout_width="wrap_content"
+           android:layout_gravity="center_vertical"
+           android:layout_height="wrap_content" />
+   </LinearLayout>
+</LinearLayout>

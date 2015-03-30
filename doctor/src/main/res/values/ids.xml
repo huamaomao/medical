@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id" />
+    <item name="toolbar_title" type="id" />
+    <item name="toolbar_back" type="id" />
+    <item name="action_add" type="id" />
+
+   <!--   rbtn    -->
+    <item name="rg_group" type="id"/>
+
+    <item name="rb_tab_1" type="id"/>
+    <item name="rb_tab_2" type="id"/>
+    <item name="rb_tab_3" type="id"/>
+    <item name="rb_tab_4" type="id"/>
+    <item name="rb_tab_5" type="id"/>
+
+    <item name="fl_content" type="id"/>
+
+    <!-- listview item 公用 -->
+    <!-- textView id -->
+    <item name="tv_name" type="id" />
+
+    <item name="tv_item_0" type="id" />
+    <item name="tv_item_1" type="id" />
+    <item name="tv_item_2" type="id" />
+    <item name="tv_item_3" type="id" />
+    <item name="tv_item_4" type="id" />
+    <item name="tv_item_5" type="id" />
+    <item name="tv_item_6" type="id" />
+    <item name="tv_item_7" type="id" />
+    <item name="tv_item_8" type="id" />
+    <item name="tv_item_9" type="id" />
+
+    <!-- imageview-->
+    <item name="iv_photo" type="id" />
+    <item name="iv_more" type="id" />
+    <item name="iv_type" type="id" />
+    <item name="iv_qd_code" type="id" />
+
+    <!-- imageview  -->
+    <item name="iv_seach" type="id" />
+
+    <!--  listview -->
+    <item name="lv_list" type="id" />
+    <item name="lv_data" type="id" />
+
+
+
+    <!--viewpage -->
+    <item name="viewpage" type="id" />
+
+    <!--  LinearLayout  -->
+    <item name="ll_yaoqing" type="id"  />
+    <item name="ll_sao"  type="id" />
+
+</resources>
