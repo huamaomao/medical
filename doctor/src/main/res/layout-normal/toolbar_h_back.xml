@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    style="@style/AppTheme"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    tools:showIn="@layout/activity_message">
+
+    <Button
+        android:id="@id/toolbar_patient"
+        android:text="患者病史"
+       style="@style/toolbar_btn_style" />
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f7f7f7"
+    style="@style/style_wh_match_v">
+    <LinearLayout
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="至2015-01-01"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:layout_marginRight="20dp"
+            android:drawableRight="@drawable/icon_spinner_b"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="至2015-02-01"
+            android:textColor="@color/black"
+            android:layout_width="0px"
+            android:drawableRight="@drawable/icon_spinner_b"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:layout_height="match_parent" />
+     </LinearLayout>
+      <ImageView
+          android:layout_gravity="center_horizontal"
+           android:src="@drawable/icon_bingli"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+    <ImageView
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_bingli_s"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="@color/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+
+</LinearLayout>

@@ -1,0 +1,80 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/write</item>
+        <item name="android:textColor">@color/title</item>
+        <item name="android:textColorPrimary">@color/title</item>
+        <item name="android:actionMenuTextColor">@color/title</item>
+        <item name="android:textColorPrimaryInverse">@color/title</item>
+        <item name="android:itemTextAppearance">@style/menuItemColor</item>
+        <item name="android:itemBackground">@color/title</item>
+        <item name="android:textAppearanceButton">@style/toolbarTitleTextAppearance</item>
+
+
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/write</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="toolbarTitleTextAppearance"
+        parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/title</item>
+    </style>
+    <style name="menuItemColor">
+        <item name="android:textColor">@color/title</item>
+    </style>
+
+
+<!--
+    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        &lt;!&ndash;Any text styling can be done here&ndash;&gt;
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/title</item>
+    </style>
+-->
+
+    <!---  imageView  -->
+    <style name="my_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="tab_title">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="toolbar_style">
+        <item name="android:minWidth">45dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/s_toolbar</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="toolbar_btn_style">
+        <item name="android:layout_gravity">right</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/title</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
+        <item name="android:background">@drawable/s_toolbar</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+</resources>

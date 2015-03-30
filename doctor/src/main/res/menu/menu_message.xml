@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
+
+    <item android:id="@+id/action_add"
+        android:title=""
+        android:icon="@drawable/icon_add"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"
+        android:menuCategory="secondary"/>
+
+</menu>

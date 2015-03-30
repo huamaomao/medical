@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="seach">#898989</color>
+    <color name="appbg">#f2f2f2</color>
+    <color name="title_border">#d9dbdb</color>
+
+    <color name="text_a4">#a4a4a4</color>
+
+    <color name="message_kemu">#a4a4a4</color>
+    <color name="patient_sort">#f5f5f5</color>
+    <color name="divider">#dedede</color>
+    <color name="message_border">#d2d2d2</color>
+    <color name="title">#288ff4</color>
+    <color name="hintText">#b3b3b3</color>
+    <color name="textb3">#b3b3b3</color>
+</resources>
