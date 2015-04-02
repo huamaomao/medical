@@ -19,6 +19,7 @@
     <!-- listview item 公用 -->
     <!-- textView id -->
     <item name="tv_name" type="id" />
+    <item name="tv_chat_time" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />

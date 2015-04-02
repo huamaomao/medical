@@ -1,16 +1,8 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
-
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
-import com.rolle.doctor.fragment.PatientFragment;
-
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**

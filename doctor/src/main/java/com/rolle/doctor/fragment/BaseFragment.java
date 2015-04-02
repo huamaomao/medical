@@ -27,7 +27,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        baseActivity=(BaseActivity)getActivity();
+
     }
 
 
@@ -57,6 +57,7 @@ public abstract class BaseFragment extends Fragment {
         if (parent != null) {
             parent.removeView(rootView);
         }
+        baseActivity=(BaseActivity)getActivity();
         baseActivity.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {

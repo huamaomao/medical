@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/tv_chat_time"
+    android:text="中午 12：00"
+    android:padding="2dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/round_bg_time"
+    android:textColor="@color/chat_time"
+    android:textSize="@dimen/font_size_14"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />

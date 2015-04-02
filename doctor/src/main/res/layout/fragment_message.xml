@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appbg"
     style="@style/style_wh_match_v">
-    <include layout="@layout/seachview" />
+    <com.android.common.widget.SeachView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round_bg_write"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        />
     <include layout="@layout/pulic_listview" />
 </LinearLayout>

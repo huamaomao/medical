@@ -13,18 +13,15 @@
       style="@style/rg_choose">
         <RadioButton android:id="@id/rb_tab_1"
             android:text="@string/title_message"
+
             android:drawableTop="@drawable/s_tab_message"
            style="@style/rb_choose" />
        <RadioButton android:id="@id/rb_tab_2"
-           android:text="@string/title_patient"
-           android:drawableTop="@drawable/s_tab_patient"
+           android:text="@string/title_address_list"
+           android:drawableTop="@drawable/s_tab_address_list"
            style="@style/rb_choose" />
+
        <RadioButton android:id="@id/rb_tab_3"
-           android:drawableTop="@drawable/s_tab_doctors_circle"
-           android:text="@string/title_doctors_circle"
-           style="@style/rb_choose"
-           />
-       <RadioButton android:id="@id/rb_tab_4"
            android:drawableTop="@drawable/s_tab_my"
            android:text="@string/title_my"
            style="@style/rb_choose" />

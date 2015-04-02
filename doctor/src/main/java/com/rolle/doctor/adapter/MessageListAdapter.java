@@ -1,6 +1,7 @@
 package com.rolle.doctor.adapter;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ViewHolderHelp;
@@ -31,10 +32,14 @@ public class MessageListAdapter extends QuickAdapter<User> {
         helper.setImageResource(R.id.iv_photo, item.resId)
         .setText(R.id.tv_item_0,item.getNickName())
         .setText(R.id.tv_item_1, item.getRemarks());
+        TextView textView= helper.getView(R.id.tv_item_2);
         if ("0".equals(item.getSex())){
-            helper.setBackgroundRes(R.id.tv_item_2,R.drawable.icon_boy);
+            textView.setBackgroundResource(R.drawable.round_bg_boy);
+            textView.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.icon_boy),null,null,null);
         }else {
-            helper.setBackgroundRes(R.id.tv_item_2,R.drawable.icon_gril);
+
+            textView.setBackgroundResource(R.drawable.round_bg_girl);
+            textView.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.icon_girl),null,null,null);
         }
         StringBuilder builder=new StringBuilder(item.getAge());
         builder.append("岁");
@@ -42,6 +47,7 @@ public class MessageListAdapter extends QuickAdapter<User> {
         if ("0".equals(item.getType())){
             helper.setImageResource(R.id.iv_type,R.drawable.icon_doctor);
         }
+        helper.setText(R.id.tv_item_3,"中午 11:11");
 
     }
 }

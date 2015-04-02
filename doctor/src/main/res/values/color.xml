@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="seach">#898989</color>
+
     <color name="appbg">#f2f2f2</color>
     <color name="title_border">#d9dbdb</color>
 
@@ -14,4 +14,7 @@
     <color name="title">#288ff4</color>
     <color name="hintText">#b3b3b3</color>
     <color name="textb3">#b3b3b3</color>
+
+    <color name="time_cl">#bdbdbd</color>
+    <color name="chat_time">#7a7a7a</color>
 </resources>

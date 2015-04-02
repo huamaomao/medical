@@ -24,7 +24,7 @@ import butterknife.OnItemClick;
 /**
  * 医生圈
  */
-public class DoctorsCircleFragment extends BaseFragment{
+public class AddressListFragment extends BaseFragment{
     @InjectView(R.id.lv_list)
     ListView lsList;
     private List<User> lsData;

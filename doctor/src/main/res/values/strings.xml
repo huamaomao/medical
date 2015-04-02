@@ -12,8 +12,9 @@
     <string name="title_message">消息</string>
     <string name="title_patient">患者</string>
     <string name="title_doctors_circle">医生圈</string>
+    <string name="title_address_list">通讯录</string>
     <string name="title_my">我的</string>
 
-    <string name="seach">搜索</string>
+
 
 </resources>
