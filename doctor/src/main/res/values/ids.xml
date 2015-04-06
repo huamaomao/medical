@@ -37,14 +37,15 @@
     <item name="iv_more" type="id" />
     <item name="iv_type" type="id" />
     <item name="iv_qd_code" type="id" />
-
-    <!-- imageview  -->
     <item name="iv_seach" type="id" />
+    <item name="iv_send"  type="id" />
 
     <!--  listview -->
     <item name="lv_list" type="id" />
     <item name="lv_data" type="id" />
-
+    <item name="recyclerView" type="id" />
+    <item name="rv_view" type="id" />
+    <item name="rv_data" type="id" />
 
 
     <!--viewpage -->
@@ -54,4 +55,11 @@
     <item name="ll_yaoqing" type="id"  />
     <item name="ll_sao"  type="id" />
 
+
+    <!--- imageButton -->
+    <item name="ibtn_send"  type="id" />
+
+
+    <!-- EditText-->
+    <item name="et_message" type="id" />
 </resources>

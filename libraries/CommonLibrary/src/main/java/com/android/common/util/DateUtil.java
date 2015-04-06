@@ -1,6 +1,7 @@
 package com.android.common.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,18 +19,41 @@ public class DateUtil {
     private static SimpleDateFormat sdf_datec_format = new SimpleDateFormat(DATEC_FORMAT);
     public static SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm:ss");
 
-    /***
-     * 格式日期     MM月dd日
-     * @param date
-     * @return
-     */
-    public static String getChineseDate(Date date){
-      try {
-          return  sdf_datec_format.format(date);
-      }catch (Exception e){
-          return "";
-      }
+
+
+    public static  String formatChatMessage(String date){
+        if (CommonUtil.isEmpty(date)) return "";
+       try {
+           Date mdate=sdf.parse(date);
+           Calendar calendar=Calendar.getInstance();
+           calendar.setTime(mdate);
+           int year=calendar.get(Calendar.YEAR);
+           int month=calendar.get(Calendar.MONTH);
+           int day=calendar.get(Calendar.DAY_OF_MONTH);
+           int week=calendar.get(Calendar.WEEK_OF_MONTH);
+           int hours=calendar.get(Calendar.HOUR_OF_DAY);
+           int min=calendar.get(Calendar.MINUTE);
+           Calendar ncalendar=Calendar.getInstance();
+           int nyear=ncalendar.get(Calendar.YEAR);
+           int nmonth=ncalendar.get(Calendar.MONTH);
+           int nday=ncalendar.get(Calendar.DAY_OF_MONTH);
+           int nweek=ncalendar.get(Calendar.WEEK_OF_MONTH);
+           int nhours=ncalendar.get(Calendar.HOUR_OF_DAY);
+           int nmin=ncalendar.get(Calendar.MINUTE);
+           StringBuilder builder=new StringBuilder();
+           builder.append(year<nyear?year:"");
+
+           return builder.toString();
+       }catch (Exception e){
+           e.printStackTrace();
+           return "";
+       }
     }
+
+    public static  void  main(String str[]){
+        System.out.println(formatChatMessage("2014-04-12 22:22:22"));
+    }
+
 
     /***
      * this Date   MM-dd  hh:mm
@@ -46,44 +70,7 @@ public class DateUtil {
         return sdf_date.format(new Date());
     }
 
-    /****
-     * 时间差
-     * @param date
-     * @param time
-     * @return
-     */
-    public static String  timeDifference(String date,String time){
-        lock.lock();
-        StringBuilder builder=new StringBuilder(date);
 
-        if (time!=null){
-            builder.append(" ");
-            builder.append(time);
-        }
-        Date date1=null;
-       try{
-           date1=sdf.parse(builder.toString());
-           long l=date1.getTime()-System.currentTimeMillis();
-           long day=l/(24*60*60*1000);
-           long hour=(l/(60*60*1000)-day*24);
-           long min=((l/(60*1000))-day*24*60-hour*60);
-           long s=(l/1000-day*24*60*60-hour*60*60-min*60);
-           if (s>0)
-               min=min+1;
-           builder=new StringBuilder();
-           if (l<0){
-               builder.append("已开赛");
-           }else {
-               builder.append(day).append("天").append(hour).append("小时").append(min).append("分");
-           }
-           return builder.toString();
-       }catch (Exception e){
-           e.printStackTrace();
-       }finally {
-           lock.unlock();
-       }
-       return "";
-    }
   public static  String getTime(){
       return  sdf_time.format(new Date());
   }

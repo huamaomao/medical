@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+   style="@style/list_item_style">
+    <include android:id="@+id/include"  layout="@layout/chat_time_text" />
+
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/include"
+        android:src="@drawable/icon_people_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@id/tv_item_1"
+        android:layout_below="@id/include"
+        android:layout_toLeftOf="@id/iv_photo"
+        android:textColor="@color/black"
+        android:background="@drawable/icon_chat_right"
+        android:textSize="@dimen/font_size_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

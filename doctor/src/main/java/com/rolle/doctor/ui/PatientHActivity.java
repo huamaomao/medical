@@ -15,12 +15,8 @@ import com.rolle.doctor.domain.ItemInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
 
 /**
  * Created by Hua_ on 2015/3/27.
