@@ -57,8 +57,6 @@ public class MessageFragment extends BaseFragment{
         lsList.setAdapter(quickAdapter);
     }
 
-
-
     @Override
     public boolean onMenuItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
@@ -68,4 +66,6 @@ public class MessageFragment extends BaseFragment{
         }
         return super.onMenuItemSelected(menuItem);
     }
+
+
 }

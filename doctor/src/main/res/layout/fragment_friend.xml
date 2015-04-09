@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appbg"
+    style="@style/style_wh_match_v">
+    <com.android.common.widget.SeachView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round_bg_write"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        />
+    <RelativeLayout
+        android:id="@id/rl_friend"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/write"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_new_friend"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:id="@id/tv_new_msg"
+            android:layout_alignRight="@id/iv_type"
+            android:text="12+"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/write"
+            android:textSize="@dimen/font_size_9"
+            android:singleLine="true"
+            android:gravity="center"
+            android:minWidth="10dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:background="@drawable/icon_message_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="新的朋友"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/font_size_17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl_patient"
+        android:paddingLeft="20dp"
+        android:background="@color/write"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_patient"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:id="@id/tv_patient_msg"
+            android:layout_alignRight="@id/iv_type"
+            android:text="12+"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/write"
+            android:textSize="@dimen/font_size_9"
+            android:singleLine="true"
+            android:gravity="center"
+            android:minWidth="10dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:background="@drawable/icon_message_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@id/tv_patient_value"
+            android:text="患者（20）"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/font_size_17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+   <View
+       android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:id="@id/rl_doctor"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/write"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_the_doctor"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:id="@id/tv_doctor_msg"
+            android:layout_alignRight="@id/iv_type"
+            android:text="12+"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/write"
+            android:textSize="@dimen/font_size_9"
+            android:singleLine="true"
+            android:gravity="center"
+            android:minWidth="10dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:background="@drawable/icon_message_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="医生圈"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_type"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/font_size_17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

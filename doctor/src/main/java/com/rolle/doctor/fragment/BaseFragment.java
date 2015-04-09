@@ -57,19 +57,19 @@ public abstract class BaseFragment extends Fragment {
         if (parent != null) {
             parent.removeView(rootView);
         }
-        baseActivity=(BaseActivity)getActivity();
+     /*   baseActivity=(BaseActivity)getActivity();
         baseActivity.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
                 return onMenuItemSelected(menuItem);
             }
-        });
+        });*/
       return rootView;
     }
 
 
-    public boolean onMenuItemSelected(MenuItem menuItem){
+   public boolean onMenuItemSelected(MenuItem menuItem){
         return  false;
     }
 

@@ -20,6 +20,11 @@
     <!-- textView id -->
     <item name="tv_name" type="id" />
     <item name="tv_chat_time" type="id" />
+    <item name="tv_msg_number" type="id" />
+    <item name="tv_new_msg" type="id" />
+    <item name="tv_patient_msg" type="id" />
+    <item name="tv_doctor_msg" type="id" />
+    <item name="tv_patient_value" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -55,6 +60,10 @@
     <item name="ll_yaoqing" type="id"  />
     <item name="ll_sao"  type="id" />
 
+    <!--  RelativeLayout  -->
+    <item name="rl_friend" type="id"  />
+    <item name="rl_patient" type="id"  />
+    <item name="rl_doctor" type="id"  />
 
     <!--- imageButton -->
     <item name="ibtn_send"  type="id" />
@@ -62,4 +71,11 @@
 
     <!-- EditText-->
     <item name="et_message" type="id" />
+
+    <!--spinner -->
+    <item name="sp_start" type="id" />
+    <item name="sp_end" type="id" />
+
+    <!-- gridView-->
+    <item name="gv_view" type="id" />
 </resources>

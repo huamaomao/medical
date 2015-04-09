@@ -5,6 +5,7 @@ import android.widget.RadioGroup;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.fragment.AddressListFragment;
+import com.rolle.doctor.fragment.FriendFragment;
 import com.rolle.doctor.fragment.MessageFragment;
 import com.rolle.doctor.fragment.MyFragment;
 import butterknife.InjectView;
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.rb_tab_2:
                         setTitle("通讯录");
-                        ViewUtil.turnToFragment(getSupportFragmentManager(), AddressListFragment.class,null,R.id.fl_content);
+                        ViewUtil.turnToFragment(getSupportFragmentManager(), FriendFragment.class,null,R.id.fl_content);
                         break;
                     case R.id.rb_tab_3:
                         setTitle("我的");

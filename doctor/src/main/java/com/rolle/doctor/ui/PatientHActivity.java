@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ViewHolderHelp;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
+import com.rolle.doctor.adapter.YearSpinnerAdpater;
 import com.rolle.doctor.domain.ItemInfo;
 
 import java.util.ArrayList;
@@ -27,7 +30,8 @@ public class PatientHActivity extends BaseActivity{
     private List<View> viewpages;
 
     @InjectView(R.id.rg_group)RadioGroup radioGroup;
-
+     Spinner spStart;
+     Spinner spEnd;
 
     ListView lsList;
     private List<ItemInfo> lsData;
@@ -52,8 +56,27 @@ public class PatientHActivity extends BaseActivity{
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
-       lsView1=(ListView)viewpages.get(1).findViewById(R.id.lv_data);
-       lsList=(ListView)viewpages.get(1).findViewById(R.id.lv_list);
+        lsView1=(ListView)viewpages.get(1).findViewById(R.id.lv_data);
+        lsList=(ListView)viewpages.get(1).findViewById(R.id.lv_list);
+
+        spStart=(Spinner)viewpages.get(0).findViewById(R.id.sp_start);
+        spEnd=(Spinner)viewpages.get(0).findViewById(R.id.sp_end);
+
+        List<String> startData=new ArrayList<String>();
+        startData.add("至2015-1-1");
+        startData.add("至2015-2-1");
+        startData.add("至2015-3-1");
+        startData.add("至2015-4-1");
+        YearSpinnerAdpater adpater=new YearSpinnerAdpater(this,R.layout.sp_check_text,startData.toArray());
+        spStart.setAdapter(adpater);
+
+        List<String> startEnd=new ArrayList<String>();
+        startEnd.add("至2015-1-29");
+        startEnd.add("至2015-2-29");
+        startEnd.add("至2015-3-1");
+        startEnd.add("至2015-4-1");
+        YearSpinnerAdpater adpaterEnd=new YearSpinnerAdpater(this,R.layout.sp_check_text,startData.toArray());
+        spEnd.setAdapter(adpaterEnd);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

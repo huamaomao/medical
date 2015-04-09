@@ -40,12 +40,12 @@ public class BaseActivity extends ActionBarActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+      /*   mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 return onMenuItemSelected(menuItem);
             }
-        });
+        });*/
         initView();
     }
 

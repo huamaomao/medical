@@ -14,16 +14,8 @@ public class User {
     public String type;
     public String minNum;
     public String maxNum;
-
+    public String time="中午12：00";
     public User() {
-    }
-    public User( String age, String sex, int resId, String nickName,String minNum,String maxNum) {
-        this.age = age;
-        this.sex = sex;
-        this.resId = resId;
-        this.nickName = nickName;
-        this.maxNum=maxNum;
-        this.minNum=minNum;
     }
 
     public User(String remarks, String age, String sex, int resId, String nickName,String type) {

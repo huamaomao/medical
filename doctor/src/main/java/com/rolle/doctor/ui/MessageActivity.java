@@ -40,7 +40,6 @@ public class MessageActivity extends BaseActivity{
         super.initView();
         setBackActivity("小叶");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
         lvView.setLayoutManager(layoutManager);
         data=new LinkedList<ChatMessage>();
         ChatMessage message=new ChatMessage();
@@ -75,5 +74,6 @@ public class MessageActivity extends BaseActivity{
         data.add(message);
         adapater.notifyDataSetChanged();
         etMessage.getText().clear();
+        lvView.scrollToPosition(adapater.getItemCount()-1);
     }
 }
