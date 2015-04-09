@@ -13,6 +13,7 @@
         android:layout_width="@dimen/photo_height"
         android:layout_height="@dimen/photo_height" />
 
+
     <TextView android:id="@id/tv_item_0"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_photo"
@@ -20,35 +21,33 @@
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
-
+    <TextView android:id="@id/tv_item_1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_below="@id/tv_item_0"
+        android:textColor="@color/message_kemu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView android:id="@id/tv_item_2"
         android:layout_marginLeft="20dp"
         android:paddingRight="2dp"
         android:textColor="@color/write"
-        android:paddingLeft="14dp"
+        android:paddingLeft="2dp"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
         android:gravity="center_vertical"
         android:textSize="@dimen/font_size_12"
+        android:drawablePadding="1dp"
         android:layout_toRightOf="@id/tv_item_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView android:id="@id/tv_item_3"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iv_photo"
-        android:layout_below="@id/tv_item_0"
-        android:drawableLeft="@drawable/icon_up"
-        android:textColor="@color/message_kemu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView android:id="@id/tv_item_4"
-        android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@id/tv_item_3"
-        android:layout_below="@id/tv_item_0"
-        android:drawableLeft="@drawable/icon_down"
-        android:textColor="@color/message_kemu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@id/tv_item_3"
+        android:textColor="@color/time_cl"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

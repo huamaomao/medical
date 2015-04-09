@@ -8,6 +8,6 @@
     <color name="tab_boder">#e8e8e8</color>
     <color name="seach">#898989</color>
     <color name="blue">#ff1051ec</color>
-
+    <color name="divider">#dedede</color>
     <color name="color_blue">#2b83d9</color>
 </resources>

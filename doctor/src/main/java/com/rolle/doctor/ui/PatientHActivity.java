@@ -3,6 +3,7 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -142,4 +143,10 @@ public class PatientHActivity extends BaseActivity{
         lsView1.setAdapter(quickAdapter1);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_more,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }

@@ -15,6 +15,9 @@ public class User {
     public String minNum;
     public String maxNum;
     public String time="中午12：00";
+
+    public String status;
+
     public User() {
     }
 
@@ -26,8 +29,26 @@ public class User {
         this.nickName = nickName;
         this.type=type;
     }
+    public User(String remarks, String age, String sex, int resId, String nickName,String type,String status) {
+        this.remarks = remarks;
+        this.age = age;
+        this.sex = sex;
+        this.resId = resId;
+        this.nickName = nickName;
+        this.type=type;
+        this.status=status;
+    }
 
 
+    public User(int resId, String nickName, String remarks, String sex, String age, String minNum, String maxNum) {
+        this.resId = resId;
+        this.nickName = nickName;
+        this.remarks = remarks;
+        this.sex = sex;
+        this.age = age;
+        this.minNum = minNum;
+        this.maxNum = maxNum;
+    }
 
     public String getId() {
         return id;

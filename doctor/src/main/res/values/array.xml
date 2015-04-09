@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string-array name="spinner_patient">
+        <item>血糖记录由高到低</item>
+        <item>血糖记录由低到高</item>
+    </string-array>
+
+</resources>

@@ -5,6 +5,9 @@
     <item name="toolbar_back" type="id" />
     <item name="action_add" type="id" />
     <item name="toolbar_patient" type="id" />
+    <item name="toolbar_spinner" type="id" />
+    <item name="toolbar_group" type="id" />
+
    <!--   rbtn    -->
     <item name="rg_group" type="id"/>
 
@@ -78,4 +81,7 @@
 
     <!-- gridView-->
     <item name="gv_view" type="id" />
+
+    <!-- button -->
+    <item name="btn_status" type="id" />
 </resources>

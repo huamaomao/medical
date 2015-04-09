@@ -26,7 +26,10 @@
         <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait"/>
         <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
         <activity android:name=".ui.MyYaoqingActivity"   android:screenOrientation="portrait" />
-        <activity android:name=".ui.PatientHActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.PatientActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.TheDoctorActivity"  android:screenOrientation="portrait" />
+
         <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
