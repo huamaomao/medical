@@ -6,6 +6,7 @@
     <color name="title_border">#d9dbdb</color>
 
     <color name="text_a4">#a4a4a4</color>
+    <color name="text_93">#939393</color>
 
     <color name="message_kemu">#a4a4a4</color>
     <color name="patient_sort">#f5f5f5</color>
@@ -17,6 +18,7 @@
 
     <color name="time_cl">#bdbdbd</color>
     <color name="chat_time">#7a7a7a</color>
+    <color name="text_ad">#adadad</color>
 
     <color name="tb_title">#ededed</color>
     <color name="tb_title_divider">#dddddd</color>

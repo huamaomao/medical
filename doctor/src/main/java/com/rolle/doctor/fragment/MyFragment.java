@@ -1,6 +1,7 @@
 package com.rolle.doctor.fragment;
 
 import android.os.Bundle;
+import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +58,7 @@ public class MyFragment extends BaseFragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_my,menu);
+
     }
 
 

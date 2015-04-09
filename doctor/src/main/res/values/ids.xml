@@ -5,6 +5,10 @@
     <item name="toolbar_back" type="id" />
     <item name="action_add" type="id" />
     <item name="toolbar_patient" type="id" />
+    <item name="toolbar_spinner" type="id" />
+    <item name="toolbar_group" type="id" />
+    <item name="toolbar_set" type="id" />
+
    <!--   rbtn    -->
     <item name="rg_group" type="id"/>
 
@@ -19,7 +23,11 @@
     <!-- listview item 公用 -->
     <!-- textView id -->
     <item name="tv_name" type="id" />
+    <item name="tv_address" type="id" />
+    <item name="tv_section" type="id" />
     <item name="tv_chat_time" type="id" />
+    <item name="tv_position" type="id" />
+    <item name="tv_resume" type="id" />
     <item name="tv_msg_number" type="id" />
     <item name="tv_new_msg" type="id" />
     <item name="tv_patient_msg" type="id" />
@@ -71,6 +79,7 @@
 
     <!-- EditText-->
     <item name="et_message" type="id" />
+    <item name="et_name" type="id" />
 
     <!--spinner -->
     <item name="sp_start" type="id" />
@@ -78,4 +87,7 @@
 
     <!-- gridView-->
     <item name="gv_view" type="id" />
+
+    <!-- button -->
+    <item name="btn_status" type="id" />
 </resources>

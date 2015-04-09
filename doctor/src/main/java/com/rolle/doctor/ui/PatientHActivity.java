@@ -3,6 +3,8 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,6 +13,7 @@ import android.widget.Spinner;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ViewHolderHelp;
+import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.adapter.YearSpinnerAdpater;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by Hua_ on 2015/3/27.
@@ -142,4 +146,25 @@ public class PatientHActivity extends BaseActivity{
         lsView1.setAdapter(quickAdapter1);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_more,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.toolbar_set:
+                ViewUtil.openActivity(NoteActivity.class,this);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.iv_send)
+    void toMessageActivity(){
+        ViewUtil.openActivity(MessageActivity.class, this);
+    }
 }

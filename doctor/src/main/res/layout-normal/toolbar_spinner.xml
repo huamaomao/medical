@@ -8,20 +8,9 @@
     style="@style/AppTheme"
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize" >
-    <ImageButton android:id="@id/toolbar_back"
-        android:src="@drawable/icon_back"
-        style="@style/toolbar_style" />
-
-    <TextView
-        android:id="@id/toolbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_size_20"
-        />
+        <Spinner android:id="@id/toolbar_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 
 
