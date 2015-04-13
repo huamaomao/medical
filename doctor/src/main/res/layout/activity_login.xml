@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.common.widget.InputMethodLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/style_wh_match_v"
+    android:background="@drawable/icon_login"
+  >
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="30dip"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round_bg_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText android:id="@id/et_tel"
+            android:padding="20dp"
+            android:hint="手机号"
+            android:drawablePadding="15dp"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/color_hint"
+            android:drawableLeft="@drawable/icon_user"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/write"
+            />
+        <EditText android:id="@id/et_pwd"
+            android:padding="20dp"
+            android:hint="输入密码"
+            android:singleLine="true"
+            android:drawablePadding="15dp"
+            android:textColorHint="@color/color_hint"
+            android:drawableLeft="@drawable/icon_pwd"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:imeOptions="actionSend"
+            android:imeActionLabel="登陆"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+     <Button
+         android:id="@id/btn_login"
+         android:text="登陆"
+         android:textSize="@dimen/font_size_18"
+         android:gravity="center"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:paddingRight="20dp"
+         android:paddingTop="10dp"
+         android:paddingBottom="10dp"
+         android:layout_marginTop="20dp"
+         android:background="@drawable/s_btn_login"
+         android:textColor="@color/write"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+
+              <View
+                  android:id="@id/v_view"
+                  android:layout_width="1dp"
+                  android:layout_gravity="center"
+                  android:layout_centerInParent="true"
+                  android:background="@color/write"
+                  android:layout_height="match_parent" />
+            <TextView
+                android:id="@id/tv_create_account"
+                android:text="创建新账号"
+                android:textColor="@color/write"
+                android:layout_toLeftOf="@id/v_view"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@id/tv_forgot_pwd"
+                android:text="忘记密码"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/v_view"
+                android:textColor="@color/write"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+          </RelativeLayout>
+</com.android.common.widget.InputMethodLinearLayout>

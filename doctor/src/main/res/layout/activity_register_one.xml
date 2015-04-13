@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/style_wh_match_v"
+    android:background="@drawable/icon_login">
+    <include layout="@layout/toolbar" />
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_bg_login"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+            <TextView
+                android:text="+86"
+                android:paddingLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/write"
+                android:gravity="center"
+                android:textSize="@dimen/font_size_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/write"
+                />
+            <EditText
+                android:id="@id/et_tel"
+                android:textColor="@color/write"
+                android:textSize="@dimen/font_size_16"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+</LinearLayout>

@@ -82,7 +82,6 @@ public class CleanEditText extends EditText {
             int eventY = (int) event.getRawY();
             Rect rect = new Rect();
             getGlobalVisibleRect(rect);
-            rect.left = rect.right - 50;
             if (rect.contains(eventX, eventY))
                 setText("");
         }

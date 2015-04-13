@@ -22,4 +22,8 @@
 
     <color name="tb_title">#ededed</color>
     <color name="tb_title_divider">#dddddd</color>
+
+    <color name="login_et_bg">#4c000000</color>
+    <color name="login_btn">#33000000</color>
+    <color name="color_hint">#d0d0d0</color>
 </resources>

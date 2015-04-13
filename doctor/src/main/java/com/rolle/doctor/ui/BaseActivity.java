@@ -15,11 +15,12 @@ import com.android.common.util.Log;
 import com.rolle.doctor.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 
 
 public class BaseActivity extends ActionBarActivity {
     protected DoctorApplication application;
-    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @Optional @InjectView(R.id.toolbar) Toolbar mToolbar;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +37,12 @@ public class BaseActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         ButterKnife.inject(this);
-        mToolbar.setSubtitleTextColor(getResources().getColor(R.color.title));
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-      /*   mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return onMenuItemSelected(menuItem);
-            }
-        });*/
+        if(mToolbar!=null){
+            mToolbar.setSubtitleTextColor(getResources().getColor(R.color.title));
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         initView();
     }
 

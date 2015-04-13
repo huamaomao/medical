@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/style_wh_match_v"
+    android:background="@drawable/icon_login">
+    <include layout="@layout/toolbar" />
+    <TextView android:id="@id/tv_tel_code"
+        android:textSize="@dimen/font_size_16"
+        android:textColor="@color/write"
+        android:text="验证码短信已发至 +86"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_bg_login"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+            <EditText
+                android:id="@id/et_code"
+                android:textColor="@color/write"
+                android:textSize="@dimen/font_size_16"
+                android:hint="请输入收到的验证码"
+                android:paddingLeft="10dp"
+                android:textColorHint="@color/hintText"
+                android:background="@android:color/transparent"
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@id/btn_send"
+                android:text="没有收到?"
+                android:textSize="@dimen/font_size_16"
+                android:textColor="@color/write"
+                android:layout_gravity="center"
+                android:layout_width="90dp"
+                android:background="@color/login_btn"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+</LinearLayout>
