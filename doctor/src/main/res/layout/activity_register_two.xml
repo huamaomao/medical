@@ -26,7 +26,6 @@
                 android:textSize="@dimen/font_size_16"
                 android:hint="请输入收到的验证码"
                 android:paddingLeft="10dp"
-                android:textColorHint="@color/hintText"
                 android:background="@android:color/transparent"
                 android:layout_width="0px"
                 android:layout_weight="1"
@@ -38,7 +37,7 @@
                 android:textColor="@color/write"
                 android:layout_gravity="center"
                 android:layout_width="90dp"
-                android:background="@color/login_btn"
+                android:background="@drawable/s_btn_send"
                 android:layout_height="match_parent" />
         </LinearLayout>
 

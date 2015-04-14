@@ -45,6 +45,16 @@ public class LoginActivity extends BaseActivity{
         finish();
         ViewUtil.openActivity(MainActivity.class,this);
     }
+    @OnClick(R.id.tv_create_account)
+    void doRegister(){
+        finish();
+        ViewUtil.openActivity(RegisterOneActivity.class,this);
+    }
+    @OnClick(R.id.tv_forgot_pwd)
+    void doRetrievePwd(){
+        finish();
+        ViewUtil.openActivity(RetrievePwdActivity.class,this);
+    }
 
     @Override
     protected void initView() {

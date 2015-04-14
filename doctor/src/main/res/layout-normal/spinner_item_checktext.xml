@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+    android:id="@id/tv_item_0"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="10dp"
     android:singleLine="true"
-    android:checkMark="@drawable/s_spinner"
+    android:checkMark="@drawable/s_spinner_check"
+    android:drawablePadding="20dp"
     android:textColor="@color/black"
-    android:textSize="16dp" />
+    android:textSize="@dimen/font_size_17" />

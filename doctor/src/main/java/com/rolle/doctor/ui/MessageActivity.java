@@ -3,17 +3,15 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
-
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
 import com.rolle.doctor.domain.ChatMessage;
-
 import java.util.LinkedList;
-import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -59,9 +57,22 @@ public class MessageActivity extends BaseActivity{
         lvView.setAdapter(adapater);
 
     }
-    @OnClick(R.id.toolbar_patient)
-    void toPatient(){
-        ViewUtil.openActivity(PatientHActivity.class,this);
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getItemId()){
+           case R.id.toolbar_patient:
+               ViewUtil.openActivity(PatientHActivity.class, this);
+               return true;
+       }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_patient,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @OnClick(R.id.iv_send)

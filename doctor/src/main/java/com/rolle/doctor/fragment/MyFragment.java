@@ -61,5 +61,12 @@ public class MyFragment extends BaseFragment{
 
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.toolbar_set:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

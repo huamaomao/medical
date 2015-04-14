@@ -29,6 +29,8 @@
             <EditText
                 android:id="@id/et_tel"
                 android:textColor="@color/write"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:textSize="@dimen/font_size_16"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"

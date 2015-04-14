@@ -5,9 +5,13 @@
     android:background="@drawable/icon_login">
     <include layout="@layout/toolbar" />
      <Spinner
-
+         android:id="@id/sp_doctor"
+         android:layout_marginTop="20dp"
+         android:spinnerMode="dropdown"
+         style="@style/spinnerStyle"
          android:layout_gravity="center_horizontal"
          android:layout_width="wrap_content"
+         android:background="@android:color/transparent"
          android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_marginLeft="20dp"
@@ -43,7 +47,7 @@
                 android:id="@id/et_code"
                 android:textColor="@color/write"
                 android:textSize="@dimen/font_size_16"
-                android:hint="设置您的昵称"
+                android:hint="设置您的密码"
                 android:drawablePadding="6dp"
                 android:paddingRight="20dp"
                 android:paddingLeft="20dp"

@@ -48,14 +48,15 @@ public class FriendFragment extends BaseFragment{
         ViewUtil.openActivity(TheDoctorActivity.class,getActivity());
     }
 
+
     @Override
-    public boolean onMenuItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
             case R.id.action_add:
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());
                 break;
         }
-        return super.onMenuItemSelected(menuItem);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

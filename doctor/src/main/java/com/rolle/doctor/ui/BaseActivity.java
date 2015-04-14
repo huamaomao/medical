@@ -79,9 +79,6 @@ public class BaseActivity extends ActionBarActivity {
     protected void onHomeClick(){
 
     }
-    public boolean onMenuItemSelected(MenuItem menuItem){
-        return  false;
-    }
 
     /**
      * 提示条

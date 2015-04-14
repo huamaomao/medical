@@ -1,19 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-
+    <style name="sss" parent="Base.Theme.AppCompat.Light.DarkActionBar"></style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/write</item>
         <item name="android:textColor">@color/title</item>
         <item name="android:textColorPrimary">@color/title</item>
-        <item name="android:actionMenuTextColor">@color/title</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/title</item>
+        <item name="actionMenuTextColor">?android:attr/textColorPrimaryDisableOnly</item>
         <item name="android:itemTextAppearance">@style/menuItemColor</item>
       <!--  <item name="android:itemBackground">@color/title</item>-->
         <item name="android:textAppearanceButton">@style/toolbarTitleTextAppearance</item>
         <item name="colorControlNormal">?android:attr/textColorPrimary</item>
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@color/write</item>
+
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
@@ -105,5 +107,13 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="spinnerStyle" parent="Base.Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>
+    </style>
+    <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@color/divider</item>
+        <item name="android:dividerHeight">1dp</item>
     </style>
 </resources>

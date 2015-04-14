@@ -15,8 +15,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:name=".ui.LoginActivity"
-            android:theme="@style/AppTheme"
-            >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +31,14 @@
     <activity android:name=".ui.PatientHActivity"  android:screenOrientation="portrait" />
     <activity android:name=".ui.TheDoctorActivity"  android:screenOrientation="portrait" />
     <activity android:name=".ui.DoctorDetialActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.RegisterOneActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.RegisterTwoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.RegisterThreeActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.NoteActivity" android:screenOrientation="portrait" />
-        <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
-    </application>
+    <activity android:name=".ui.RetrievePwdActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.RetrievePwdSettingActivity" android:screenOrientation="portrait" />
+    <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
+</application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

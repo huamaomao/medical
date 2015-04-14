@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MainActivity">
-    <item android:id="@id/toolbar_add"
-        android:title=""
-        android:icon="@drawable/icon_setting"
+
+    <item android:id="@id/toolbar_register"
+        android:title="完成"
         android:orderInCategory="0"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:menuCategory="secondary"/>
 
 </menu>
