@@ -4,24 +4,23 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
     android:paddingLeft="20dp"
-    android:clickable="true"
-    android:descendantFocusability="blocksDescendants"
     android:paddingRight="20dp"
-    android:background="@drawable/s_item_selector"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@id/iv_photo"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+    <TextView
+        android:id="@id/tv_item_0"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/font_size_15"
+        android:textColor="@color/black"
         style="@style/my_image" />
 
     <TextView
-        android:id="@id/tv_item_0"
-        android:layout_alignParentRight="true"
+         android:id="@id/tv_item_1"
+        android:layout_marginLeft="10dp"
+       android:layout_alignParentRight="true"
         android:textSize="@dimen/font_size_18"
         android:layout_centerVertical="true"
-        android:textColor="@color/title"
+        android:textColor="@color/text_93"
         style="@style/my_image" />
 
 </RelativeLayout>

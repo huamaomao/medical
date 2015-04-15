@@ -133,4 +133,17 @@
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
     </style>
+
+    <style name="list_item_style">
+      <!--  android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:paddingRight="20dp"
+        android:background="@drawable/s_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"-->
+    </style>
 </resources>

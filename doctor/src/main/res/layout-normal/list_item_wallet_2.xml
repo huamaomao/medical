@@ -9,14 +9,18 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@id/iv_photo"
-        android:layout_alignParentLeft="true"
+        android:src="@drawable/icon_blank_add"
+        android:layout_centerVertical="true"
         style="@style/my_image" />
 
     <TextView
-        android:id="@id/tv_item_1"
-        android:layout_alignParentRight="true"
-        android:textSize="@dimen/font_size_15"
-        android:textColor="@color/title"
+         android:id="@id/tv_item_0"
+        android:text="添加银行卡"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/text_93"
         style="@style/my_image" />
 
 </RelativeLayout>

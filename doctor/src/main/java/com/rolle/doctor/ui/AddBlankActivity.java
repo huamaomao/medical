@@ -1,29 +1,25 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 
 /**
- * Created by Hua_ on 2015/4/15.
+ * Created by Hua_ on 2015/3/27.
  */
-public class WalletDetialActivity extends BaseActivity {
+public class AddBlankActivity extends BaseActivity{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_walle);
+        setContentView(R.layout.activity_blank_add);
+
     }
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("提现");
-
+        setBackActivity("添加银行卡");
     }
-
-
 }
