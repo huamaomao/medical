@@ -32,5 +32,6 @@ allprojects {
             }
             url "http://114.80.68.147:9999/nexus/content/repositories/3rd"
         }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }

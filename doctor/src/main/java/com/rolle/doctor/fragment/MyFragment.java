@@ -1,12 +1,12 @@
 package com.rolle.doctor.fragment;
 
 import android.os.Bundle;
-import android.renderscript.RenderScript;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.common.adapter.QuickAdapter;
@@ -14,12 +14,14 @@ import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
-import com.rolle.doctor.ui.AddFriendActivity;
+import com.rolle.doctor.ui.UserInfoActivity;
+import com.rolle.doctor.ui.WalletActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * 我的
@@ -33,7 +35,11 @@ public class MyFragment extends BaseFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_my);
-        setHasOptionsMenu(true);
+    }
+
+    @OnClick(R.id.rl_user_detial)
+    void toUserDetail(){
+        ViewUtil.openActivity(UserInfoActivity.class,getActivity());
     }
 
     @Override
@@ -52,7 +58,20 @@ public class MyFragment extends BaseFragment{
             }
         };
         lsList.setAdapter(quickAdapter);
+        lsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        ViewUtil.openActivity(WalletActivity.class,getActivity());
+                        break;
+                }
+            }
+        });
     }
+
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

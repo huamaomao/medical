@@ -4,6 +4,7 @@
     style="@style/style_wh_match_v">
 
     <RelativeLayout
+        android:id="@id/rl_user_detial"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:background="@color/write"

@@ -37,6 +37,10 @@
     <activity android:name=".ui.NoteActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RetrievePwdActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RetrievePwdSettingActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UserInfoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletBillActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletDetialActivity" android:screenOrientation="portrait" />
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>
     <uses-permission android:name="android.permission.INTERNET" />

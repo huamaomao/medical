@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/s_item_selector"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@id/tv_item_0"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/font_size_15"
+        android:textColor="@color/black"
+        style="@style/my_image" />
+
+    <TextView android:id="@id/tv_item_1"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tv_item_0"
+        android:textSize="@dimen/font_size_15"
+        android:textColor="@color/text_93"
+        style="@style/my_image" />
+
+    <TextView
+        android:id="@id/tv_item_2"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/font_size_15"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/text_93"
+        style="@style/my_image" />
+    <TextView
+        android:id="@id/tv_item_3"
+        android:layout_below="@id/tv_item_2"
+        android:textSize="@dimen/font_size_15"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/text_93"
+        style="@style/my_image" />
+
+</RelativeLayout>

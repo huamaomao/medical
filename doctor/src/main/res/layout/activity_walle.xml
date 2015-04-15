@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+   <include layout="@layout/toolbar" />
+   <include layout="@layout/public_wrap_recycler_view" />
+</LinearLayout>

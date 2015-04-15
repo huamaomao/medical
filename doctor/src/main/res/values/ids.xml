@@ -5,6 +5,7 @@
     <item name="toolbar_back" type="id" />
     <item name="action_add" type="id" />
     <item name="toolbar_patient" type="id" />
+    <item name="toolbar_walle" type="id" />
     <item name="toolbar_spinner" type="id" />
     <item name="toolbar_group" type="id" />
     <item name="toolbar_set" type="id" />
@@ -42,6 +43,8 @@
     <item name="tv_patient_value" type="id" />
     <item name="tv_create_account" type="id" />
     <item name="tv_forgot_pwd" type="id" />
+    <item name="tv_sex" type="id" />
+    <item name="tv_jianjie" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -56,6 +59,7 @@
 
     <!-- imageview-->
     <item name="iv_photo" type="id" />
+    <item name="iv_card_img" type="id" />
     <item name="iv_more" type="id" />
     <item name="iv_type" type="id" />
     <item name="iv_qd_code" type="id" />
@@ -82,6 +86,7 @@
     <item name="rl_friend" type="id"  />
     <item name="rl_patient" type="id"  />
     <item name="rl_doctor" type="id"  />
+    <item name="rl_user_detial" type="id"  />
 
     <!--- imageButton -->
     <item name="ibtn_send"  type="id" />

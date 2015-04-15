@@ -9,6 +9,7 @@ public class ItemInfo {
     public String desc;
     public String num;
     public boolean flag;
+    public int type;
 
     public ItemInfo(int resId, String title) {
         this.resId = resId;
@@ -18,5 +19,17 @@ public class ItemInfo {
     public ItemInfo(String title, String desc) {
         this.title = title;
         this.desc = desc;
+    }
+
+    public ItemInfo(int resId, String title, int type) {
+        this.resId = resId;
+        this.title = title;
+        this.type = type;
+    }
+
+    public ItemInfo(String title, String desc, int type) {
+        this.title = title;
+        this.desc = desc;
+        this.type = type;
     }
 }
