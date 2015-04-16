@@ -82,11 +82,15 @@
     <item name="ll_sao"  type="id" />
     <item name="ll_login"  type="id" />
 
+
     <!--  RelativeLayout  -->
     <item name="rl_friend" type="id"  />
     <item name="rl_patient" type="id"  />
     <item name="rl_doctor" type="id"  />
     <item name="rl_user_detial" type="id"  />
+    <item name="rl_item_0"  type="id" />
+    <item name="rl_item_1"  type="id" />
+    <item name="rl_item_2"  type="id" />
 
     <!--- imageButton -->
     <item name="ibtn_send"  type="id" />

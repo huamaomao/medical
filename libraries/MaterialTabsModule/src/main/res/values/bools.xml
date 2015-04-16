@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="isTablet">false</bool>
-    <color name="title">#288ff4</color>
-</resources>

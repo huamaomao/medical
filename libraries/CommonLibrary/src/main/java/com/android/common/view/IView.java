@@ -6,5 +6,7 @@ package com.android.common.view;
 public interface IView {
      void showLoading();
      void hideLoading();
-     void toMainActivity();
+     void msgShow(String msg);
+     void msgLongShow(String msg);
+
 }

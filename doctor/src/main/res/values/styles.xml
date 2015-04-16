@@ -117,6 +117,8 @@
     </style>
 
     <style name="text_label_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_gravity">center_vertical</item>
@@ -126,6 +128,8 @@
     </style>
 
     <style name="text_right_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:textColor">@color/text_93</item>
         <item name="android:layout_gravity">center_vertical|right</item>
@@ -134,16 +138,16 @@
         <item name="android:paddingBottom">15dp</item>
     </style>
 
-    <style name="list_item_style">
-      <!--  android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="20dp"
-        android:clickable="true"
-        android:descendantFocusability="blocksDescendants"
-        android:paddingRight="20dp"
-        android:background="@drawable/s_item_selector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"-->
+    <style name="btn_style">
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:background">@drawable/s_ibtn_send</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textColor">@color/write</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">40dip</item>
     </style>
+
 </resources>

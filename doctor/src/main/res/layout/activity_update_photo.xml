@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+   <include layout="@layout/toolbar" />
+    <GridLayout
+        android:columnCount="2"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <ImageView android:id="@id/iv_photo"
+                android:src="@drawable/icon_people_4"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/photo_height"
+                android:layout_height="@dimen/photo_height" />
+            <TextView
+                android:id="@id/tv_name"
+                android:text="请上传真实照片,用作个人照片"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@id/iv_photo"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/textc4"
+                android:textSize="@dimen/font_size_17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <View   android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="1dp" />
+        <ImageView android:id="@id/iv_photo"
+
+            android:src="@drawable/icon_photo_add"
+            android:layout_gravity="center_vertical"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:id="@id/tv_name"
+            android:text="请上传执业医师证+身份证"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/iv_photo"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/textc4"
+            android:textSize="@dimen/font_size_17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View android:layout_columnSpan="2"    android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/divider" android:layout_height="1dp" />
+    </GridLayout>
+
+</LinearLayout>

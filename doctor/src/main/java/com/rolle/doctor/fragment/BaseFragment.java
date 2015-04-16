@@ -8,15 +8,17 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
+import com.android.common.view.IView;
 import com.rolle.doctor.ui.BaseActivity;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IView {
     protected final String TAG="test";
     protected View rootView=null;
     protected int layoutId;
@@ -96,6 +98,33 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    /**
+     * 提示条
+     *
+     * @param content 提示的内容
+     */
+    public void msgShow(String content) {
+        Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 提示条
+     *
+     * @param content 提示的内容
+     */
+    public void msgLongShow(String content) {
+        Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
+    }
 
 
 }

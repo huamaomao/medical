@@ -12,13 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.common.util.Log;
+import com.android.common.view.IView;
 import com.rolle.doctor.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 
 
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity implements IView{
     protected DoctorApplication application;
     @Optional @InjectView(R.id.toolbar) Toolbar mToolbar;
 
@@ -77,6 +78,16 @@ public class BaseActivity extends ActionBarActivity {
      * home
      */
     protected void onHomeClick(){
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
 
     }
 

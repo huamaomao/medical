@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+   <include layout="@layout/toolbar" />
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_amount_smail"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:text="钱包总额 （元）"
+        android:textSize="@dimen/font_size_15"
+        android:textColor="@color/text_93"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="￥0.00"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_30"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="下一步"
+        style="@style/btn_style"
+        />
+
+</LinearLayout>

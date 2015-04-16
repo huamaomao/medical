@@ -4,7 +4,8 @@
     android:background="@color/appbg"
     >
    <include layout="@layout/toolbar" />
-   <GridLayout
+    
+  <!-- <GridLayout
         android:columnCount="2"
         android:paddingLeft="20dp"
         android:layout_marginBottom="20dp"
@@ -44,12 +45,15 @@
          </LinearLayout>
         <ImageView  android:id="@id/iv_card_img" android:layout_gravity="right|center_vertical"/>
         <View android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="1dp" />
-        <TextView  style="@style/text_label_style" android:text="二维码名片" />
-       <ImageView android:src="@drawable/icon_erweima" android:layout_gravity="right|center_vertical" />
+
 
        <View android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="1dp" />
        <TextView  style="@style/text_label_style" android:text="简介" />
        <TextView style="@style/text_right_style"  android:text="擅长。。。。"/>
-    </GridLayout>
-    <include layout="@layout/pulic_wrap_listview" />
+    </GridLayout>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/appbg"/>
+    <include layout="@layout/public_wrap_recycler_view" />
 </LinearLayout>

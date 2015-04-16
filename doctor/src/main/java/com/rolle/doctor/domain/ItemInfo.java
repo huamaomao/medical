@@ -10,7 +10,9 @@ public class ItemInfo {
     public String num;
     public boolean flag;
     public int type;
+    public ItemInfo(){
 
+    }
     public ItemInfo(int resId, String title) {
         this.resId = resId;
         this.title = title;
