@@ -8,5 +8,7 @@ public interface Constants{
     /***接受**/
     public static final String USER_STATUS_INTRODUCE="1";
 
+    /************参数传递************/
+    public static final String DATA_TEL="tel";
 
 }

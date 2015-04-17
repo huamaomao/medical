@@ -3,6 +3,6 @@ package com.android.common.presenter;
 /**
  * Presenter
  */
-public class Presenter {
+public abstract   class Presenter {
 
 }

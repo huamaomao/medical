@@ -9,8 +9,9 @@ android {
 }
 
 dependencies {
+    compile 'com.alibaba:fastjson:1.1.41'
     compile 'com.android.support:support-v13:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-
+    compile project(':libraries:LiteLibrary')
 }

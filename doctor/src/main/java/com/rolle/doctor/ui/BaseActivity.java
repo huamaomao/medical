@@ -1,5 +1,7 @@
 package com.rolle.doctor.ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -107,6 +109,11 @@ public class BaseActivity extends ActionBarActivity implements IView{
      */
     public void msgLongShow(String content) {
         Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public Activity getContext() {
+        return this;
     }
 
 }

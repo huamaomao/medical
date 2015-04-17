@@ -31,11 +31,12 @@ import com.android.common.R;
 
 public class LoadingFragment extends DialogFragment {
 
-
     private View mContentView;
     private TextView textView;
-
+    private  String message="正在提交数据...";
     public LoadingFragment() {
+
+
     }
 
     public static LoadingFragment newInstance(){
@@ -48,12 +49,12 @@ public class LoadingFragment extends DialogFragment {
         getDialog().setCanceledOnTouchOutside(false);
         mContentView=inflater.inflate(R.layout.fragment_custom_progress, container, false);
         textView=(TextView)mContentView.findViewById(R.id.progress_text);
-        textView.setText("正在提交数据...");
+        textView.setText(message);
         return mContentView;
     }
 
     public void setMessage(String msg){
-        textView.setText(msg);
+        message=msg;
     }
 
 

@@ -1,5 +1,6 @@
 package com.rolle.doctor.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -18,7 +19,7 @@ import com.rolle.doctor.ui.BaseActivity;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseFragment extends Fragment implements IView {
+public  class BaseFragment extends Fragment implements IView {
     protected final String TAG="test";
     protected View rootView=null;
     protected int layoutId;
@@ -124,6 +125,11 @@ public abstract class BaseFragment extends Fragment implements IView {
      */
     public void msgLongShow(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public Activity getContext() {
+        return getActivity();
     }
 
 
