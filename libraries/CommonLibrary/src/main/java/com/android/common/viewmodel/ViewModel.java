@@ -7,6 +7,8 @@ import com.android.common.util.LiteUtil;
 import com.android.common.util.Log;
 import com.android.common.util.OkHttpUtil;
 import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.request.Request;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
@@ -37,6 +39,11 @@ public abstract class ViewModel<Model>{
 
                @Override
                protected void onFailure(HttpException e, Response res) {
+                  /* if (e instanceof HttpNetException) {
+                       HttpNetException netException = (HttpNetException) e;
+                   } else if (e instanceof HttpServerException) {
+                       HttpServerException serverException = (HttpServerException) e;
+                   }*/
                    listener.onFailure(e, res);
                }
            });

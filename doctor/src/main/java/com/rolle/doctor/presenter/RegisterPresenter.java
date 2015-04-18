@@ -44,16 +44,17 @@ public class RegisterPresenter extends Presenter {
                Bundle bundle=new Bundle();
                bundle.putString(Constants.DATA_TEL,view.getTel());
                ViewUtil.openActivity(RegisterTwoActivity.class,bundle,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+               view.hideLoading();
            }
 
            @Override
            public void onError(ResponseMessage message) {
-
+               view.hideLoading();
            }
 
            @Override
            public void onFailure(Exception ex, Response response) {
-
+               view.hideLoading();
            }
        });
     }

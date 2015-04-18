@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;

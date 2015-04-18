@@ -58,7 +58,7 @@ public class BaseActivity extends ActionBarActivity implements IView{
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              BaseActivity.this.onBackPressed();
+              onBackActivty();
           }
       });
 
@@ -69,6 +69,10 @@ public class BaseActivity extends ActionBarActivity implements IView{
 
     }
 
+
+    protected void onBackActivty(){
+        BaseActivity.this.onBackPressed();
+    }
 
 
     public void setTitle(String title) {

@@ -21,10 +21,10 @@ public class RegisterModel extends ViewModel{
     private OnValidationListener onValidationListener;
 
     public void  requestModel(String tel, final OnModelListener<ResponseMessage> listener){
-        if (!CommonUtil.isMobileNO(tel)){
+       /* if (!CommonUtil.isMobileNO(tel)){
             onValidationListener.errorTelNull();
             return;
-        }
+        }*/
         execute(RequestApi.requestTelCode(tel),listener);
     }
 

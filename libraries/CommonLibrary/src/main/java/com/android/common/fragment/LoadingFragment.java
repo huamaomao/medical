@@ -19,6 +19,8 @@ package com.android.common.fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,6 @@ public class LoadingFragment extends DialogFragment {
     public void setMessage(String msg){
         message=msg;
     }
-
 
 
 }
