@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:background="@android:color/transparent"
    style="@style/list_item_style">
     <include android:id="@+id/include"  layout="@layout/chat_time_text" />
 

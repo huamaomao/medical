@@ -2,6 +2,7 @@ package com.rolle.doctor.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,13 +44,13 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     @Override
     public FriendListAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (TYPE_DOCTOR==viewType){
-            return  new DoctorViewHolder(View.inflate(mContext,R.layout.list_item_doctor,null));
+            return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, parent, false));
         }else if(TYPE_MESSAGE==viewType){
-            return  new MessageViewHolder(View.inflate(mContext,R.layout.list_item_message,null));
+            return  new MessageViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_message, parent, false));
         }else if (TYPE_FRIEND==viewType){
-            return  new FriendViewHolder(View.inflate(mContext,R.layout.list_item_friend,null));
+            return  new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend,parent,false));
         }
-        return  new PatientViewHolder(View.inflate(mContext,R.layout.list_item_patient,null));
+        return  new PatientViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient,parent,false));
     }
 
     @Override

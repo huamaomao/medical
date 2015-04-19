@@ -3,6 +3,8 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +14,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
+import com.rolle.doctor.adapter.PatientHInfoListAdapater;
+import com.rolle.doctor.adapter.PatientHListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.adapter.YearSpinnerAdpater;
 import com.rolle.doctor.domain.ItemInfo;
@@ -32,20 +37,14 @@ public class PatientHActivity extends BaseActivity{
 
     @InjectView(R.id.viewpage) ViewPager viewPager;
     private List<View> viewpages;
-
     @InjectView(R.id.rg_group)RadioGroup radioGroup;
-     Spinner spStart;
-     Spinner spEnd;
 
-    ListView lsList;
     private List<ItemInfo> lsData;
-    private QuickAdapter quickAdapter;
+    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewInfo;
 
-
-    ListView lsView1;
-    private List<ItemInfo> lsData1;
-    private QuickAdapter quickAdapter1;
-
+    private PatientHListAdapater adapater;
+    private PatientHInfoListAdapater adapater1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,27 +59,34 @@ public class PatientHActivity extends BaseActivity{
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
-        lsView1=(ListView)viewpages.get(1).findViewById(R.id.lv_data);
-        lsList=(ListView)viewpages.get(1).findViewById(R.id.lv_list);
 
-        spStart=(Spinner)viewpages.get(0).findViewById(R.id.sp_start);
-        spEnd=(Spinner)viewpages.get(0).findViewById(R.id.sp_end);
+        recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
+        LinearLayoutManager manager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        List ls=new ArrayList();
+        ls.add(1);
+        ls.add(1);
+        ls.add(1);
+        adapater=new PatientHListAdapater(this,ls);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapater);
 
-        List<String> startData=new ArrayList<String>();
-        startData.add("至2015-1-1");
-        startData.add("至2015-2-1");
-        startData.add("至2015-3-1");
-        startData.add("至2015-4-1");
-        YearSpinnerAdpater adpater=new YearSpinnerAdpater(this,R.layout.sp_check_text,startData.toArray());
-        spStart.setAdapter(adpater);
-
-        List<String> startEnd=new ArrayList<String>();
-        startEnd.add("至2015-1-29");
-        startEnd.add("至2015-2-29");
-        startEnd.add("至2015-3-1");
-        startEnd.add("至2015-4-1");
-        YearSpinnerAdpater adpaterEnd=new YearSpinnerAdpater(this,R.layout.sp_check_text,startData.toArray());
-        spEnd.setAdapter(adpaterEnd);
+        recyclerViewInfo=(RecyclerView)viewpages.get(1).findViewById(R.id.rv_view);
+        LinearLayoutManager manage1=new LinearLayoutManager(this);
+        recyclerViewInfo.setLayoutManager(manage1);
+        lsData=new ArrayList<ItemInfo>();
+        lsData.add(null);
+        lsData.add(new ItemInfo("性别","男"));
+        lsData.add(new ItemInfo("生日","1987年9月9日"));
+        lsData.add(new ItemInfo("体重","120kg"));
+        lsData.add(new ItemInfo("所在地","安亭"));
+        lsData.add(null);
+        lsData.add(new ItemInfo("健康","有轻微糖尿病"));
+        lsData.add(new ItemInfo("过敏药物","无"));
+        adapater1=new PatientHInfoListAdapater(this,lsData);
+        recyclerViewInfo.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        recyclerViewInfo.setAdapter(adapater1);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -115,35 +121,6 @@ public class PatientHActivity extends BaseActivity{
         viewPager.setCurrentItem(0);
         radioGroup.check(R.id.rb_tab_1);
 
-
-
-        lsData=new ArrayList<ItemInfo>();
-        lsData.add(new ItemInfo("性别","男"));
-        lsData.add(new ItemInfo("生日","1987年9月9日"));
-        lsData.add(new ItemInfo("体重","120kg"));
-        lsData.add(new ItemInfo("所在地","安亭"));
-
-        quickAdapter=new QuickAdapter<ItemInfo>(this,R.layout.list_item_h,lsData) {
-            @Override
-            protected void convert(ViewHolderHelp helper, ItemInfo item) {
-                helper.setText(R.id.tv_item_0, item.title)
-                        .setText(R.id.tv_item_1,item.desc);
-            }
-        };
-        lsList.setAdapter(quickAdapter);
-
-        lsData1=new ArrayList<ItemInfo>();
-        lsData1.add(new ItemInfo("健康","有轻微糖尿病"));
-        lsData1.add(new ItemInfo("过敏药物","无"));
-
-        quickAdapter1=new QuickAdapter<ItemInfo>(this,R.layout.list_item_h,lsData1) {
-            @Override
-            protected void convert(ViewHolderHelp helper, ItemInfo item) {
-                helper.setText(R.id.tv_item_0, item.title)
-                        .setText(R.id.tv_item_1,item.desc);
-            }
-        };
-        lsView1.setAdapter(quickAdapter1);
     }
 
 

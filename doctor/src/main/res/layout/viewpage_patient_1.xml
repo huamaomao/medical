@@ -1,96 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#f7f7f7"
-    style="@style/style_wh_match_v">
-    <LinearLayout
-        android:background="@color/write"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <Spinner
-            android:id="@id/sp_start"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:paddingRight="20dp"
-            android:background="@android:color/transparent"
-            android:layout_height="match_parent" />
-        <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/divider"
-            android:layout_width="1dp"
-            android:layout_height="match_parent" />
-        <Spinner
-            android:id="@id/sp_end"
-            android:background="@android:color/transparent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent" />
-      </LinearLayout>
-
-    <ImageView
-          android:layout_gravity="center_horizontal"
-           android:src="@drawable/icon_bingli"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content" />
-    <TableLayout
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
-           <TableRow android:layout_width="wrap_content">
-               <TextView android:text="日\n期"
-                   style="@style/tb_title_text_style" />
-               <TextView android:text="凌\n晨"
-                   style="@style/tb_title_text_style" />
-               <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
-                   <TextView android:text="早餐"
-                       style="@style/tb_title_text_style" />
-                   <LinearLayout
-                      style="@style/style_wh_match_h"
-                      >
-                       <TextView android:text="前"
-                           style="@style/tb_title_text_weight_style" />
-                       <TextView android:text="后"
-                           style="@style/tb_title_text_weight_style" />
-                     </LinearLayout>
-               </TabWidget>
-               <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
-                   <TextView android:text="午餐"
-                       style="@style/tb_title_text_style" />
-                   <LinearLayout
-                       style="@style/style_wh_match_h"
-                       >
-                       <TextView android:text="前"
-                           style="@style/tb_title_text_weight_style" />
-                       <TextView android:text="后"
-                           style="@style/tb_title_text_weight_style" />
-                   </LinearLayout>
-               </TabWidget>
-               <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
-                   <TextView android:text="晚餐"
-                       style="@style/tb_title_text_style" />
-                   <LinearLayout
-                       style="@style/style_wh_match_h"
-                       >
-                       <TextView android:text="前"
-                           style="@style/tb_title_text_weight_style" />
-                       <TextView android:text="后"
-                           style="@style/tb_title_text_weight_style" />
-                   </LinearLayout>
-               </TabWidget>
-               <TextView android:text="睡\n前"
-                   style="@style/tb_title_text_style" />
-
-           </TableRow>
-    </TableLayout>
-    <GridView android:id="@id/gv_view"
-        android:numColumns="9"
-         android:stretchMode="columnWidth"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0px" />
+    style="@style/style_wh_match_v">\
+    <include layout="@layout/public_wrap_recycler_view"  />
     <View
         android:background="@color/divider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp" />
-
 </LinearLayout>
