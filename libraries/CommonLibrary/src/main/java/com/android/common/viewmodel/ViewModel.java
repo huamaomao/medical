@@ -2,20 +2,12 @@ package com.android.common.viewmodel;
 
 import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.CommonUtil;
 import com.android.common.util.LiteUtil;
 import com.android.common.util.Log;
-import com.android.common.util.OkHttpUtil;
 import com.litesuits.http.exception.HttpException;
-import com.litesuits.http.exception.HttpNetException;
-import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.request.Request;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
-
-import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  *ViewModel 处理数据
@@ -32,27 +24,20 @@ public abstract class ViewModel<Model>{
           LiteUtil.getInstance().execute(request, new HttpModelHandler<Model>() {
                @Override
                protected void onSuccess(Model data, Response res) {
-                   Log.d(TAG,res.getString());
-                   ResponseMessage message=JSON.parseObject(res.getString(),ResponseMessage.class);
+                   Log.d(TAG,res.getString()+"");
+                   Log.d(TAG,data+"");
                    listener.onSuccess(data);
+                   listener.onFinally();
                }
 
                @Override
                protected void onFailure(HttpException e, Response res) {
-                  /* if (e instanceof HttpNetException) {
-                       HttpNetException netException = (HttpNetException) e;
-                   } else if (e instanceof HttpServerException) {
-                       HttpServerException serverException = (HttpServerException) e;
-                   }*/
-                   listener.onFailure(e, res);
+                   ResponseMessage message=JSON.parseObject(res.getString(),ResponseMessage.class);
+                   listener.onError(e, message);
+                   listener.onFinally();
                }
            });
 
-           /***
-            Type genType = getClass().getGenericSuperclass();
-            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-            Model model= JSON.parseObject(response.body().toString(),params[0]);
-            * **/
 
    }
 
@@ -67,13 +52,12 @@ public abstract class ViewModel<Model>{
        /**
         * 失败时回调
         */
-       void onError(ResponseMessage message);
+       void onError(HttpException e,ResponseMessage message);
 
-       /****
-        * 异常
-        * @param ex
+       /*****
+        * 最后回调函数 ，用来回调view操作
         */
-       void onFailure(Exception ex,Response response);
+       void onFinally();
    }
 
 }

@@ -1,20 +1,7 @@
 package com.android.common.util;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.os.Environment;
-import android.os.Looper;
-
 import com.android.common.domain.Version;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-
 /**
  * Created by Hua_ on 2015/4/16.
  */
@@ -39,7 +26,7 @@ public class CommonExceptionHandler{
      * @return
      */
     private String getCrashReport(Context context, Throwable ex) {
-        Version version=CommonUtil.getVersion(context);
+        Version version=ViewUtil.getVersion(context);
         StringBuffer exceptionStr = new StringBuffer();
         exceptionStr.append("Version: "+version.versionName+"("+version.code+")\n");
         exceptionStr.append("Android: "+android.os.Build.VERSION.RELEASE+"("+android.os.Build.MODEL+")\n");

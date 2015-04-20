@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <EditText
-                android:id="@id/et_code"
+                android:id="@id/et_name"
                 android:textColor="@color/write"
                 android:textSize="@dimen/font_size_16"
                 android:hint="设置您的昵称"
@@ -31,6 +31,8 @@
                 android:paddingLeft="20dp"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
                 android:textColorHighlight="@color/hintText"
                 android:drawableLeft="@drawable/icon_user"
                 android:textColorHint="@color/hintText"
@@ -44,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
             <EditText
-                android:id="@id/et_code"
+                android:id="@id/et_pwd"
                 android:textColor="@color/write"
                 android:textSize="@dimen/font_size_16"
                 android:hint="设置您的密码"
@@ -53,6 +55,9 @@
                 android:paddingLeft="20dp"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:imeOptions="actionSend"
+                android:inputType="textPassword"
+                android:imeActionLabel="完成"
                 android:textColorHighlight="@color/hintText"
                 android:drawableLeft="@drawable/icon_pwd"
                 android:textColorHint="@color/hintText"
@@ -60,6 +65,4 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
-
 </LinearLayout>

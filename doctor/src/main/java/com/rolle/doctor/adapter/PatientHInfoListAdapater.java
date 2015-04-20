@@ -34,8 +34,8 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
        switch (viewType){
-           case TYPE_0:
-                return new UserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_head,parent,false));
+         /*  case TYPE_0:
+                return new UserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_head,parent,false));*/
            case TYPE_1:
                return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_h,parent,false)){};
            default:

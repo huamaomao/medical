@@ -12,34 +12,64 @@ import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
-import com.litesuits.http.response.Response;
+import com.rolle.doctor.ui.RegisterThreeActivity;
 import com.rolle.doctor.ui.RegisterTwoActivity;
 import com.rolle.doctor.viewmodel.RegisterModel;
-import com.squareup.okhttp.Request;
-
-import java.io.IOException;
 
 /**
  * @author hua
- * @Description: 注册
+ * @Description: 注册  第二步
  */
-public class RegisterPresenter extends Presenter {
+public class RegisterTwoPresenter extends Presenter {
 
     private IRegisterView view;
     private RegisterModel model;
-    public RegisterPresenter(IRegisterView iView) {
+    public RegisterTwoPresenter(IRegisterView iView) {
         this.view = iView;
         model=new RegisterModel();
     }
 
-   public void doFirstRegister(){
-       view.showLoading();
+    public void doTwoRegister(){
+        model.requestModel(view.getTel(),view.getCode(),new ViewModel.OnModelListener<ResponseMessage>() {
+            @Override
+            public void onSuccess(ResponseMessage message) {
+                Bundle bundle=new Bundle();
+                bundle.putString(Constants.DATA_TEL,view.getTel());
+                bundle.putString(Constants.DATA_CODE,view.getCode());
+                ViewUtil.openActivity(RegisterThreeActivity.class, bundle, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+            }
+
+            @Override
+            public void onError(HttpException e, ResponseMessage message) {
+
+            }
+
+            @Override
+            public void onFinally() {
+
+            }
+        },new RegisterModel.OnCheckValidationListener() {
+            @Override
+            public void errorCodeNull() {
+                view.hideLoading();
+                view.msgShow("验证码格式错误");
+            }
+
+            @Override
+             public void errorTelNull() {
+                view.hideLoading();
+                view.msgShow("手机验证码为空");
+            }
+        });
+    }
+
+
+   public void doSendSms(){
+       view.timeSendStart();
        model.requestModel(view.getTel(),new ViewModel.OnModelListener<ResponseMessage>(){
            @Override
            public void onSuccess(ResponseMessage message) {
-               Bundle bundle=new Bundle();
-               bundle.putString(Constants.DATA_TEL,view.getTel());
-               ViewUtil.openActivity(RegisterTwoActivity.class,bundle,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+
            }
 
            @Override
@@ -58,19 +88,18 @@ public class RegisterPresenter extends Presenter {
        },new RegisterModel.OnValidationListener() {
            @Override
            public void errorTelNull() {
-               view.hideLoading();
                view.msgShow("验证码错误");
            }
        });
-    }
-
-
-    public static interface IRegisterView extends IView{
-         String getTel();
     }
 
     public static interface OnPresenterListener{
 
     }
 
+    public static interface IRegisterView extends IView{
+        String getTel();
+        String getCode();
+         void timeSendStart();
+    }
 }

@@ -5,7 +5,7 @@ package com.rolle.doctor.util;
  */
 public interface UrlApi{
     static enum RequestUrl{
-        S("http://192.168.1.108:8080/crm/"),T("http://192.168.1.108:8080/crm/");
+        S("http://192.168.1.88:8080/crm/"),T("http://192.168.1.88:8080/crm/");
         String url;
         private RequestUrl(String url){
             this.url=url;
@@ -22,8 +22,6 @@ public interface UrlApi{
     public static final String LOGIN="user_sp/login.json";
     /***消息列表**/
     public static final String MESSAGE_LIST="user_sp/getUserListByToken.json";
-
-
 
 
 

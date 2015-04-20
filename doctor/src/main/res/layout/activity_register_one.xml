@@ -10,7 +10,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/round_bg_login"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="45dp">
             <TextView
                 android:text="+86"
                 android:paddingLeft="10dp"
@@ -31,11 +31,15 @@
                 android:textColor="@color/write"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:maxLength="11"
                 android:textSize="@dimen/font_size_16"
+                android:inputType="phone"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:hint="输入手机号"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-
 
 </LinearLayout>

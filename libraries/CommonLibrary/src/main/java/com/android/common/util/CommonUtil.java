@@ -1,12 +1,8 @@
 package com.android.common.util;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.android.common.domain.Version;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Collections;
@@ -23,30 +19,6 @@ import java.util.regex.Pattern;
 public final class CommonUtil {
 
     /************************************************数据 method ******************************************************************/
-    /***
-     * 获取版本信息 渠道
-     * @param context
-     * @return
-     */
-     public static Version getVersion(Context context){
-              try {
-                  PackageManager packageManager = context.getPackageManager();
-                  // 0代表是获取版本信息
-                  Version version=new Version();
-                  PackageInfo info=packageManager.getPackageInfo(context.getPackageName(),0);
-                  ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-                  version.code=info.versionCode;
-                  version.versionName=info.versionName;
-                  if (notNull(applicationInfo)&&notNull(applicationInfo.metaData)){
-               version.channel=applicationInfo.metaData.getString("UMENG_CHANNEL");
-           }
-         return version;
-      }catch (Exception e){
-
-      }
-      return null;
-    }
-
 
     /***
      * 判断是否可用
@@ -205,11 +177,27 @@ public final class CommonUtil {
         return Pattern.compile("^([a-zA-Z0-9]*[-_]?[a-zA-Z0-9]+)*@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$").matcher(email).matches();
     }
 
+    /****
+     * 验证昵称
+     * @param name
+     * @return
+     */
     public static boolean checkName(String name){
         String str="^([\\w]|[\\u4e00-\\u9fa5])+";
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(name);
         return m.matches();
+    }
+
+    /****
+     *  验证密码
+     * @param pwd
+     * @return
+     */
+    public static boolean checkPassword(String pwd){
+        if (isEmpty(pwd)||pwd.length()<6||pwd.length()>15)
+            return false;
+         return true;
     }
 
 }

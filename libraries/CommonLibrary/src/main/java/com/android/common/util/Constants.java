@@ -10,5 +10,6 @@ public interface Constants{
 
     /************参数传递************/
     public static final String DATA_TEL="tel";
+    public static final String DATA_CODE="code";
 
 }

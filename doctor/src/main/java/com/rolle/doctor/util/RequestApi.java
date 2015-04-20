@@ -53,7 +53,7 @@ public final class RequestApi {
      *@param   verifycode
      *@return Request
      */
-    public static Request requestRegister(String mobile,String verifycode,String password,String typeId){
+    public static Request requestRegister(String mobile,String verifycode,String nickName,String password,String typeId){
 
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(UrlApi.REGISTER);
@@ -62,6 +62,7 @@ public final class RequestApi {
         param.add(new NameValuePair("password",password));
         param.add(new NameValuePair("typeId",typeId));
         param.add(new NameValuePair("verifycode",verifycode));
+        param.add(new NameValuePair("nickname",nickName));
         return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
     }
 

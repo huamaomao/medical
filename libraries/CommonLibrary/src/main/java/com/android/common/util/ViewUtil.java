@@ -3,6 +3,9 @@ package com.android.common.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +14,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.android.common.R;
+import com.android.common.domain.Version;
 
 /**
  * Created by Hua_ on 2015/2/6.
@@ -28,7 +32,7 @@ public class ViewUtil {
     }
 
     public static void openActivity(Class<?> pClass, Bundle pBundle,Activity activity,ActivityModel type) {
-        openActivity(pClass,null,activity,type,false);
+        openActivity(pClass,pBundle,activity,type,false);
     }
 
     /**
@@ -133,5 +137,29 @@ public class ViewUtil {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    /***
+     * 获取版本信息 渠道
+     * @param context
+     * @return
+     */
+    public static Version getVersion(Context context){
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            // 0代表是获取版本信息
+            Version version=new Version();
+            PackageInfo info=packageManager.getPackageInfo(context.getPackageName(),0);
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            version.code=info.versionCode;
+            version.versionName=info.versionName;
+            if (CommonUtil.notNull(applicationInfo)&&CommonUtil.notNull(applicationInfo.metaData)){
+                version.channel=applicationInfo.metaData.getString("UMENG_CHANNEL");
+            }
+            return version;
+        }catch (Exception e){
+
+        }
+        return null;
     }
 }

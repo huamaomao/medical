@@ -4,11 +4,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.android.common.util.Constants;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.DoctorSpinnerAdpater;
 import com.rolle.doctor.adapter.YearSpinnerAdpater;
+import com.rolle.doctor.presenter.RegisterThreePresenter;
+import com.rolle.doctor.util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.InjectView;
@@ -17,21 +23,30 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class RegisterThreeActivity extends BaseActivity{
+public class RegisterThreeActivity extends BaseLoadingActivity implements RegisterThreePresenter.IRegisterView{
 
     @InjectView(R.id.sp_doctor)Spinner spDoctor;
+    @InjectView(R.id.et_pwd)EditText et_pwd;
+    @InjectView(R.id.et_name)EditText et_name;
+    private  String tel;
+    private String code;
+    private RegisterThreePresenter presenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_three);
-
+        tel=getIntent().getStringExtra(Constants.DATA_TEL);
+        code=getIntent().getStringExtra(Constants.DATA_CODE);
+        presenter=new RegisterThreePresenter(this);
     }
 
 
     @Override
     protected void initView() {
+        setBackActivity("上一步");
+        loadingFragment.setMessage("正在提交...");
         super.initView();
         List<String> startData=new ArrayList<String>();
         startData.add("医生");
@@ -45,8 +60,7 @@ public class RegisterThreeActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.toolbar_register:
-                finish();
-                ViewUtil.openActivity(MainActivity.class,this);
+                presenter.doRegister();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -56,5 +70,30 @@ public class RegisterThreeActivity extends BaseActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_register,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public String getTel() {
+        return tel;
+    }
+
+    @Override
+    public String getPwd() {
+        return et_pwd.getText().toString();
+    }
+
+    @Override
+    public String getType() {
+        return Util.getUserType(spDoctor.getSelectedItem().toString());
+    }
+
+    @Override
+    public String getNickName() {
+        return et_name.getText().toString();
+    }
+
+    @Override
+    public String getCode() {
+        return code;
     }
 }
