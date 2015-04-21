@@ -6,6 +6,7 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.MD5;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.util.RequestApi;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -25,7 +26,7 @@ public class RegisterModel extends ViewModel{
      * @param tel
      * @param listener
      */
-    public void  requestModel(String tel, final OnModelListener<ResponseMessage> listener,OnValidationListener onValidationListener){
+    public void  requestModel(String tel, final HttpModelHandler<String> listener,OnValidationListener onValidationListener){
        if (!CommonUtil.isMobileNO(tel)){
            if (CommonUtil.notNull(onValidationListener)){
                onValidationListener.errorTelNull();
@@ -41,7 +42,7 @@ public class RegisterModel extends ViewModel{
      * @param code
      * @param listener
      */
-    public void  requestModel(String tel,String code, final OnModelListener<ResponseMessage> listener,OnCheckValidationListener onCheckValidationListener){
+    public void  requestModel(String tel,String code, final HttpModelHandler<String> listener,OnCheckValidationListener onCheckValidationListener){
         if (!CommonUtil.isMobileNO(tel)){
             if (CommonUtil.notNull(onCheckValidationListener)){
                 onCheckValidationListener.errorTelNull();
@@ -66,7 +67,7 @@ public class RegisterModel extends ViewModel{
      * @param listener
      * @param onValidationListener
      */
-    public void  requestModel(String tel,String verifycode,String nickName,String password,String typeId,final OnModelListener<ResponseMessage> listener,OnUserValidationListener onValidationListener){
+    public void  requestModel(String tel,String nickName,String password,String typeId,final HttpModelHandler<String> listener,OnUserValidationListener onValidationListener){
         if (!CommonUtil.checkName(nickName)){
             onValidationListener.errorNickName();
             return;
@@ -80,7 +81,7 @@ public class RegisterModel extends ViewModel{
             onValidationListener.errorPwd();
             return;
         }
-        execute(RequestApi.requestRegister(tel,verifycode,nickName,password,typeId),listener);
+        execute(RequestApi.requestRegister(tel,nickName,password,typeId),listener);
     }
 
 

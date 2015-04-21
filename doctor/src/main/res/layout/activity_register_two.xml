@@ -29,7 +29,7 @@
                 android:inputType="number"
                 android:background="@android:color/transparent"
                 android:layout_width="0px"
-                android:maxLength="5"
+                android:maxLength="6"
                 android:layout_weight="1"
                 android:layout_height="match_parent" />
             <Button

@@ -1,5 +1,10 @@
 package com.rolle.doctor.util;
 
+import com.android.common.view.IView;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpServerException;
+
 /**
  * @author Hua_
  * @Description:
@@ -21,4 +26,19 @@ public final class Util {
         return "";
 
     }
+
+    public static boolean errorHandle(HttpException e,IView iView){
+        if (e instanceof HttpNetException) {
+            HttpNetException netException = (HttpNetException) e;
+            iView.msgShow("无网络,请检查网络连接....");
+            return false;
+        } else if (e instanceof HttpServerException) {
+            HttpServerException serverException = (HttpServerException) e;
+            iView.msgShow("连接服务器失败....");
+            return false;
+        }
+        return true;
+
+    }
+
 }

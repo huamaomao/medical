@@ -75,6 +75,8 @@ public class BaseActivity extends ActionBarActivity implements IView{
     }
 
 
+
+
     public void setTitle(String title) {
         mToolbar.setTitle(title);
     }

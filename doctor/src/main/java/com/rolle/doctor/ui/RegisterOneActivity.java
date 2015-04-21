@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.common.fragment.LoadingFragment;
+import com.android.common.util.ActivityModel;
 import com.android.common.util.ViewUtil;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
@@ -34,6 +35,11 @@ public class RegisterOneActivity extends BaseLoadingActivity implements Register
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_one);
+    }
+
+    @Override
+    protected void onBackActivty() {
+        ViewUtil.openActivity(LoginActivity.class,null,this, ActivityModel.ACTIVITY_MODEL_2,true);
     }
 
     @Override

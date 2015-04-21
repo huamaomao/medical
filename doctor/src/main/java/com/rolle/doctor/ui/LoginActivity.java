@@ -18,6 +18,7 @@ import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
 import com.rolle.doctor.domain.ChatMessage;
+import com.rolle.doctor.presenter.LoginPresenter;
 
 import java.util.LinkedList;
 
@@ -27,23 +28,24 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin{
 
     @InjectView(R.id.iv_photo)ImageView ivLogo;
     @InjectView(R.id.ll_login)InputMethodLinearLayout llLogin;
     @InjectView(R.id.et_pwd)EditText etPwd;
-
+    @InjectView(R.id.et_tel)EditText etTel;
+    private LoginPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        presenter=new LoginPresenter(this);
 
     }
 
     @OnClick(R.id.btn_login)
     void doLogin(){
-        finish();
-        ViewUtil.openActivity(MainActivity.class,this);
+        presenter.doLogin();
     }
     @OnClick(R.id.tv_create_account)
     void doRegister(){
@@ -86,4 +88,13 @@ public class LoginActivity extends BaseActivity{
         });
     }
 
+    @Override
+    public String getTel() {
+        return etTel.getText().toString();
+    }
+
+    @Override
+    public String getPwd() {
+        return etPwd.getText().toString();
+    }
 }

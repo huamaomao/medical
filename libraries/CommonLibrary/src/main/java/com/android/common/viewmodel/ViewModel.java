@@ -9,55 +9,20 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /**
  *ViewModel 处理数据
  */
-public abstract class ViewModel<Model>{
+public abstract class ViewModel{
     private static final String TAG="ViewModel";
     /*****
      *异步访问
      * @param request
      * @param
      */
-   protected void execute(Request request,final OnModelListener<Model> listener){
-
-          LiteUtil.getInstance().execute(request, new HttpModelHandler<Model>() {
-               @Override
-               protected void onSuccess(Model data, Response res) {
-                   Log.d(TAG,res.getString()+"");
-                   Log.d(TAG,data+"");
-                   listener.onSuccess(data);
-                   listener.onFinally();
-               }
-
-               @Override
-               protected void onFailure(HttpException e, Response res) {
-                   ResponseMessage message=JSON.parseObject(res.getString(),ResponseMessage.class);
-                   listener.onError(e, message);
-                   listener.onFinally();
-               }
-           });
-
-
+   protected void  execute(Request request,final HttpModelHandler<String> listener){
+         LiteUtil.getInstance().execute(request,listener);
    }
-
-
-   public interface  OnModelListener<Model>{
-       /**
-        * 成功时回调
-        *
-        * @param model
-        */
-       void onSuccess(Model model);
-       /**
-        * 失败时回调
-        */
-       void onError(HttpException e,ResponseMessage message);
-
-       /*****
-        * 最后回调函数 ，用来回调view操作
-        */
-       void onFinally();
-   }
-
 }

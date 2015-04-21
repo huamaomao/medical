@@ -25,10 +25,10 @@ public final class RequestApi {
      */
     public static Request requestTelCode(String mobile){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append(UrlApi.TEL_CODE).append("?").append("mobile=").append(mobile);
+        url.append(UrlApi.TEL_CODE);
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
-        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
     /******
@@ -43,17 +43,16 @@ public final class RequestApi {
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("verifycode",verifycode));
-        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
 
     /******
      *@Description  注册用户
      *@param : mobile
-     *@param   verifycode
      *@return Request
      */
-    public static Request requestRegister(String mobile,String verifycode,String nickName,String password,String typeId){
+    public static Request requestRegister(String mobile,String nickName,String password,String typeId){
 
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(UrlApi.REGISTER);
@@ -61,11 +60,94 @@ public final class RequestApi {
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
         param.add(new NameValuePair("typeId",typeId));
-        param.add(new NameValuePair("verifycode",verifycode));
         param.add(new NameValuePair("nickname",nickName));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+
+    /******
+     *  验证手机短信码
+     * @param mobile
+     * @param password
+     * @return
+     */
+    public static Request requestLogin(String mobile,String password){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.LOGIN);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("mobile",mobile));
+        param.add(new NameValuePair("password",password));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *  获取个人信息
+     * @param token
+     * @return
+     */
+    public static Request requestUserInfo(String token){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_INFO);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
         return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
     }
 
+    /******
+     *  消息列表
+     * @param token
+     * @return
+     */
+    public static Request requestMessageList(String token){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.MESSAGE_LIST);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *  获取医生或患者列表
+     * @param token
+     * @param type
+     * @return
+     */
+    public static Request requestFriendList(String token,String type){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_FRIEND_LIST);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        param.add(new NameValuePair("typeId",type));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *  患者数目
+     * @param token
+     * @param type
+     * @return
+     */
+    public static Request requestPatientNum(String token,String type){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_PATIENT_SUM);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        param.add(new NameValuePair("typeId",type));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *   我的邀请码
+     * @param token
+     * @return
+     */
+    public static Request requestUserInviteCode(String token){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_INVITE_CODE);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
 
 
 

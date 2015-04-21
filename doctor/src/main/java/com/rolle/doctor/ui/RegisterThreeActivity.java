@@ -38,7 +38,6 @@ public class RegisterThreeActivity extends BaseLoadingActivity implements Regist
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_three);
         tel=getIntent().getStringExtra(Constants.DATA_TEL);
-        code=getIntent().getStringExtra(Constants.DATA_CODE);
         presenter=new RegisterThreePresenter(this);
     }
 
@@ -90,10 +89,5 @@ public class RegisterThreeActivity extends BaseLoadingActivity implements Regist
     @Override
     public String getNickName() {
         return et_name.getText().toString();
-    }
-
-    @Override
-    public String getCode() {
-        return code;
     }
 }

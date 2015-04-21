@@ -1,10 +1,24 @@
 package com.rolle.doctor.presenter;
 
+import android.os.Bundle;
+
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
+import com.android.common.util.ActivityModel;
+import com.android.common.util.CommonUtil;
+import com.android.common.util.Constants;
+import com.android.common.util.Log;
+import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpServerException;
+import com.litesuits.http.response.Response;
+import com.litesuits.http.response.handler.HttpModelHandler;
+import com.rolle.doctor.domain.Token;
+import com.rolle.doctor.ui.RegisterTwoActivity;
+import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.RegisterModel;
 /**
  * @author hua
@@ -21,22 +35,33 @@ public class RegisterThreePresenter extends Presenter {
 
    public void doRegister(){
        view.showLoading();
-       model.requestModel(view.getTel(),view.getCode(),view.getNickName(),view.getPwd(),view.getType(),new ViewModel.OnModelListener<ResponseMessage>() {
-           @Override
-           public void onSuccess(ResponseMessage message) {
+       model.requestModel(view.getTel(),view.getNickName(),view.getPwd(),view.getType(),new HttpModelHandler<String>() {
+                   @Override
+                   protected void onSuccess(String data, Response res) {
+                       Token token=res.getObject(Token.class);
+                       Log.d(token);
+                       if (CommonUtil.notNull(token)){
+                           switch (token.statusCode){
+                               case "200":
+                                   ViewUtil.openActivity(RegisterTwoActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                                   break;
+                               case "300":
+                                   view.msgShow(token.message);
+                                   break;
+                           }
+                       }
+                       view.hideLoading();
+                   }
 
-           }
-
-           @Override
-           public void onError(HttpException e, ResponseMessage message) {
-
-           }
-
-           @Override
-           public void onFinally() {
-               view.hideLoading();
-           }
-       },new RegisterModel.OnUserValidationListener() {
+                   @Override
+                   protected void onFailure(HttpException e, Response res) {
+                       if (Util.errorHandle(e,view)){
+                           view.msgShow("注册失败");
+                       }
+                       view.hideLoading();
+                   }
+        },
+        new RegisterModel.OnUserValidationListener() {
            @Override
            public void errorPwd() {
                view.msgShow("密码格式错误,密码需6-15位");
@@ -57,11 +82,5 @@ public class RegisterThreePresenter extends Presenter {
         String getPwd();
         String getType();
         String getNickName();
-        String getCode();
     }
-
-    public static interface OnPresenterListener{
-
-    }
-
 }

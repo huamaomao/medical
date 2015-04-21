@@ -20,8 +20,21 @@ public interface UrlApi{
     public static final String REGISTER="user_sp/saveUser.json";
     /***登陆**/
     public static final String LOGIN="user_sp/login.json";
+    /***获取个人信息**/
+    public static final String USER_INFO="user_sp/getUserByToken.json";
     /***消息列表**/
     public static final String MESSAGE_LIST="user_sp/getUserListByToken.json";
+    /***获取医生或患者列表**/
+    public static final String USER_FRIEND_LIST="user_sp/getfriendList.json";
+    /***获取患者数目**/
+    public static final String USER_PATIENT_SUM="user_sp/getfriendSum.json";
+    /***我的邀请码**/
+    public static final String USER_INVITE_CODE="user_sp/getInviteCodeByToken.json";
+
+
+
+
+
 
 
 

@@ -2,18 +2,15 @@ package com.rolle.doctor.ui;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.android.common.util.Constants;
-import com.android.common.util.ViewUtil;
+
 import com.rolle.doctor.R;
 import com.rolle.doctor.presenter.RegisterTwoPresenter;
-import com.rolle.doctor.viewmodel.RegisterModel;
+import com.rolle.doctor.util.Constants;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -32,7 +29,7 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
     /****
      * 计时器
      */
-    private CountDownTimer downTimer=new CountDownTimer(30000,1000) {
+    private CountDownTimer downTimer=new CountDownTimer(Constants.SMS_SEBD_TIME,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             btn_send.setEnabled(false);
@@ -53,7 +50,7 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_two);
-        tel=getIntent().getStringExtra(Constants.DATA_TEL);
+        tel=getIntent().getStringExtra(com.android.common.util.Constants.DATA_TEL);
         presenter=new RegisterTwoPresenter(this);
     }
 
@@ -75,6 +72,7 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
         StringBuilder builder=new StringBuilder("验证码短信已发至 +86");
         builder.append(tel);
         tv_tel_code.setText(builder.toString());
+        timeSendStart();
 
     }
 

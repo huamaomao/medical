@@ -15,6 +15,26 @@ public class User {
     public String minNum;
     public String maxNum;
     public String time="中午12：00";
+    /*****头像地址****/
+    public String headImage;
+    /*****二维码信息****/
+    public String qrCode;
+    /*****简介****/
+    public String describe;
+    /*****工作地址****/
+    public String jobAddress;
+    /*****所在医院****/
+    public String hospitalAddress;
+    /*****医生职称****/
+    public String doctorTitle;
+    /*****所在科室****/
+    public String department;
+    /*****专长****/
+    public String specialty;
+    /*****身份证图片地址****/
+    public String idImage;
+    /*****营业执照图片地址****/
+    public String businessLicense;
 
     public String status;
 
