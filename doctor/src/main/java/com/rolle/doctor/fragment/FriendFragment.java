@@ -6,8 +6,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
+import com.rolle.doctor.presenter.FriendPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
 import com.rolle.doctor.ui.FriendActivity;
 import com.rolle.doctor.ui.PatientActivity;
@@ -20,7 +23,11 @@ import butterknife.OnItemClick;
 /**
  * 患者
  */
-public class FriendFragment extends BaseFragment{
+public class FriendFragment extends BaseFragment implements FriendPresenter.IFriendView{
+
+    private FriendPresenter presenter;
+    @InjectView(R.id.tv_patient_value)
+    TextView tv_patient_value;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,5 +69,14 @@ public class FriendFragment extends BaseFragment{
     @Override
     protected void initView(View view, LayoutInflater inflater) {
         super.initView(view, inflater);
+        presenter=new FriendPresenter(this);
+        presenter.doPaitentSum();
+    }
+
+    @Override
+    public void setPatientSum(String sum) {
+        StringBuilder builder=new StringBuilder("患者(");
+        builder.append(sum).append(")");
+        tv_patient_value.setText(builder.toString());
     }
 }

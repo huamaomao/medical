@@ -17,9 +17,12 @@ import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.Token;
+import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterTwoActivity;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.RegisterModel;
+import com.rolle.doctor.viewmodel.UserModel;
+
 /**
  * @author hua
  * @Description: 注册  填写用户
@@ -28,9 +31,11 @@ public class RegisterThreePresenter extends Presenter {
 
     private IRegisterView view;
     private RegisterModel model;
+    private UserModel userModel;
     public RegisterThreePresenter(IRegisterView iView) {
         this.view = iView;
         model=new RegisterModel();
+        userModel=new UserModel(view.getContext());
     }
 
    public void doRegister(){
@@ -43,7 +48,8 @@ public class RegisterThreePresenter extends Presenter {
                        if (CommonUtil.notNull(token)){
                            switch (token.statusCode){
                                case "200":
-                                   ViewUtil.openActivity(RegisterTwoActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                                   userModel.setToken(token);
+                                   ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
                                    break;
                                case "300":
                                    view.msgShow(token.message);

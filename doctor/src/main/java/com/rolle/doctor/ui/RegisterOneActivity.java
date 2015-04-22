@@ -46,6 +46,7 @@ public class RegisterOneActivity extends BaseLoadingActivity implements Register
     protected void initView() {
         super.initView();
         setBackActivity("注册");
+        loadingFragment.setMessage("正在提交...");
         presenter=new RegisterPresenter(this);
     }
 

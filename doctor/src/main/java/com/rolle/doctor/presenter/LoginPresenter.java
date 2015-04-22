@@ -1,25 +1,21 @@
 package com.rolle.doctor.presenter;
 
-import android.os.Bundle;
-
-import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Constants;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
-import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.Token;
+import com.rolle.doctor.domain.User;
+import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.ui.MainActivity;
-import com.rolle.doctor.ui.RegisterTwoActivity;
-import com.rolle.doctor.viewmodel.LoginModel;
-import com.rolle.doctor.viewmodel.RegisterModel;
+import com.rolle.doctor.viewmodel.UserModel;
 
 /**
  * @author hua
@@ -28,10 +24,10 @@ import com.rolle.doctor.viewmodel.RegisterModel;
 public class LoginPresenter extends Presenter {
 
     private ILogin view;
-    private LoginModel model;
+    private UserModel model;
     public LoginPresenter(ILogin iView) {
         this.view = iView;
-        model=new LoginModel();
+        model=new UserModel(view.getContext());
     }
 
    public void doLogin(){
@@ -40,10 +36,13 @@ public class LoginPresenter extends Presenter {
            @Override
            protected void onSuccess(String data, Response res) {
                Token token=res.getObject(Token.class);
+               Log.d(token);
                if (CommonUtil.notNull(token)){
                    switch (token.statusCode){
                        case "200":
-                           ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                           model.setToken(token);
+                           doGetUserInfo();
+                           //ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                            break;
                        case "300":
                             view.msgShow("登陆失败账号或密码错误.....");
@@ -64,7 +63,7 @@ public class LoginPresenter extends Presenter {
                view.hideLoading();
            }
 
-       },new LoginModel.OnValidationListener() {
+       },new UserModel.OnValidationListener(){
            @Override
            public void errorPwd() {
                view.msgShow("密码格式错误，6至15位");
@@ -75,6 +74,35 @@ public class LoginPresenter extends Presenter {
                view.msgShow("手机格式错误..");
            }
        });
+    }
+
+    /*****
+     * 获取个人信息
+     */
+    public void doGetUserInfo(){
+        model.requestModel(model.getToken().token,new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                UserResponse user=res.getObject(UserResponse.class);
+                if (CommonUtil.notNull(user)){
+                    switch (user.statusCode){
+                        case "200":
+                            Log.d(user.user);
+                            model.db.save(user.user);
+                            Log.d(model.db.queryById(user.user.id, User.class));
+                            ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                            break;
+                        case "300":
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+
+            }
+        });
     }
 
 

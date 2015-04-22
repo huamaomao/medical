@@ -8,4 +8,10 @@ package com.rolle.doctor.util;
 public interface Constants {
     /*****短信重新发送时间60s*****/
     public static  final int SMS_SEBD_TIME=60000;
+
+    /******用户类型****/
+    public static final String USER_TYPE_DOCTOR="3";
+    public static final String USER_TYPE_DIETITAN="4";
+    public static final String USER_TYPE_PATIENT="5";
+
 }

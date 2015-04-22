@@ -87,7 +87,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@id/tv_patient_value"
-            android:text="患者（20）"
+            android:text="患者（0）"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_type"
             android:layout_gravity="center_vertical"

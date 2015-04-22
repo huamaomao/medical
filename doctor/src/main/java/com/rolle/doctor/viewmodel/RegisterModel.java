@@ -60,7 +60,6 @@ public class RegisterModel extends ViewModel{
     /*****
      * @Description  注册填写用户名
      * @param tel
-     * @param verifycode
      * @param nickName
      * @param password
      * @param typeId

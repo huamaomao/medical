@@ -1,11 +1,20 @@
 package com.rolle.doctor.domain;
 
+import com.android.common.domain.ResponseMessage;
+import com.litesuits.orm.db.annotation.Table;
+
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /**
  * 用户
  */
-public class User {
-    private String id;
-    private String nickName;
+@Table("user")
+public class User implements Serializable{
+
+    public int id;
+    public String nickName;
     private String photo;
     private String sex;
     private String age;
@@ -70,14 +79,6 @@ public class User {
         this.maxNum = maxNum;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getPhoto() {
         return photo;
     }
@@ -125,4 +126,33 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", photo='" + photo + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", resId=" + resId +
+                ", type='" + type + '\'' +
+                ", minNum='" + minNum + '\'' +
+                ", maxNum='" + maxNum + '\'' +
+                ", time='" + time + '\'' +
+                ", headImage='" + headImage + '\'' +
+                ", qrCode='" + qrCode + '\'' +
+                ", describe='" + describe + '\'' +
+                ", jobAddress='" + jobAddress + '\'' +
+                ", hospitalAddress='" + hospitalAddress + '\'' +
+                ", doctorTitle='" + doctorTitle + '\'' +
+                ", department='" + department + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", idImage='" + idImage + '\'' +
+                ", businessLicense='" + businessLicense + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
 }

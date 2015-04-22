@@ -45,6 +45,8 @@
     <item name="tv_forgot_pwd" type="id" />
     <item name="tv_sex" type="id" />
     <item name="tv_jianjie" type="id" />
+    <item name="tv_code" type="id" />
+    <item name="tv_num" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
