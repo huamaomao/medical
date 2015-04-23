@@ -15,6 +15,7 @@ import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
+import com.rolle.doctor.ui.RegisterChooseActivity;
 import com.rolle.doctor.ui.RegisterThreeActivity;
 import com.rolle.doctor.ui.RegisterTwoActivity;
 import com.rolle.doctor.util.Util;
@@ -34,6 +35,12 @@ public class RegisterTwoPresenter extends Presenter {
     }
 
     public void doTwoRegister(){
+        if (true){
+            Bundle bundle=new Bundle();
+            bundle.putString(Constants.DATA_TEL,view.getTel());
+            ViewUtil.openActivity(RegisterChooseActivity.class, bundle, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+            return;
+        }
         model.requestModel(view.getTel(),view.getCode(),new HttpModelHandler<String>() {
                     @Override
                     protected void onSuccess(String data, Response res) {
@@ -43,7 +50,7 @@ public class RegisterTwoPresenter extends Presenter {
                                 case "200":
                                     Bundle bundle=new Bundle();
                                     bundle.putString(Constants.DATA_TEL,view.getTel());
-                                    ViewUtil.openActivity(RegisterThreeActivity.class, bundle, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                                    ViewUtil.openActivity(RegisterChooseActivity.class, bundle, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                                     break;
                                 case "300":
                                     view.msgShow(token.message);

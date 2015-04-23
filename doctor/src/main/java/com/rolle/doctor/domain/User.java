@@ -23,6 +23,7 @@ public class User implements Serializable{
     public String type;
     public String minNum;
     public String maxNum;
+    public String token;
     public String time="中午12：00";
     /*****头像地址****/
     public String headImage;
@@ -44,7 +45,7 @@ public class User implements Serializable{
     public String idImage;
     /*****营业执照图片地址****/
     public String businessLicense;
-
+    public String mobile;
     public String status;
 
     public User() {

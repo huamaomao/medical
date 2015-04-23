@@ -10,7 +10,10 @@ import com.litesuits.http.request.content.StringBody;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
+import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.model.ColumnsValue;
 import com.rolle.doctor.domain.Token;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.RequestApi;
 
 /**
@@ -28,6 +31,17 @@ public class UserModel  extends ViewModel {
      */
     public void requestModel(String token,HttpModelHandler<String> handler){
         execute(RequestApi.requestUserInfo(token),handler);
+    }
+
+    public void saveUser(User user){
+        db.save(user);
+    }
+
+    public void saveUser(){
+        QueryBuilder  builder=new QueryBuilder(User.class).columns(new String[]{"token"});
+       /* User user=db.
+        ColumnsValue cv = new ColumnsValue(new String[]{"phone"});*/
+
     }
 
     /***

@@ -37,6 +37,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:hint="输入手机号"
+                android:text="18521569425"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

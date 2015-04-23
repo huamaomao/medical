@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.common.fragment.LoadingFragment;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.Constants;
 import com.android.common.util.ViewUtil;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;

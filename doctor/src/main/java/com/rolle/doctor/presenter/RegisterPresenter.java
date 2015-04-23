@@ -36,6 +36,12 @@ public class RegisterPresenter extends Presenter {
     }
 
    public void doFirstRegister(){
+     if (true){
+         Bundle bundle=new Bundle();
+         bundle.putString(Constants.DATA_TEL,view.getTel());
+         ViewUtil.openActivity(RegisterTwoActivity.class,bundle,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+         return;
+     }
        view.showLoading();
         model.requestModel(view.getTel(),new HttpModelHandler<String>() {
             @Override

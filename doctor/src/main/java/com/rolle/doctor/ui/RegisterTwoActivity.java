@@ -23,6 +23,7 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
     @InjectView(R.id.btn_send)Button btn_send;
     @InjectView(R.id.tv_tel_code)TextView tv_tel_code;
     @InjectView(R.id.et_code)EditText et_code;
+    @InjectView(R.id.et_pwd)EditText et_pwd;
     private String tel;
     private RegisterTwoPresenter presenter;
 
@@ -97,9 +98,6 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
         return et_code.getText().toString();
     }
 
-    /***
-     * 15m
-     */
     public void timeSendStart(){
         downTimer.start();
     }
