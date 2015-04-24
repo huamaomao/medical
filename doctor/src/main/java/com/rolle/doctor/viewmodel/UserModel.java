@@ -89,10 +89,14 @@ public class UserModel  extends ViewModel {
 
 
     public Token getToken(){
+        if (token==null){
+            token=db.queryById(1,Token.class);
+        }
         return token;
     }
     public void setToken(Token token){
         UserModel.token=token;
+        db.save(token);
     }
 
     /*****

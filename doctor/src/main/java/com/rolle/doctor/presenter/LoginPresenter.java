@@ -30,7 +30,18 @@ public class LoginPresenter extends Presenter {
         model=new UserModel(view.getContext());
     }
 
+    public void initUser(){
+       Token token =model.getToken();
+        if (token!=null){
+            view.setTel(token.tel);
+        }
+    }
+
    public void doLogin(){
+       if (true){
+           ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+           return;
+       }
        view.showLoading();
        model.requestModel(view.getTel(),view.getPwd(),new HttpModelHandler<String>(){
            @Override
@@ -40,10 +51,12 @@ public class LoginPresenter extends Presenter {
                if (CommonUtil.notNull(token)){
                    switch (token.statusCode){
                        case "200":
-                           model.setToken(token);
-                           doGetUserInfo();
-                           //ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-                           break;
+                          token.tel=view.getTel();
+                          token.status=1;
+                          model.setToken(token);
+                          doGetUserInfo();
+                          ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                          break;
                        case "300":
                             view.msgShow("登陆失败账号或密码错误.....");
                            break;
@@ -108,7 +121,8 @@ public class LoginPresenter extends Presenter {
 
     public static interface ILogin extends IView{
          String getTel();
-         String getPwd();
+        String getPwd();
+        void  setTel(String tel);
     }
 
 }

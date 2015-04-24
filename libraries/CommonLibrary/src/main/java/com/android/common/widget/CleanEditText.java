@@ -44,13 +44,18 @@ public class CleanEditText extends EditText {
     public void init() {
         imgDel = getResources().getDrawable(R.drawable.icon_delete);
 
-        setDrawble();
+
         // 对EditText文本状态监听
         this.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
+                if (count>0){
+                    setDrawble();
+                }else {
+                    cleanDrawble();
+                }
             }
 
             @Override
@@ -60,7 +65,7 @@ public class CleanEditText extends EditText {
 
             @Override
             public void afterTextChanged(Editable s) {
-                setDrawble();
+
             }
         });
     }
@@ -70,6 +75,9 @@ public class CleanEditText extends EditText {
      */
     public void setDrawble() {
         this.setCompoundDrawablesWithIntrinsicBounds(null, null,imgDel, null);
+    }
+    public void cleanDrawble(){
+        this.setCompoundDrawablesWithIntrinsicBounds(null, null,null, null);
     }
 
     /***

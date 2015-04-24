@@ -8,5 +8,8 @@ import com.android.common.domain.ResponseMessage;
  * @date 2015/4/21 - 13:59
  */
 public class Token extends ResponseMessage {
+    public int id=1;
     public String token;
+    public String tel;
+    public int status=0;
 }

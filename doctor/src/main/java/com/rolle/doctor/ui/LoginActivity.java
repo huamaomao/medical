@@ -41,7 +41,11 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
         setContentView(R.layout.activity_login);
         presenter=new LoginPresenter(this);
 
+
     }
+
+
+
 
     @OnClick(R.id.btn_login)
     void doLogin(){
@@ -86,6 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
                 }
             }
         });
+        presenter.initUser();
     }
 
     @Override
@@ -96,5 +101,10 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     @Override
     public String getPwd() {
         return etPwd.getText().toString();
+    }
+
+    @Override
+    public void setTel(String tel) {
+        etPwd.setText(tel);
     }
 }
