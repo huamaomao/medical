@@ -52,7 +52,6 @@ public class LoginPresenter extends Presenter {
                    switch (token.statusCode){
                        case "200":
                           token.tel=view.getTel();
-                          token.status=1;
                           model.setToken(token);
                           doGetUserInfo();
                           ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
@@ -101,6 +100,10 @@ public class LoginPresenter extends Presenter {
                     switch (user.statusCode){
                         case "200":
                             Log.d(user.user);
+                            // 更新 token id
+                            model.getToken().userId=user.user.id;
+                            model.setToken(model.getToken());
+                            model.db.save(user.user);
                             model.db.save(user.user);
                             Log.d(model.db.queryById(user.user.id, User.class));
                             ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);

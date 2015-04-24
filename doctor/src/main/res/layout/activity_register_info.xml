@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+    <include layout="@layout/toolbar" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/write"
+       >
+        <TextView
+            android:text="姓名"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_16"
+            android:layout_width="45dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+        <com.android.common.widget.CleanEditText
+            android:id="@id/et_name"
+            android:layout_width="0px"
+            android:textSize="@dimen/font_size_16"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <include layout="@layout/public_wrap_recycler_view" />
+</LinearLayout>

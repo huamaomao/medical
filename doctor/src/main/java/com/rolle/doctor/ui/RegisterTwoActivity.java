@@ -18,7 +18,7 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPresenter.IRegisterView{
+public class RegisterTwoActivity extends BaseLoadingActivity implements RegisterTwoPresenter.IRegisterView{
 
     @InjectView(R.id.btn_send)Button btn_send;
     @InjectView(R.id.tv_tel_code)TextView tv_tel_code;
@@ -74,6 +74,7 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
         builder.append(tel);
         tv_tel_code.setText(builder.toString());
         timeSendStart();
+        loadingFragment.setMessage("正在提交数据...");
 
     }
 
@@ -96,6 +97,11 @@ public class RegisterTwoActivity extends BaseActivity implements RegisterTwoPres
     @Override
     public String getCode() {
         return et_code.getText().toString();
+    }
+
+    @Override
+    public String getPwd() {
+        return et_pwd.getText().toString();
     }
 
     public void timeSendStart(){

@@ -20,28 +20,32 @@ import java.util.List;
 import butterknife.InjectView;
 
 /**
- * Created by Hua_ on 2015/3/27.
+ * 职称
  */
-public class RegisterChooseActivity extends BaseActivity implements RegisterChoosePresenter.IRegisterView{
+public class RegisterTitleActivity extends BaseActivity implements RegisterChoosePresenter.IRegisterView{
 
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
     private RegisterChoosePresenter presenter;
     private DoctorListAdpater adpater;
+    private  String tel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_choose);
         presenter=new RegisterChoosePresenter(this);
+        tel=getIntent().getStringExtra(Constants.DATA_TEL);
     }
 
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("我的");
+        setBackActivity("职称");
         List<String> startData=new ArrayList<String>();
-        startData.add("医生");
-        startData.add("营养师");
+        startData.add("住院医师");
+        startData.add("主治医师");
+        startData.add("主任医师");
+        startData.add("副主任医师");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_view.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rv_view.setLayoutManager(layoutManager);
@@ -53,6 +57,11 @@ public class RegisterChooseActivity extends BaseActivity implements RegisterChoo
                 adpater.setIndex(position);
             }
         }));
+
+    }
+
+
+    public void doNext(){
 
     }
 

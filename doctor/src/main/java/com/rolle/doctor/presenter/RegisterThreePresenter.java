@@ -40,7 +40,7 @@ public class RegisterThreePresenter extends Presenter {
 
    public void doRegister(){
        view.showLoading();
-       model.requestModel(view.getTel(),view.getNickName(),view.getPwd(),view.getType(),new HttpModelHandler<String>() {
+      /* model.requestModel(view.getTel(),view.getNickName(),view.getPwd(),view.getType(),new HttpModelHandler<String>() {
                    @Override
                    protected void onSuccess(String data, Response res) {
                        Token token=res.getObject(Token.class);
@@ -79,7 +79,7 @@ public class RegisterThreePresenter extends Presenter {
                view.msgShow("昵称错误,包含中文A-Za-z0-9_");
                view.hideLoading();
            }
-       });
+       });*/
     }
 
 

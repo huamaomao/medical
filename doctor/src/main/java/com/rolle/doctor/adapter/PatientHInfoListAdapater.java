@@ -74,7 +74,6 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
 
     public  static class ViewHolder extends RecyclerView.ViewHolder{
         TextView title,desc;
-
         public ViewHolder(View itemView) {
             super(itemView);
             title=(TextView)itemView.findViewById(R.id.tv_item_0);

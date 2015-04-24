@@ -36,40 +36,19 @@ public class RegisterModel extends ViewModel{
         execute(RequestApi.requestTelCode(tel),listener);
     }
 
-    /***
-     *@Description 验证短信
-     * @param tel
-     * @param code
-     * @param listener
-     */
-    public void  requestModel(String tel,String code, final HttpModelHandler<String> listener,OnCheckValidationListener onCheckValidationListener){
-        if (!CommonUtil.isMobileNO(tel)){
-            if (CommonUtil.notNull(onCheckValidationListener)){
-                onCheckValidationListener.errorTelNull();
-            }
-            return;
-        }else if(CommonUtil.isEmpty(code)){
-            if (CommonUtil.notNull(onCheckValidationListener)){
-                onCheckValidationListener.errorCodeNull();
-            }
-            return;
-        }
-        execute(RequestApi.requestCheckTelCode(tel, code),listener);
-    }
+
 
     /*****
      * @Description  注册填写用户名
      * @param tel
-     * @param nickName
+     * @param verifycode
      * @param password
-     * @param typeId
      * @param listener
      * @param onValidationListener
      */
-    public void  requestModel(String tel,String nickName,String password,String typeId,final HttpModelHandler<String> listener,OnUserValidationListener onValidationListener){
-        if (!CommonUtil.checkName(nickName)){
-            onValidationListener.errorNickName();
-            return;
+    public void  requestRegister(String tel,String verifycode,String password,final HttpModelHandler<String> listener,OnUserValidationListener onValidationListener){
+        if (CommonUtil.isEmpty(verifycode)||verifycode.length()<6){
+            onValidationListener.errorCode();
         }
         if (!CommonUtil.checkPassword(password)){
             onValidationListener.errorPwd();
@@ -80,7 +59,7 @@ public class RegisterModel extends ViewModel{
             onValidationListener.errorPwd();
             return;
         }
-        execute(RequestApi.requestRegister(tel,nickName,password,typeId),listener);
+        execute(RequestApi.requestRegister(tel,verifycode,password),listener);
     }
 
 
@@ -88,12 +67,9 @@ public class RegisterModel extends ViewModel{
         void errorTelNull();
     }
 
-    public static  interface OnCheckValidationListener extends OnValidationListener{
-        void errorCodeNull();
-    }
     public static  interface OnUserValidationListener{
         void errorPwd();
-        void errorNickName();
+        void errorCode();
     }
 
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style">
+    <TextView
+        android:text="姓名"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_16"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content" />
+    <com.android.common.widget.CleanEditText
+        android:id="@id/et_name"
+        android:layout_width="0px"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -11,5 +11,10 @@ public class Token extends ResponseMessage {
     public int id=1;
     public String token;
     public String tel;
-    public int status=0;
+    public int userId;
+    /*******
+     * 0   1-3
+     */
+
+
 }

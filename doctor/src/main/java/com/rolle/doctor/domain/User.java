@@ -48,6 +48,16 @@ public class User implements Serializable{
     public String mobile;
     public String status;
 
+    public int state=STATUS_REGISTER;
+    /*****注册成功***/
+    public static final int STATUS_REGISTER=1;
+    /*****第一步***/
+    public static final int STATUS_FIRST=2;
+    /*****第二步***/
+    public static final int STATUS_TWO=3;
+    /*****第三步***/
+    public static final int STATUS_SUCCESS=4;
+
     public User() {
     }
 
