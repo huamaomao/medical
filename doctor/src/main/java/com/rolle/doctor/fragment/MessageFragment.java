@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.MessageListAdapter;
 import com.rolle.doctor.domain.User;
@@ -25,6 +26,8 @@ import butterknife.OnItemClick;
  */
 public class MessageFragment extends BaseFragment{
 
+    @InjectView(R.id.refresh)
+    PullRefreshLayout refresh;
     @InjectView(R.id.lv_list) ListView lsList;
     private List<User> lsData;
 
@@ -55,6 +58,15 @@ public class MessageFragment extends BaseFragment{
         lsData.add(new User("多喝水","23","1",R.drawable.icon_people_3,"萌萌","0"));
         quickAdapter=new MessageListAdapter(getActivity(),lsData);
         lsList.setAdapter(quickAdapter);
+        refresh.setRefreshStyle(PullRefreshLayout.STYLE_CIRCLES);
+        //layout.setColorSchemeColors(int []);
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(false);
+            }
+        });
+        refresh.setRefreshing(false);
     }
 
     @Override

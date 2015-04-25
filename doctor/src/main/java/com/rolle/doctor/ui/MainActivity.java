@@ -1,6 +1,7 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
@@ -13,7 +14,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends BaseActivity {
 
-     @InjectView(R.id.rg_group) RadioGroup rgGroup;
+    @InjectView(R.id.rg_group) RadioGroup rgGroup;
+    private int index=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +48,20 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            index++;
+            if (index==1){
+                msgShow("再按一次退出客户端");
+            }else if(index==2){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+            return true;
+        }
+        index=0;
+        return false;
     }
 }

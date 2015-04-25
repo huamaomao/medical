@@ -13,7 +13,7 @@
     <item name="toolbar_register" type="id" />
     <item name="toolbar_login" type="id" />
     <item name="toolbar_add" type="id" />
-
+    <item name="refresh" type="id" />
 
    <!--   rbtn    -->
     <item name="rg_group" type="id"/>

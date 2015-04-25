@@ -27,9 +27,11 @@ public class UrlEncodedFormBody extends StringBody {
         for (NameValuePair p : list) {
             if (!isF) sb.append(Consts.AND);
             else isF = false;
-            sb.append(URLEncoder.encode(p.getName()))
-                    .append(Consts.EQUALS)
-                    .append(URLEncoder.encode(p.getValue()));
+            if (null!=p.getValue()){
+                sb.append(URLEncoder.encode(p.getName()))
+                        .append(Consts.EQUALS)
+                        .append(URLEncoder.encode(p.getValue()));
+            }
         }
         return sb.toString();
     }

@@ -1,6 +1,7 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -39,7 +40,7 @@ public class FriendActivity extends BaseActivity{
         setBackActivity("添加朋友");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         lvView.setLayoutManager(layoutManager);
-        lvView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        lvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         data=new ArrayList<User>();
         data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0","0"));
         data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0","1"));
@@ -47,6 +48,7 @@ public class FriendActivity extends BaseActivity{
         lvView.setLayoutManager(layoutManager);
         adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_FRIEND);
         lvView.setAdapter(adapater);
+        lvView.setItemAnimator(new DefaultItemAnimator());
         adapater.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {

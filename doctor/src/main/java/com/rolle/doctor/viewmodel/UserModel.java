@@ -92,7 +92,7 @@ public class UserModel  extends ViewModel {
         if (token==null){
             token=db.queryById(1,Token.class);
         }
-        return token;
+        return token==null?new Token():token;
     }
     public void setToken(Token token){
         UserModel.token=token;

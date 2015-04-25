@@ -11,5 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         />
-    <include layout="@layout/pulic_listview" />
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/pulic_listview" />
+     </com.baoyz.widget.PullRefreshLayout>
 </LinearLayout>
