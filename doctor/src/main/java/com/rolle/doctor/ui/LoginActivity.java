@@ -28,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin{
+public class LoginActivity extends BaseLoadingActivity implements LoginPresenter.ILogin{
 
     @InjectView(R.id.iv_photo)ImageView ivLogo;
     @InjectView(R.id.ll_login)InputMethodLinearLayout llLogin;
@@ -105,6 +105,6 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
     @Override
     public void setTel(String tel) {
-        etPwd.setText(tel);
+        etTel.setText(tel);
     }
 }

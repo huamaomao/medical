@@ -38,10 +38,6 @@ public class LoginPresenter extends Presenter {
     }
 
    public void doLogin(){
-       if (true){
-           ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-           return;
-       }
        view.showLoading();
        model.requestModel(view.getTel(),view.getPwd(),new HttpModelHandler<String>(){
            @Override
