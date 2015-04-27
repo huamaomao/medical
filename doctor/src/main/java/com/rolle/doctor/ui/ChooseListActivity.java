@@ -1,5 +1,6 @@
 package com.rolle.doctor.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.presenter.ChooseListPresenter;
 import com.rolle.doctor.presenter.LoginPresenter;
+import com.rolle.doctor.util.Constants;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -47,7 +49,18 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("");
+        final int type=getIntent().getIntExtra(Constants.TYPE,0);
+        String title=null;
+        switch (type){
+            case 0:
+                title="选择省份";
+            case 1:
+                title="选择城市";
+            case 2:
+                title="选择科室";
+                break;
+        }
+        setBackActivity(title);
         final List<Map.Entry<String,String>> data=new ArrayList<>();
         data.add(new AbstractMap.SimpleEntry("1","2"));
         data.add(new AbstractMap.SimpleEntry("1","2"));
@@ -74,13 +87,18 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
         adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {
             @Override
             public void onClick(View v, int position) {
-
+                Intent intent=new Intent();
+                intent.putExtra(Constants.TYPE,type);
+                intent.putExtra(Constants.POSITION,position);
+                setResult(200,intent);
+                finish();
             }
         });
         ViewUtil.initRecyclerView(rv_view,this,adapter);
     }
 
-
-
-
+    @Override
+    protected void onBackActivty() {
+        super.onBackActivty();
+    }
 }

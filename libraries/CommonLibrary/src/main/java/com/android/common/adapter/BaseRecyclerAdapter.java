@@ -113,9 +113,6 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         if (mRecyclerAdapterMethods == null)
             throw new NullPointerException("You must call implementRecyclerAdapterMethods");
-        if (i != 0 && mHeader != null) {
-            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, i - 1);
-        } else if (i != 0)
             mRecyclerAdapterMethods.onBindViewHolder(viewHolder, i);
         if (mOnClickEvent != null)
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +127,9 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (mRecyclerAdapterMethods == null)
             throw new NullPointerException("You must call implementRecyclerAdapterMethods");
+        /*      headview
         if (i == VIEW_TYPES.HEADER && mHeader != null)
-            return new ViewHolder(mHeader);
+            return new ViewHolder(mHeader);*/
         if (i == VIEW_TYPES.FIRST_VIEW && mHeader != null && mRecyclerView != null) {
             ViewHolder holder =(ViewHolder) mRecyclerView.findViewHolderForPosition(0);
             if (holder != null) {
@@ -207,11 +205,12 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
 
     @Override
     public int getItemViewType(int position) {
-        if (mRecyclerAdapterMethods == null)
+       /* if (mRecyclerAdapterMethods == null)
             throw new NullPointerException("You must call implementRecyclerAdapterMethods");
         if (position == 1)
             return VIEW_TYPES.FIRST_VIEW;
-        return position == 0 ? VIEW_TYPES.HEADER : VIEW_TYPES.NORMAL;
+        return position == 0 ? VIEW_TYPES.HEADER : VIEW_TYPES.NORMAL;*/
+        return 0;
     }
 
     /**

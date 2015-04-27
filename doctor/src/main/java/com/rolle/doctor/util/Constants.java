@@ -14,4 +14,8 @@ public interface Constants {
     public static final String USER_TYPE_DIETITAN="4";
     public static final String USER_TYPE_PATIENT="5";
 
+
+    public static  final String TYPE="type";
+    public static final String  POSITION="position";
+
 }

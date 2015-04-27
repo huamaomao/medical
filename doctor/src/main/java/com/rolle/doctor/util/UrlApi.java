@@ -15,7 +15,7 @@ public interface UrlApi{
     /***验证码**/
     public static final String TEL_CODE="send_sp/sendVerifycode.json";
     /***验证手机号与验证码是否匹配**/
-    public static final String CHECK_TEL_CODE="verifycode_sp/checkVerifycode.json";
+    //public static final String CHECK_TEL_CODE="verifycode_sp/checkVerifycode.json";
     /***注册**/
     public static final String REGISTER="user_sp/saveUser.json";
     /***登陆**/
@@ -30,6 +30,19 @@ public interface UrlApi{
     public static final String USER_PATIENT_SUM="user_sp/getfriendSum.json";
     /***我的邀请码**/
     public static final String USER_INVITE_CODE="user_sp/getInviteCodeByToken.json";
+    /***填写邀请码**/
+    public static final String USER_SAVE_CODE="invite_sp/saveInvite.json";
+    /***城市***/
+    public static final String CITY="region_sp/getRegionByParentId.json";
+    /***职称***/
+    public static final String TITLE="region_sp/getRegionByParentId.json";
+    /***修改医生***/
+    public static final String  SAVE_DOCTOR_INFO="user_sp/saveDoctor.json";
+
+
+
+
+
 
 
 

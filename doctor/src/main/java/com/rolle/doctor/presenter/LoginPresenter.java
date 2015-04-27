@@ -51,13 +51,15 @@ public class LoginPresenter extends Presenter {
                           token.tel=view.getTel();
                           model.setToken(token);
                           doGetUserInfo();
+                          view.hideLoading();
                           break;
                        case "300":
                             view.msgShow("登陆失败账号或密码错误.....");
+                            view.hideLoading();
                            break;
                    }
                }
-               view.hideLoading();
+
            }
 
            @Override
@@ -75,11 +77,15 @@ public class LoginPresenter extends Presenter {
            @Override
            public void errorPwd() {
                view.msgShow("密码格式错误，6至15位");
+               view.hideLoading();
+               return;
            }
 
            @Override
            public void errorTel() {
                view.msgShow("手机格式错误..");
+               view.hideLoading();
+               return;
            }
        });
     }
@@ -100,6 +106,7 @@ public class LoginPresenter extends Presenter {
                             model.getToken().userId=user.user.id;
                             model.setToken(model.getToken());
                             model.db.save(user.user);
+                            Log.d(model.getToken());
                            if (user.user.home==null){
                                ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                            }else {

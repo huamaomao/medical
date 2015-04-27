@@ -35,7 +35,11 @@ public class RegisterChoosePresenter extends Presenter {
            view.msgShow("请选择");
            return;
        }
-       User user=userModel.db.queryById(userModel.getToken().id,User.class);
+       Log.d(userModel.getToken());
+       User user=userModel.db.queryById(userModel.getToken().userId,User.class);
+       if (user==null){
+           return;
+       }
        user.typeId=Util.getUserType(view.getType());
        userModel.saveUser(user);
        Log.d(userModel.db.queryById(1,User.class));

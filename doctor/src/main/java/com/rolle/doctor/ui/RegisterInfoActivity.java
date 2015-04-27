@@ -32,11 +32,12 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
 
     @InjectView(R.id.et_name)
     EditText et_name;
+  @InjectView(R.id.et_hospital)
+    EditText et_hospital;
 
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
     private RegisterInfoPresenter presenter;
     private UserInfoAdapater adpater;
-    private  String tel;
     private List<ItemInfo> lsData;
 
 
@@ -61,14 +62,16 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
         lsData=new ArrayList<ItemInfo>();
         lsData.add(new ItemInfo("省份","请选择省份"));
         lsData.add(new ItemInfo("城市","请选择城市"));
-        lsData.add(new ItemInfo("医院","请选择医院"));
         lsData.add(new ItemInfo("科室","请选择科室"));
         adpater=new UserInfoAdapater(this,lsData);
         rv_view.setAdapter(adpater);
         rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ViewUtil.openActivity(ChooseListActivity.class,getContext());
+                Intent intent=new Intent(getContext(),ChooseListActivity.class);
+                intent.putExtra("type",position);
+                startActivityForResult(intent,200);
+                //ViewUtil.openActivity(ChooseListActivity.class,getContext());
             }
         }));
 
@@ -78,7 +81,10 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(requestCode+"=="+resultCode+data.getExtras());
+        if(resultCode==200){
+            Log.d(requestCode+"=="+resultCode+data.getIntExtra(com.rolle.doctor.util.Constants.TYPE,-1));
+        }
+
     }
 
     public void doNext(){
@@ -119,11 +125,11 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
 
     @Override
     public String getHospital() {
-        return lsData.get(2).desc;
+        return et_hospital.toString();
     }
 
     @Override
     public String getSection() {
-        return lsData.get(3).desc;
+        return lsData.get(2).desc;
     }
 }
