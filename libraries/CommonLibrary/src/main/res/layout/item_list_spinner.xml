@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style">
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/font_size_16"
+        android:textColor="@color/black"
+        style="@style/style_wh_wrap_h" />
+</RelativeLayout>

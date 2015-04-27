@@ -29,10 +29,9 @@ public class RegisterTitlePresenter extends Presenter {
            view.msgShow("请选择");
            return;
        }
-       User user=new User();
-       user.id=1;
-       user.type=Util.getUserType(view.getType());
-       //userModel.saveUser(user);
+       User user=userModel.db.queryById(userModel.getToken().userId,User.class);
+       user.doctorTitle=Util.getUserTitle(view.getType());
+       userModel.saveUser(user);
        Log.d(userModel.db.queryById(1,User.class));
        ViewUtil.openActivity(RegisterInfoActivity.class,view.getContext());
     }

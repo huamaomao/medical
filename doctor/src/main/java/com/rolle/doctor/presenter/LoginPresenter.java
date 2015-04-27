@@ -15,6 +15,7 @@ import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.ui.MainActivity;
+import com.rolle.doctor.ui.RegisterChooseActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 
 /**
@@ -50,7 +51,6 @@ public class LoginPresenter extends Presenter {
                           token.tel=view.getTel();
                           model.setToken(token);
                           doGetUserInfo();
-                          ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                           break;
                        case "300":
                             view.msgShow("登陆失败账号或密码错误.....");
@@ -100,9 +100,12 @@ public class LoginPresenter extends Presenter {
                             model.getToken().userId=user.user.id;
                             model.setToken(model.getToken());
                             model.db.save(user.user);
-                            model.db.save(user.user);
-                            Log.d(model.db.queryById(user.user.id, User.class));
-                            ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                           if (user.user.home==null){
+                               ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                           }else {
+                               ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                           }
+
                             break;
                         case "300":
                             break;

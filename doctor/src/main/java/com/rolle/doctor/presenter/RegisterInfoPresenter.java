@@ -25,20 +25,15 @@ public class RegisterInfoPresenter extends Presenter {
     }
 
    public void doNext(){
-       if (CommonUtil.isEmpty(view.getType())){
-           view.msgShow("请选择");
-           return;
-       }
-       User user=new User();
-       user.id=1;
-       user.type=Util.getUserType(view.getType());
-       //userModel.saveUser(user);v
-       Log.d(userModel.db.queryById(1,User.class));
-       ViewUtil.openActivity(MainActivity.class,view.getContext());
+
     }
 
 
     public static interface IRegisterView extends IView{
-        String getType();
+        String getName();
+        String  getCity();
+        String  getVisit();
+        String  getHospital();
+        String getSection();
     }
 }

@@ -35,9 +35,8 @@ public class RegisterChoosePresenter extends Presenter {
            view.msgShow("请选择");
            return;
        }
-       User user=new User();
-       user.id=1;
-       user.type=Util.getUserType(view.getType());
+       User user=userModel.db.queryById(userModel.getToken().id,User.class);
+       user.typeId=Util.getUserType(view.getType());
        userModel.saveUser(user);
        Log.d(userModel.db.queryById(1,User.class));
        ViewUtil.openActivity(RegisterTitleActivity.class,view.getContext());

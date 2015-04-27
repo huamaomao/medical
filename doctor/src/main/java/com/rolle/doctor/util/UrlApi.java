@@ -5,13 +5,13 @@ package com.rolle.doctor.util;
  */
 public interface UrlApi{
     static enum RequestUrl{
-        S("http://192.168.1.88:8080/crm/"),T("http://192.168.1.88:8080/crm/");
+        S("http://rolle.cn:8080/crm/"),T("http://192.168.1.88:8080/crm/");
         String url;
         private RequestUrl(String url){
             this.url=url;
         }
     }
-    public static final String SERVER_NAME=RequestUrl.T.url;
+    public static final String SERVER_NAME=RequestUrl.S.url;
     /***验证码**/
     public static final String TEL_CODE="send_sp/sendVerifycode.json";
     /***验证手机号与验证码是否匹配**/

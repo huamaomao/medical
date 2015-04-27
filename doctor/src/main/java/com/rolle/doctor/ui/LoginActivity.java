@@ -41,7 +41,6 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
         setContentView(R.layout.activity_login);
         presenter=new LoginPresenter(this);
 
-
     }
 
 

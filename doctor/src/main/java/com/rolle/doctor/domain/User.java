@@ -47,7 +47,8 @@ public class User implements Serializable{
     public String businessLicense;
     public String mobile;
     public String status;
-
+    public String home;
+    public String typeId;
     public int state=STATUS_REGISTER;
     /*****注册成功***/
     public static final int STATUS_REGISTER=1;

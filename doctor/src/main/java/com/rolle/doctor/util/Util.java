@@ -1,5 +1,6 @@
 package com.rolle.doctor.util;
 
+import com.android.common.util.CommonUtil;
 import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
@@ -25,6 +26,27 @@ public final class Util {
         }
         return "";
 
+    }
+
+    /****
+     * 3医生，4.营养师  5用户
+     * @param name
+     * @return
+     */
+    public static String getUserTitle(String name){
+        if (CommonUtil.isEmpty(name))return "0";
+        switch (name){
+            case "住院医师":
+                return "1";
+            case "主治医师":
+                return "2";
+            case "主任医师":
+                return "3";
+            case "副主任医师":
+                return "4";
+            default:
+                return "0";
+        }
     }
 
     public static boolean errorHandle(HttpException e,IView iView){

@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -161,5 +164,21 @@ public class ViewUtil {
 
         }
         return null;
+    }
+
+    /******
+     * initRecyclerView
+     * @param recyclerView
+     * @param context
+     */
+    public static void initRecyclerView(RecyclerView recyclerView,Context context,RecyclerView.Adapter adapter){
+        if (recyclerView==null){
+            return;
+        }
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
     }
 }
