@@ -17,6 +17,7 @@ import com.android.common.adapter.BaseRecyclerAdapter;
 import com.android.common.util.ViewUtil;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
+import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.presenter.ChooseListPresenter;
 import com.rolle.doctor.presenter.LoginPresenter;
 import com.rolle.doctor.util.Constants;
@@ -38,39 +39,38 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
 
     private ChooseListPresenter presenter;
     private BaseRecyclerAdapter adapter;
-
+    private ArrayList<CityResponse.Item> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_choose);
         presenter=new ChooseListPresenter(this);
+        items=new ArrayList<>();
     }
 
     @Override
     protected void initView() {
         super.initView();
         final int type=getIntent().getIntExtra(Constants.TYPE,0);
+        items=getIntent().getParcelableArrayListExtra(Constants.LIST);
         String title=null;
         switch (type){
             case 0:
                 title="选择省份";
+                break;
             case 1:
                 title="选择城市";
+                break;
             case 2:
                 title="选择科室";
                 break;
         }
         setBackActivity(title);
-        final List<Map.Entry<String,String>> data=new ArrayList<>();
-        data.add(new AbstractMap.SimpleEntry("1","2"));
-        data.add(new AbstractMap.SimpleEntry("1","2"));
-        data.add(new AbstractMap.SimpleEntry("1","2"));
-        data.add(new AbstractMap.SimpleEntry("1","2"));
-        adapter=new BaseRecyclerAdapter(data);
+        adapter=new BaseRecyclerAdapter(items);
         adapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
-               viewHolder.setText(R.id.tv_name,data.get(i).getValue());
+               viewHolder.setText(R.id.tv_name,items.get(i).name);
             }
 
             @Override
@@ -81,7 +81,7 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
 
             @Override
             public int getItemCount() {
-                return data.size();
+                return items.size();
             }
         });
         adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {

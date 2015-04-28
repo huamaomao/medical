@@ -9,6 +9,7 @@ import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
+import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.ui.MainActivity;
@@ -31,7 +32,7 @@ public class RegisterChoosePresenter extends Presenter {
     }
 
    public void doNext(){
-       if (CommonUtil.isEmpty(view.getType())){
+       if (CommonUtil.isNull(view.getType())){
            view.msgShow("请选择");
            return;
        }
@@ -40,7 +41,7 @@ public class RegisterChoosePresenter extends Presenter {
        if (user==null){
            return;
        }
-       user.typeId=Util.getUserType(view.getType());
+       user.typeId=view.getType().id;
        userModel.saveUser(user);
        Log.d(userModel.db.queryById(1,User.class));
        ViewUtil.openActivity(RegisterTitleActivity.class,view.getContext());
@@ -48,6 +49,6 @@ public class RegisterChoosePresenter extends Presenter {
 
 
     public static interface IRegisterView extends IView{
-        String getType();
+        CityResponse.Item getType();
     }
 }

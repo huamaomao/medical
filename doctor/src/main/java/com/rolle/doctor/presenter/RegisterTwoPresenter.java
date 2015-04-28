@@ -21,7 +21,6 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterChooseActivity;
-import com.rolle.doctor.ui.RegisterThreeActivity;
 import com.rolle.doctor.ui.RegisterTwoActivity;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.RegisterModel;

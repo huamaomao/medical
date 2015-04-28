@@ -10,15 +10,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.android.common.adapter.RecyclerItemClickListener;
-import com.android.common.util.Constants;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
-import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserInfoAdapater;
+import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.ItemInfo;
-import com.rolle.doctor.presenter.RegisterChoosePresenter;
 import com.rolle.doctor.presenter.RegisterInfoPresenter;
+import com.rolle.doctor.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +32,27 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
 
     @InjectView(R.id.et_name)
     EditText et_name;
-  @InjectView(R.id.et_hospital)
+     @InjectView(R.id.et_hospital)
     EditText et_hospital;
 
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
     private RegisterInfoPresenter presenter;
     private UserInfoAdapater adpater;
     private List<ItemInfo> lsData;
-
+    private ArrayList<CityResponse.Item> visitList;
+    private ArrayList<CityResponse.Item> cityList;
+    private ArrayList<CityResponse.Item> titleList;
+    private CityResponse.Item visit;
+    private CityResponse.Item city;
+    private CityResponse.Item titleItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_info);
         presenter=new RegisterInfoPresenter(this);
-        //tel=getIntent().getStringExtra(Constants.DATA_TEL);
+        visitList=new ArrayList<>();
+        cityList=new ArrayList<>();
     }
 
 
@@ -68,13 +74,25 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
         rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(),ChooseListActivity.class);
-                intent.putExtra("type",position);
-                startActivityForResult(intent,200);
-                //ViewUtil.openActivity(ChooseListActivity.class,getContext());
+                doChoose(position);
             }
         }));
 
+    }
+
+
+    private void doChoose(int type){
+        switch (type){
+            case 0:
+                presenter.doVisitList();
+                break;
+            case 1:
+                presenter.doCityList();
+                break;
+            case 2:
+                presenter.doTitleList();
+                break;
+        }
     }
 
 
@@ -82,7 +100,31 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==200){
-            Log.d(requestCode+"=="+resultCode+data.getIntExtra(com.rolle.doctor.util.Constants.TYPE,-1));
+            int position=data.getIntExtra(Constants.POSITION,0);
+            switch (data.getIntExtra(Constants.TYPE,-1)){
+                   case 0:
+                       visit=visitList.get(position);
+                       ItemInfo info=lsData.get(0);
+                       info.desc=visit.name;
+                       lsData.set(0,info);
+                       adpater.notifyItemChanged(0);
+                       presenter.doCityList();
+                       break;
+                    case 1:
+                        city=cityList.get(position);
+                        ItemInfo info1=lsData.get(1);
+                        info1.desc=city.name;
+                        lsData.set(1,info1);
+                        adpater.notifyItemChanged(1);
+                        break;
+                    case 2:
+                        titleItem=titleList.get(position);
+                        ItemInfo info2=lsData.get(2);
+                        info2.desc=city.name;
+                        lsData.set(2,info2);
+                        adpater.notifyItemChanged(2);
+                        break;
+            }
         }
 
     }
@@ -114,13 +156,13 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
     }
 
     @Override
-    public String getCity() {
-        return lsData.get(1).desc;
+    public CityResponse.Item getCity() {
+        return city;
     }
 
     @Override
-    public String getVisit() {
-        return lsData.get(0).desc;
+    public CityResponse.Item getVisit() {
+       return visit;
     }
 
     @Override
@@ -129,7 +171,37 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
     }
 
     @Override
-    public String getSection() {
-        return lsData.get(2).desc;
+    public CityResponse.Item getTitleItem() {
+        return titleItem;
     }
+
+    @Override
+    public void setVisitList(ArrayList<CityResponse.Item> list) {
+        visitList.clear();
+        visitList.addAll(list);
+        startListActivity(list,0);
+    }
+
+    @Override
+    public void setCityList(ArrayList<CityResponse.Item> list) {
+        cityList.clear();
+        cityList.addAll(list);
+        startListActivity(list,1);
+    }
+
+    @Override
+    public void setTitleList(ArrayList<CityResponse.Item> list) {
+        titleList.clear();
+        titleList.addAll(list);
+        startListActivity(list,2);
+    }
+
+    private void startListActivity(ArrayList<CityResponse.Item> list,int type){
+       Intent intent=new Intent(getContext(),ChooseListActivity.class);
+       intent.putExtra("type",type);
+       intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST,list);
+       startActivityForResult(intent,200);
+   }
+
+
 }

@@ -45,7 +45,8 @@
     <activity android:name=".ui.UpdatePhotoActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RegisterChooseActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RegisterTitleActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>

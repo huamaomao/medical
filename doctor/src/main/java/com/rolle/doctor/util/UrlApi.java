@@ -35,9 +35,9 @@ public interface UrlApi{
     /***城市***/
     public static final String CITY="region_sp/getRegionByParentId.json";
     /***职称***/
-    public static final String TITLE="region_sp/getRegionByParentId.json";
+    public static final String TITLE="cd_sp/getCDByParentId.json";
     /***修改医生***/
-    public static final String  SAVE_DOCTOR_INFO="user_sp/saveDoctor.json";
+    public static final String  UPD_DOCTOR_INFO="user_sp/saveDoctor.json";
 
 
 

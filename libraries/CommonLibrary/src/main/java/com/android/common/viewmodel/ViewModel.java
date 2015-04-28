@@ -25,4 +25,11 @@ public abstract class ViewModel{
    protected void  execute(Request request,final HttpModelHandler<String> listener){
          LiteUtil.getInstance().execute(request,listener);
    }
+
+    public static interface ModelListener<T>{
+        public void model(Response response,T t);
+        public void errorModel(ModelEnum modelEnum);
+        /***最终反馈 view **/
+        public void view();
+    }
 }

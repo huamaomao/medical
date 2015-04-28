@@ -7,6 +7,7 @@ import com.litesuits.http.request.content.HttpBody;
 import com.litesuits.http.request.content.StringBody;
 import com.litesuits.http.request.content.UrlEncodedFormBody;
 import com.litesuits.http.request.param.HttpMethod;
+import com.rolle.doctor.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,77 @@ public final class RequestApi {
         param.add(new NameValuePair("token",token));
         return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
     }
+
+
+    /******
+     *   填写邀请码
+     * @param token
+     * @param inviteCode
+     * @return
+     */
+    public static Request requestSaveInviteCode(String token,String inviteCode){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_SAVE_CODE);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        param.add(new NameValuePair("inviteCode",inviteCode));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+
+    /******
+     *   获取省会 城市
+     * @param parentId
+     * @return
+     */
+    public static Request requestCity(String parentId){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.CITY);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("parentId",parentId));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *   获取职称
+     * @param parentId
+     * @return
+     */
+    public static Request requestTitle(String parentId){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.TITLE);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("parentId",parentId));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+
+    /******
+     *   修改医生
+     * @param user
+     * @return
+     */
+    public static Request requestUpdUser(User user){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.UPD_DOCTOR_INFO);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("typeId",user.typeId));
+        param.add(new NameValuePair("nickname",user.nickname));
+        param.add(new NameValuePair("email",user.email));
+        param.add(new NameValuePair("tel",user.tel));
+        param.add(new NameValuePair("sex",user.sex));
+        param.add(new NameValuePair("photoId",user.photoId));
+        param.add(new NameValuePair("intro",user.intro));
+        param.add(new NameValuePair("idCardNo",user.idCardNo));
+        param.add(new NameValuePair("address",user.address));
+        param.add(new NameValuePair("regionId",user.regionId));
+        param.add(new NameValuePair("workAddress",user.workAddress));
+        param.add(new NameValuePair("workRegionId",user.workRegionId));
+        param.add(new NameValuePair("hospitalName",user.hospitalName));
+        param.add(new NameValuePair("jobId",user.jobId));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
 
 
 

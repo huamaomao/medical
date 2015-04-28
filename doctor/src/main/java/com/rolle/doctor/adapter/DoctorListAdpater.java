@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 
 import com.rolle.doctor.R;
+import com.rolle.doctor.domain.CityResponse;
 
 import java.util.List;
 
@@ -15,10 +16,10 @@ import java.util.List;
  * Created by Administrator on 2015/4/7 0007.
  */
 public class DoctorListAdpater extends RecyclerView.Adapter<DoctorListAdpater.ViewHolder> {
-    private List<String> data;
+    private List<CityResponse.Item> data;
     private Context mContext;
     private int index=-1;
-    public DoctorListAdpater(Context mContext, List<String> data) {
+    public DoctorListAdpater(Context mContext, List<CityResponse.Item> data) {
         this.mContext = mContext;
         this.data = data;
     }
@@ -28,7 +29,7 @@ public class DoctorListAdpater extends RecyclerView.Adapter<DoctorListAdpater.Vi
         notifyDataSetChanged();
     }
 
-    public String getIndex() {
+    public CityResponse.Item getIndex() {
         if (index==-1)
             return null;
         return data.get(index);
@@ -46,7 +47,7 @@ public class DoctorListAdpater extends RecyclerView.Adapter<DoctorListAdpater.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvValue.setText(data.get(position));
+        holder.tvValue.setText(data.get(position).name);
         holder.tvValue.setChecked(false);
         holder.tvValue.setBackgroundResource(R.color.write);
         if (index==position)

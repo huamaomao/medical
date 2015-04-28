@@ -5,6 +5,10 @@ import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
+import com.rolle.doctor.domain.CityResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Hua_
@@ -14,18 +18,13 @@ import com.litesuits.http.exception.HttpServerException;
 public final class Util {
     /****
      * 3医生，4.营养师  5用户
-     * @param name
      * @return
      */
-    public static String getUserType(String name){
-        if ("医生".equals(name)){
-            return "3";
-        }
-        if ("营养师".equals(name)){
-            return "4";
-        }
-        return "";
-
+    public static  List<CityResponse.Item> getUserTypeList(){
+        List<CityResponse.Item> list=new ArrayList<>();
+        list.add(new CityResponse.Item("3","医生"));
+        list.add(new CityResponse.Item("4","营养师"));
+        return list;
     }
 
     /****

@@ -11,6 +11,7 @@ import com.android.common.util.Constants;
 import com.android.common.util.DividerItemDecoration;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.DoctorListAdpater;
+import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.presenter.RegisterTitlePresenter;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,13 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
     private RegisterTitlePresenter presenter;
     private DoctorListAdpater adpater;
-    private  String tel;
+    private List<CityResponse.Item> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_choose);
         presenter=new RegisterTitlePresenter(this);
-        tel=getIntent().getStringExtra(Constants.DATA_TEL);
+        list=new ArrayList<>();
     }
 
 
@@ -38,16 +39,10 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
     protected void initView() {
         super.initView();
         setBackActivity("职称");
-        List<String> startData=new ArrayList<String>();
-        startData.add("住院医师");
-        startData.add("主治医师");
-        startData.add("主任医师");
-        startData.add("副主任医师");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_view.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rv_view.setLayoutManager(layoutManager);
-
-        adpater=new DoctorListAdpater(this,startData);
+        adpater=new DoctorListAdpater(this,list);
         rv_view.setAdapter(adpater);
         rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -55,13 +50,9 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
                 adpater.setIndex(position);
             }
         }));
-
+        presenter.doLoad();
     }
 
-
-    public void doNext(){
-        presenter.doNext();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -79,9 +70,16 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
-    public String getType() {
+    public CityResponse.Item getTitleItem() {
         return adpater.getIndex();
     }
 
+    @Override
+    public void setTitleList(ArrayList<CityResponse.Item> list) {
+       this.list.clear();
+       this.list.addAll(list);
+       adpater.notifyDataSetChanged();
+    }
 }

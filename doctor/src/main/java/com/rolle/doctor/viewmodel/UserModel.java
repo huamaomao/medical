@@ -2,6 +2,7 @@ package com.rolle.doctor.viewmodel;
 
 import android.content.Context;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.MD5;
@@ -24,7 +25,7 @@ public class UserModel  extends ViewModel {
     public  DataBase db;
 
     public UserModel(Context context){
-          this.db=LiteOrm.newCascadeInstance(context,"doctor.db");
+          this.db=LiteOrm.newCascadeInstance(context, com.rolle.doctor.util.Constants.DB_NAME);
     }
     /****
      * 获取个人资料
@@ -103,8 +104,8 @@ public class UserModel  extends ViewModel {
      *
      * @param
      */
-    public void requestModel(){
-
+    public void requestUpdateUser(User user,HttpModelHandler<String> handler){
+        execute(RequestApi.requestUpdUser(user),handler);
     }
 
     public static  interface OnValidationListener{

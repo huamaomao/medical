@@ -14,11 +14,26 @@ import java.lang.reflect.Type;
 public class User implements Serializable{
 
     public int id;
-    public String nickName;
-    private String photo;
-    private String sex;
-    private String age;
-    private String remarks;
+    public String nickname;
+    public String photo;
+    public String photoId;
+    public String email;
+    public String intro;
+    public String idCardNo;
+    public String address;
+    public String regionId;
+    /***工作地址**/
+    public String workAddress;
+    /***地区**/
+    public String workRegionId;
+    /**医生职称***/
+    public String jobId;
+    /***所在医院**/
+    public String hospitalName;
+    public String tel;
+    public String sex;
+    public String age;
+    public String remarks;
     public int resId;
     public String type;
     public String minNum;
@@ -67,7 +82,7 @@ public class User implements Serializable{
         this.age = age;
         this.sex = sex;
         this.resId = resId;
-        this.nickName = nickName;
+        this.nickname = nickName;
         this.type=type;
     }
     public User(String remarks, String age, String sex, int resId, String nickName,String type,String status) {
@@ -75,7 +90,7 @@ public class User implements Serializable{
         this.age = age;
         this.sex = sex;
         this.resId = resId;
-        this.nickName = nickName;
+        this.nickname = nickName;
         this.type=type;
         this.status=status;
     }
@@ -83,7 +98,7 @@ public class User implements Serializable{
 
     public User(int resId, String nickName, String remarks, String sex, String age, String minNum, String maxNum) {
         this.resId = resId;
-        this.nickName = nickName;
+        this.nickname = nickName;
         this.remarks = remarks;
         this.sex = sex;
         this.age = age;
@@ -124,11 +139,11 @@ public class User implements Serializable{
     }
 
     public String getNickName() {
-        return nickName;
+        return nickname;
     }
 
     public void setNickName(String nickName) {
-        this.nickName = nickName;
+        this.nickname = nickName;
     }
 
     public String getType() {
@@ -143,7 +158,7 @@ public class User implements Serializable{
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", nickName='" + nickName + '\'' +
+                ", nickName='" + nickname + '\'' +
                 ", photo='" + photo + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age='" + age + '\'' +
