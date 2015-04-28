@@ -190,15 +190,20 @@ public final class RequestApi {
         param.add(new NameValuePair("email",user.email));
         param.add(new NameValuePair("tel",user.tel));
         param.add(new NameValuePair("sex",user.sex));
+        param.add(new NameValuePair("age",user.age));
         param.add(new NameValuePair("photoId",user.photoId));
         param.add(new NameValuePair("intro",user.intro));
         param.add(new NameValuePair("idCardNo",user.idCardNo));
         param.add(new NameValuePair("address",user.address));
         param.add(new NameValuePair("regionId",user.regionId));
+        param.add(new NameValuePair("specialty",user.specialty));
         param.add(new NameValuePair("workAddress",user.workAddress));
         param.add(new NameValuePair("workRegionId",user.workRegionId));
         param.add(new NameValuePair("hospitalName",user.hospitalName));
+        param.add(new NameValuePair("hospitalAddress",user.hospitalAddress));
         param.add(new NameValuePair("jobId",user.jobId));
+        param.add(new NameValuePair("token",user.token));
+        param.add(new NameValuePair("doctorTitle",user.doctorTitle));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 

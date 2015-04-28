@@ -28,7 +28,7 @@ import butterknife.InjectView;
 /****
  * 基本资料
  */
-public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPresenter.IRegisterView{
+public class RegisterInfoActivity extends BaseLoadingActivity implements RegisterInfoPresenter.IRegisterView{
 
     @InjectView(R.id.et_name)
     EditText et_name;
@@ -53,6 +53,7 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
         presenter=new RegisterInfoPresenter(this);
         visitList=new ArrayList<>();
         cityList=new ArrayList<>();
+        titleList=new ArrayList<>();
     }
 
 
@@ -60,7 +61,6 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
     protected void initView() {
         super.initView();
         setBackActivity("基本资料");
-        List<String> startData=new ArrayList<String>();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_view.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -120,7 +120,7 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
                     case 2:
                         titleItem=titleList.get(position);
                         ItemInfo info2=lsData.get(2);
-                        info2.desc=city.name;
+                        info2.desc=titleItem.name;
                         lsData.set(2,info2);
                         adpater.notifyItemChanged(2);
                         break;
@@ -167,7 +167,7 @@ public class RegisterInfoActivity extends BaseActivity implements RegisterInfoPr
 
     @Override
     public String getHospital() {
-        return et_hospital.toString();
+        return et_hospital.getText().toString();
     }
 
     @Override

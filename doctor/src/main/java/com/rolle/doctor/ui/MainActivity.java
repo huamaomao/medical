@@ -9,18 +9,23 @@ import com.rolle.doctor.fragment.AddressListFragment;
 import com.rolle.doctor.fragment.FriendFragment;
 import com.rolle.doctor.fragment.MessageFragment;
 import com.rolle.doctor.fragment.MyFragment;
+import com.rolle.doctor.presenter.FriendListPresenter;
+import com.rolle.doctor.presenter.FriendPresenter;
+
 import butterknife.InjectView;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FriendListPresenter.IFriendView{
 
     @InjectView(R.id.rg_group) RadioGroup rgGroup;
     private int index=0;
-
+    private FriendListPresenter presente;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        presente=new FriendListPresenter(this);
+        presente.initFriendList();
     }
 
     @Override

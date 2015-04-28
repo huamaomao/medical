@@ -62,7 +62,7 @@ public class RegisterChooseActivity extends BaseActivity implements RegisterChoo
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
-            case R.id.toolbar_register:
+            case R.id.toolbar_next:
                 presenter.doNext();
                 return true;
         }
@@ -71,7 +71,7 @@ public class RegisterChooseActivity extends BaseActivity implements RegisterChoo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_register,menu);
+        getMenuInflater().inflate(R.menu.menu_next,menu);
         return super.onCreateOptionsMenu(menu);
     }
 

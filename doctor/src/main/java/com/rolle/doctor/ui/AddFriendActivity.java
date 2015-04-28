@@ -1,7 +1,6 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
@@ -26,9 +25,14 @@ public class AddFriendActivity extends BaseActivity{
         setBackActivity("添加朋友");
     }
 
-    @OnClick(R.id.ll_yaoqing)
-    void toYaoqing(){
-        ViewUtil.openActivity(MyYaoqingActivity.class, this);
+    @OnClick(R.id.ll_invite)
+    void doInvite(){
+        ViewUtil.openActivity(MyInviteCodeActivity.class, this);
+    }
+
+    @OnClick(R.id.ll_scanning)
+    void doScanning(){
+       // ViewUtil.openActivity(MyInviteCodeActivity.class, this);
     }
 
 }

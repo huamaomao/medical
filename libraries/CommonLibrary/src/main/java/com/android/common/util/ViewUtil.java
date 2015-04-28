@@ -33,6 +33,9 @@ public class ViewUtil {
     public static void openActivity(Class<?> pClass,Activity activity){
         openActivity(pClass,null,activity,ActivityModel.ACTIVITY_MODEL_0,false);
     }
+    public static void openActivity(Class<?> pClass,Activity activity,boolean flag){
+        openActivity(pClass,null,activity,ActivityModel.ACTIVITY_MODEL_0,flag);
+    }
 
     public static void openActivity(Class<?> pClass, Bundle pBundle,Activity activity,ActivityModel type) {
         openActivity(pClass,pBundle,activity,type,false);

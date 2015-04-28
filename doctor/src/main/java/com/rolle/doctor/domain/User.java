@@ -12,7 +12,6 @@ import java.lang.reflect.Type;
  */
 @Table("user")
 public class User implements Serializable{
-
     public int id;
     public String nickname;
     public String photo;

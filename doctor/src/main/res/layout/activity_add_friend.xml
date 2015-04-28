@@ -31,14 +31,8 @@
      </LinearLayout>
 
     <LinearLayout
-        android:background="@color/write"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@id/ll_scanning"
+        style="@style/list_item_style">
         <ImageView
             android:src="@drawable/icon_saosao"
             android:layout_gravity="center_vertical"
@@ -64,15 +58,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
     <LinearLayout
-        android:id="@id/ll_yaoqing"
-        android:background="@color/write"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@id/ll_invite"
+        style="@style/list_item_style"
+     >
         <ImageView
             android:src="@drawable/icon_my_yaoqing"
             android:layout_marginRight="20dp"

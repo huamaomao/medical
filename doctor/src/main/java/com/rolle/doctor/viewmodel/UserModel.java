@@ -7,15 +7,21 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.MD5;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.request.content.StringBody;
+import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
+import com.litesuits.orm.db.assit.WhereBuilder;
 import com.litesuits.orm.db.model.ColumnsValue;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.RequestApi;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/4/21 0021.
@@ -73,20 +79,134 @@ public class UserModel  extends ViewModel {
     }
 
     /****
-     * 获取患者数目
+     * 获取好友列表
      */
-    public void requestModel(String token,String type,HttpModelHandler<String> handler){
-        execute(RequestApi.requestFriendList(token, type),handler);
+    public void requestFriendDoctor(final ModelListener<List<FriendResponse.Item>> listener){
+        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR),new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
+                if (CommonUtil.notNull(responseMessage)){
+                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
+                        listener.model(res,responseMessage.list);
+                        db.save(responseMessage.list);
+                    }else{
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+    /****
+     * 获取好友列表
+     */
+    public void requestFriendPatient(final ModelListener<List<FriendResponse.Item>> listener){
+        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
+                if (CommonUtil.notNull(responseMessage)){
+                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
+                        listener.model(res,responseMessage.list);
+                        db.save(responseMessage.list);
+                    }else{
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+
+    /*****
+     * 获取好友列表
+     * @param type
+     * @return
+     */
+    public List<FriendResponse.Item>  queryFriedList(String type){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().equals("typeId",type));
+         return db.<FriendResponse.Item>query(builder);
     }
 
     /****
-     * 获取患者数目
+     * 获取好友列表
+     */
+    public void requestFriendDietitan(final ModelListener<List<FriendResponse.Item>> listener){
+        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_DIETITAN),new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
+                if (CommonUtil.notNull(responseMessage)){
+                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
+                        listener.model(res,responseMessage.list);
+                        db.save(responseMessage.list);
+                    }else{
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+
+
+
+
+
+
+
+    /****
+     * 获取邀请码
      */
     public void requestModelUserCode(HttpModelHandler<String> handler){
         execute(RequestApi.requestUserInviteCode(token.token),handler);
     }
 
 
+    /****
+     * 填写邀请码
+     */
+    public void requestWriteInviteCode(String inviteCode, final ModelListener<ResponseMessage> listener){
+        execute(RequestApi.requestSaveInviteCode(getToken().token,inviteCode),new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(responseMessage)){
+                    if ("200".equals(responseMessage.statusCode)){
+                      listener.model(res,responseMessage);
+                    }else{
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
 
 
     public Token getToken(){

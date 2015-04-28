@@ -63,6 +63,7 @@ public class RegisterInfoPresenter extends Presenter {
        user.doctorTitle=view.getTitleItem().id;
        user.hospitalAddress=view.getHospital();
        user.regionId=view.getCity().id;
+       user.token=userModel.getToken().token;
        userModel.db.save(user);
        view.showLoading();
        userModel.requestUpdateUser(user,new HttpModelHandler<String>() {

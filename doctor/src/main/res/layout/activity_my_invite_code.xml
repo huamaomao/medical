@@ -34,12 +34,14 @@
     </GridLayout>
 
     <Button
+        android:id="@id/btn_invite"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/icon_yaoqing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
+        android:id="@id/btn_write"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

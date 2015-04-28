@@ -25,7 +25,7 @@
     <activity android:name=".ui.MainActivity"   android:screenOrientation="portrait"/>
     <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait"/>
     <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
-    <activity android:name=".ui.MyYaoqingActivity"   android:screenOrientation="portrait" />
+    <activity android:name=".ui.MyInviteCodeActivity"   android:screenOrientation="portrait" />
     <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />
     <activity android:name=".ui.PatientActivity"  android:screenOrientation="portrait" />
     <activity android:name=".ui.PatientHActivity"  android:screenOrientation="portrait" />
@@ -46,6 +46,8 @@
     <activity android:name=".ui.RegisterChooseActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RegisterTitleActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+    <activity android:name=".ui.WriteInviteCodeActivity" android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
