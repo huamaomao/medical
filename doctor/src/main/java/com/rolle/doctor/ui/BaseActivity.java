@@ -1,7 +1,10 @@
 package com.rolle.doctor.ui;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.rolle.doctor.R;
+import com.rolle.doctor.util.Constants;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
@@ -47,7 +52,11 @@ public class BaseActivity extends ActionBarActivity implements IView{
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTIVITY_ACTION);
+        registerReceiver(this.broadcastReceiver, filter); // 注册
         initView();
+
     }
 
 
@@ -75,7 +84,23 @@ public class BaseActivity extends ActionBarActivity implements IView{
         BaseActivity.this.onBackPressed();
     }
 
+    // 写一个广播的内部类，当收到动作时，结束activity
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            exitApp();
+            unregisterReceiver(this);
+        }
+    };
 
+
+    public void exitApp(){
+        Intent intent = new Intent();
+        intent.setAction(Constants.ACTIVITY_ACTION); // 说明动作
+        sendBroadcast(intent);// 该函数用于发送广播
+        android.os.Process.killProcess(android.os.Process.myPid());
+        finish();
+    }
 
 
     public void setTitle(String title) {
@@ -83,12 +108,6 @@ public class BaseActivity extends ActionBarActivity implements IView{
     }
 
 
-    /***
-     * home
-     */
-    protected void onHomeClick(){
-
-    }
 
     @Override
     public void showLoading() {
@@ -132,5 +151,11 @@ public class BaseActivity extends ActionBarActivity implements IView{
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
     }
 }

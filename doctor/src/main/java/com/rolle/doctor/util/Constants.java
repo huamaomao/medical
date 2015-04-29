@@ -30,4 +30,7 @@ public interface Constants {
     /***下路刷新样式***/
     public static final int PULL_STYLE=PullRefreshLayout.STYLE_WATER_DROP;
 
+
+    public static final String ACTIVITY_ACTION="acitivty_exit";
+
 }
