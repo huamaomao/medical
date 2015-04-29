@@ -30,7 +30,7 @@ public class MessageListAdapter extends QuickAdapter<User> {
     @Override
     protected void convert(ViewHolderHelp helper, User item) {
         helper.setImageResource(R.id.iv_photo, item.resId)
-        .setText(R.id.tv_item_0,item.getNickName())
+        .setText(R.id.tv_item_0,item.getNickname())
         .setText(R.id.tv_item_1, item.getRemarks());
         TextView textView= helper.getView(R.id.tv_item_2);
         if ("0".equals(item.getSex())){

@@ -8,12 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.presenter.MyPresenter;
 import com.rolle.doctor.ui.UserInfoActivity;
 import com.rolle.doctor.ui.WalletActivity;
 
@@ -26,10 +28,13 @@ import butterknife.OnClick;
 /**
  * 我的
  */
-public class MyFragment extends BaseFragment{
+public class MyFragment extends BaseFragment implements MyPresenter.IMyView{
     @InjectView(R.id.lv_list)
     ListView lsList;
+
+    TextView tv_name;
     private List<ItemInfo> lsData;
+    private MyPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,5 +92,10 @@ public class MyFragment extends BaseFragment{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setName(String name) {
+
     }
 }

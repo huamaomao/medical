@@ -87,11 +87,12 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
     compile 'com.alibaba:fastjson:1.1.41'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.vxfc.3rd:qinjia:3.0'
+    //compile 'com.vxfc.3rd:qinjia:3.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.3.6@aar'
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.jungly:GridPasswordView:0.2'
     compile 'com.jakewharton:butterknife:6.1.0'
@@ -99,5 +100,6 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile project(':libraries:CommonLibrary')
     compile project(':libraries:LiteLibrary')
+    compile project(':libraries:GotyeLibrary')
 }
 

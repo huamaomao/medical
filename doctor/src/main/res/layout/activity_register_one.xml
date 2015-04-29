@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/write"
                 />
-            <EditText
+            <com.android.common.widget.CleanEditText
                 android:id="@id/et_tel"
                 android:textColor="@color/write"
                 android:paddingLeft="5dp"
@@ -37,7 +37,6 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:hint="输入手机号"
-                android:text="18521569425"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

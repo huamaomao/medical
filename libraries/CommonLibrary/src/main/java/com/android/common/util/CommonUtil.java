@@ -86,7 +86,7 @@ public final class CommonUtil {
      * @return
      */
     public static boolean isEmpty(String str){
-      return (null==str||"".equals(str)||"null".equals(str))?true:false;
+      return (null==str||"".equals(str.trim()))?true:false;
     }
     public static boolean notEmpty(String str){
         return (null==str||"".equals(str)||"null".equals(str))?false:true;

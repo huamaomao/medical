@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/appbg"
-    style="@style/style_wh_match_v">
-    <com.android.common.widget.SeachView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/round_bg_write"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        />
-    <com.baoyz.widget.PullRefreshLayout
-        android:id="@id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/pulic_listview" />
-     </com.baoyz.widget.PullRefreshLayout>
-</LinearLayout>
+<com.baoyz.widget.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/style_wh_match_v"
+        android:background="@color/appbg">
+        <com.android.common.widget.SeachView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_bg_write" />
+        <include layout="@layout/public_wrap_recycler_view" />
+    </LinearLayout>
+</com.baoyz.widget.PullRefreshLayout>

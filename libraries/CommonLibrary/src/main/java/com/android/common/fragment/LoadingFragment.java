@@ -61,7 +61,6 @@ public class LoadingFragment extends DialogFragment {
 
     @Override
     public void dismiss() {
-        if (getDialog()==null)return;
         super.dismiss();
     }
 }

@@ -25,7 +25,7 @@ public class WriteInviteCodeActivity extends BaseLoadingActivity implements Writ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_invite_code);
+        setContentView(R.layout.activity_write_invite_code);
     }
 
     @Override

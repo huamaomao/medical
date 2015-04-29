@@ -1,0 +1,758 @@
+﻿$axure.loadCurrentPage({
+  "url":"投诉记录.html",
+  "generationDate":new Date(1429527580996.43),
+  "isCanvasEnabled":false,
+  "variables":["OnLoadVariable"],
+  "page":{
+    "packageId":"46b9c5065b104055975aea879d9df785",
+    "type":"Axure:Page",
+    "name":"投诉记录",
+    "notes":{
+},
+    "style":{
+      "baseStyle":"627587b6038d43cca051c114ac41ad32",
+      "pageAlignment":"near",
+      "fill":{
+        "fillType":"solid",
+        "color":0xFFFFFFFF},
+      "image":null,
+      "imageHorizontalAlignment":"near",
+      "imageVerticalAlignment":"near",
+      "imageRepeat":"auto",
+      "favicon":null,
+      "sketchFactor":"0",
+      "colorStyle":"appliedColor",
+      "fontName":"应用字体",
+      "borderWidth":"0"},
+    "adaptiveStyles":{
+},
+    "interactionMap":{
+},
+    "diagram":{
+      "objects":[{
+          "id":"0e517d1fd162463bab73bf97bb186f78",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "fill":{
+              "fillType":"solid",
+              "color":0xFFF2F2F2},
+            "location":{
+              "x":20,
+              "y":20},
+            "size":{
+              "width":640,
+              "height":1136}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"dc088f3825a847808e016f0e7906cde4",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fill":{
+                  "fillType":"solid",
+                  "color":0xFFF2F2F2},
+                "location":{
+                  "x":20,
+                  "y":20},
+                "size":{
+                  "width":640,
+                  "height":1136}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/登录/u0.png"}},
+{
+          "id":"8b3baef0524247f29f4f49adbc643ac7",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":20,
+              "y":20},
+            "size":{
+              "width":640,
+              "height":130}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"8a11de9fa2544aec9f2de19bf949b570",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":20,
+                  "y":20},
+                "size":{
+                  "width":640,
+                  "height":130}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/注册/u2.png"}},
+{
+          "id":"510074d775bd4a0a90bc1b34194acad8",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"36px",
+            "fontWeight":"200",
+            "location":{
+              "x":265,
+              "y":80},
+            "size":{
+              "width":150,
+              "height":50}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"b4e94bcb6c6048709fcaae643f23ec0a",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"36px",
+                "fontWeight":"200",
+                "location":{
+                  "x":265,
+                  "y":80},
+                "size":{
+                  "width":150,
+                  "height":50}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"8be7e635cf12442393cccab18b5f17a6",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"36px",
+            "fontWeight":"200",
+            "foreGroundFill":{
+              "fillType":"solid",
+              "color":0xFF000000,
+              "opacity":1},
+            "location":{
+              "x":34,
+              "y":80},
+            "size":{
+              "width":88,
+              "height":40}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"5bf661280fcd421a93034c367fdc09b5",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"36px",
+                "fontWeight":"200",
+                "foreGroundFill":{
+                  "fillType":"solid",
+                  "color":0xFF000000,
+                  "opacity":1},
+                "location":{
+                  "x":34,
+                  "y":80},
+                "size":{
+                  "width":88,
+                  "height":40}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"ac5a2ea6e9b54ac2bf0398c2683986cf",
+          "label":"",
+          "type":"imageBox",
+          "styleType":"imageBox",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":20,
+              "y":20},
+            "size":{
+              "width":640,
+              "height":30}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"00a6ef5714c24134b1878e4ef08757ce",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":20,
+                  "y":20},
+                "size":{
+                  "width":640,
+                  "height":30}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/登录/u4.png"}},
+{
+          "id":"2571f2d5ed584b768b8f399e0ba76719",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":790,
+              "y":642},
+            "size":{
+              "width":370,
+              "height":106}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"f6bc55c3cb17411ea13fee6e047f28e1",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":790,
+                  "y":642},
+                "size":{
+                  "width":370,
+                  "height":106}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/评论记录/u10.png"}},
+{
+          "id":"d2edde99a30b41838e98ab45d0b668a4",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"h1",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"28px",
+            "fontWeight":"200",
+            "fontStyle":"normal",
+            "foreGroundFill":{
+              "fillType":"solid",
+              "color":0xFFAEAEAE,
+              "opacity":1},
+            "location":{
+              "x":238,
+              "y":183},
+            "size":{
+              "width":205,
+              "height":29}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"836c3f3d4a1746489df858557a6703fd",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"28px",
+                "fontWeight":"200",
+                "fontStyle":"normal",
+                "foreGroundFill":{
+                  "fillType":"solid",
+                  "color":0xFFAEAEAE,
+                  "opacity":1},
+                "location":{
+                  "x":238,
+                  "y":183},
+                "size":{
+                  "width":205,
+                  "height":29}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"ae67933e4bf14b81a4e6d8dfa3f156a8",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":124,
+              "y":242},
+            "size":{
+              "width":336,
+              "height":73}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"676542e7581e4d1fb94a7c4496ccb61b",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":124,
+                  "y":242},
+                "size":{
+                  "width":336,
+                  "height":73}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/聊天/u33.png"}},
+{
+          "id":"3fa4a30ac9e44ed096b069206a9d0d0f",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontWeight":"200",
+            "location":{
+              "x":34,
+              "y":242},
+            "size":{
+              "width":80,
+              "height":80}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"4c3c4ad859564e8c9d9226d0b48e7185",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontWeight":"200",
+                "location":{
+                  "x":34,
+                  "y":242},
+                "size":{
+                  "width":80,
+                  "height":80}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/消息/u22.png"}},
+{
+          "id":"76e570487b124834ac2597f2515243a2",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"25px",
+            "fontWeight":"200",
+            "location":{
+              "x":138,
+              "y":266},
+            "size":{
+              "width":326,
+              "height":26}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"58423313f56d484fbcbb7bcc87b00ca0",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"25px",
+                "fontWeight":"200",
+                "location":{
+                  "x":138,
+                  "y":266},
+                "size":{
+                  "width":326,
+                  "height":26}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"daf8acb2b23349f2acc9c6254f762526",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":100,
+              "y":344},
+            "size":{
+              "width":450,
+              "height":89}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"98669cafa26245baa64936aa1787fc88",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":100,
+                  "y":344},
+                "size":{
+                  "width":450,
+                  "height":89}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/聊天/u39.png"}},
+{
+          "id":"cba53e2867ee46cab0c66bab30ea0138",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontWeight":"200",
+            "location":{
+              "x":560,
+              "y":344},
+            "size":{
+              "width":80,
+              "height":80}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"103db7ddea8e43979678c5ded11b5b0c",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontWeight":"200",
+                "location":{
+                  "x":560,
+                  "y":344},
+                "size":{
+                  "width":80,
+                  "height":80}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/消息/u22.png"}},
+{
+          "id":"972fd704583b4146aeedae08bd459e09",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"25px",
+            "fontWeight":"200",
+            "location":{
+              "x":124,
+              "y":363},
+            "size":{
+              "width":426,
+              "height":66}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"9cfc24fb368f413db2b8b797bc81a3e8",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"25px",
+                "fontWeight":"200",
+                "location":{
+                  "x":124,
+                  "y":363},
+                "size":{
+                  "width":426,
+                  "height":66}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"d8affe22821a47abb0ed24c39984e260",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":124,
+              "y":459},
+            "size":{
+              "width":336,
+              "height":73}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"5ee197de53504261833b927bcd3bfcfa",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "location":{
+                  "x":124,
+                  "y":459},
+                "size":{
+                  "width":336,
+                  "height":73}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/聊天/u33.png"}},
+{
+          "id":"4226ef2b45fe48009a3c69850d25b0a4",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"buttonShape",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontWeight":"200",
+            "location":{
+              "x":34,
+              "y":459},
+            "size":{
+              "width":80,
+              "height":80}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"cdcf239205a940ed8bd5564079720985",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontWeight":"200",
+                "location":{
+                  "x":34,
+                  "y":459},
+                "size":{
+                  "width":80,
+                  "height":80}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"images/消息/u22.png"}},
+{
+          "id":"53cedbe2cc174eee95951bad5bfb2903",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+            "fontSize":"25px",
+            "fontWeight":"200",
+            "location":{
+              "x":138,
+              "y":483},
+            "size":{
+              "width":251,
+              "height":53}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"1218b14a145d4035bf8a493e1b1f8c65",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontName":"'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC'",
+                "fontSize":"25px",
+                "fontWeight":"200",
+                "location":{
+                  "x":138,
+                  "y":483},
+                "size":{
+                  "width":251,
+                  "height":53}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"053b9482ab66403bbda5f8690a8bc148",
+          "label":"",
+          "type":"buttonShape",
+          "styleType":"paragraph",
+          "visible":true,
+          "style":{
+            "fontSize":"36px",
+            "location":{
+              "x":800,
+              "y":654},
+            "size":{
+              "width":330,
+              "height":81}},
+          "adaptiveStyles":{
+},
+          "objects":[{
+              "id":"1005111c32c140edaeec2eefa175b3c8",
+              "label":"",
+              "isContained":true,
+              "type":"richTextPanel",
+              "styleType":"paragraph",
+              "visible":true,
+              "style":{
+                "fontSize":"36px",
+                "location":{
+                  "x":800,
+                  "y":654},
+                "size":{
+                  "width":330,
+                  "height":81}},
+              "adaptiveStyles":{
+}}],
+          "images":{
+            "normal~":"resources/images/transparent.gif"}},
+{
+          "id":"53244469c53c4352b142c68192cfdeb1",
+          "label":"",
+          "type":"horizontalLine",
+          "styleType":"horizontalLine",
+          "visible":true,
+          "style":{
+            "location":{
+              "x":580,
+              "y":690},
+            "size":{
+              "width":200,
+              "height":10}},
+          "adaptiveStyles":{
+},
+          "images":{
+            "start~":"resources/images/transparent.gif",
+            "end~":"resources/images/transparent.gif",
+            "line~":"images/评论记录/u34_line.png"}}]}},
+  "masters":{
+},
+  "objectPaths":{
+    "0e517d1fd162463bab73bf97bb186f78":{
+      "scriptId":"u0"},
+    "dc088f3825a847808e016f0e7906cde4":{
+      "scriptId":"u1"},
+    "8b3baef0524247f29f4f49adbc643ac7":{
+      "scriptId":"u2"},
+    "8a11de9fa2544aec9f2de19bf949b570":{
+      "scriptId":"u3"},
+    "510074d775bd4a0a90bc1b34194acad8":{
+      "scriptId":"u4"},
+    "b4e94bcb6c6048709fcaae643f23ec0a":{
+      "scriptId":"u5"},
+    "8be7e635cf12442393cccab18b5f17a6":{
+      "scriptId":"u6"},
+    "5bf661280fcd421a93034c367fdc09b5":{
+      "scriptId":"u7"},
+    "ac5a2ea6e9b54ac2bf0398c2683986cf":{
+      "scriptId":"u8"},
+    "00a6ef5714c24134b1878e4ef08757ce":{
+      "scriptId":"u9"},
+    "2571f2d5ed584b768b8f399e0ba76719":{
+      "scriptId":"u10"},
+    "f6bc55c3cb17411ea13fee6e047f28e1":{
+      "scriptId":"u11"},
+    "d2edde99a30b41838e98ab45d0b668a4":{
+      "scriptId":"u12"},
+    "836c3f3d4a1746489df858557a6703fd":{
+      "scriptId":"u13"},
+    "ae67933e4bf14b81a4e6d8dfa3f156a8":{
+      "scriptId":"u14"},
+    "676542e7581e4d1fb94a7c4496ccb61b":{
+      "scriptId":"u15"},
+    "3fa4a30ac9e44ed096b069206a9d0d0f":{
+      "scriptId":"u16"},
+    "4c3c4ad859564e8c9d9226d0b48e7185":{
+      "scriptId":"u17"},
+    "76e570487b124834ac2597f2515243a2":{
+      "scriptId":"u18"},
+    "58423313f56d484fbcbb7bcc87b00ca0":{
+      "scriptId":"u19"},
+    "daf8acb2b23349f2acc9c6254f762526":{
+      "scriptId":"u20"},
+    "98669cafa26245baa64936aa1787fc88":{
+      "scriptId":"u21"},
+    "cba53e2867ee46cab0c66bab30ea0138":{
+      "scriptId":"u22"},
+    "103db7ddea8e43979678c5ded11b5b0c":{
+      "scriptId":"u23"},
+    "972fd704583b4146aeedae08bd459e09":{
+      "scriptId":"u24"},
+    "9cfc24fb368f413db2b8b797bc81a3e8":{
+      "scriptId":"u25"},
+    "d8affe22821a47abb0ed24c39984e260":{
+      "scriptId":"u26"},
+    "5ee197de53504261833b927bcd3bfcfa":{
+      "scriptId":"u27"},
+    "4226ef2b45fe48009a3c69850d25b0a4":{
+      "scriptId":"u28"},
+    "cdcf239205a940ed8bd5564079720985":{
+      "scriptId":"u29"},
+    "53cedbe2cc174eee95951bad5bfb2903":{
+      "scriptId":"u30"},
+    "1218b14a145d4035bf8a493e1b1f8c65":{
+      "scriptId":"u31"},
+    "053b9482ab66403bbda5f8690a8bc148":{
+      "scriptId":"u32"},
+    "1005111c32c140edaeec2eefa175b3c8":{
+      "scriptId":"u33"},
+    "53244469c53c4352b142c68192cfdeb1":{
+      "scriptId":"u34"}}});

@@ -65,7 +65,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
         });
         StringBuilder builder=new StringBuilder(user.getAge());
         builder.append("岁");
-        holder.tvName.setText(user.getNickName());
+        holder.tvName.setText(user.getNickname());
         holder.tvSex.setText(builder.toString());
         holder.ivPhoto.setImageResource(user.resId);
         if ("0".equals(user.getSex())){

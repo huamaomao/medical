@@ -53,12 +53,12 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     @OnClick(R.id.tv_create_account)
     void doRegister(){
         finish();
-        ViewUtil.openActivity(RegisterOneActivity.class,this);
+        ViewUtil.openActivity(RegisterOneActivity.class,this,true);
     }
     @OnClick(R.id.tv_forgot_pwd)
     void doRetrievePwd(){
         finish();
-        ViewUtil.openActivity(RetrievePwdActivity.class,this);
+        ViewUtil.openActivity(RetrievePwdActivity.class,this,true);
     }
 
     @Override

@@ -60,6 +60,7 @@ public class RegisterInfoPresenter extends Presenter {
        }
        User user=userModel.db.queryById(userModel.getToken().userId,User.class);
        user.nickname=view.getName();
+       user.userName=view.getName();
        user.doctorTitle=view.getTitleItem().id;
        user.hospitalAddress=view.getHospital();
        user.regionId=view.getCity().id;
@@ -72,7 +73,7 @@ public class RegisterInfoPresenter extends Presenter {
                ResponseMessage message=res.getObject(ResponseMessage.class);
                if (CommonUtil.notNull(message)){
                     if (message.statusCode.equals("200")){
-                        ViewUtil.openActivity(MainActivity.class,view.getContext());
+                        ViewUtil.openActivity(MainActivity.class,view.getContext(),true);
                     }
                }
                view.hideLoading();

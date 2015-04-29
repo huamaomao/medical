@@ -42,7 +42,7 @@ public class RegisterTitlePresenter extends Presenter {
        User user=userModel.db.queryById(userModel.getToken().userId,User.class);
        user.doctorTitle=Util.getUserTitle(view.getTitleItem().id);
        userModel.saveUser(user);
-       ViewUtil.openActivity(RegisterInfoActivity.class,view.getContext());
+       ViewUtil.openActivity(RegisterInfoActivity.class,view.getContext(),true);
 
     }
 

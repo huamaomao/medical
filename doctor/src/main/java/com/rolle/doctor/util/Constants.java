@@ -1,5 +1,7 @@
 package com.rolle.doctor.util;
 
+import com.baoyz.widget.PullRefreshLayout;
+
 /**
  * @author Hua_
  * @Description: 常量
@@ -22,5 +24,10 @@ public interface Constants {
 
 
     public static final String DB_NAME="doctor.db";
+
+    public static final String QINJIA_KEY="5182ca36-9179-46f0-a520-3b474a8c8f91";
+
+    /***下路刷新样式***/
+    public static final int PULL_STYLE=PullRefreshLayout.STYLE_WATER_DROP;
 
 }

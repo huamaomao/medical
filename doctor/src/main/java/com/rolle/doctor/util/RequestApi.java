@@ -200,6 +200,7 @@ public final class RequestApi {
         param.add(new NameValuePair("workAddress",user.workAddress));
         param.add(new NameValuePair("workRegionId",user.workRegionId));
         param.add(new NameValuePair("hospitalName",user.hospitalName));
+        param.add(new NameValuePair("userName",user.userName));
         param.add(new NameValuePair("hospitalAddress",user.hospitalAddress));
         param.add(new NameValuePair("jobId",user.jobId));
         param.add(new NameValuePair("token",user.token));

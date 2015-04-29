@@ -221,6 +221,14 @@ public class UserModel  extends ViewModel {
     }
 
     /*****
+     * 获取登陆的user信息
+     * @return
+     */
+    public User getLoginUser(){
+        return db.queryById(getToken().userId,User.class);
+    }
+
+    /*****
      *
      * @param
      */

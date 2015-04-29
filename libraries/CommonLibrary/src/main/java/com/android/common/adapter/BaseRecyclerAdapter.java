@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -232,8 +233,12 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
             return  (T)ViewHolder.this.itemView.findViewById(resId);
         }
 
-        public void setText(int resId,String title){
+        public ViewHolder setText(int resId,String title){
             ((TextView)getView(resId)).setText(title);
+            return this;
+        } public ViewHolder setImageResource(int resId,int imgId){
+            ((ImageView)getView(resId)).setImageResource(imgId);
+            return this;
         }
 
 

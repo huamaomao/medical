@@ -1,0 +1,8 @@
+package com.gotye.api;
+
+public enum GotyeMediaStatus {
+	  MEDIA_STATUS_DEFAULT,
+	  MEDIA_STATUS_DOWNLOADING ,
+	  MEDIA_STATUS_DOWNLOADED ,
+	 MEDIA_STATUS_DOWNLOAD_FAILED;
+}

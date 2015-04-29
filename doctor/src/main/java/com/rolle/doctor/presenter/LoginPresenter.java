@@ -1,9 +1,11 @@
 package com.rolle.doctor.presenter;
 
+import android.content.Intent;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
+import com.android.common.util.MD5;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
@@ -14,8 +16,10 @@ import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
+import com.rolle.doctor.service.GotyeService;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterChooseActivity;
+import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
 /**
@@ -23,7 +27,6 @@ import com.rolle.doctor.viewmodel.UserModel;
  * @Description: 注册
  */
 public class LoginPresenter extends Presenter {
-
     private ILogin view;
     private UserModel model;
     public LoginPresenter(ILogin iView) {
@@ -50,7 +53,8 @@ public class LoginPresenter extends Presenter {
                        case "200":
                           token.tel=view.getTel();
                           model.setToken(token);
-                          doGetUserInfo();
+                           doGetUserInfo();
+                           doLoginService();
                           view.hideLoading();
                           break;
                        case "300":
@@ -78,14 +82,12 @@ public class LoginPresenter extends Presenter {
            public void errorPwd() {
                view.msgShow("密码格式错误，6至15位");
                view.hideLoading();
-               return;
            }
 
            @Override
            public void errorTel() {
                view.msgShow("手机格式错误..");
                view.hideLoading();
-               return;
            }
        });
     }
@@ -104,10 +106,11 @@ public class LoginPresenter extends Presenter {
                             Log.d(user.user);
                             // 更新 token id
                             model.getToken().userId=user.user.id;
+                            model.getToken().pwd= MD5.compute(view.getPwd());
                             model.setToken(model.getToken());
                             model.db.save(user.user);
                             Log.d(model.getToken());
-                           if (user.user.home==null){
+                           if (user.user.typeId==null){
                                ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                            }else {
                                ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
@@ -125,6 +128,11 @@ public class LoginPresenter extends Presenter {
 
             }
         });
+
+    }
+
+    public void doLoginService(){
+        view.getContext().startService(new Intent(view.getContext(), GotyeService.class));
     }
 
 

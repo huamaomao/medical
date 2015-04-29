@@ -1,3 +1,4 @@
 include ':doctor'
 include ':libraries:CommonLibrary'
 include ':libraries:LiteLibrary'
+include ':libraries:GotyeLibrary'

@@ -42,6 +42,7 @@ public class RegisterTwoPresenter extends Presenter {
     }
 
     public void doTwoRegister(){
+        view.showLoading();
         model.requestRegister(view.getTel(), view.getCode(), view.getPwd(), new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
