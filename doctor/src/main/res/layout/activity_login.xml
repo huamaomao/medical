@@ -49,7 +49,9 @@
             android:drawableLeft="@drawable/icon_pwd"
             android:background="@android:color/transparent"
             android:layout_width="match_parent"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionSend|flagNoExtractUi"
+            android:editable="false"
+            android:longClickable="false"
             android:imeActionLabel="登陆"
             android:layout_height="wrap_content" />
     </LinearLayout>

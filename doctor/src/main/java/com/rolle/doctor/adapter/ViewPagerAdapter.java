@@ -11,8 +11,13 @@ import java.util.List;
  */
 public class ViewPagerAdapter extends PagerAdapter {
     private List<View> pageViews;
-
+    private String[] titls;
     public ViewPagerAdapter(List<View> pageViews) {
+        this.pageViews = pageViews;
+    }
+
+    public ViewPagerAdapter(String[] titls, List<View> pageViews) {
+        this.titls = titls;
         this.pageViews = pageViews;
     }
 
@@ -36,5 +41,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view==object;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return this.titls==null?null:titls[position];
     }
 }

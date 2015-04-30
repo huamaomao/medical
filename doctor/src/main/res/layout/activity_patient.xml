@@ -3,11 +3,7 @@
    style="@style/style_wh_match_v"
     android:background="@color/appbg"
     >
-   <include layout="@layout/toolbar_spinner" />
-
-   <include layout="@layout/public_wrap_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+   <include layout="@layout/toolbar" />
+   <include layout="@layout/public_wrap_recycler_view"/>
 
 </LinearLayout>

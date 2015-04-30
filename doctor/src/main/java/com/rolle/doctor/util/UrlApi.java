@@ -38,17 +38,8 @@ public interface UrlApi{
     public static final String TITLE="cd_sp/getCDByParentId.json";
     /***修改医生***/
     public static final String  UPD_DOCTOR_INFO="user_sp/saveDoctor.json";
-
-
-
-
-
-
-
-
-
-
-
+    /***添加好友****/
+    public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
 
 
 

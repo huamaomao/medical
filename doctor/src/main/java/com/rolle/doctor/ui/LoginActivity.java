@@ -40,11 +40,8 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         presenter=new LoginPresenter(this);
-
+        presenter.doIsLogin();
     }
-
-
-
 
     @OnClick(R.id.btn_login)
     void doLogin(){

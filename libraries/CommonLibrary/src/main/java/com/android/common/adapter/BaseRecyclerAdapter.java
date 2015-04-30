@@ -188,6 +188,16 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
         mData.add(position, item);
         notifyItemInserted(position + (mHeader == null ? 0 : 1));
     }
+    public void addItem(T item) {
+        mData.add(item);
+        notifyItemInserted(getItemCount()-1 + (mHeader == null ? 0 : 1));
+    }
+
+    public void addItemAll(List<T> data) {
+        mData.clear();
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
     public void removeItem(T item) {
         int position = mData.indexOf(item);
@@ -268,7 +278,4 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerAda
         }
     }
 
-    public void setText(){
-
-    }
 }

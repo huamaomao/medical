@@ -6,10 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.android.common.R;
+import com.android.common.util.Log;
 
 /**
  * CleanEditText
@@ -17,11 +21,20 @@ import com.android.common.R;
 public class CleanEditText extends EditText {
 
     private Drawable imgDel;
+    /******
+     * 是否启用复制粘贴
+     */
+    private boolean flag=false;
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public CleanEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
+
 
     public CleanEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -68,6 +81,24 @@ public class CleanEditText extends EditText {
 
             }
         });
+
+        this.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return flag;
+            }
+
+            public void onDestroyActionMode(ActionMode mode) {
+            }
+
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return flag;
+            }
+
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return flag;
+            }
+        });
     }
 
     /***
@@ -86,12 +117,11 @@ public class CleanEditText extends EditText {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (imgDel != null && event.getAction() == MotionEvent.ACTION_UP) {
-            int eventX = (int) event.getRawX();
-            int eventY = (int) event.getRawY();
-            Rect rect = new Rect();
-            getGlobalVisibleRect(rect);
-            if (rect.contains(eventX, eventY))
+            boolean isClean =(event.getX() > (getWidth() - getTotalPaddingRight()))&&
+                    (event.getX() < (getWidth() - getPaddingRight()));
+            if (isClean) {
                 setText("");
+            }
         }
         return super.onTouchEvent(event);
     }

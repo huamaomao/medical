@@ -170,7 +170,10 @@ public class UserModel  extends ViewModel {
 
 
 
-
+   public User getUser(String id){
+       //execute(RequestApi.requestUserInviteCode(token.token),handler);
+       return new User();
+   }
 
 
 
@@ -193,6 +196,29 @@ public class UserModel  extends ViewModel {
                 if (CommonUtil.notNull(responseMessage)){
                     if ("200".equals(responseMessage.statusCode)){
                       listener.model(res,responseMessage);
+                    }else{
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+
+    public void requestAddFriend(String userId,String noteName,final ModelListener<ResponseMessage> listener){
+        execute(RequestApi.requestAddFriend(getToken().token,userId,noteName),new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(responseMessage)){
+                    if ("200".equals(responseMessage.statusCode)){
+                        listener.model(res,responseMessage);
                     }else{
                         listener.errorModel(null);
                     }

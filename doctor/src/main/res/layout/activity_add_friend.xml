@@ -23,6 +23,8 @@
                 android:layout_height="wrap_content" />
             <EditText
                 android:hint="输入用户名/手机号"
+                android:inputType="phone"
+                android:maxLength="11"
                 android:background="@drawable/icon_et_boder"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"

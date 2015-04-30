@@ -1,6 +1,8 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
@@ -33,6 +35,22 @@ public class AddFriendActivity extends BaseActivity{
     @OnClick(R.id.ll_scanning)
     void doScanning(){
        // ViewUtil.openActivity(MyInviteCodeActivity.class, this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.toolbar_add:
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

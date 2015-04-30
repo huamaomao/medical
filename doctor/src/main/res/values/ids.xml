@@ -14,6 +14,7 @@
     <item name="toolbar_login" type="id" />
     <item name="toolbar_add" type="id" />
     <item name="refresh" type="id" />
+    <item name="tabs" type="id" />
 
    <!--   rbtn    -->
     <item name="rg_group" type="id"/>

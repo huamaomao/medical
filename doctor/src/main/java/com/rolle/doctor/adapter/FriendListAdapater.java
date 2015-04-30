@@ -56,13 +56,13 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     @Override
     public void onBindViewHolder(FriendListAdapater.ViewHolder holder, int position) {
         final User user=data.get(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null!=onItemClickListener)
                     onItemClickListener.onItemClick(user);
             }
-        });
+        });*/
         StringBuilder builder=new StringBuilder(user.getAge());
         builder.append("岁");
         holder.tvName.setText(user.getNickname());

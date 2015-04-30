@@ -92,6 +92,13 @@ public class LoginPresenter extends Presenter {
        });
     }
 
+    public void doIsLogin(){
+       Token token= model.getToken();
+       if (CommonUtil.notEmpty(token.token)){
+           doGetUserInfo();
+       }
+    }
+
     /*****
      * 获取个人信息
      */

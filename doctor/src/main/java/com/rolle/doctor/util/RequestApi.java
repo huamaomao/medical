@@ -208,7 +208,21 @@ public final class RequestApi {
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
-
-
+    /******
+     *   添加好友
+     * @param token
+     * @param userToken
+     * @param noteName
+     * @return
+     */
+    public static Request requestAddFriend(String token,String userId,String noteName ){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.UPD_DOCTOR_INFO);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        param.add(new NameValuePair("userId",userId));
+        param.add(new NameValuePair("noteName",noteName));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
 
 }

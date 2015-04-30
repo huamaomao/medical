@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.adapter.MessageRecyclerAdapter;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.baoyz.widget.PullRefreshLayout;
@@ -20,6 +22,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.MessageListAdapter;
 import com.rolle.doctor.domain.MessageUser;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.presenter.MessageListPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
 import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.util.CircleTransform;
@@ -27,6 +30,7 @@ import com.rolle.doctor.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -34,20 +38,22 @@ import butterknife.OnItemClick;
 /**
  * 消息
  */
-public class MessageFragment extends BaseFragment{
+public class MessageFragment extends BaseFragment implements MessageListPresenter.IMessageView{
 
     @InjectView(R.id.refresh)
     PullRefreshLayout refresh;
     @InjectView(R.id.rv_view)
     RecyclerView rv_view;
-    private List<MessageUser> lsData;
-    private BaseRecyclerAdapter<MessageUser> recyclerAdapter;
-
+    private LinkedList<MessageUser> lsData;
+    private MessageRecyclerAdapter<MessageUser> recyclerAdapter;
+    private MessageListPresenter presenter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_message);
         setHasOptionsMenu(true);
+        presenter=new MessageListPresenter(this);
+        presenter.doMessage();
 
     }
     @Override
@@ -60,7 +66,7 @@ public class MessageFragment extends BaseFragment{
     @Override
     protected void initView(final View view, LayoutInflater inflater) {
         super.initView(view, inflater);
-        lsData=new ArrayList<MessageUser>();
+        lsData=new LinkedList<MessageUser>();
         //lsData.add(new User("多喝水","23","0",R.drawable.icon_people_1,"叶子","0"));
         //quickAdapter=new MessageListAdapter(getActivity(),lsData);
         //lsList.setAdapter(quickAdapter);
@@ -73,10 +79,10 @@ public class MessageFragment extends BaseFragment{
             }
         });
         refresh.setRefreshing(false);
-        recyclerAdapter=new BaseRecyclerAdapter<>(lsData);
-        recyclerAdapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
+        recyclerAdapter=new MessageRecyclerAdapter<>(lsData);
+        recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
-            public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, int i) {
                 MessageUser messageUser=lsData.get(i);
                 viewHolder.setText(R.id.tv_item_0,messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1,messageUser.message);
@@ -104,8 +110,8 @@ public class MessageFragment extends BaseFragment{
             }
 
             @Override
-            public BaseRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new BaseRecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message,viewGroup,false));
+            public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                return new MessageRecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message,viewGroup,false));
             }
 
             @Override
@@ -124,5 +130,20 @@ public class MessageFragment extends BaseFragment{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void addMessagelist(List<MessageUser> ls) {
+        recyclerAdapter.addItemAll(ls);
+    }
+
+    @Override
+    public void addMessageItem(MessageUser item) {
+        recyclerAdapter.addItem(item);
+    }
+
+    @Override
+    public void pushMessageItem(MessageUser item) {
+        recyclerAdapter.pushItem(item);
     }
 }
