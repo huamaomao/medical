@@ -33,4 +33,6 @@ public interface Constants {
 
     public static final String ACTIVITY_ACTION="acitivty_exit";
 
+    public static final int NO = -1;
+
 }
