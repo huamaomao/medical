@@ -278,6 +278,7 @@ public class InternalResponse implements Response {
         msg += "\n\t ";
         try {
             msg += "\n\turl = " + request.getUrl();
+
         } catch (HttpClientException e) {
             e.printStackTrace();
         }
@@ -305,9 +306,8 @@ public class InternalResponse implements Response {
         }
         Log.i(TAG, "  -----reponse header----- ↓");
         Log.d(TAG, msg);
-
         //data
-        //msg = "\t" + dataParser != null ? "" + dataParser.getData() : "null";
+        msg = "\t" + dataParser != null ? "" + dataParser.getData() : "null";
 
         Log.i(TAG, "  -----reponse data----- ↓ \n");
         Log.d(TAG, dataParser+"===="+dataParser != null);

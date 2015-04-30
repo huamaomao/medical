@@ -104,6 +104,32 @@ public final class RequestApi {
         return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
     }
 
+    /**
+     * 获取评论 投诉
+     * @param token
+     * @param type
+     * @return
+     */
+    public static Request requestRecommendReviewComplaints(String token,String type){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_RECOMMEND_REVIEW_COMPLAINTS_CODE);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        param.add(new NameValuePair("typeId",type));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
+    /**
+     * 赞
+     * @param token
+     * @return
+     */
+    public static Request requestPraise(String token){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.USER_PRAISE_CODE);
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",token));
+        return new Request(url.toString()).setMethod(HttpMethod.Get).setHttpBody(new UrlEncodedFormBody(param));
+    }
     /******
      *  患者数目
      * @param token

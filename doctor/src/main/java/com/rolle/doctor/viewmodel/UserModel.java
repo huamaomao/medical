@@ -80,17 +80,18 @@ public class UserModel  extends ViewModel {
 
     /****
      * 获取好友列表
+     * 获取 评论，投诉
      */
-    public void requestFriendDoctor(final ModelListener<List<FriendResponse.Item>> listener){
-        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR),new HttpModelHandler<String>() {
+    public void requestFriendDoctor(final ModelListener<List<FriendResponse.Item>> listener) {
+        execute(RequestApi.requestFriendList(getToken().token, com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR), new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
-                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
-                if (CommonUtil.notNull(responseMessage)){
-                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
-                        listener.model(res,responseMessage.list);
+                FriendResponse responseMessage = res.getObject(FriendResponse.class);
+                if (CommonUtil.notNull(responseMessage)) {
+                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.list)) {
+                        listener.model(res, responseMessage.list);
                         db.save(responseMessage.list);
-                    }else{
+                    } else {
                         listener.errorModel(null);
                     }
                 }
@@ -104,11 +105,14 @@ public class UserModel  extends ViewModel {
             }
         });
     }
+    public void requestRecommendReviewComplaints(String type,HttpModelHandler<String> handler){
+        execute(RequestApi.requestRecommendReviewComplaints(token.token, type),handler);
+    }
     /****
      * 获取好友列表
      */
     public void requestFriendPatient(final ModelListener<List<FriendResponse.Item>> listener){
-        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),new HttpModelHandler<String>() {
+        execute(RequestApi.requestFriendList(getToken().token, com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 FriendResponse   responseMessage= res.getObject(FriendResponse.class);
@@ -143,6 +147,7 @@ public class UserModel  extends ViewModel {
 
     /****
      * 获取好友列表
+     * 赞
      */
     public void requestFriendDietitan(final ModelListener<List<FriendResponse.Item>> listener){
         execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_DIETITAN),new HttpModelHandler<String>() {
@@ -180,9 +185,18 @@ public class UserModel  extends ViewModel {
     /****
      * 获取邀请码
      */
+    public void requestPraise(HttpModelHandler<String> handler){
+        execute(RequestApi.requestPraise(token.token),handler);
+    }
+
+    /****
+            * 获取患者数目
+    */
     public void requestModelUserCode(HttpModelHandler<String> handler){
         execute(RequestApi.requestUserInviteCode(token.token),handler);
     }
+
+
 
 
     /****

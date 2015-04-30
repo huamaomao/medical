@@ -52,6 +52,8 @@
     <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
 
      <service android:name=".service.GotyeService" />
+    <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
+
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>
     <uses-permission android:name="android.permission.INTERNET" />
