@@ -20,6 +20,7 @@ import butterknife.InjectView;
 
 /**
  * Created by Hua_ on 2015/3/27.
+ * 新朋友
  */
 public class FriendActivity extends BaseActivity{
 
@@ -57,8 +58,6 @@ public class FriendActivity extends BaseActivity{
                 }else {
                     ViewUtil.openActivity(DoctorDetialActivity.class, FriendActivity.this);
                 }
-
-
             }
         });
     }

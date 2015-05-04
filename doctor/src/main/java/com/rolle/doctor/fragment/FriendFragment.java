@@ -14,6 +14,7 @@ import com.rolle.doctor.presenter.FriendPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
 import com.rolle.doctor.ui.FriendActivity;
 import com.rolle.doctor.ui.PatientActivity;
+import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.ui.TheDoctorActivity;
 
 import butterknife.InjectView;
@@ -59,8 +60,11 @@ public class FriendFragment extends BaseFragment implements FriendPresenter.IFri
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_add:
+            case R.id.toolbar_add:
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());
+                break;
+            case R.id.toolbar_seach:
+                ViewUtil.openActivity(SeachActivity.class,getActivity());
                 break;
         }
         return super.onOptionsItemSelected(item);

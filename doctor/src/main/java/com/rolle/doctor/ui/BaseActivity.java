@@ -35,7 +35,6 @@ public class BaseActivity extends ActionBarActivity implements IView{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         application=(DoctorApplication)getApplication();
-
 	}
 
     public Toolbar getToolbar(){
@@ -45,6 +44,10 @@ public class BaseActivity extends ActionBarActivity implements IView{
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        if (Constants.ACTIVITY_ACTION.equals(getIntent().getAction())){
+            finish();
+            return;
+        }
         ButterKnife.inject(this);
         if(mToolbar!=null){
             mToolbar.setSubtitleTextColor(getResources().getColor(R.color.title));
@@ -52,9 +55,6 @@ public class BaseActivity extends ActionBarActivity implements IView{
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constants.ACTIVITY_ACTION);
-        registerReceiver(this.broadcastReceiver, filter); // 注册
         initView();
 
     }
@@ -84,22 +84,13 @@ public class BaseActivity extends ActionBarActivity implements IView{
         BaseActivity.this.onBackPressed();
     }
 
-    // 写一个广播的内部类，当收到动作时，结束activity
-    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            exitApp();
-            unregisterReceiver(this);
-        }
-    };
 
 
     public void exitApp(){
-        Intent intent = new Intent();
+        Intent intent = new Intent(getContext(),BaseActivity.class);
         intent.setAction(Constants.ACTIVITY_ACTION); // 说明动作
-        sendBroadcast(intent);// 该函数用于发送广播
-        android.os.Process.killProcess(android.os.Process.myPid());
-        finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        this.startActivity(intent);
     }
 
 
@@ -155,7 +146,6 @@ public class BaseActivity extends ActionBarActivity implements IView{
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }
 }

@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.util.Constants;
+import com.android.common.util.Log;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.Util;
 
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public static final int TYPE_MESSAGE=2;
     /****添加 *****/
     public static final int TYPE_FRIEND=3;
+
+    /**** 全部 严重 轻微  ***/
+    public boolean flag=false;
 
     private Context mContext;
     List<User> data;
@@ -54,8 +59,8 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     }
 
     @Override
-    public void onBindViewHolder(FriendListAdapater.ViewHolder holder, int position) {
-        final User user=data.get(position);
+        public void onBindViewHolder(FriendListAdapater.ViewHolder holder, int position) {
+            final User user=data.get(position);
        /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +94,18 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
                 builder1.append("最高血糖");
                 builder1.append(user.maxNum);
                 patient.tvMaxNum.setText(builder1.toString());
+                patient.tvValue.setText("");
+                if (flag){
+                    Log.d(Util.compareBigValue(user.getMinNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)+"=====");
+                    if (Util.compareBigValue(user.getMinNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)){
+                        patient.tvName.setTextColor(mContext.getResources().getColor(R.color.red));
+                        patient.tvValue.setTextColor(mContext.getResources().getColor(R.color.red));
+                        patient.tvValue.setText("严重");
+                    }else if (Util.compareBigValue(user.getMaxNum(), com.rolle.doctor.util.Constants.MIN_BLOOD)){
+                        patient.tvValue.setText("轻微");
+                    }
+
+                }
                 break;
             case TYPE_MESSAGE:
                 MessageViewHolder message=(MessageViewHolder)holder;
@@ -102,6 +119,10 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
                 }else{
                     friend.btnStatus.setText("接受");
                 }
+                if (com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR.equals(user.typeId)){
+                    friend.ivType.setImageResource(R.drawable.icon_doctor);
+                }
+                friend.tvRemarks.setText("主治:血糖");
                 break;
         }
 
@@ -130,11 +151,12 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
 
     public  static class PatientViewHolder extends ViewHolder{
-        TextView tvMinNum,tvMaxNum;
+        TextView tvMinNum,tvMaxNum,tvValue;
         public PatientViewHolder(View itemView) {
             super(itemView);
             tvMinNum=(TextView)itemView.findViewById(R.id.tv_item_3);
             tvMaxNum=(TextView)itemView.findViewById(R.id.tv_item_4);
+            tvValue=(TextView)itemView.findViewById(R.id.tv_item_5);
         }
     }
 
@@ -157,11 +179,13 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     }
 
-    public  static class FriendViewHolder extends ViewHolder{
+    public  static class FriendViewHolder extends DoctorViewHolder{
         Button btnStatus;
+        ImageView ivType;
         public FriendViewHolder(View itemView) {
             super(itemView);
             btnStatus=(Button)itemView.findViewById(R.id.btn_status);
+            ivType=(ImageView)itemView.findViewById(R.id.iv_type);
         }
 
     }

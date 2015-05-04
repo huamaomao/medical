@@ -17,6 +17,7 @@ import com.android.common.adapter.MessageRecyclerAdapter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.widget.SeachView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.MessageListAdapter;
@@ -25,6 +26,7 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.MessageListPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
 import com.rolle.doctor.ui.MessageActivity;
+import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
 import com.squareup.picasso.Picasso;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 /**
@@ -44,6 +47,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     PullRefreshLayout refresh;
     @InjectView(R.id.rv_view)
     RecyclerView rv_view;
+
     private LinkedList<MessageUser> lsData;
     private MessageRecyclerAdapter<MessageUser> recyclerAdapter;
     private MessageListPresenter presenter;
@@ -56,6 +60,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         presenter.doMessage();
 
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -67,9 +72,6 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     protected void initView(final View view, LayoutInflater inflater) {
         super.initView(view, inflater);
         lsData=new LinkedList<MessageUser>();
-        //lsData.add(new User("多喝水","23","0",R.drawable.icon_people_1,"叶子","0"));
-        //quickAdapter=new MessageListAdapter(getActivity(),lsData);
-        //lsList.setAdapter(quickAdapter);
         //layout.setColorSchemeColors(int []);
         refresh.setRefreshStyle(Constants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -125,8 +127,11 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_add:
+            case R.id.toolbar_add:
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());
+                break;
+            case R.id.toolbar_seach:
+                ViewUtil.openActivity(SeachActivity.class,getActivity());
                 break;
         }
         return super.onOptionsItemSelected(item);

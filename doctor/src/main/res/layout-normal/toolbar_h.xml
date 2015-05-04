@@ -7,7 +7,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     style="@style/AppTheme"
-    android:background="?attr/colorPrimary"
+    android:background="@drawable/toolbar_title"
     android:minHeight="?attr/actionBarSize"
     tools:showIn="@layout/activity_message">
 

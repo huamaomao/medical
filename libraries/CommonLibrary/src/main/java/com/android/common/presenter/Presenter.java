@@ -5,5 +5,5 @@ package com.android.common.presenter;
  */
 public abstract   class Presenter {
     // 防重复请求
-    protected boolean flag;
+    protected boolean flag=false;
 }

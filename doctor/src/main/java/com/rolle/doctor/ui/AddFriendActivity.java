@@ -3,22 +3,30 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
+import com.rolle.doctor.presenter.AddFriendPresenter;
 
+import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
  *
  */
-public class AddFriendActivity extends BaseActivity{
+public class AddFriendActivity extends BaseActivity implements AddFriendPresenter.IFriendView{
 
+    private AddFriendPresenter presenter;
+
+    @InjectView(R.id.et_tel)
+    EditText et_tel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
+        presenter=new AddFriendPresenter(this);
     }
 
     @Override
@@ -47,10 +55,14 @@ public class AddFriendActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_add:
-
+                presenter.doAdd();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public String getTel() {
+        return et_tel.getText().toString();
+    }
 }

@@ -2,6 +2,7 @@ package com.rolle.doctor.viewmodel;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
@@ -112,10 +113,11 @@ public class UserModel  extends ViewModel {
      * 获取好友列表
      */
     public void requestFriendPatient(final ModelListener<List<FriendResponse.Item>> listener){
-        execute(RequestApi.requestFriendList(getToken().token, com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),new HttpModelHandler<String>() {
+        execute(RequestApi.requestFriendList(getToken().token,null),new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 FriendResponse   responseMessage= res.getObject(FriendResponse.class);
+
                 if (CommonUtil.notNull(responseMessage)){
                     if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
                         listener.model(res,responseMessage.list);
@@ -279,5 +281,9 @@ public class UserModel  extends ViewModel {
     public static  interface OnValidationListener{
         void errorTel();
         void errorPwd();
+    }
+
+    public static  interface OnTelValidationListener{
+        void errorTel();
     }
 }

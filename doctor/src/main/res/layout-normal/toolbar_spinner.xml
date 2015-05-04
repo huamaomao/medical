@@ -6,7 +6,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     style="@style/AppTheme"
-    android:background="?attr/colorPrimary"
+    android:background="@drawable/toolbar_title"
     android:minHeight="?attr/actionBarSize" >
         <Spinner android:id="@id/toolbar_spinner"
             android:layout_width="wrap_content"

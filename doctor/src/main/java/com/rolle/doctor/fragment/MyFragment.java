@@ -94,7 +94,6 @@ public class MyFragment extends BaseFragment implements MyPresenter.IMyView{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_my,menu);
-
     }
 
     @Override

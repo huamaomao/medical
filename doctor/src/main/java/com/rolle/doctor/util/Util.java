@@ -1,6 +1,7 @@
 package com.rolle.doctor.util;
 
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
@@ -60,6 +61,40 @@ public final class Util {
         }
         return true;
 
+    }
+
+    /******
+     * 判断值大
+     * @param value
+     * @param str
+     * @return
+     */
+    public static  boolean compareBigValue(String value,double str){
+        if (CommonUtil.isEmpty(value)){
+            return false;
+        }
+        Double  dd=Double.parseDouble(value);
+        Log.d((Double.parseDouble(value)<str)+"-----");
+        return Double.parseDouble(value)<str?true:false;
+
+    }
+
+    /******
+     * 判断值小
+     * @param value
+     * @param str
+     * @return
+     */
+    public static  boolean compareSmallValue(String value,double str){
+        if (CommonUtil.isEmpty(value)){
+                return false;
+            }
+            try {
+                return Double.parseDouble(value)<str?true:false;
+            }catch (Exception e){
+                e.printStackTrace();
+                return false;
+        }
     }
 
 }

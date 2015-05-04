@@ -237,16 +237,16 @@ public final class RequestApi {
     /******
      *   添加好友
      * @param token
-     * @param userToken
+     * @param userId
      * @param noteName
      * @return
      */
     public static Request requestAddFriend(String token,String userId,String noteName ){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append(UrlApi.UPD_DOCTOR_INFO);
+        url.append(UrlApi.ADD_FRIEND);
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("token",token));
-        param.add(new NameValuePair("userId",userId));
+        param.add(new NameValuePair("mobile",userId));
         param.add(new NameValuePair("noteName",noteName));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }

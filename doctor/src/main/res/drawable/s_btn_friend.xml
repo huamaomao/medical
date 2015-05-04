@@ -5,10 +5,10 @@
             <solid android:color="@color/write"/>
             <stroke android:width="0.5dp"  android:color="@color/blue"/>
             <corners
-                android:bottomLeftRadius="14px"
-                android:bottomRightRadius="14px"
-                android:topRightRadius="14px"
-                android:topLeftRadius="14px"/>
+                android:bottomLeftRadius="@dimen/radius"
+                android:bottomRightRadius="@dimen/radius"
+                android:topRightRadius="@dimen/radius"
+                android:topLeftRadius="@dimen/radius"/>
         </shape>
     </item>
     <item android:state_pressed="true">
@@ -16,10 +16,10 @@
             <solid android:color="@color/divider"/>
             <stroke android:width="0.5dp"  android:color="@color/blue"/>
             <corners
-                android:bottomLeftRadius="14px"
-                android:bottomRightRadius="14px"
-                android:topRightRadius="14px"
-                android:topLeftRadius="14px"/>
+                android:bottomLeftRadius="@dimen/radius"
+                android:bottomRightRadius="@dimen/radius"
+                android:topRightRadius="@dimen/radius"
+                android:topLeftRadius="@dimen/radius"/>
         </shape>
       </item>
 

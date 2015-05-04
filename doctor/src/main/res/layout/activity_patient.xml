@@ -4,6 +4,10 @@
     android:background="@color/appbg"
     >
    <include layout="@layout/toolbar" />
-   <include layout="@layout/public_wrap_recycler_view"/>
+
+   <include layout="@layout/public_wrap_recycler_view"
+       android:layout_height="wrap_content"
+       android:layout_width="match_parent"
+       android:layout_marginTop="20dp"/>
 
 </LinearLayout>

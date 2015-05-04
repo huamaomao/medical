@@ -1,5 +1,6 @@
 package com.rolle.doctor.ui;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -50,12 +51,15 @@ public class PatientActivity extends BaseActivity{
         setBackActivity("患者");
         tabStrip.setIndicatorColor(getResources().getColor(R.color.title));
         tabStrip.setShouldExpand(true);
-        tabStrip.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_17));
-        tabStrip.setIndicatorHeight(3);
+        //tabStrip.setTextColor();
+        tabStrip.setDividerColor(getResources().getColor(R.color.write));
+        tabStrip.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_size_15));
+        tabStrip.setIndicatorHeight(1);
+        tabStrip.setTypeface(Typeface.DEFAULT, 0);
         data=new ArrayList<User>();
-        data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0"));
-        data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0"));
-        data.add(new User("主治慢性", "23", "1", R.drawable.icon_people_3, "萌萌", "0"));
+        data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","4.6","16.0"));
+        data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","2.6","16.0"));
+        data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","6.6","16.0"));
         List<View> views=new ArrayList<>();
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
@@ -66,6 +70,7 @@ public class PatientActivity extends BaseActivity{
         adapaterAll=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
         adapaterMin=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
         adapaterMax=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
+        adapaterAll.flag=true;
         ViewUtil.initRecyclerView(lvViewAll,getContext(),adapaterAll);
         ViewUtil.initRecyclerView(lvViewMin,getContext(),adapaterMin);
         ViewUtil.initRecyclerView(lvViewMax,getContext(),adapaterMax);

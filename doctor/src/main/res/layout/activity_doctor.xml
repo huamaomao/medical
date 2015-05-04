@@ -3,7 +3,10 @@
    style="@style/style_wh_match_v"
     android:background="@color/appbg"
     >
-   <include layout="@layout/toolbar" />
+   <include layout="@layout/toolbar_n"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/write"/>
    <include layout="@layout/tab_strip" />
    <android.support.v4.view.ViewPager
         android:id="@id/viewpage"

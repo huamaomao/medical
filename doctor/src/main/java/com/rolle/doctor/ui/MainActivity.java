@@ -65,6 +65,7 @@ public class MainActivity extends BaseActivity implements FriendListPresenter.IF
             if (index==1){
                 msgShow("再按一次退出客户端");
             }else if(index==2){
+                onBackActivty();
                 exitApp();
             }
             return true;
@@ -75,7 +76,6 @@ public class MainActivity extends BaseActivity implements FriendListPresenter.IF
 
     @Override
     protected void onBackActivty() {
-        finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
+      finish();
     }
 }

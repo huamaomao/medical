@@ -11,7 +11,7 @@ public interface UrlApi{
             this.url=url;
         }
     }
-    public static final String SERVER_NAME=RequestUrl.S.url;
+    public static final String SERVER_NAME=RequestUrl.T.url;
     /***验证码**/
     public static final String TEL_CODE="send_sp/sendVerifycode.json";
     /***验证手机号与验证码是否匹配**/
@@ -38,8 +38,8 @@ public interface UrlApi{
     public static final String TITLE="cd_sp/getCDByParentId.json";
     /***修改医生***/
     public static final String  UPD_DOCTOR_INFO="user_sp/saveDoctor.json";
-
-
+    /***添加好友***/
+    public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
 
 
 
@@ -47,15 +47,6 @@ public interface UrlApi{
     public static final String USER_RECOMMEND_REVIEW_COMPLAINTS_CODE="message_sp/getMessageListByMap.json";
     /***赞**/
     public static final String USER_PRAISE_CODE="praise_sp/getPraiseListByMap.json";
-
-
-
-
-
-
-    /***添加好友****/
-    public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
-
 
 
 }

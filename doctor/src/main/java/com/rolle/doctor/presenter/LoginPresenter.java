@@ -118,8 +118,10 @@ public class LoginPresenter extends Presenter {
                             model.db.save(user.user);
                             Log.d(model.getToken());
                            if (user.user.typeId==null){
+                               view.getContext().finish();
                                ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                            }else {
+                               view.getContext().finish();
                                ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                            }
 

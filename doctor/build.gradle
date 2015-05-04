@@ -96,9 +96,10 @@ dependencies {
     compile 'com.jungly:GridPasswordView:0.2'
     compile 'com.jakewharton:butterknife:6.1.0'
     //compile 'com.facebook.fresco:fresco:0.1.0+'
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    //compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile project(':libraries:CommonLibrary')
     compile project(':libraries:LiteLibrary')
     compile project(':libraries:GotyeLibrary')
+    compile project(':libraries:pagerslidingtabstrip')
 }
 

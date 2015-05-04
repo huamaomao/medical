@@ -1,13 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="sss" parent="Base.Theme.AppCompat.Light.DarkActionBar"></style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/write</item>
-        <item name="android:textColor">@color/title</item>
-        <item name="android:textColorPrimary">@color/title</item>
-        <item name="android:textColorPrimaryDisableOnly">@color/title</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/black</item>
         <item name="actionMenuTextColor">?android:attr/textColorPrimaryDisableOnly</item>
         <item name="android:itemTextAppearance">@style/menuItemColor</item>
       <!--  <item name="android:itemBackground">@color/title</item>-->
@@ -138,16 +137,43 @@
         <item name="android:paddingBottom">15dp</item>
     </style>
 
+
+    <style name="item_from_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+   <style name="et_styple">
+       <item name="android:minHeight">35dp</item>
+       <item name="android:paddingTop">12dp</item>
+       <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:textColor">@color/write</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/color_hint</item>
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:layout_height">wrap_content</item>
+       <item name="android:textSize">@dimen/font_size_17</item>
+   </style>
+
     <style name="btn_style">
         <item name="android:layout_marginTop">30dp</item>
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:background">@drawable/s_ibtn_send</item>
-        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textSize">@dimen/font_size_17</item>
         <item name="android:textColor">@color/write</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">40dip</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

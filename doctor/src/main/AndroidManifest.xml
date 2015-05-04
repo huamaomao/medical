@@ -50,6 +50,8 @@
     <activity android:name=".ui.WriteInviteCodeActivity" android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.SeachActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait" />
 
      <service android:name=".service.GotyeService" />
     <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />

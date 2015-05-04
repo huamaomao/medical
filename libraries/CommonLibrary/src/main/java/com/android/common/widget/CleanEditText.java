@@ -105,10 +105,10 @@ public class CleanEditText extends EditText {
      * 设置图片
      */
     public void setDrawble() {
-        this.setCompoundDrawablesWithIntrinsicBounds(null, null,imgDel, null);
+        this.setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawables()[0], null,imgDel, null);
     }
     public void cleanDrawble(){
-        this.setCompoundDrawablesWithIntrinsicBounds(null, null,null, null);
+        this.setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawables()[0], null,null, null);
     }
 
     /***

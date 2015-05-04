@@ -30,8 +30,8 @@ public class RetrievePwdActivity extends BaseActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.toolbar_next:
-                ViewUtil.openActivity(RetrievePwdSettingActivity.class, this);
+            case R.id.toolbar_register:
+                ViewUtil.openActivity(LoginActivity.class, this,true);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -40,7 +40,12 @@ public class RetrievePwdActivity extends BaseActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_next,menu);
+        getMenuInflater().inflate(R.menu.menu_register,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onBackActivty() {
+        ViewUtil.openActivity(LoginActivity.class, this,true);
     }
 }

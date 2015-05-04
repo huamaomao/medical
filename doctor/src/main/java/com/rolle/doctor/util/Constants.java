@@ -35,4 +35,8 @@ public interface Constants {
 
     public static final int NO = -1;
 
+    /***血糖值****/
+    public static final double  MAX_BLOOD=12;
+    public static final double  MIN_BLOOD=3.8;
+
 }

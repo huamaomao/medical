@@ -17,10 +17,51 @@ public class FriendResponse extends ResponseMessage {
 
     public List<Item> list;
 
-    @Table("friend")
+    @Table("friendList")
     public static class Item{
-        public String id;
-        public String name;
+        public int id;
+        public String nickname;
+        public String headImage;
+        public String email;
+        public String intro;
+        public String address;
+        public String regionId;
+        /***工作地址**/
+        public String workAddress;
+        /***地区**/
+        public String workRegionId;
+        /**医生职称***/
+        public String jobId;
+        /***所在医院**/
+        public String hospitalName;
+        public String tel;
+        public String sex;
+        public String age;
+        public String userName;
+        public String remarks;
+        public String type;
+        public String minNum;
+        public String maxNum;
+        public String token;
+        public String noteName;
+
+        /*****二维码信息****/
+        public String qrCode;
+        /*****简介****/
+        public String describe;
+        /*****工作地址****/
+        public String jobAddress;
+        /*****所在医院****/
+        public String hospitalAddress;
+        /*****医生职称****/
+        public String doctorTitle;
+        /*****所在科室****/
+        public String department;
+        /*****专长****/
+        public String specialty;
+        public String mobile;
+        public String status;
+        public String home;
         public String typeId;
 
     }

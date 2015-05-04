@@ -9,6 +9,7 @@
     <item name="toolbar_spinner" type="id" />
     <item name="toolbar_group" type="id" />
     <item name="toolbar_set" type="id" />
+    <item name="toolbar_seach" type="id" />
     <item name="toolbar_next" type="id" />
     <item name="toolbar_register" type="id" />
     <item name="toolbar_login" type="id" />
@@ -119,10 +120,12 @@
     <!-- button -->
     <item name="btn_status" type="id" />
     <item name="btn_login" type="id" />
+    <item name="btn_loginout" type="id" />
     <item name="btn_send" type="id" />
     <item name="btn_write" type="id" />
     <item name="btn_invite" type="id" />
 
     <!-- view-->
     <item name="v_view" type="id" />
+    <item name="seach" type="id" />
 </resources>

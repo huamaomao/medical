@@ -60,14 +60,14 @@ public class GotyeService extends Service implements NotifyListener {
 
 	@Override
 	public void onDestroy() {
-		try {
+		/*try {
 			// GotyeAPI.getInstance().removeListener(this);
 			Intent localIntent = new Intent();
 			localIntent.setClass(this, GotyeService.class); // 銷毀時重新啟動Service 流氓
 			this.startService(localIntent);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		super.onDestroy();
 	}
 
