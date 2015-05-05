@@ -14,6 +14,7 @@ import com.android.common.util.ViewUtil;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.LoginPresenter;
 
@@ -30,7 +31,7 @@ public class SeachActivity extends BaseLoadingActivity {
 
     @InjectView(R.id.rv_view)
     RecyclerView lvView;
-    private List<User> data;
+    private List<FriendResponse.Item> data;
 
     private FriendListAdapater adapater;
 
@@ -38,17 +39,16 @@ public class SeachActivity extends BaseLoadingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seach);
-
     }
 
     @Override
     protected void initView() {
         super.initView();
         setBackActivity("");
-        data=new ArrayList<User>();
-        data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0"));
+        data=new ArrayList<FriendResponse.Item>();
+      /*  data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0"));
         data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0"));
-        data.add(new User("主治慢性", "23", "1", R.drawable.icon_people_3, "萌萌", "0"));
+        data.add(new User("主治慢性", "23", "1", R.drawable.icon_people_3, "萌萌", "0"));*/
         adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
         ViewUtil.initRecyclerView(lvView,getContext(),adapater);
     }

@@ -55,7 +55,7 @@
             <TextView android:id="@id/tv_position"  android:layout_column="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_14"
-                android:layout_marginLeft="5dp"  android:text="距离您200m" />
+                android:layout_marginLeft="5dp"  android:text="距离您 ?m" />
             <View android:layout_width="match_parent" android:layout_columnSpan="2"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
@@ -68,7 +68,6 @@
             android:gravity="fill"
             android:layout_columnSpan="2"
             android:layout_marginTop="15dp"
-            android:text="发森森森扥东方三扥森僧功法森森森分发送扥扥扥扥扥扥发发森森森扥东方三扥森僧功法森森森分发送扥扥扥扥扥扥发"
             android:textColor="@color/text_93"
             android:textSize="@dimen/font_size_14"/>
      </GridLayout>
@@ -81,7 +80,6 @@
         <ImageButton
             android:id="@id/iv_send"
             android:layout_marginBottom="0px"
-
             android:layout_gravity="end"
             android:background="@drawable/s_btn"
             android:src="@drawable/icon_send"

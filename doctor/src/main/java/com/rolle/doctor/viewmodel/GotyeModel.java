@@ -17,7 +17,7 @@ import java.util.List;
  */
 public final class GotyeModel extends Presenter {
   private final String TAG="GotyeModel";
-  private GotyeAPI gotyeAPI=GotyeAPI.getInstance();
+  public static GotyeAPI gotyeAPI=GotyeAPI.getInstance();
 
     /****
      * 获取聊天记录集合
@@ -28,10 +28,6 @@ public final class GotyeModel extends Presenter {
         return gotyeAPI.getMessageList(chatUser,true);
 
     }
-
-
-
-
 
     /*****
      * 聊天监听初始化

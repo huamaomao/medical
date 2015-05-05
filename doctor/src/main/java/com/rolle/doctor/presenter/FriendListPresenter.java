@@ -30,60 +30,8 @@ public class FriendListPresenter extends Presenter {
     }
 
     public void initFriendList(){
-         model.requestFriendPatient(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
-            @Override
-            public void model(Response response, List<FriendResponse.Item> items) {
-
-            }
-
-            @Override
-            public void errorModel(ModelEnum modelEnum) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-
-        model.requestFriendDietitan(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
-            @Override
-            public void model(Response response, List<FriendResponse.Item> items) {
-
-            }
-
-            @Override
-            public void errorModel(ModelEnum modelEnum) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-
-        model.requestFriendDoctor(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
-            @Override
-            public void model(Response response, List<FriendResponse.Item> items) {
-
-            }
-
-            @Override
-            public void errorModel(ModelEnum modelEnum) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-
+       model.requestFriendList();
     }
-
-
 
 
 

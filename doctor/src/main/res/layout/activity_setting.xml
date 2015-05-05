@@ -4,9 +4,13 @@
     style="@style/style_wh_match_v"
     android:background="@color/appbg">
     <include layout="@layout/toolbar" />
-    <include layout="@layout/public_wrap_recycler_view" />
+    <include layout="@layout/public_wrap_recycler_view"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@id/btn_loginout"
+        android:layout_marginTop="@dimen/iten_margin_top"
         android:text="退出登录"
         android:gravity="center"
         style="@style/btn_style"

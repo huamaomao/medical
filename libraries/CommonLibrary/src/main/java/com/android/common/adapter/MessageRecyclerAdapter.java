@@ -21,9 +21,7 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
 
     public interface RecyclerAdapterMethods {
         void onBindViewHolder(ViewHolder viewHolder, int i);
-
         ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i);
-
         int getItemCount();
     }
 

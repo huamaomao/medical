@@ -22,6 +22,7 @@ import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.RequestApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,19 +80,37 @@ public class UserModel  extends ViewModel {
         execute(RequestApi.requestPatientNum(token, com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),handler);
     }
 
-    /****
-     * 获取好友列表
-     * 获取 评论，投诉
-     */
-    public void requestFriendDoctor(final ModelListener<List<FriendResponse.Item>> listener) {
-        execute(RequestApi.requestFriendList(getToken().token, com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR), new HttpModelHandler<String>() {
+    public void requestFriendList() {
+        execute(RequestApi.requestFriendList(getToken().token, null), new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 FriendResponse responseMessage = res.getObject(FriendResponse.class);
                 if (CommonUtil.notNull(responseMessage)) {
-                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.list)) {
-                        listener.model(res, responseMessage.list);
-                        db.save(responseMessage.list);
+                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList))
+                        db.save(responseMessage.friendList);
+                }
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+
+            }
+        });
+    }
+
+    /****
+     * 获取好友列表
+     *
+     */
+    public void requestFriendList(final ModelListener<List<FriendResponse.Item>> listener) {
+        execute(RequestApi.requestFriendList(getToken().token, null), new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                FriendResponse responseMessage = res.getObject(FriendResponse.class);
+                if (CommonUtil.notNull(responseMessage)) {
+                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)) {
+                        listener.model(res, responseMessage.friendList);
+                        db.save(responseMessage.friendList);
                     } else {
                         listener.errorModel(null);
                     }
@@ -109,71 +128,32 @@ public class UserModel  extends ViewModel {
     public void requestRecommendReviewComplaints(String type,HttpModelHandler<String> handler){
         execute(RequestApi.requestRecommendReviewComplaints(token.token, type),handler);
     }
-    /****
-     * 获取好友列表
+
+
+
+    /*****
+     * 获取好友列表  本地　　  患者
+     * @return
      */
-    public void requestFriendPatient(final ModelListener<List<FriendResponse.Item>> listener){
-        execute(RequestApi.requestFriendList(getToken().token,null),new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
-
-                if (CommonUtil.notNull(responseMessage)){
-                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
-                        listener.model(res,responseMessage.list);
-                        db.save(responseMessage.list);
-                    }else{
-                        listener.errorModel(null);
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(null);
-                listener.view();
-            }
-        });
+    public List<FriendResponse.Item>  queryPatientList(){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
+                equals("typeId", com.rolle.doctor.util.Constants.USER_TYPE_PATIENT));
+        List<FriendResponse.Item> ls=db.<FriendResponse.Item>query(builder);
+        return ls==null?new ArrayList<FriendResponse.Item>():ls;
     }
 
     /*****
-     * 获取好友列表
-     * @param type
+     * 获取好友列表   医生  营养师　
      * @return
      */
-    public List<FriendResponse.Item>  queryFriedList(String type){
-        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().equals("typeId",type));
-         return db.<FriendResponse.Item>query(builder);
+    public List<FriendResponse.Item>  queryFriendList(){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
+                andIn("typeId", new String[]{com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR,
+                        com.rolle.doctor.util.Constants.USER_TYPE_DIETITAN}));
+        List<FriendResponse.Item> ls=db.<FriendResponse.Item>query(builder);
+        return ls==null?new ArrayList<FriendResponse.Item>():ls;
     }
 
-    /****
-     * 获取好友列表
-     * 赞
-     */
-    public void requestFriendDietitan(final ModelListener<List<FriendResponse.Item>> listener){
-        execute(RequestApi.requestFriendList(getToken().token,com.rolle.doctor.util.Constants.USER_TYPE_DIETITAN),new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                FriendResponse   responseMessage= res.getObject(FriendResponse.class);
-                if (CommonUtil.notNull(responseMessage)){
-                    if ("200".equals(responseMessage.statusCode)&&CommonUtil.notNull(responseMessage.list)){
-                        listener.model(res,responseMessage.list);
-                        db.save(responseMessage.list);
-                    }else{
-                        listener.errorModel(null);
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(null);
-                listener.view();
-            }
-        });
-    }
 
 
 

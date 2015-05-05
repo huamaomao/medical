@@ -5,8 +5,8 @@
 
     <RelativeLayout
         android:id="@id/rl_user_detial"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="@dimen/iten_margin_top"
         android:background="@color/write"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"

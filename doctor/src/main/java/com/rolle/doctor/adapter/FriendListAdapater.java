@@ -9,11 +9,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.Log;
 import com.rolle.doctor.R;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,12 +39,12 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public boolean flag=false;
 
     private Context mContext;
-    List<User> data;
+    List<FriendResponse.Item> data;
     private OnItemClickListener onItemClickListener;
 
 
 
-    public FriendListAdapater(Context mContext, List<User> data,int type) {
+    public FriendListAdapater(Context mContext, List<FriendResponse.Item> data,int type) {
         this.mContext = mContext;
         this.data = data;
         this.type=type;
@@ -50,9 +54,8 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public FriendListAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (TYPE_DOCTOR==viewType){
             return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, parent, false));
-        }else if(TYPE_MESSAGE==viewType){
-            return  new MessageViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_message, parent, false));
-        }else if (TYPE_FRIEND==viewType){
+        }
+        else if (TYPE_FRIEND==viewType){
             return  new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend,parent,false));
         }
         return  new PatientViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient,parent,false));
@@ -60,7 +63,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     @Override
         public void onBindViewHolder(FriendListAdapater.ViewHolder holder, int position) {
-            final User user=data.get(position);
+            final FriendResponse.Item user=data.get(position);
        /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,12 +71,14 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
                     onItemClickListener.onItemClick(user);
             }
         });*/
-        StringBuilder builder=new StringBuilder(user.getAge());
+        StringBuilder builder=new StringBuilder();
+        builder.append(user.age==null?"?":user.age);
         builder.append("岁");
-        holder.tvName.setText(user.getNickname());
+        holder.tvName.setText(user.nickname);
         holder.tvSex.setText(builder.toString());
-        holder.ivPhoto.setImageResource(user.resId);
-        if ("0".equals(user.getSex())){
+        Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+                transform(new CircleTransform()).into((ImageView) holder.ivPhoto);
+        if ("0".equals(user.sex)){
             holder.tvSex.setBackgroundResource(R.drawable.round_bg_boy);
             holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy),null,null,null);
         }else {
@@ -83,9 +88,12 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
         switch (type){
             case TYPE_DOCTOR:
                 DoctorViewHolder doctor=(DoctorViewHolder)holder;
-                doctor.tvRemarks.setText(user.getRemarks());
+                doctor.tvRemarks.setText(user.doctorTitle);
                 break;
             case TYPE_PATIENT:
+               /* if (CommonUtil.isEmpty(user.g)){
+
+                }*/
                 PatientViewHolder patient=(PatientViewHolder)holder;
                 StringBuilder builder1=new StringBuilder("最低血糖");
                 builder1.append(user.minNum);
@@ -95,22 +103,16 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
                 builder1.append(user.maxNum);
                 patient.tvMaxNum.setText(builder1.toString());
                 patient.tvValue.setText("");
-                if (flag){
-                    Log.d(Util.compareBigValue(user.getMinNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)+"=====");
-                    if (Util.compareBigValue(user.getMinNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)){
+               /* if (flag){
+                    if (Util.compareBigValue(user.getMaxNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)){
                         patient.tvName.setTextColor(mContext.getResources().getColor(R.color.red));
                         patient.tvValue.setTextColor(mContext.getResources().getColor(R.color.red));
                         patient.tvValue.setText("严重");
-                    }else if (Util.compareBigValue(user.getMaxNum(), com.rolle.doctor.util.Constants.MIN_BLOOD)){
+                    }else if (Util.compareSmallValue(user.getMinNum(), com.rolle.doctor.util.Constants.MIN_BLOOD)){
                         patient.tvValue.setText("轻微");
                     }
 
-                }
-                break;
-            case TYPE_MESSAGE:
-                MessageViewHolder message=(MessageViewHolder)holder;
-                message.tvTime.setText(user.time);
-                message.tvRemarks.setText(user.getRemarks());
+                }*/
                 break;
             case TYPE_FRIEND:
                 FriendViewHolder friend=(FriendViewHolder)holder;
@@ -169,7 +171,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     }
 
-    public  static class MessageViewHolder extends ViewHolder{
+   /* public  static class MessageViewHolder extends ViewHolder{
         TextView tvRemarks,tvTime;
         public MessageViewHolder(View itemView) {
             super(itemView);
@@ -177,7 +179,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
             tvTime=(TextView)itemView.findViewById(R.id.tv_item_4);
         }
 
-    }
+    }*/
 
     public  static class FriendViewHolder extends DoctorViewHolder{
         Button btnStatus;

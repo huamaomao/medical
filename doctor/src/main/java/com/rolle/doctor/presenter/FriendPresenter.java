@@ -11,6 +11,7 @@ import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.PatientSum;
+import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -56,9 +57,6 @@ public class FriendPresenter extends Presenter {
             }
         });
     }
-
-
-
 
 
    public static interface IFriendView extends IView{

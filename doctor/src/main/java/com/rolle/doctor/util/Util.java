@@ -1,11 +1,17 @@
 package com.rolle.doctor.util;
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
+import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.astuetz.PagerSlidingTabStrip;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
+import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
 
 import java.util.ArrayList;
@@ -63,38 +69,18 @@ public final class Util {
 
     }
 
-    /******
-     * 判断值大
-     * @param value
-     * @param str
-     * @return
-     */
-    public static  boolean compareBigValue(String value,double str){
-        if (CommonUtil.isEmpty(value)){
-            return false;
-        }
-        Double  dd=Double.parseDouble(value);
-        Log.d((Double.parseDouble(value)<str)+"-----");
-        return Double.parseDouble(value)<str?true:false;
 
+    public static void initTabStrip(PagerSlidingTabStrip tabStrip,Context context){
+        tabStrip.setIndicatorColor(context.getResources().getColor(R.color.title));
+        tabStrip.setShouldExpand(true);
+        //tabStrip.setTextColor();
+        tabStrip.setDividerColor(context.getResources().getColor(R.color.write));
+        tabStrip.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.font_size_17));
+        tabStrip.setIndicatorHeight(ViewUtil.dip2px(context, 3f));
+        tabStrip.setUnderlineHeight(ViewUtil.dip2px(context,0.5f));
+        tabStrip.setTypeface(Typeface.DEFAULT, 0);
     }
 
-    /******
-     * 判断值小
-     * @param value
-     * @param str
-     * @return
-     */
-    public static  boolean compareSmallValue(String value,double str){
-        if (CommonUtil.isEmpty(value)){
-                return false;
-            }
-            try {
-                return Double.parseDouble(value)<str?true:false;
-            }catch (Exception e){
-                e.printStackTrace();
-                return false;
-        }
-    }
+
 
 }

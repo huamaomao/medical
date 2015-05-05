@@ -11,7 +11,7 @@
     <TextView android:id="@id/tv_item_0"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_photo"
-        android:textSize="@dimen/font_size_15"
+        android:textSize="@dimen/font_size_18"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -23,8 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView android:id="@id/tv_item_2"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:paddingRight="2dp"
+        android:layout_marginTop="3dp"
         android:textColor="@color/write"
         android:paddingLeft="2dp"
         android:paddingBottom="1dp"
@@ -36,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
     <TextView
         android:id="@id/tv_item_3"
         android:textColor="@color/time_cl"
@@ -44,4 +44,5 @@
         android:layout_width="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_height="wrap_content" />
+
 </RelativeLayout>

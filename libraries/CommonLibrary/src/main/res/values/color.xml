@@ -11,4 +11,5 @@
     <color name="divider">#dedede</color>
     <color name="color_blue">#2b83d9</color>
     <color name="hintText">#b3b3b3</color>
+    <color name="item_selection">#c2c2c2</color>
 </resources>

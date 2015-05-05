@@ -8,9 +8,16 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.gotye.api.GotyeMessage;
+import com.gotye.api.GotyeUser;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
 import com.rolle.doctor.domain.ChatMessage;
+import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.viewmodel.GotyeModel;
+import com.rolle.doctor.viewmodel.UserModel;
+
 import java.util.LinkedList;
 
 import butterknife.InjectView;
@@ -21,40 +28,49 @@ import butterknife.OnClick;
  */
 public class MessageActivity extends BaseActivity{
 
-     @InjectView(R.id.rv_view) RecyclerView lvView;
+    @InjectView(R.id.rv_view) RecyclerView lvView;
     @InjectView(R.id.et_message) EditText etMessage;
-    private LinkedList<ChatMessage> data;
+    private LinkedList<GotyeMessage> data;
     private ChatListAdapater adapater;
+    private FriendResponse.Item  userFriend;
+    private GotyeModel model;
+    private UserModel userModel;
+    private GotyeUser otherUser;
+    private GotyeUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-
     }
+
+    /****
+     *
+     */
+    private void loadMessage(){
+        model=new GotyeModel();
+        userModel=new UserModel(getContext());
+        otherUser=new GotyeUser();
+        user=new GotyeUser();
+        otherUser.setName(userFriend.id);
+        user.setName(String.valueOf(userModel.getLoginUser().getId()));
+        model.gotyeAPI.activeSession(otherUser);
+        model.gotyeAPI.requestAddFriend(otherUser);
+        model.getMessageList(otherUser);
+    }
+
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("小叶");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        lvView.setLayoutManager(layoutManager);
-        data=new LinkedList<ChatMessage>();
-        ChatMessage message=new ChatMessage();
-        message.setName("隔壁小王");
-        message.setType(ChatMessage.LEFT);
-        message.setTime("中午 12:11");
-        message.setMsg("约么约不约。。。。。。");
-        ChatMessage message1=new ChatMessage();
-        message1.setName("隔壁小王");
-        message1.setTime("中午 12:11");
-        message1.setType(ChatMessage.RIGHT);
-        message1.setMsg("约么约不约。。。。。。");
-        data.add(message);
-        data.add(message1);
-        adapater=new ChatListAdapater(this,data);
-        lvView.setLayoutManager(layoutManager);
-        lvView.setAdapter(adapater);
+        loadMessage();
+        setBackActivity(userFriend.nickname);
+        userFriend=getIntent().getParcelableExtra(Constants.ITEM);
+        if (CommonUtil.isNull(userFriend)){
+            finish();
+        }
+        data=new LinkedList<>();
+        ViewUtil.initRecyclerView(lvView,getContext(),adapater);
 
     }
 
@@ -77,14 +93,21 @@ public class MessageActivity extends BaseActivity{
 
     @OnClick(R.id.iv_send)
     void sendMessage(){
-        if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
+        model.sendMessage(otherUser, etMessage.getText().toString(), new GotyeModel.OnValidationListener() {
+            @Override
+            public void errorMessage() {
+
+            }
+        });
+
+      /*  if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
         ChatMessage message=new ChatMessage();
-        message.setMsg(etMessage.getText().toString());
+        message.setMsg();
         message.setType(ChatMessage.RIGHT);
         message.setTime("中午 12:11");
         data.add(message);
         adapater.notifyDataSetChanged();
-        etMessage.getText().clear();
+        etMessage.getText().clear();*/
         lvView.scrollToPosition(adapater.getItemCount()-1);
     }
 }

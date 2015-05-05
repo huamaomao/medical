@@ -27,6 +27,12 @@ public class MainActivity extends BaseActivity implements FriendListPresenter.IF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         presente=new FriendListPresenter(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presente.initFriendList();
     }
 

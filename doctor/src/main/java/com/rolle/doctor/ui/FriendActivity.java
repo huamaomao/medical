@@ -11,6 +11,7 @@ import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import butterknife.InjectView;
 public class FriendActivity extends BaseActivity{
 
      @InjectView(R.id.rv_view) RecyclerView lvView;
-    private List<User> data;
+    private List<FriendResponse.Item> data;
     private FriendListAdapater adapater;
 
     @Override
@@ -42,10 +43,10 @@ public class FriendActivity extends BaseActivity{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         lvView.setLayoutManager(layoutManager);
         lvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        data=new ArrayList<User>();
-        data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0","0"));
-        data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0","1"));
-        data.add(new User("主治慢性","23","1",R.drawable.icon_people_3,"萌萌","0","1"));
+        data=new ArrayList<FriendResponse.Item>();
+        //data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0","0"));
+        //data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0","1"));
+       // data.add(new User("主治慢性","23","1",R.drawable.icon_people_3,"萌萌","0","1"));
         lvView.setLayoutManager(layoutManager);
         adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_FRIEND);
         lvView.setAdapter(adapater);
