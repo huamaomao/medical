@@ -10,8 +10,10 @@ public class MD5 {
 		if (CommonUtil.isEmpty(pwd)) {
 			return "";
 		}
+		StringBuilder builder=new StringBuilder(pwd);
+		builder.append("rolle");
 		try {
-			byte[] byteArray = pwd.getBytes("UTF-8");
+			byte[] byteArray = builder.toString().getBytes("UTF-8");
 			byte[] md5Bytes = MessageDigest.getInstance("MD5")
 					.digest(byteArray);
 			StringBuffer hexValue = new StringBuffer();
