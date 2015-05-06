@@ -25,7 +25,6 @@ public class UserInfoActivity extends BaseActivity{
     @InjectView(R.id.rv_view)
     RecyclerView rvView;
     private List<ItemInfo> lsData;
-    protected QuickAdapter quickAdapter;
 
     private UserDetialAdapater adapater;
 

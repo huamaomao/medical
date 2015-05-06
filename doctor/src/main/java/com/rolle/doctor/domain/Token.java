@@ -13,6 +13,10 @@ public class Token extends ResponseMessage {
     public String tel;
     public int userId;
     public String pwd;
+    public int status;
+    public static final int STATUS_LOGIN=0;
+    public static final int STATUS_NO=1;
+
     /*******
      * 0   1-3
      */

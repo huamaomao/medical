@@ -2,11 +2,15 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.gotye.api.GotyeChatTarget;
 import com.gotye.api.GotyeMessage;
+import com.gotye.api.GotyeUser;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.MessageUser;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -37,22 +41,23 @@ public class MessageListPresenter extends Presenter {
        if (CommonUtil.isNull(ls))return;
        List<MessageUser> userList=new ArrayList<>();
        MessageUser user=null;
-       User user1=null;
-       GotyeChatTarget userTarget=null;
+       FriendResponse.Item user1=null;
+       GotyeUser userTarget=null;
        GotyeMessage message=null;
        for (GotyeChatTarget target:ls){
            user=new MessageUser();
-           user1= model.getUser(target.getId()+"");
+           user1= model.getUser(Integer.valueOf(target.getName()));
            if (CommonUtil.notNull(user1)){
                user.id=user1.id+"";
                user.nickname=user1.nickname;
-               user.icon=user1.getPhotoId();
-               userTarget=new GotyeChatTarget();
-               userTarget.setId(user1.getId());
+               user.icon=user1.headImage;
+               userTarget=new GotyeUser();
+               userTarget.setName(user.id+"");
                message=gotyeModel.getLastMessage(userTarget);
+               Log.d(message);
                if (CommonUtil.notNull(message)){
                    user.message=message.getText();
-                   user.date=message.getDate()+"";
+                   user.date= TimeUtil.getDiffTime(message.getDate());
                }
            }
            userList.add(user);

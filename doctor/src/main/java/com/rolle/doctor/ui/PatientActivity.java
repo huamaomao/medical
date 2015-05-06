@@ -57,11 +57,6 @@ public class PatientActivity extends BaseActivity{
         data=new ArrayList<FriendResponse.Item>();
         data.addAll(userModel.queryPatientList());
         Util.initTabStrip(tabStrip, getContext());
-
-
-      /*  data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","4.6","16.0"));
-        data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","2.6","16.0"));
-        data.add(new User(R.drawable.icon_people_2,"梦","主治慢性", "23", "萌萌","6.6","16.0"));*/
         List<View> views=new ArrayList<>();
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
@@ -86,6 +81,5 @@ public class PatientActivity extends BaseActivity{
         getMenuInflater().inflate(R.menu.menu_seach,menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
 }

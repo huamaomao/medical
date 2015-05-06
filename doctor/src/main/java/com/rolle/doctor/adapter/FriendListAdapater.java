@@ -95,14 +95,20 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
                 }*/
                 PatientViewHolder patient=(PatientViewHolder)holder;
-                StringBuilder builder1=new StringBuilder("最低血糖");
-                builder1.append(user.minNum);
-                patient.tvMinNum.setText(builder1.toString());
-                builder1.delete(0, builder1.length());
-                builder1.append("最高血糖");
-                builder1.append(user.maxNum);
-                patient.tvMaxNum.setText(builder1.toString());
-                patient.tvValue.setText("");
+                if (CommonUtil.isEmpty(user.maxNum)){
+                    patient.tvMaxNum.setVisibility(View.GONE);
+                    patient.tvMinNum.setVisibility(View.GONE);
+                }else {
+                    StringBuilder builder1=new StringBuilder("最低血糖");
+                    builder1.append(user.minNum);
+                    patient.tvMinNum.setText(builder1.toString());
+                    builder1.delete(0, builder1.length());
+                    builder1.append("最高血糖");
+                    builder1.append(user.maxNum);
+                    patient.tvMaxNum.setText(builder1.toString());
+                    patient.tvValue.setText("");
+                }
+
                /* if (flag){
                     if (Util.compareBigValue(user.getMaxNum(), com.rolle.doctor.util.Constants.MAX_BLOOD)){
                         patient.tvName.setTextColor(mContext.getResources().getColor(R.color.red));

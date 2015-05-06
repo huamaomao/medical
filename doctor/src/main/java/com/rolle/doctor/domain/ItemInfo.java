@@ -17,6 +17,9 @@ public class ItemInfo {
         this.resId = resId;
         this.title = title;
     }
+    public ItemInfo(String title) {
+        this.title = title;
+    }
 
     public ItemInfo(String title, String desc) {
         this.title = title;

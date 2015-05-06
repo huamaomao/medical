@@ -54,7 +54,7 @@ public class LoginPresenter extends Presenter {
                           token.tel=view.getTel();
                           model.setToken(token);
                            doGetUserInfo();
-                           doLoginService();
+
                           view.hideLoading();
                           break;
                        case "300":
@@ -137,7 +137,7 @@ public class LoginPresenter extends Presenter {
 
             }
         });
-
+        doLoginService();
     }
 
     public void doLoginService(){

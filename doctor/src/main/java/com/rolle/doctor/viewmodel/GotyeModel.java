@@ -35,13 +35,14 @@ public final class GotyeModel extends Presenter {
      * @param messageListener
      */
     public void initMessageList(final GotyeUser chatUser,final ChatMessageListener messageListener){
-        gotyeAPI.activeSession(chatUser);
         gotyeAPI.requestAddFriend(chatUser);
+        gotyeAPI.activeSession(chatUser);
+        gotyeAPI.markMessagesAsRead(chatUser, true);
         final GotyeUser loginUser=gotyeAPI.getLoginUser();
         gotyeAPI.addListener(new ChatListener() {
             @Override
             public void onSendMessage(int code, GotyeMessage message) {
-
+                Log.i("onSendMessage:"+message.getText());
             }
 
             @Override
@@ -97,13 +98,14 @@ public final class GotyeModel extends Presenter {
      * @param chatUser
      * @param message
      */
-    public void sendMessage(final GotyeUser chatUser,final String message,final  OnValidationListener listener){
+    public GotyeMessage  sendMessage(final GotyeUser chatUser,final String message,final  OnValidationListener listener){
         if (CommonUtil.isEmpty(message)){
             listener.errorMessage();
-            return;
+            return null;
         }
         GotyeMessage toSendMsg =GotyeMessage.createTextMessage(gotyeAPI.getLoginUser(), chatUser,message);
         Log.d(TAG,"发送消息code:"+gotyeAPI.sendMessage(toSendMsg));
+        return toSendMsg;
     }
 
 
@@ -111,7 +113,7 @@ public final class GotyeModel extends Presenter {
      * 会话列表
      */
     public List<GotyeChatTarget> getFriendMessage(){
-        return  gotyeAPI.getSessionList();
+        return gotyeAPI.getSessionList();
     }
 
     /****

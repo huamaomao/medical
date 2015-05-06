@@ -26,7 +26,7 @@ public interface Constants {
 
     public static final String DB_NAME="doctor.db";
 
-    public static final String QINJIA_KEY="5182ca36-9179-46f0-a520-3b474a8c8f91";
+    public static final String QINJIA_KEY="7c2c51ba-2be8-4e94-bcb0-38a6ddb65a51";
 
     /***下路刷新样式***/
     public static final int PULL_STYLE=PullRefreshLayout.STYLE_WATER_DROP;

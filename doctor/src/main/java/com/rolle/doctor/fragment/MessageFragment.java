@@ -29,6 +29,8 @@ import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.viewmodel.GotyeModel;
+import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,13 +53,17 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     private LinkedList<MessageUser> lsData;
     private MessageRecyclerAdapter<MessageUser> recyclerAdapter;
     private MessageListPresenter presenter;
+
+    private GotyeModel model;
+    private UserModel userModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_message);
-        setHasOptionsMenu(true);
         presenter=new MessageListPresenter(this);
-        presenter.doMessage();
+        model=new GotyeModel();
+        userModel=new UserModel(getContext());
 
     }
 
@@ -72,11 +78,11 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     protected void initView(final View view, LayoutInflater inflater) {
         super.initView(view, inflater);
         lsData=new LinkedList<MessageUser>();
-        //layout.setColorSchemeColors(int []);
         refresh.setRefreshStyle(Constants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                presenter.doMessage();
                 refresh.setRefreshing(false);
             }
         });
@@ -85,25 +91,33 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, int i) {
-                MessageUser messageUser=lsData.get(i);
-                viewHolder.setText(R.id.tv_item_0,messageUser.nickname);
-                viewHolder.setText(R.id.tv_item_1,messageUser.message);
-                viewHolder.setText(R.id.tv_item_3,messageUser.date);
-                //是否是医生
-                viewHolder.setImageResource(R.id.iv_type,0);
-                if ("0".equals(messageUser.type)){
-                    viewHolder.setImageResource(R.id.iv_type,R.drawable.icon_doctor);
-                }
-                TextView textView=viewHolder.getView(R.id.tv_item_2);
-                StringBuilder builder=new StringBuilder(messageUser.age);
-                builder.append("岁");
-                viewHolder.setText(R.id.tv_item_2,messageUser.message);
-                if ("0".equals(messageUser.sex)){
-                    textView.setBackgroundResource(R.drawable.round_bg_boy);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_boy),null,null,null);
+                MessageUser messageUser = lsData.get(i);
+                viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
+                viewHolder.setText(R.id.tv_item_1, messageUser.message);
+                viewHolder.setText(R.id.tv_item_3, messageUser.date);
+                TextView tvmsg=viewHolder.getView(R.id.tv_msg_number);
+                if (messageUser.messageNum==0){
+                    tvmsg.setVisibility(View.GONE);
                 }else {
+                    tvmsg.setVisibility(View.VISIBLE);
+                    tvmsg.setText(messageUser.messageNum);
+                }
+                //是否是医生
+                viewHolder.setImageResource(R.id.iv_type, 0);
+                if ("0".equals(messageUser.type)) {
+                    viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
+                }
+                TextView textView = viewHolder.getView(R.id.tv_item_2);
+                StringBuilder builder = new StringBuilder();
+                builder.append(messageUser.age == null ? "?" : messageUser.age);
+                builder.append("岁");
+                viewHolder.setText(R.id.tv_item_2, messageUser.message);
+                if ("0".equals(messageUser.sex)) {
+                    textView.setBackgroundResource(R.drawable.round_bg_boy);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                } else {
                     textView.setBackgroundResource(R.drawable.round_bg_girl);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_girl),null,null,null);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_girl), null, null, null);
                 }
                 textView.setText(builder.toString());
                 Picasso.with(getContext()).load(messageUser.icon).placeholder(R.drawable.icon_default).
@@ -113,7 +127,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
 
             @Override
             public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new MessageRecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message,viewGroup,false));
+                return new MessageRecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message, viewGroup, false));
             }
 
             @Override
@@ -121,7 +135,9 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 return lsData.size();
             }
         });
-        ViewUtil.initRecyclerView(rv_view,getContext(),recyclerAdapter);
+        ViewUtil.initRecyclerView(rv_view, getContext(), recyclerAdapter);
+        presenter.doMessage();
+
     }
 
     @Override
@@ -131,7 +147,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());
                 break;
             case R.id.toolbar_seach:
-                ViewUtil.openActivity(SeachActivity.class,getActivity());
+               ViewUtil.openActivity(SeachActivity.class,getActivity());
                 break;
         }
         return super.onOptionsItemSelected(item);

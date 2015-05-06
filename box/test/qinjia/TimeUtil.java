@@ -11,9 +11,10 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 public class TimeUtil {
-	public TimeUtil(Context paramContext) {
-	}
+	public TimeUtil(Context paramContext)
+	{
 
+	}
 	@SuppressLint("SimpleDateFormat")
 	public static String customTimeString(String time, String format) {
 		String date = time;

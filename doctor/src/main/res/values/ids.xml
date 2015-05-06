@@ -49,6 +49,7 @@
     <item name="tv_jianjie" type="id" />
     <item name="tv_code" type="id" />
     <item name="tv_num" type="id" />
+    <item name="tv_content" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -128,4 +129,5 @@
     <!-- view-->
     <item name="v_view" type="id" />
     <item name="seach" type="id" />
+    <item name="tbtn_swich" type="id" />
 </resources>

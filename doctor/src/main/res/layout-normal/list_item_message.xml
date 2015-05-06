@@ -7,9 +7,9 @@
         android:layout_width="@dimen/photo_height"
         android:layout_height="@dimen/photo_height" />
     <TextView
-        android:id="@id/tv_item_9"
+        android:id="@id/tv_msg_number"
         android:layout_alignRight="@id/iv_photo"
-        android:text="12+"
+        android:text=""
         android:layout_marginLeft="10dp"
         android:textColor="@color/write"
         android:textSize="@dimen/font_size_9"

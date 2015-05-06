@@ -42,7 +42,6 @@ public interface UrlApi{
     public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
 
 
-
     /***推荐投诉**/
     public static final String USER_RECOMMEND_REVIEW_COMPLAINTS_CODE="message_sp/getMessageListByMap.json";
     /***赞**/

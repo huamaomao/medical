@@ -18,21 +18,29 @@ public class FriendResponse extends ResponseMessage {
     public List<Item> friendList;
 
     @Table("friendList")
-    public static class Item implements Parcelable{
-        public String id;
+    public static class Item implements Parcelable {
+        public int id;
         public String nickname;
         public String headImage;
         public String email;
         public String intro;
         public String address;
         public String regionId;
-        /***工作地址**/
+        /**
+         * 工作地址*
+         */
         public String workAddress;
-        /***地区**/
+        /**
+         * 地区*
+         */
         public String workRegionId;
-        /**医生职称***/
+        /**
+         * 医生职称**
+         */
         public String jobId;
-        /***所在医院**/
+        /**
+         * 所在医院*
+         */
         public String hospitalName;
         public String tel;
         public String sex;
@@ -44,19 +52,33 @@ public class FriendResponse extends ResponseMessage {
         public String maxNum;
         public String token;
         public String noteName;
-        /*****二维码信息****/
+        /**
+         * **二维码信息***
+         */
         public String qrCode;
-        /*****简介****/
+        /**
+         * **简介***
+         */
         public String describe;
-        /*****工作地址****/
+        /**
+         * **工作地址***
+         */
         public String jobAddress;
-        /*****所在医院****/
+        /**
+         * **所在医院***
+         */
         public String hospitalAddress;
-        /*****医生职称****/
+        /**
+         * **医生职称***
+         */
         public String doctorTitle;
-        /*****所在科室****/
+        /**
+         * **所在科室***
+         */
         public String department;
-        /*****专长****/
+        /**
+         * **专长***
+         */
         public String specialty;
         public String mobile;
         public String status;
@@ -70,7 +92,7 @@ public class FriendResponse extends ResponseMessage {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.id);
+            dest.writeInt(this.id);
             dest.writeString(this.nickname);
             dest.writeString(this.headImage);
             dest.writeString(this.email);
@@ -108,7 +130,7 @@ public class FriendResponse extends ResponseMessage {
         }
 
         private Item(Parcel in) {
-            this.id = in.readString();
+            this.id = in.readInt();
             this.nickname = in.readString();
             this.headImage = in.readString();
             this.email = in.readString();

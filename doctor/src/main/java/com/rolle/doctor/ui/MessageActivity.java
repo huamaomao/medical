@@ -37,40 +37,50 @@ public class MessageActivity extends BaseActivity{
     private UserModel userModel;
     private GotyeUser otherUser;
     private GotyeUser user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
     }
-
     /****
      *
      */
     private void loadMessage(){
-        model=new GotyeModel();
-        userModel=new UserModel(getContext());
         otherUser=new GotyeUser();
         user=new GotyeUser();
-        otherUser.setName(userFriend.id);
+        otherUser.setName(userFriend.id+"");
         user.setName(String.valueOf(userModel.getLoginUser().getId()));
-        model.gotyeAPI.activeSession(otherUser);
-        model.gotyeAPI.requestAddFriend(otherUser);
+
         model.getMessageList(otherUser);
+        model.initMessageList(otherUser, new GotyeModel.ChatMessageListener() {
+            @Override
+            public void onReceiveMessage(GotyeMessage message) {
+                if(message.getSender()!=null
+                        && otherUser.getName().equals(message.getReceiver().getName())
+                        && user.getName().equals(message.getSender().getName())){
+                        adapater.addItem(message);
+                        lvView.scrollToPosition(adapater.getItemCount() - 1);
+                }
+            }
+        });
     }
 
 
     @Override
     protected void initView() {
         super.initView();
-        loadMessage();
-        setBackActivity(userFriend.nickname);
         userFriend=getIntent().getParcelableExtra(Constants.ITEM);
         if (CommonUtil.isNull(userFriend)){
             finish();
         }
+        model=new GotyeModel();
+        userModel=new UserModel(getContext());
         data=new LinkedList<>();
-        ViewUtil.initRecyclerView(lvView,getContext(),adapater);
+        adapater=new ChatListAdapater(data,getContext(),userModel.getLoginUser(),userFriend);
+        ViewUtil.initRecyclerViewDecoration(lvView, getContext(), adapater);
+        setBackActivity(userFriend.nickname);
+        loadMessage();
+
 
     }
 
@@ -93,21 +103,19 @@ public class MessageActivity extends BaseActivity{
 
     @OnClick(R.id.iv_send)
     void sendMessage(){
-        model.sendMessage(otherUser, etMessage.getText().toString(), new GotyeModel.OnValidationListener() {
+        if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
+
+        GotyeMessage message=model.sendMessage(otherUser, etMessage.getText().toString(), new GotyeModel.OnValidationListener() {
             @Override
             public void errorMessage() {
 
             }
         });
-
-      /*  if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
-        ChatMessage message=new ChatMessage();
-        message.setMsg();
-        message.setType(ChatMessage.RIGHT);
-        message.setTime("中午 12:11");
-        data.add(message);
-        adapater.notifyDataSetChanged();
-        etMessage.getText().clear();*/
+        if (CommonUtil.notNull(message)){
+            etMessage.getText().clear();
+            adapater.addItem(message);
+            lvView.scrollToPosition(adapater.getItemCount()-1);
+        }
         lvView.scrollToPosition(adapater.getItemCount()-1);
     }
 }

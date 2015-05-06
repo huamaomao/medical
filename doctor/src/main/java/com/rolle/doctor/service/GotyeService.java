@@ -15,13 +15,14 @@ import com.gotye.api.GotyeMessage;
 import com.gotye.api.GotyeNotify;
 import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
+import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.NotifyListener;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.UserModel;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class GotyeService extends Service implements NotifyListener {
+public class GotyeService extends Service implements NotifyListener,LoginListener {
 	public static final String ACTION_LOGIN = "gotyeim.login";
 	public static final String ACTION_RUN_BACKGROUND = "gotyeim.login";
 	private GotyeAPI api;
@@ -47,12 +48,13 @@ public class GotyeService extends Service implements NotifyListener {
 	public int onStartCommand(Intent intent, int flags, int startId) {
         Token token=userModel.getToken();
         if (CommonUtil.notNull(token)){
-            Log.e(TAG,"开始登陆了......");
             int code = api.login(token.userId+"");
+			Log.e(TAG,"开始登陆了......"+code+"==getLoginUser=="+api.getLoginUser().getName());
             if (code == GotyeStatusCode.CodeSystemBusy) {
                 // 已经登陆了
                 Log.e(TAG,"已经登陆登陆了......");
             }
+
         }
 		flags = START_STICKY;
 		return super.onStartCommand(intent, flags, startId);
@@ -135,6 +137,21 @@ public class GotyeService extends Service implements NotifyListener {
 
 	@Override
 	public void onFriendChanged(boolean arg0, GotyeUser arg1) {
+
+	}
+
+	@Override
+	public void onLogout(int code) {
+
+	}
+
+	@Override
+	public void onLogin(int code, GotyeUser currentLoginUser) {
+		Log.e(TAG,"onLogin......"+code+"...."+currentLoginUser.getName());
+	}
+
+	@Override
+	public void onReconnecting(int code, GotyeUser currentLoginUser) {
 
 	}
 }

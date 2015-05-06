@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+    <include layout="@layout/toolbar" />
+    <TextView
+        android:text="简介"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@id/tv_content"
+        android:layout_margin="@dimen/iten_margin_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="0.5dp" />
+    <TextView
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:text="关注我们"
+
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout android:id="@id/rl_item_0"
+        style="@style/list_item_style"
+        >
+        <TextView android:id="@id/tv_item_0"
+            android:text="医疗官网"
+            android:textColor="@color/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView android:id="@id/tv_item_1"
+            android:text="nwww.rolle.cn"
+            android:layout_below="@id/tv_item_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@drawable/icon_more"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_height"
+            android:layout_height="@dimen/more_height" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="0.5dp" />
+    <RelativeLayout android:id="@id/rl_item_0"
+        style="@style/list_item_style"
+        >
+        <TextView android:id="@id/tv_item_0"
+            android:text="关注微信公众号"
+            android:textColor="@color/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView android:id="@id/tv_item_1"
+            android:text="点击关注我们公众账号"
+            android:layout_below="@id/tv_item_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@drawable/icon_more"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_height"
+            android:layout_height="@dimen/more_height" />
+    </RelativeLayout>
+
+</LinearLayout>

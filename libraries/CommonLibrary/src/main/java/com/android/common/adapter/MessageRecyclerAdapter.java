@@ -95,6 +95,9 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
 
 
     public void addItemAll(List<T> data) {
+        if (data==null){
+            return;
+        }
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();

@@ -157,9 +157,8 @@ public class UserModel  extends ViewModel {
 
 
 
-   public User getUser(String id){
-       //execute(RequestApi.requestUserInviteCode(token.token),handler);
-       return new User();
+   public FriendResponse.Item getUser(long id){
+       return  db.queryById(id,FriendResponse.Item.class);
    }
 
 
@@ -185,7 +184,7 @@ public class UserModel  extends ViewModel {
      * 填写邀请码
      */
     public void requestWriteInviteCode(String inviteCode, final ModelListener<ResponseMessage> listener){
-        execute(RequestApi.requestSaveInviteCode(getToken().token,inviteCode),new HttpModelHandler<String>() {
+        execute(RequestApi.requestSaveInviteCode(getToken().token, inviteCode),new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
@@ -208,7 +207,7 @@ public class UserModel  extends ViewModel {
     }
 
     public void requestAddFriend(String userId,String noteName,final ModelListener<ResponseMessage> listener){
-        execute(RequestApi.requestAddFriend(getToken().token,userId,noteName),new HttpModelHandler<String>() {
+        execute(RequestApi.requestAddFriend(getToken().token, userId, noteName),new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
@@ -239,6 +238,16 @@ public class UserModel  extends ViewModel {
     }
     public void setToken(Token token){
         UserModel.token=token;
+        token.status=Token.STATUS_LOGIN;
+        db.save(token);
+    }
+
+    /******
+     *  更改登陆状态
+     */
+    public void cleanToken(){
+        token=getToken();
+        token.status=Token.STATUS_NO;
         db.save(token);
     }
 

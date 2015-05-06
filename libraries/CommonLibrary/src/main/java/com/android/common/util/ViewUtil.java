@@ -184,4 +184,18 @@ public class ViewUtil {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
+    /******
+     * initRecyclerView
+     * @param recyclerView
+     * @param context
+     */
+    public static void initRecyclerViewDecoration(RecyclerView recyclerView,Context context,RecyclerView.Adapter adapter){
+        if (recyclerView==null){
+            return;
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
 }

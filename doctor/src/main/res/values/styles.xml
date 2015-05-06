@@ -6,12 +6,12 @@
         <item name="colorPrimary">@color/write</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorPrimaryDisableOnly">@color/black</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/title</item>
         <item name="actionMenuTextColor">?android:attr/textColorPrimaryDisableOnly</item>
         <item name="android:itemTextAppearance">@style/menuItemColor</item>
       <!--  <item name="android:itemBackground">@color/title</item>-->
         <item name="android:textAppearanceButton">@style/toolbarTitleTextAppearance</item>
-        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
+        <item name="colorControlNormal">?android:attr/textColorPrimaryDisableOnly</item>
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@color/write</item>
 
@@ -20,6 +20,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
+    </style>
+    <style name="AppThemeTransparent" parent="AppTheme">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="toolbarTitleTextAppearance"

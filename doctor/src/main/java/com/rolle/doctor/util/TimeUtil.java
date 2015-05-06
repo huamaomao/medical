@@ -279,27 +279,19 @@ public class TimeUtil {
 	}
 	
 	public static String getDiffTime(long createTime) {
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
 		try {
-			
-			Date d1 = new Date(System.currentTimeMillis());// 你也可以获取当前时间
-//			Date d2 = df.parse(createTime);
-			
+			Date d1 = new Date();// 你也可以获取当前时间
+			SimpleDateFormat df = new SimpleDateFormat("MM-dd HH:mm:ss");
 			long diff = d1.getTime() - createTime;// 这样得到的差值是微秒级别
-			
 			long days = diff / (1000 * 60 * 60 * 24);
-			
 			long hours = (diff - days * (1000 * 60 * 60 * 24))
 					/ (1000 * 60 * 60);
-			
 			long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
 					* (1000 * 60 * 60))
 					/ (1000 * 60);
 			
 			if (days > 14) {
-				return dateToTime(createTime);
+				return df.format(createTime);
 			}
 			
 			if (days > 7) {
@@ -315,10 +307,10 @@ public class TimeUtil {
 			}
 			
 			if (minutes > 0) {
-				return ((int) minutes)+"分钟前";
+				return ((int) minutes) + "分钟前";
 			}
-			
-			Log.e("info", "" + days + "天" + hours + "小时" + minutes + "分");
+
+			Log.d("info", "" + days + "天" + hours + "小时" + minutes + "分");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

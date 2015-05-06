@@ -19,6 +19,7 @@ import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.RecommendedItemInfo;
 import com.rolle.doctor.ui.RecommendedActivity;
 import com.rolle.doctor.presenter.MyPresenter;
+import com.rolle.doctor.ui.SettingActivity;
 import com.rolle.doctor.ui.UserInfoActivity;
 import com.rolle.doctor.ui.WalletActivity;
 
@@ -100,6 +101,7 @@ public class MyFragment extends BaseFragment implements MyPresenter.IMyView{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_set:
+                ViewUtil.openActivity(SettingActivity.class,getActivity());
                 break;
         }
         return super.onOptionsItemSelected(item);
