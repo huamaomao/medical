@@ -39,7 +39,7 @@ public class UserModel  extends ViewModel {
      * 获取个人资料
      */
     public void requestModel(String token,HttpModelHandler<String> handler){
-        execute(RequestApi.requestUserInfo(token),handler);
+        execute(RequestApi.requestUserInfo(token), handler);
     }
 
     public void saveUser(User user){
@@ -155,9 +155,14 @@ public class UserModel  extends ViewModel {
     }
 
 
+    public List<FriendResponse.Item>  seachFriendList(String str){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().where("nickname like %?", new String[]{str}).or().where("id like %?", new String[]{str}).
+                or().where("noteName like %?", new String[]{str}));
+        return db.query(builder);
+    }
 
 
-   public FriendResponse.Item getUser(long id){
+    public FriendResponse.Item getUser(long id){
        return  db.queryById(id,FriendResponse.Item.class);
    }
 

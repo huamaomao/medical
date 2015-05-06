@@ -89,6 +89,7 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     //compile 'com.vxfc.3rd:qinjia:3.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.3.6@aar'
+    compile 'com.baoyz.pullrefreshlayout:library:1.0.+'
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.baoyz.pullrefreshlayout:library:1.0.1'

@@ -10,8 +10,10 @@ public final class ActivityManager {
    //  private static Map<String,Stack<Activity>>
 
     private static ActivityManager instance; 
-    private ActivityManager() { 
-    } 
+    private ActivityManager() {
+
+    }
+
     public static ActivityManager getScreenManager() { 
         if (instance == null) { 
             instance = new ActivityManager(); 

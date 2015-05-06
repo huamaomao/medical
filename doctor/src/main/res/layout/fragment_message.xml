@@ -3,6 +3,7 @@
     android:id="@id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         style="@style/style_wh_match_v"
         android:background="@color/appbg">

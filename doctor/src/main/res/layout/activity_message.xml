@@ -34,21 +34,13 @@
            android:background="@drawable/icon_et_boder"
            android:layout_gravity="center_vertical"
            android:layout_height="wrap_content" />
-       <Button android:id="@id/iv_send"
-           android:text="发送"
-           android:gravity="center"
-           android:minWidth="40dp"
-           android:minHeight="20dp"
-           android:paddingLeft="6dp"
-           android:paddingRight="6dp"
-           android:paddingTop="5dp"
-           android:paddingBottom="5dp"
-            android:textColor="@color/write"
-           android:textSize="@dimen/font_size_16"
-           android:layout_gravity="center_vertical"
+       <com.android.common.widget.FilterImageView
+           android:id="@id/iv_send"
+           android:src="@drawable/icon_send"
            android:background="@drawable/s_ibtn_send"
            android:layout_width="wrap_content"
+           android:layout_gravity="center_vertical"
+           android:layout_marginLeft="1dp"
            android:layout_height="wrap_content" />
-
    </LinearLayout>
 </LinearLayout>
