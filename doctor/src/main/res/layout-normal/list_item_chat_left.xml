@@ -7,7 +7,6 @@
    style="@style/list_item_style">
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@id/tv_chat_time"
-        android:text="中午 12：00"
         android:padding="2dp"
         android:background="@drawable/round_bg_time"
         android:textColor="@color/chat_time"
@@ -19,7 +18,6 @@
     <TextView
         android:id="@id/tv_item_0"
         android:layout_below="@id/tv_chat_time"
-        android:text="敖一生"
         android:layout_marginLeft="50dp"
         android:textColor="@color/chat_time"
         android:textSize="@dimen/font_size_14"

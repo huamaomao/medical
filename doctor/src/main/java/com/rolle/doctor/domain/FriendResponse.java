@@ -7,6 +7,7 @@ import com.android.common.domain.ResponseMessage;
 import com.litesuits.orm.db.annotation.Table;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Hua_
@@ -26,6 +27,10 @@ public class FriendResponse extends ResponseMessage {
         public String intro;
         public String address;
         public String regionId;
+        public String date;
+        public String message;
+        public int messageNum;
+
         /**
          * 工作地址*
          */
@@ -82,8 +87,35 @@ public class FriendResponse extends ResponseMessage {
         public String specialty;
         public String mobile;
         public String status;
+        /*所在地****/
         public String home;
         public String typeId;
+        public String birthday;
+        public String weight;
+        /***过敏药物**/
+        public String drugAllergy;
+        /***用药**/
+        public String medication;
+        /***运动**/
+        public String movement;
+        /***健康**/
+        public String health;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Item item = (Item) o;
+
+            return id == item.id;
+
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
 
         @Override
         public int describeContents() {
@@ -99,6 +131,9 @@ public class FriendResponse extends ResponseMessage {
             dest.writeString(this.intro);
             dest.writeString(this.address);
             dest.writeString(this.regionId);
+            dest.writeString(this.date);
+            dest.writeString(this.message);
+            dest.writeInt(this.messageNum);
             dest.writeString(this.workAddress);
             dest.writeString(this.workRegionId);
             dest.writeString(this.jobId);
@@ -124,6 +159,12 @@ public class FriendResponse extends ResponseMessage {
             dest.writeString(this.status);
             dest.writeString(this.home);
             dest.writeString(this.typeId);
+            dest.writeString(this.birthday);
+            dest.writeString(this.weight);
+            dest.writeString(this.drugAllergy);
+            dest.writeString(this.medication);
+            dest.writeString(this.movement);
+            dest.writeString(this.health);
         }
 
         public Item() {
@@ -137,6 +178,9 @@ public class FriendResponse extends ResponseMessage {
             this.intro = in.readString();
             this.address = in.readString();
             this.regionId = in.readString();
+            this.date = in.readString();
+            this.message = in.readString();
+            this.messageNum = in.readInt();
             this.workAddress = in.readString();
             this.workRegionId = in.readString();
             this.jobId = in.readString();
@@ -162,6 +206,12 @@ public class FriendResponse extends ResponseMessage {
             this.status = in.readString();
             this.home = in.readString();
             this.typeId = in.readString();
+            this.birthday = in.readString();
+            this.weight = in.readString();
+            this.drugAllergy = in.readString();
+            this.medication = in.readString();
+            this.movement = in.readString();
+            this.health = in.readString();
         }
 
         public static final Creator<Item> CREATOR = new Creator<Item>() {

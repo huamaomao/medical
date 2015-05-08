@@ -6,12 +6,13 @@ package com.rolle.doctor.domain;
  * @date 2015/4/29 - 17:40
  */
 public class MessageUser {
-    public String id;
+    public int id;
     public String type;
-    public String message;
+
     public String nickname;
     public String sex;
     public String date;
+    public String message;
     public int messageNum;
     public String icon;
     public String age;

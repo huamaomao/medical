@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.util.ActivityModel;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
@@ -22,7 +23,9 @@ import com.rolle.doctor.adapter.PatientHInfoListAdapater;
 import com.rolle.doctor.adapter.PatientHListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.adapter.YearSpinnerAdpater;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +49,15 @@ public class PatientHActivity extends BaseActivity{
     private PatientHListAdapater adapater;
     private PatientHInfoListAdapater adapater1;
 
+    private FriendResponse.Item user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_h);
     }
+
+
 
     @Override
     protected void initView() {
@@ -59,6 +66,8 @@ public class PatientHActivity extends BaseActivity{
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
+
+        user=getIntent().getParcelableExtra(Constants.ITEM);
 
         recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
         LinearLayoutManager manager=new LinearLayoutManager(this);
@@ -69,7 +78,7 @@ public class PatientHActivity extends BaseActivity{
         ls.add(1);
         adapater=new PatientHListAdapater(this,ls);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapater);
 
         recyclerViewInfo=(RecyclerView)viewpages.get(1).findViewById(R.id.rv_view);
@@ -77,14 +86,15 @@ public class PatientHActivity extends BaseActivity{
         recyclerViewInfo.setLayoutManager(manage1);
         lsData=new ArrayList<ItemInfo>();
         lsData.add(null);
-        lsData.add(new ItemInfo("性别","男"));
-        lsData.add(new ItemInfo("生日","1987年9月9日"));
-        lsData.add(new ItemInfo("体重","120kg"));
-        lsData.add(new ItemInfo("所在地","安亭"));
+        lsData.add(new ItemInfo("性别",user.sex));
+        lsData.add(new ItemInfo("生日",user.birthday));
+        lsData.add(new ItemInfo("体重",user.weight));
+        lsData.add(new ItemInfo("所在地",user.home));
         lsData.add(null);
-        lsData.add(new ItemInfo("健康","有轻微糖尿病"));
-        lsData.add(new ItemInfo("过敏药物","无"));
+        lsData.add(new ItemInfo("健康",user.health));
+        lsData.add(new ItemInfo("过敏药物",user.drugAllergy));
         adapater1=new PatientHInfoListAdapater(this,lsData);
+        adapater1.setUser(user);
         recyclerViewInfo.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         recyclerViewInfo.setAdapter(adapater1);
 
@@ -134,7 +144,9 @@ public class PatientHActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_set:
-                ViewUtil.openActivity(NoteActivity.class,this);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable(Constants.ITEM, user);
+                ViewUtil.openActivity(NoteActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -142,6 +154,8 @@ public class PatientHActivity extends BaseActivity{
 
     @OnClick(R.id.iv_send)
     void toMessageActivity(){
-        ViewUtil.openActivity(MessageActivity.class, this);
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(Constants.ITEM,user);
+        ViewUtil.openActivity(NoteActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
     }
 }

@@ -81,6 +81,7 @@ public class BaseActivity extends ActionBarActivity implements IView{
 
 
     protected void onBackActivty(){
+        finish();
         BaseActivity.this.onBackPressed();
     }
 

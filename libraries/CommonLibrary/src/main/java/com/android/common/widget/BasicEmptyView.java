@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.common.R;
+
 /**
  * Created by IzanRodrigo on 19/03/2015.
  */

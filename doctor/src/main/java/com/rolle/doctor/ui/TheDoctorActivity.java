@@ -14,7 +14,11 @@ import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.ModelEnum;
+import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.MessageListAdapter;
@@ -36,11 +40,14 @@ import butterknife.OnClick;
  */
 public class TheDoctorActivity extends BaseActivity{
 
+    @InjectView(R.id.refresh)
+    PullRefreshLayout refresh;
     private   RecyclerView lvViewAll;
     private   RecyclerView lvViewSame;
     private List<FriendResponse.Item> data;
+    private List<FriendResponse.Item> dataSame;
     private FriendListAdapater adapaterAll;
-    private FriendListAdapater adapaterSmae;
+    private FriendListAdapater adapaterSame;
     @InjectView(R.id.tabs)
     PagerSlidingTabStrip tabStrip;
     @InjectView(R.id.viewpage)
@@ -49,6 +56,8 @@ public class TheDoctorActivity extends BaseActivity{
     private final String[] titles={"全部","同科室"};
     private UserModel userModel;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +65,44 @@ public class TheDoctorActivity extends BaseActivity{
         userModel=new UserModel(getContext());
     }
 
+
     @Override
     protected void initView() {
         super.initView();
+        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //
+                userModel.requestFriendList(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
+                    @Override
+                    public void model(Response response, List<FriendResponse.Item> items) {
+                        // 数据更改
+                        adapaterSame.addCleanItems(userModel.queryFriendList());
+                        adapaterAll.addCleanItems(userModel.querySameFriendList());
+                    }
+
+                    @Override
+                    public void errorModel(ModelEnum modelEnum) {
+
+                    }
+
+                    @Override
+                    public void view() {
+                        refresh.setRefreshing(false);
+                    }
+                });
+
+            }
+        });
+        refresh.setRefreshing(false);
         setBackActivity("医生圈");
         Util.initTabStrip(tabStrip, getContext());
-        data=new ArrayList<FriendResponse.Item>();
+        data=new ArrayList<>();
         data.addAll(userModel.queryFriendList());
-
-        adapaterSmae=new FriendListAdapater(this,data,FriendListAdapater.TYPE_DOCTOR);
+        dataSame=new ArrayList<>();
+        dataSame.addAll(userModel.querySameFriendList());
+        adapaterSame=new FriendListAdapater(this,dataSame,FriendListAdapater.TYPE_DOCTOR);
         adapaterAll=new FriendListAdapater(this,data,FriendListAdapater.TYPE_DOCTOR);
         adapaterAll.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
             @Override
@@ -74,22 +112,34 @@ public class TheDoctorActivity extends BaseActivity{
         });
         List<View> views=new ArrayList<>();
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
-        views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
+        views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view, null));
         lvViewAll=(RecyclerView)views.get(0);
         lvViewSame=(RecyclerView)views.get(1);
         ViewUtil.initRecyclerView(lvViewAll,getContext(),adapaterAll);
-        ViewUtil.initRecyclerView(lvViewSame,getContext(),adapaterSmae);
-        lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),new RecyclerItemClickListener.OnItemClickListener(){
+        ViewUtil.initRecyclerView(lvViewSame,getContext(),adapaterSame);
+        lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item=data.get(position);
-                if (CommonUtil.notNull(item)){
-                    Bundle bundle=new Bundle();
-                    bundle.putParcelable(Constants.ITEM,item);
-                    ViewUtil.openActivity(DoctorDetialActivity.class,bundle, TheDoctorActivity.this, ActivityModel.ACTIVITY_MODEL_1);
+                FriendResponse.Item item = data.get(position);
+                if (CommonUtil.notNull(item)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ITEM, item);
+                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle, TheDoctorActivity.this, ActivityModel.ACTIVITY_MODEL_1);
                 }
             }
         }));
+        lvViewSame.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                FriendResponse.Item item = dataSame.get(position);
+                if (CommonUtil.notNull(item)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ITEM, item);
+                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle, TheDoctorActivity.this, ActivityModel.ACTIVITY_MODEL_1);
+                }
+            }
+        }));
+
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
@@ -100,8 +150,6 @@ public class TheDoctorActivity extends BaseActivity{
         getMenuInflater().inflate(R.menu.menu_seach,menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
 
 }

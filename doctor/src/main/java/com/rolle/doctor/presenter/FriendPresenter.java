@@ -34,32 +34,11 @@ public class FriendPresenter extends Presenter {
     }
 
     public void doPaitentSum(){
-        model.requestModelNum(model.getToken().token,new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                PatientSum token=res.getObject(PatientSum.class);
-                Log.d(token);
-                if (CommonUtil.notNull(token)){
-                    switch (token.statusCode){
-                        case "200":
-                            view.setPatientSum(token.friendSum);
-                            break;
-                        case "300":
-
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-
-            }
-        });
+        view.setPatientSum(model.requestModelNum()+"");
     }
 
 
-   public static interface IFriendView extends IView{
+   public  interface IFriendView extends IView{
        void setPatientSum(String sum);
    }
 }

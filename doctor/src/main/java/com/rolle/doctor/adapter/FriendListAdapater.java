@@ -205,4 +205,10 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public interface OnItemClickListener{
         public void onItemClick(User user);
     }
+
+    public void addCleanItems(List<FriendResponse.Item> items){
+        this.data.clear();
+        this.data.addAll(items);
+        notifyDataSetChanged();
+    }
 }

@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
+import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.viewmodel.UserModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,10 +26,15 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     List<ItemInfo> data;
 
+    private FriendResponse.Item  user;
+
     final  static int TYPE_0=0;
     final  static int TYPE_1=1;
     final  static int TYPE_2=2;
 
+    public void setUser(FriendResponse.Item user) {
+        this.user = user;
+    }
 
     public PatientHInfoListAdapater(Context mContext, List<ItemInfo> data) {
         this.mContext = mContext;
@@ -47,11 +57,19 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder ,int position) {
         ItemInfo info=data.get(position);
         if (position==0){
-
+            UserViewHolder  userViewHolder=(UserViewHolder)viewHolder;
+            StringBuilder builder=new StringBuilder("简介：");
+            if (user!=null){
+                Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+                        transform(new CircleTransform()).into(userViewHolder.photo);
+                userViewHolder.title.setText(user.nickname);
+                builder.append(CommonUtil.isEmpty(user.describe) ? " 暂无介绍" : user.describe);
+                userViewHolder.desc.setText(builder.toString());
+            }
         }else if (position!=5){
             ViewHolder holder=(ViewHolder)viewHolder;
             holder.title.setText(info.title);
-            holder.desc.setText(info.desc);
+            holder.desc.setText(CommonUtil.isEmpty(info.desc)?"无":info.desc);
         }
     }
 

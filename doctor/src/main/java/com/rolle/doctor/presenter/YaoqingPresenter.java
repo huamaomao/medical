@@ -25,6 +25,7 @@ public class YaoqingPresenter extends Presenter {
     }
 
     public void doMyCode(){
+
         model.requestModelUserCode(new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {

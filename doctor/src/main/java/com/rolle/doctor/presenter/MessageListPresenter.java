@@ -33,43 +33,53 @@ public class MessageListPresenter extends Presenter {
         gotyeModel=new GotyeModel();
     }
 
+
+    public void initReceive(){
+        gotyeModel.initReceive(new GotyeModel.ReceiveMessageListener() {
+            @Override
+            public void onReceiveMessage(GotyeMessage message){
+                Log.d("onReceiveMessage  接受消息："+message);
+                doMessage();
+            }
+        });
+    }
+
+
     /****
      * 处理消息
      */
    public void doMessage(){
-       List<GotyeChatTarget> ls =gotyeModel.getFriendMessage();
+       List<GotyeChatTarget> ls =gotyeModel.getFriendSession();
        if (CommonUtil.isNull(ls))return;
-       List<MessageUser> userList=new ArrayList<>();
-       MessageUser user=null;
+       List<FriendResponse.Item> userList=new ArrayList<>();
        FriendResponse.Item user1=null;
        GotyeUser userTarget=null;
        GotyeMessage message=null;
        for (GotyeChatTarget target:ls){
-           user=new MessageUser();
+           //     可能获取不到用户  需从服务器拉取  不在好友列表中
            user1= model.getUser(Integer.valueOf(target.getName()));
            if (CommonUtil.notNull(user1)){
-               user.id=user1.id+"";
-               user.nickname=user1.nickname;
-               user.icon=user1.headImage;
                userTarget=new GotyeUser();
-               userTarget.setName(user.id+"");
+               userTarget.setName(user1.id+"");
+               user1.messageNum=gotyeModel.getMessageCount(userTarget);
                message=gotyeModel.getLastMessage(userTarget);
-               Log.d(message);
+               Log.d(user1);
                if (CommonUtil.notNull(message)){
-                   user.message=message.getText();
-                   user.date= TimeUtil.getDiffTime(message.getDate());
+                   user1.message=message.getText();
+                   user1.date= TimeUtil.getDiffTime(message.getDate()*1000);
                }
+               userList.add(user1);
            }
-           userList.add(user);
+
        }
        view.addMessagelist(userList);
     }
 
 
     public static interface IMessageView extends IView{
-        void addMessagelist(List<MessageUser> ls);
-        void addMessageItem(MessageUser item);
-        void pushMessageItem(MessageUser item);
+        void addMessagelist(List<FriendResponse.Item> ls);
+        void addMessageItem(FriendResponse.Item item);
+        void pushMessageItem(FriendResponse.Item item);
     }
 
 }

@@ -6,12 +6,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 
+import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.util.ActivityModel;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.ModelEnum;
+import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -25,10 +34,15 @@ import butterknife.InjectView;
  */
 public class PatientActivity extends BaseActivity{
 
+    @InjectView(R.id.refresh)
+    PullRefreshLayout refresh;
+
     private   RecyclerView lvViewAll;
     private   RecyclerView lvViewMin;
     private   RecyclerView lvViewMax;
-    private List<FriendResponse.Item> data;
+    private List<FriendResponse.Item> dataAll;
+    private List<FriendResponse.Item> dataMin;
+    private List<FriendResponse.Item> dataMax;
     private FriendListAdapater adapaterAll;
     private FriendListAdapater adapaterMin;
     private FriendListAdapater adapaterMax;
@@ -50,12 +64,22 @@ public class PatientActivity extends BaseActivity{
 
     }
 
+    private void loadList(){
+        adapaterAll.addCleanItems(userModel.queryPatientList());
+        adapaterMax.addCleanItems(userModel.queryPatientList());
+        adapaterMin.addCleanItems(userModel.queryPatientList());
+    }
+
+
+
     @Override
     protected void initView() {
         super.initView();
         setBackActivity("患者");
-        data=new ArrayList<FriendResponse.Item>();
-        data.addAll(userModel.queryPatientList());
+        dataAll=new ArrayList<FriendResponse.Item>();
+        dataMax=new ArrayList<FriendResponse.Item>();
+        dataMin=new ArrayList<FriendResponse.Item>();
+
         Util.initTabStrip(tabStrip, getContext());
         List<View> views=new ArrayList<>();
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
@@ -64,9 +88,9 @@ public class PatientActivity extends BaseActivity{
         lvViewAll=(RecyclerView)views.get(0);
         lvViewMin=(RecyclerView)views.get(1);
         lvViewMax=(RecyclerView)views.get(2);
-        adapaterAll=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
-        adapaterMin=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
-        adapaterMax=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
+        adapaterAll=new FriendListAdapater(this,dataAll,FriendListAdapater.TYPE_PATIENT);
+        adapaterMin=new FriendListAdapater(this,dataMin,FriendListAdapater.TYPE_PATIENT);
+        adapaterMax=new FriendListAdapater(this,dataMax,FriendListAdapater.TYPE_PATIENT);
         adapaterAll.flag=true;
         ViewUtil.initRecyclerView(lvViewAll,getContext(),adapaterAll);
         ViewUtil.initRecyclerView(lvViewMin,getContext(),adapaterMin);
@@ -74,6 +98,63 @@ public class PatientActivity extends BaseActivity{
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
+        lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                FriendResponse.Item item = dataAll.get(position);
+                if (CommonUtil.notNull(item)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ITEM, item);
+                    ViewUtil.openActivity(MessageActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_1);
+                }
+            }
+        }));
+        lvViewMax.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                FriendResponse.Item item = dataMax.get(position);
+                if (CommonUtil.notNull(item)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ITEM, item);
+                    ViewUtil.openActivity(MessageActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_1);
+                }
+            }
+        }));
+        lvViewMin.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                FriendResponse.Item item=dataMin.get(position);
+                if (CommonUtil.notNull(item)){
+                    Bundle bundle=new Bundle();
+                    bundle.putParcelable(Constants.ITEM,item);
+                    ViewUtil.openActivity(MessageActivity.class,bundle,getContext(), ActivityModel.ACTIVITY_MODEL_1);
+                }
+            }
+        }));
+        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                userModel.requestFriendList(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
+                    @Override
+                    public void model(Response response, List<FriendResponse.Item> items) {
+                        // 数据更改
+                        loadList();
+                    }
+
+                    @Override
+                    public void errorModel(ModelEnum modelEnum) {
+
+                    }
+
+                    @Override
+                    public void view() {
+                        refresh.setRefreshing(false);
+                    }
+                });
+            }
+        });
+        loadList();
     }
 
     @Override

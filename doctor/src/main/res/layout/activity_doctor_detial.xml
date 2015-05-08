@@ -16,7 +16,6 @@
                android:layout_height="@dimen/photo_height" />
             <TextView
                 android:id="@id/tv_name"
-                android:text="杨仁义"
                 android:layout_below="@id/iv_photo"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
@@ -26,7 +25,6 @@
                 android:layout_height="wrap_content" />
         <TextView
             android:id="@id/tv_address"
-            android:text="上海市中心医院"
             android:layout_below="@id/tv_name"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
@@ -36,7 +34,6 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@id/tv_section"
-            android:text="副主任医师-慢性医科"
             android:layout_below="@id/tv_address"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
@@ -55,7 +52,7 @@
             <TextView android:id="@id/tv_position"  android:layout_column="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_14"
-                android:layout_marginLeft="5dp"  android:text="距离您 ?m" />
+                android:layout_marginLeft="5dp"  android:text="" />
             <View android:layout_width="match_parent" android:layout_columnSpan="2"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"

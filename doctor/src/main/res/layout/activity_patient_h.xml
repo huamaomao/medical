@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    style="@style/style_wh_match_v"
     >
-   <include layout="@layout/toolbar" />
+   <include layout="@layout/toolbar_n" />
     <RadioGroup
         android:id="@id/rg_group"
         android:layout_width="match_parent"

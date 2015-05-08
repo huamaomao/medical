@@ -17,7 +17,6 @@
     <com.android.common.widget.CleanEditText
         android:id="@id/et_name"
         android:padding="15dp"
-        android:text="222"
         android:background="@color/write"
         android:textSize="@dimen/font_size_16"
         android:textColor="@color/black"

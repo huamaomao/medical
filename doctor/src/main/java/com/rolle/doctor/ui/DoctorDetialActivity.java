@@ -62,7 +62,9 @@ public class DoctorDetialActivity extends BaseActivity{
         if (CommonUtil.isNull(user)){
             finish();
         }
-
+        tv_address.setText(user.hospitalName);
+        tv_section.setText(user.doctorTitle+"-"+user.department);
+        tv_resume.setText(user.describe);
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         tv_name.setText(user.nickname);

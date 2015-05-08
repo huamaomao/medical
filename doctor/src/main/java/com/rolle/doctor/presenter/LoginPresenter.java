@@ -134,7 +134,14 @@ public class LoginPresenter extends Presenter {
 
             @Override
             protected void onFailure(HttpException e, Response res) {
-
+                User user=model.getLoginUser();
+                if (user.typeId==null){
+                    view.getContext().finish();
+                    ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                }else {
+                    view.getContext().finish();
+                    ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                }
             }
         });
         doLoginService();

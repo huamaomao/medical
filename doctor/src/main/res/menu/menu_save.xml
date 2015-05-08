@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
+
+    <item android:id="@id/toolbar_save"
+        android:title="保存"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"/>
+
+</menu>

@@ -307,8 +307,10 @@ public class InternalResponse implements Response {
         Log.i(TAG, "  -----reponse header----- ↓");
         Log.d(TAG, msg);
         //data
-        msg = "\t" + dataParser != null ? "" + dataParser.getData() : "null";
-
+        msg = "\t" ;
+        if (dataParser!=null){
+            msg+="dataParser.getData()";
+        }
         Log.i(TAG, "  -----reponse data----- ↓ \n");
         Log.d(TAG, dataParser+"===="+dataParser != null);
         Log.d(TAG, msg);

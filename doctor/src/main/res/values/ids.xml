@@ -11,6 +11,7 @@
     <item name="toolbar_set" type="id" />
     <item name="toolbar_seach" type="id" />
     <item name="toolbar_next" type="id" />
+    <item name="toolbar_save" type="id" />
     <item name="toolbar_register" type="id" />
     <item name="toolbar_login" type="id" />
     <item name="toolbar_add" type="id" />
@@ -64,6 +65,7 @@
 
     <!-- imageview-->
     <item name="iv_photo" type="id" />
+    <item name="iv_pic" type="id" />
     <item name="iv_card_img" type="id" />
     <item name="iv_more" type="id" />
     <item name="iv_type" type="id" />
@@ -84,6 +86,7 @@
 
     <!--  LinearLayout  -->
     <item name="ll_invite" type="id"  />
+    <item name="ll_loading" type="id"  />
     <item name="ll_scanning" type="id"  />
     <item name="ll_sao"  type="id" />
     <item name="ll_login"  type="id" />
@@ -130,4 +133,6 @@
     <item name="v_view" type="id" />
     <item name="seach" type="id" />
     <item name="tbtn_swich" type="id" />
+    <item name="progressBar" type="id" />
+    <item name="pieChart" type="id" />
 </resources>

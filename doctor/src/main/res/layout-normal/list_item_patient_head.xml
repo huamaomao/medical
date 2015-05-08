@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             />
-        <View
+      <!--  <View
             android:layout_toRightOf="@id/sp_start"
             android:layout_marginTop="10dp"
             android:layout_height="match_parent"
@@ -31,15 +31,12 @@
             android:layout_width="0px"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            />
+            />-->
      </LinearLayout>
-
-    <ImageView
-        android:layout_columnSpan="3"
-        android:layout_columnWeight="1"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/icon_bingli"
-        android:layout_width="wrap_content"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@id/pieChart"
+        android:layout_width="match_parent"
+        android:minHeight="160dp"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

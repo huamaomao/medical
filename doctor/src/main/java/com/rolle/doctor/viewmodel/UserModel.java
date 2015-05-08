@@ -8,8 +8,12 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.MD5;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.request.Request;
 import com.litesuits.http.request.content.StringBody;
+import com.litesuits.http.request.content.UrlEncodedFormBody;
+import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.litesuits.orm.LiteOrm;
@@ -21,6 +25,7 @@ import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.RequestApi;
+import com.rolle.doctor.util.UrlApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +51,10 @@ public class UserModel  extends ViewModel {
         db.save(user);
     }
 
-    public void saveUser(){
-        QueryBuilder  builder=new QueryBuilder(User.class).columns(new String[]{"token"});
-       /* User user=db.
-        ColumnsValue cv = new ColumnsValue(new String[]{"phone"});*/
-
+    public void saveUser(FriendResponse.Item user){
+        db.save(user);
     }
+
 
     /***
      *@Description 登陆
@@ -69,15 +72,17 @@ public class UserModel  extends ViewModel {
             onValidationListener.errorPwd();
             return;
         }
-        execute(RequestApi.requestLogin(tel, MD5.compute(pwd)),listener);
+        execute(RequestApi.requestLogin(tel, MD5.compute(pwd)), listener);
     }
 
 
     /****
      * 获取患者数目
      */
-    public void requestModelNum(String token,HttpModelHandler<String> handler){
-        execute(RequestApi.requestPatientNum(token, com.rolle.doctor.util.Constants.USER_TYPE_PATIENT),handler);
+    public long requestModelNum(){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
+                andIn("typeId", new String[]{com.rolle.doctor.util.Constants.USER_TYPE_PATIENT}));
+        return db.queryCount(builder);
     }
 
     public void requestFriendList() {
@@ -98,24 +103,19 @@ public class UserModel  extends ViewModel {
         });
     }
 
-    /****
-     * 获取好友列表
-     *
-     */
     public void requestFriendList(final ModelListener<List<FriendResponse.Item>> listener) {
         execute(RequestApi.requestFriendList(getToken().token, null), new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 FriendResponse responseMessage = res.getObject(FriendResponse.class);
                 if (CommonUtil.notNull(responseMessage)) {
-                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)) {
-                        listener.model(res, responseMessage.friendList);
+                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)){
                         db.save(responseMessage.friendList);
-                    } else {
-                        listener.errorModel(null);
+                        listener.model(res, responseMessage.friendList);
+                        listener.view();
                     }
+
                 }
-                listener.view();
             }
 
             @Override
@@ -125,6 +125,8 @@ public class UserModel  extends ViewModel {
             }
         });
     }
+
+
     public void requestRecommendReviewComplaints(String type,HttpModelHandler<String> handler){
         execute(RequestApi.requestRecommendReviewComplaints(token.token, type),handler);
     }
@@ -154,6 +156,17 @@ public class UserModel  extends ViewModel {
         return ls==null?new ArrayList<FriendResponse.Item>():ls;
     }
 
+    /*****
+     * 获取好友列表   医生  营养师　
+     * @return
+     */
+    public List<FriendResponse.Item>  querySameFriendList(){
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
+                andIn("typeId", new String[]{getLoginUser().typeId}).and().equals("department", getLoginUser().department));
+        List<FriendResponse.Item> ls=db.<FriendResponse.Item>query(builder);
+        return ls==null?new ArrayList<FriendResponse.Item>():ls;
+    }
+
 
     public List<FriendResponse.Item>  seachFriendList(String str){
         QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().where("nickname like %?", new String[]{str}).or().where("id like %?", new String[]{str}).
@@ -163,7 +176,7 @@ public class UserModel  extends ViewModel {
 
 
     public FriendResponse.Item getUser(long id){
-       return  db.queryById(id,FriendResponse.Item.class);
+       return  db.queryById(id, FriendResponse.Item.class);
    }
 
 
@@ -176,7 +189,7 @@ public class UserModel  extends ViewModel {
     }
 
     /****
-            * 获取患者数目
+
     */
     public void requestModelUserCode(HttpModelHandler<String> handler){
         execute(RequestApi.requestUserInviteCode(token.token),handler);
@@ -230,6 +243,28 @@ public class UserModel  extends ViewModel {
             protected void onFailure(HttpException e, Response res) {
                 listener.errorModel(null);
                 listener.view();
+            }
+        });
+    }
+
+    /******
+     * 血糖记录
+     */
+    public void requestBloodList(String date,ModelListener listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.BLOOD_LIST);
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token",getToken().token));
+        Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+
             }
         });
     }

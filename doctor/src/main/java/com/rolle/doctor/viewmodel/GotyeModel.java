@@ -24,10 +24,11 @@ public final class GotyeModel extends Presenter {
      * @param chatUser
      * @return
      */
-    public List<GotyeMessage> getMessageList(GotyeUser chatUser){
-        return gotyeAPI.getMessageList(chatUser,true);
-
+    public List<GotyeMessage> getMessageList(GotyeUser chatUser,boolean flag){
+        return gotyeAPI.getMessageList(chatUser,flag);
     }
+
+
 
     /*****
      * 聊天监听初始化
@@ -43,17 +44,98 @@ public final class GotyeModel extends Presenter {
             @Override
             public void onSendMessage(int code, GotyeMessage message) {
                 Log.i("onSendMessage:"+message.getText());
+                messageListener.onSendMessage(code,message);
             }
 
             @Override
             public void onReceiveMessage(GotyeMessage message) {
                 Log.i("onReceiveMessage:"+gotyeAPI.getUserDetail(message.getSender().getName(),false).getIcon());
-                if(message.getSender()!=null
-                        && chatUser.getName().equals(message.getSender().getName())
-                        && loginUser.getName().equals(message.getReceiver().getName())){
-                    messageListener.onReceiveMessage(message);
-                    gotyeAPI.downloadMediaInMessage(message);
-                }
+                messageListener.onReceiveMessage(message);
+                gotyeAPI.downloadMediaInMessage(message);
+
+            }
+
+            @Override
+            public void onDownloadMediaInMessage(int code, GotyeMessage message) {
+
+            }
+
+            @Override
+            public void onReport(int code, GotyeMessage message) {
+
+            }
+
+            @Override
+            public void onStartTalk(int code, boolean isRealTime, int targetType, GotyeChatTarget target) {
+
+            }
+
+            @Override
+            public void onStopTalk(int code, GotyeMessage message, boolean isVoiceReal) {
+
+            }
+
+            @Override
+            public void onDecodeMessage(int code, GotyeMessage message) {
+
+            }
+
+            @Override
+            public void onGetMessageList(int code, List<GotyeMessage> list) {
+                messageListener.onMessageList(list);
+            }
+
+            @Override
+            public void onOutputAudioData(byte[] datas) {
+
+            }
+        });
+    }
+
+    /******
+     * 发送消息
+     * @param chatUser
+     * @param message
+     */
+    public GotyeMessage sendMessage(final GotyeUser chatUser,final String message,final  OnValidationListener listener){
+        if (CommonUtil.isEmpty(message)){
+            listener.errorMessage();
+            return null;
+        }
+        GotyeMessage toSendMsg =GotyeMessage.createTextMessage(gotyeAPI.getLoginUser(), chatUser, message);
+        Log.d(TAG, "发送消息code:" + gotyeAPI.sendMessage(toSendMsg));
+        return toSendMsg;
+    }
+
+    /******
+     * 发送消息
+     * @param chatUser
+     * @param imagePath
+     */
+    public GotyeMessage sendImageMessage(final GotyeUser chatUser,String imagePath){
+        GotyeMessage gotyeMessage = GotyeMessage.createImageMessage(chatUser, imagePath);
+        Log.d(TAG,"发送消息code:"+gotyeAPI.sendMessage(gotyeMessage));
+        return gotyeMessage;
+    }
+
+    /******
+     * 发送消息
+     */
+    public int getMessageCount(GotyeUser gotyeUser){
+        return gotyeAPI.getUnreadMessageCount(gotyeUser);
+    }
+
+    public void initReceive(final ReceiveMessageListener listener){
+        gotyeAPI.addListener(new ChatListener() {
+            @Override
+            public void onSendMessage(int code, GotyeMessage message) {
+
+            }
+
+            @Override
+            public void onReceiveMessage(GotyeMessage message) {
+                gotyeAPI.downloadMediaInMessage(message);
+                listener.onReceiveMessage(message);
             }
 
             @Override
@@ -94,25 +176,9 @@ public final class GotyeModel extends Presenter {
     }
 
     /******
-     * 发送消息
-     * @param chatUser
-     * @param message
-     */
-    public GotyeMessage  sendMessage(final GotyeUser chatUser,final String message,final  OnValidationListener listener){
-        if (CommonUtil.isEmpty(message)){
-            listener.errorMessage();
-            return null;
-        }
-        GotyeMessage toSendMsg =GotyeMessage.createTextMessage(gotyeAPI.getLoginUser(), chatUser,message);
-        Log.d(TAG,"发送消息code:"+gotyeAPI.sendMessage(toSendMsg));
-        return toSendMsg;
-    }
-
-
-    /******
      * 会话列表
      */
-    public List<GotyeChatTarget> getFriendMessage(){
+    public List<GotyeChatTarget> getFriendSession(){
         return gotyeAPI.getSessionList();
     }
 
@@ -142,6 +208,12 @@ public final class GotyeModel extends Presenter {
     }
 
     public static interface ChatMessageListener{
+        void onReceiveMessage(GotyeMessage message);
+        void onMessageList(List<GotyeMessage> messages);
+        void onSendMessage(int code, GotyeMessage message);
+    }
+
+    public static interface ReceiveMessageListener{
         void onReceiveMessage(GotyeMessage message);
     }
 
