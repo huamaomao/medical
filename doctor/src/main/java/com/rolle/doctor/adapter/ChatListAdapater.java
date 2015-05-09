@@ -114,8 +114,8 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             holder.tvTime.setVisibility(View.VISIBLE);
         } else {
             // 两条消息时间离得如果稍长，显示时间
-            if (TimeUtil.needShowTime(message.getDate(),
-                    data.get(position - 1).getDate())) {
+            if (TimeUtil.needShowTime(message.getDate()*1000,
+                    data.get(position - 1).getDate()*1000)) {
                 holder.tvTime.setText(TimeUtil.toLocalTimeString(message.getDate() * 1000));
                 holder.tvTime.setVisibility(View.VISIBLE);
             } else {
@@ -133,7 +133,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             case MESSAGE_LEFT_PIC:
                 holder.tvName.setText(CommonUtil.isEmpty(friendUser.noteName)?friendUser.nickname:friendUser.noteName);
                 Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.drawable.icon_default)
-                        .resize(80,80).into(holder.iv_pic);
+                        .resize(120,120).into(holder.iv_pic);
                 // 查看图片
                 holder.iv_pic.setOnClickListener(new View.OnClickListener() {
                     @Override

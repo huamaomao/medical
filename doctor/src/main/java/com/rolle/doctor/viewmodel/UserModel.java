@@ -169,8 +169,13 @@ public class UserModel  extends ViewModel {
 
 
     public List<FriendResponse.Item>  seachFriendList(String str){
-        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().where("nickname like %?", new String[]{str}).or().where("id like %?", new String[]{str}).
-                or().where("noteName like %?", new String[]{str}));
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("%").append(str).append("%");
+        QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
+                where("nickname like ?  or  userName like ?  or noteName like ?",
+                        new String[]{stringBuilder.toString(),stringBuilder.toString(),stringBuilder.toString()}));
+              /*  or().where("", new String[]{stringBuilder.toString()}).
+                or().where("", new String[]{stringBuilder.toString()}));*/
         return db.query(builder);
     }
 

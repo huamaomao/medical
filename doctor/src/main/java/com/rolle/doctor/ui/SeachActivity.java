@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.InjectView;
 
 /**
- * Created by Hua_ on 2015/3/27.
+ * ²éÑ¯
  */
 public class SeachActivity extends BaseLoadingActivity {
 
@@ -88,6 +88,7 @@ public class SeachActivity extends BaseLoadingActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 if ( s != null && s.length ( ) > 0 ) {
+                    lvView.setVisibility(View.VISIBLE);
                     adapater.addItemAll(userModel.seachFriendList(s));
                 }
                 return true;

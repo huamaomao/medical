@@ -6,11 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewHolderHelp;
+import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserDetialAdapater;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.viewmodel.UserModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +33,33 @@ public class UserInfoActivity extends BaseActivity{
     private List<ItemInfo> lsData;
 
     private UserDetialAdapater adapater;
+    private UserModel userModel;
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
-
     }
 
     @Override
     protected void initView() {
         super.initView();
         setBackActivity("资料");
-        lsData=new ArrayList<ItemInfo>();
+        userModel=new UserModel(getContext());
+        user=userModel.getLoginUser();
+        lsData=new ArrayList<>();
         lsData.add(new ItemInfo());
-        lsData.add(new ItemInfo("工作地址","上海市杨浦区人民广场"));
-        lsData.add(new ItemInfo("所在医院","上海市人民医院"));
-        lsData.add(new ItemInfo("医生职称","副主任医师"));
-        lsData.add(new ItemInfo("所在科室","慢性病科"));
-        lsData.add(new ItemInfo("专长","糖尿病"));
-        rvView.setHasFixedSize(true);
-        rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        rvView.setLayoutManager(layoutManager);
+        lsData.add(new ItemInfo("工作地址", CommonUtil.isEmpty(user.jobAddress)?"无":user.jobAddress));
+        lsData.add(new ItemInfo("所在医院",CommonUtil.isEmpty(user.hospitalName)?"无":user.hospitalName));
+        lsData.add(new ItemInfo("医生职称", CommonUtil.isEmpty(user.doctorTitle) ? "无" : user.doctorTitle));
+        lsData.add(new ItemInfo("所在科室", CommonUtil.isEmpty(user.department) ? "无" : user.department));
+        lsData.add(new ItemInfo("专长", CommonUtil.isEmpty(user.specialty) ? "无" : user.specialty));
         adapater=new UserDetialAdapater(this,lsData);
-        rvView.setAdapter(adapater);
+        adapater.setUserDetail(user);
+        ViewUtil.initRecyclerView(rvView, getContext(), adapater);
+
+
     }
 }

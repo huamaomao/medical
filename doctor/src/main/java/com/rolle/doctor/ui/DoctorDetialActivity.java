@@ -62,8 +62,17 @@ public class DoctorDetialActivity extends BaseActivity{
         if (CommonUtil.isNull(user)){
             finish();
         }
-        tv_address.setText(user.hospitalName);
-        tv_section.setText(user.doctorTitle+"-"+user.department);
+        tv_address.setText(CommonUtil.isEmpty(user.hospitalName)?"无":user.hospitalName);
+        StringBuilder builder=new StringBuilder("(");
+        if (CommonUtil.isEmpty(user.doctorTitle)||CommonUtil.isEmpty(user.department)){
+            builder.append("无");
+        }else {
+            builder.append(user.doctorTitle ).
+                    append("-").
+                    append(user.department);
+        }
+        builder.append(")");
+        tv_section.setText(builder.toString());
         tv_resume.setText(user.describe);
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);

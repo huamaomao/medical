@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,6 +56,24 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
         ItemInfo info=data.get(position);
         if (position==0){
             UserViewHolder viewHolder=(UserViewHolder)holder;
+            Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+                    transform(new CircleTransform()).into(viewHolder.iv_photo);
+            viewHolder.tv_name.setText(user.nickname);
+            viewHolder.tv_jianjie.setText(CommonUtil.isEmpty(user.nickname)?"无":user.nickname);
+            //;
+
+            StringBuilder builder = new StringBuilder();
+            builder.append(user.age == null ? "?" : user.age);
+            builder.append("岁");
+            if ("0".equals(user.sex)) {
+                viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_boy);
+                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+            } else {
+                viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_girl);
+                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
+            }
+            viewHolder.tv_sex.setText(builder.toString());
+            // viewHolder.iv_photo
         }else{
             ViewHolder viewHolder=(ViewHolder)holder;
             viewHolder.title.setText(info.title);
@@ -102,9 +123,5 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             desc=(TextView)itemView.findViewById(R.id.tv_item_1);
         }
     }
-
-  public static interface OnUserItemListener{
-       public void onItemClick();
-  }
 
 }
