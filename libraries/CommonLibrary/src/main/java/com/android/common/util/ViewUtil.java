@@ -234,4 +234,27 @@ public class ViewUtil {
         }
         return data;
     }
+
+    /****
+     * 图片
+     * @param context
+     */
+    public static  void  startPictureActivity(Activity context){
+        Intent intent=new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);;
+        intent.setType("image/jpeg");
+        context.startActivityForResult(intent, Constants.CODE_PIC);
+    }
+
+    /****
+     * 图片
+     * @param context
+     */
+    public static  void  startCaptureActivity(Activity context){
+        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);;
+        intent.setType("image/jpeg");
+        context.startActivityForResult(intent, Constants.CODE_CAPTURE);
+    }
+
 }

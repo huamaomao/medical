@@ -6,13 +6,18 @@ import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
+import com.android.common.util.Log;
 import com.android.common.util.MD5;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.request.Request;
+import com.litesuits.http.request.content.FileBody;
+import com.litesuits.http.request.content.MultipartBody;
 import com.litesuits.http.request.content.StringBody;
 import com.litesuits.http.request.content.UrlEncodedFormBody;
+import com.litesuits.http.request.content.multi.FilePart;
+import com.litesuits.http.request.content.multi.StringPart;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
@@ -27,6 +32,7 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.util.UrlApi;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,7 +179,7 @@ public class UserModel  extends ViewModel {
         stringBuilder.append("%").append(str).append("%");
         QueryBuilder builder=new QueryBuilder(FriendResponse.Item.class).where(WhereBuilder.create().
                 where("nickname like ?  or  userName like ?  or noteName like ?",
-                        new String[]{stringBuilder.toString(),stringBuilder.toString(),stringBuilder.toString()}));
+                        new String[]{stringBuilder.toString(), stringBuilder.toString(), stringBuilder.toString()}));
               /*  or().where("", new String[]{stringBuilder.toString()}).
                 or().where("", new String[]{stringBuilder.toString()}));*/
         return db.query(builder);
@@ -272,6 +278,53 @@ public class UserModel  extends ViewModel {
 
             }
         });
+    }
+
+    /******
+     * 血糖记录
+     */
+    public void requestSaveUser(User user, final ModelListener<ResponseMessage> listener){
+        user.token=getToken().token;
+        execute(RequestApi.requestUpdUser(user), new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                listener.model(res,res.getObject(ResponseMessage.class));
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+            }
+        });
+    }
+
+    /******
+     * 上传图片
+     * @param typeId
+     * @param path
+     * @param listener
+     */
+    public void  uploadPicture(String typeId,String path,ModelListener<ResponseMessage> listener){
+        //mage_sp/uploadImage.json? token=&typeId
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("image_sp/uploadImage.json");
+        MultipartBody body=new MultipartBody();
+        body.addPart(new StringPart("token",getToken().token));
+        body.addPart(new FilePart("file",new File(path),"image/jpeg"));
+        Request request=new Request(url.toString()).setHttpBody(body);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message=res.getObject(ResponseMessage.class);
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+
+            }
+        });
+
     }
 
 

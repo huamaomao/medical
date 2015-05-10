@@ -64,6 +64,9 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
             case 2:
                 title="选择科室";
                 break;
+            case 3:
+                title="选择职称";
+                break;
         }
         setBackActivity(title);
         adapter=new BaseRecyclerAdapter(items);

@@ -12,4 +12,7 @@ public interface Constants{
     public static final String DATA_TEL="tel";
     public static final String DATA_CODE="code";
 
+    public static final int CODE_PIC=1;
+    public static final int CODE_CAPTURE=2;
+
 }

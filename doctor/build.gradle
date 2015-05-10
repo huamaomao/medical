@@ -106,6 +106,7 @@ dependencies {
     compile project(':libraries:CommonLibrary')
     compile project(':libraries:LiteLibrary')
     compile project(':libraries:GotyeLibrary')
+    compile project(':libraries:slideDateTimePicker')
     compile project(':libraries:pagerslidingtabstrip')
 
 }

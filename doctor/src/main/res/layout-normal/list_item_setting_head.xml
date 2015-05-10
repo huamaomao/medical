@@ -52,7 +52,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider"
+        android:background="@color/appbg"
         android:layout_height="@dimen/iten_margin_top" />
 </GridLayout>
 

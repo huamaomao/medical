@@ -53,6 +53,8 @@ public class User implements Serializable{
     public String doctorTitle;
     /*****所在科室****/
     public String department;
+    public String birthday;
+    public String weight;
     /*****专长****/
     public String specialty;
     /*****身份证图片地址****/

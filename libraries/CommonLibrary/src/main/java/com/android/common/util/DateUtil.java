@@ -1,5 +1,7 @@
 package com.android.common.util;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -92,9 +94,14 @@ public class DateUtil {
            builder.append(date.substring(5));
             builder.append(" ");
             builder.append(time);
-            return builder.toString().substring(0,builder.length()-3);
+            return builder.toString().substring(0, builder.length() - 3);
         } catch (Exception e) {
             return date;
         }
+    }
+
+    public static String formatYMD(Date time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(time);
     }
 }

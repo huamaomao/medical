@@ -51,6 +51,7 @@
     <item name="tv_code" type="id" />
     <item name="tv_num" type="id" />
     <item name="tv_content" type="id" />
+    <item name="tv_date" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -90,6 +91,10 @@
     <item name="ll_scanning" type="id"  />
     <item name="ll_sao"  type="id" />
     <item name="ll_login"  type="id" />
+    <item name="ll_item_0"  type="id" />
+    <item name="ll_item_1"  type="id" />
+    <item name="ll_item_2"  type="id" />
+    <item name="ll_item_3"  type="id" />
 
 
     <!--  RelativeLayout  -->
@@ -108,6 +113,7 @@
     <!-- EditText-->
     <item name="et_message" type="id" />
     <item name="et_name" type="id" />
+    <item name="et_intro" type="id" />
     <item name="et_tel" type="id" />
     <item name="et_pwd" type="id" />
     <item name="et_code" type="id" />

@@ -1,5 +1,6 @@
 package com.rolle.doctor.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.UpdateInfoActivity;
+import com.rolle.doctor.ui.UpdateIntroActivity;
 import com.rolle.doctor.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
@@ -73,6 +77,18 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
             }
             viewHolder.tv_sex.setText(builder.toString());
+            viewHolder.rl_item_0.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewUtil.openActivity(UpdateInfoActivity.class, (Activity) mContext);
+                }
+            });
+            viewHolder.rl_item_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewUtil.openActivity(UpdateIntroActivity.class,(Activity)mContext);
+                }
+            });
             // viewHolder.iv_photo
         }else{
             ViewHolder viewHolder=(ViewHolder)holder;

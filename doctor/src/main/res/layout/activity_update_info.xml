@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+   <include layout="@layout/toolbar" />
+    <LinearLayout android:id="@id/ll_item_0"
+       style="@style/list_item_style">
+        <TextView
+            android:text="头像"
+            style="@style/item_left_style" />
+
+        <ImageView android:id="@id/iv_photo"
+            android:src="@drawable/icon_people_4"
+            android:layout_gravity="center_vertical|right"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+    </LinearLayout>
+    <include layout="@layout/divider" />
+    <LinearLayout
+        android:clickable="false"
+        style="@style/list_item">
+
+        <TextView
+            android:text="姓名"
+            style="@style/item_left_style" />
+        <com.android.common.widget.CleanEditText android:id="@id/et_name"
+            android:hint="请输入真实姓名"
+            android:focusable="true"
+            android:textColor="@color/black"
+            style="@style/et_styple"
+            />
+    </LinearLayout>
+    <include layout="@layout/divider"
+       />
+    <LinearLayout
+        style="@style/list_item">
+        <TextView
+            android:text="性别"
+            style="@style/item_left_style" />
+        <RadioGroup android:id="@id/rg_group"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton android:id="@id/rb_tab_1"
+                android:text="男"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton android:id="@id/rb_tab_2"
+                android:textColor="@color/black"
+                android:text="女"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+    </LinearLayout>
+    <include layout="@layout/divider"
+        />
+    <LinearLayout android:id="@id/ll_item_1"
+        style="@style/list_item_style">
+        <TextView
+            android:text="出生日期"
+            android:minHeight="35dp"
+            style="@style/item_left_style" />
+        <TextView
+            android:id="@id/tv_date"
+            android:minHeight="35dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_15"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <include layout="@layout/divider"
+        />
+</LinearLayout>

@@ -13,7 +13,6 @@
         android:layout_height="@dimen/photo_height" />
     <TextView
         android:id="@id/tv_name"
-        android:text="文静"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_photo"
         android:layout_marginLeft="10dp"
@@ -23,7 +22,6 @@
         android:layout_height="wrap_content" />
     <TextView android:id="@id/tv_sex"
         android:drawableLeft="@drawable/icon_boy"
-        android:text="32岁"
         android:layout_toRightOf="@id/tv_name"
         android:layout_centerVertical="true"
         android:textColor="@color/write"
@@ -72,7 +70,7 @@
             android:layout_alignParentRight="true"
             android:textSize="@dimen/font_size_14"
             style="@style/text_right_style"
-            android:text="擅长。。。。"/>
+            />
     </RelativeLayout>
     <include layout="@layout/divider" />
     <View

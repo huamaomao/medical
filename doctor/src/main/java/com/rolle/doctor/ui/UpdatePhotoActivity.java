@@ -24,7 +24,7 @@ public class UpdatePhotoActivity extends BaseActivity{
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("修改认证资料");
+        setBackActivity("个人信息");
 
     }
     @OnClick(R.id.iv_send)

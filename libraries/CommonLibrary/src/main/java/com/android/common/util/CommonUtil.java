@@ -200,4 +200,9 @@ public final class CommonUtil {
          return true;
     }
 
+
+    public static String initTextNull(String  str){
+        if (isEmpty(str)) return "无";
+        return str;
+    }
 }

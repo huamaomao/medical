@@ -56,6 +56,8 @@
             android:screenOrientation="portrait" android:theme="@style/AppThemeTransparent" />
         <service android:name=".service.GotyeService" />
     <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
 
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>

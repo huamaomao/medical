@@ -4,53 +4,6 @@
     android:background="@color/appbg"
     >
    <include layout="@layout/toolbar" />
-    
-  <!-- <GridLayout
-        android:columnCount="2"
-        android:paddingLeft="20dp"
-        android:layout_marginBottom="20dp"
-       android:paddingRight="20dp"
-       android:layout_marginTop="20dp"
-        android:background="@color/write"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-         <LinearLayout android:orientation="horizontal"
-             android:paddingTop="10dp" android:paddingBottom="10dp">
-             <ImageView android:id="@id/iv_photo"
-                 android:src="@drawable/icon_people_4"
-                 android:layout_gravity="center_vertical"
-                 android:layout_width="@dimen/photo_height"
-                 android:layout_height="@dimen/photo_height" />
-             <TextView
-                 android:id="@id/tv_name"
-                 android:text="文静"
-                 android:layout_gravity="center_vertical"
-                 android:layout_toRightOf="@id/iv_photo"
-                 android:layout_centerVertical="true"
-                 android:layout_marginLeft="10dp"
-                 android:textColor="@color/black"
-                 android:textSize="@dimen/font_size_17"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
-              <TextView android:id="@id/tv_item_0"
-                  android:drawableLeft="@drawable/icon_boy"
-                  android:text="32岁"
-                  android:layout_gravity="center_vertical"
-                  android:textColor="@color/write"
-                  android:layout_marginLeft="10dp"
-                  android:background="@drawable/round_bg_boy"
-                  android:textSize="@dimen/font_size_14"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" />
-         </LinearLayout>
-        <ImageView  android:id="@id/iv_card_img" android:layout_gravity="right|center_vertical"/>
-        <View android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="1dp" />
-
-
-       <View android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="1dp" />
-       <TextView  style="@style/text_label_style" android:text="简介" />
-       <TextView style="@style/text_right_style"  android:text="擅长。。。。"/>
-    </GridLayout>-->
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"

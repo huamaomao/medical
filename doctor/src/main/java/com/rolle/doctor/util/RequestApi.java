@@ -230,6 +230,7 @@ public final class RequestApi {
         param.add(new NameValuePair("hospitalAddress",user.hospitalAddress));
         param.add(new NameValuePair("jobId",user.jobId));
         param.add(new NameValuePair("token",user.token));
+        param.add(new NameValuePair("birthday",user.birthday));
         param.add(new NameValuePair("doctorTitle",user.doctorTitle));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }

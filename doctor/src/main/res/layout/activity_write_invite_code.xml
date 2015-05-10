@@ -21,6 +21,7 @@
         <com.android.common.widget.CleanEditText
             android:id="@id/et_code"
             android:layout_width="50dp"
+            android:paddingLeft="5dp"
             android:hint="填写邀请码"
             android:maxLength="6"
             android:background="@android:color/transparent"

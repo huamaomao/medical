@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
@@ -166,17 +165,14 @@ public class MessageActivity extends BaseActivity{
 
     @OnClick(R.id.iv_photo)
     void  toPic(){
-        Intent intent=new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);;
-        intent.setType("image/jpeg");
-        startActivityForResult(intent, Constants.CODE_PIC);
+       ViewUtil.startPictureActivity(getContext());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 选取图片的返回值
-        if (requestCode == Constants.CODE_PIC) {
+        if (requestCode == com.android.common.util.Constants.CODE_PIC) {
             if (data != null) {
                 Uri uri = data.getData();
                 if (uri != null) {

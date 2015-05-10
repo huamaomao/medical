@@ -37,8 +37,10 @@ public interface Constants {
     public static final int NO = -1;
 
 
-    public static final int CODE_PIC=1;
-    public static final int CODE_PONTO=2;
+    /*****性别***/
+    public static final String SEX_BOY="0";
+    public static final String SEX_GIRL="1";
+
 
 
     /***血糖值****/
