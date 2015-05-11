@@ -118,6 +118,7 @@
     <item name="et_pwd" type="id" />
     <item name="et_code" type="id" />
     <item name="et_hospital" type="id" />
+    <item name="et_address" type="id" />
 
     <!--spinner -->
     <item name="sp_start" type="id" />

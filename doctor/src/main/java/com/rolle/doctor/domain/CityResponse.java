@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.android.common.domain.ResponseMessage;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,10 +14,9 @@ import java.util.List;
  * @date 2015/4/28 - 9:42
  */
 public class CityResponse extends ResponseMessage {
-
+    public int id;
     public List<Item> selectList;
-
-    public static class Item implements Parcelable {
+    public static class Item implements Parcelable,Serializable{
         public String id;
         public String name;
 

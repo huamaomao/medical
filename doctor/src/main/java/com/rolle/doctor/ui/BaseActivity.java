@@ -13,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,11 +67,11 @@ public class BaseActivity extends ActionBarActivity implements IView{
        mToolbar.setNavigationIcon(R.drawable.icon_back);
        actionBar.setDisplayHomeAsUpEnabled(false);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              onBackActivty();
-          }
-      });
+            @Override
+            public void onClick(View v) {
+                onBackActivty();
+            }
+        });
 
        setTitle(title);
     }
@@ -148,5 +149,35 @@ public class BaseActivity extends ActionBarActivity implements IView{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    protected long lastClickTime;
+    public boolean flagClick=true;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (flagClick&&isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    /****
+     *  设置最后触发时间
+     */
+    public void setLastClickTime(){
+        lastClickTime=System.currentTimeMillis();
+    }
+
+    public boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = time;
+            return false;
+        }
     }
 }

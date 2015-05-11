@@ -37,4 +37,17 @@ public class ItemInfo {
         this.desc = desc;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ItemInfo{");
+        sb.append("resId=").append(resId);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", desc='").append(desc).append('\'');
+        sb.append(", num='").append(num).append('\'');
+        sb.append(", flag=").append(flag);
+        sb.append(", type=").append(type);
+        sb.append('}');
+        return sb.toString();
+    }
 }

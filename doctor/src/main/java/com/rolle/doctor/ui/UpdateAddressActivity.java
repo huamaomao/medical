@@ -7,24 +7,21 @@ import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
- * 简介
+ * 工作地址
  */
-public class UpdateIntroActivity extends BaseLoadingActivity{
+public class UpdateAddressActivity extends BaseLoadingActivity{
 
-    @InjectView(R.id.et_intro)
+    @InjectView(R.id.et_address)
     EditText et_intro;
     private UserModel userModel;
     private User user;
@@ -32,18 +29,18 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_intro);
+        setContentView(R.layout.activity_update_work_address);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("修改简介");
+        setBackActivity("修改工作地址");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
-        if(CommonUtil.notEmpty(user.intro)){
-            et_intro.setText(user.intro);
-            et_intro.setSelection(user.intro.length());
+        if(CommonUtil.notEmpty(user.jobAddress)){
+            et_intro.setText(user.jobAddress);
+            et_intro.setSelection(user.jobAddress.length());
         }
         loadingFragment.setMessage("正在提交数据...");
 
@@ -65,7 +62,7 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
                     msgShow("请填写简介.....");
                     return true;
                 }
-                user.intro=et_intro.getText().toString();
+                user.jobAddress=et_intro.getText().toString();
                 showLoading();
                 userModel.requestSaveUser(user,new ViewModel.ModelListener<ResponseMessage>() {
                         @Override

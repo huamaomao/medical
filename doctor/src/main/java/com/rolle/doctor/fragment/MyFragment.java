@@ -22,6 +22,8 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.RecommendedItemInfo;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.CommentListActivity;
+import com.rolle.doctor.ui.ComplaintListActivity;
 import com.rolle.doctor.ui.RecommendedActivity;
 import com.rolle.doctor.presenter.MyPresenter;
 import com.rolle.doctor.ui.SettingActivity;
@@ -69,7 +71,7 @@ public class MyFragment extends BaseFragment{
         super.initView(view, inflater);
         lsData=new ArrayList<ItemInfo>();
         lsData.add(new ItemInfo(R.drawable.icon_money, "我的钱包"));
-        lsData.add(new ItemInfo(R.drawable.icon_zan, "收到的推荐"));
+        lsData.add(new ItemInfo(R.drawable.icon_zan, "收到的赞"));
         lsData.add(new ItemInfo(R.drawable.icon_message_l, "收到的评论"));
         lsData.add(new ItemInfo(R.drawable.icon_tousu,"收到的投诉"));
 
@@ -96,6 +98,7 @@ public class MyFragment extends BaseFragment{
         adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {
             @Override
             public void onClick(View v, int position) {
+                setLastClickTime();
                 switch (position) {
                     case 0:
                         ViewUtil.openActivity(WalletActivity.class, getActivity());
@@ -104,8 +107,10 @@ public class MyFragment extends BaseFragment{
                         ViewUtil.openActivity(RecommendedActivity.class, getActivity());
                         break;
                     case 2:
+                        ViewUtil.openActivity(CommentListActivity.class, getActivity());
                         break;
                     case 3:
+                        ViewUtil.openActivity(ComplaintListActivity.class, getActivity());
                         break;
                 }
             }
@@ -116,11 +121,7 @@ public class MyFragment extends BaseFragment{
         tv_name.setText(user.nickname);
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
-
-
     }
-
-
 
 
     @Override
@@ -133,6 +134,7 @@ public class MyFragment extends BaseFragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_set:
+
                 ViewUtil.openActivity(SettingActivity.class,getActivity());
                 break;
         }

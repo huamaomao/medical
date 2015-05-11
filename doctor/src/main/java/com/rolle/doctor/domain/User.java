@@ -2,6 +2,8 @@ package com.rolle.doctor.domain;
 
 import com.android.common.domain.ResponseMessage;
 import com.litesuits.orm.db.annotation.Table;
+import com.rolle.doctor.util.Constants;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -24,12 +26,14 @@ public class User implements Serializable{
     public String workAddress;
     /***地区**/
     public String workRegionId;
-    /**医生职称***/
+    /**职称***/
     public String jobId;
+    /**科室***/
+    public String departmentId;
     /***所在医院**/
     public String hospitalName;
     public String tel;
-    public String sex;
+    public String sex= Constants.SEX_BOY;
     public String age;
     public String userName;
     public String remarks;
@@ -66,6 +70,9 @@ public class User implements Serializable{
     public String home;
     public String typeId;
     public int state=STATUS_REGISTER;
+    public int updateState=NO_UPDATE;
+    public static final int UPDATE=0;
+    public static final int NO_UPDATE=1;
     /*****注册成功***/
     public static final int STATUS_REGISTER=1;
     /*****第一步***/
@@ -448,19 +455,16 @@ public class User implements Serializable{
         this.state = state;
     }
 
-    public static int getStatusRegister() {
-        return STATUS_REGISTER;
+    /****
+     * 是否要提交
+     */
+    public void setUpdateStatus(){
+        this.updateState=UPDATE;
+    }
+    public void setNoUpdateStatus(){
+        this.updateState=NO_UPDATE;
     }
 
-    public static int getStatusFirst() {
-        return STATUS_FIRST;
-    }
 
-    public static int getStatusTwo() {
-        return STATUS_TWO;
-    }
 
-    public static int getStatusSuccess() {
-        return STATUS_SUCCESS;
-    }
 }

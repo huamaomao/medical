@@ -28,7 +28,9 @@ import com.litesuits.orm.db.assit.WhereBuilder;
 import com.litesuits.orm.db.model.ColumnsValue;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.Token;
+import com.rolle.doctor.domain.UploadPicture;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.util.UrlApi;
 
@@ -115,7 +117,7 @@ public class UserModel  extends ViewModel {
             protected void onSuccess(String data, Response res) {
                 FriendResponse responseMessage = res.getObject(FriendResponse.class);
                 if (CommonUtil.notNull(responseMessage)) {
-                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)){
+                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)) {
                         db.save(responseMessage.friendList);
                         listener.model(res, responseMessage.friendList);
                         listener.view();
@@ -191,13 +193,6 @@ public class UserModel  extends ViewModel {
    }
 
 
-
-    /****
-     * 获取邀请码
-     */
-    public void requestPraise(HttpModelHandler<String> handler){
-        execute(RequestApi.requestPraise(token.token),handler);
-    }
 
     /****
 
@@ -281,19 +276,25 @@ public class UserModel  extends ViewModel {
     }
 
     /******
-     * 血糖记录
+     * 保存用户信息
      */
-    public void requestSaveUser(User user, final ModelListener<ResponseMessage> listener){
+    public void requestSaveUser(final User user, final ModelListener<ResponseMessage> listener){
         user.token=getToken().token;
         execute(RequestApi.requestUpdUser(user), new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
-                listener.model(res,res.getObject(ResponseMessage.class));
+                ResponseMessage message=res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message)||"200".equals(message.statusCode)){
+                    listener.model(res,res.getObject(ResponseMessage.class));
+                    saveUser(user);
+                }
+                listener.view();
             }
 
             @Override
             protected void onFailure(HttpException e, Response res) {
                 listener.errorModel(null);
+                listener.view();
             }
         });
     }
@@ -304,29 +305,233 @@ public class UserModel  extends ViewModel {
      * @param path
      * @param listener
      */
-    public void  uploadPicture(String typeId,String path,ModelListener<ResponseMessage> listener){
+    public void  uploadPicture(String typeId,String path, final ModelListener<UploadPicture> listener){
         //mage_sp/uploadImage.json? token=&typeId
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("image_sp/uploadImage.json");
         MultipartBody body=new MultipartBody();
         body.addPart(new StringPart("token",getToken().token));
-        body.addPart(new FilePart("file",new File(path),"image/jpeg"));
-        Request request=new Request(url.toString()).setHttpBody(body);
+        body.addPart(new StringPart("typeId", typeId));
+        body.addPart(new FilePart("files", new File(path), "image/jpeg"));
+        Request request=new Request(url.toString()).setHttpBody(body).setMethod(HttpMethod.Post);
+
         execute(request, new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 Log.d(data);
-                ResponseMessage message=res.getObject(ResponseMessage.class);
+                UploadPicture message=res.getObject(UploadPicture.class);
+                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)){
+                    listener.model(res,message);
+                }else{
+                    listener.errorModel(null);
+                }
             }
 
             @Override
             protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+            }
+        });
 
+
+    }
+    /******
+     * 收到的 赞
+     * @param listener
+     */
+    public void requestPraiseList( final ModelListener<ResponseMessage> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("praise_sp/getPraiseListByMap.json");
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>(){
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message=res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)){
+                    listener.model(res,message);
+                }else{
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
             }
         });
 
     }
 
+    /******
+     * 评论列表
+     * @param listener
+     */
+    public void requestMessageList(final ModelListener<ResponseMessage> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("message_sp/getMessageListByMap.json");
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token",getToken().token));
+        Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>(){
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message=res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)){
+                    listener.model(res,message);
+                }else{
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+
+    /******
+     * 收到的投诉
+     * @param listener
+     */
+    public void requestMessageRecord(final ModelListener<ResponseMessage> listener) {
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("message_sp/getMessageRecordByMap.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+
+    /******
+     * 请求钱包
+     * @param listener
+     */
+    public void requestWallet(final ModelListener<Wallet> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("wallet_sp/getWalletByToken.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        final Wallet wallet=db.queryById(getLoginUser().id,Wallet.class);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                Wallet message = res.getObject(Wallet.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    message.id=getLoginUser().id;
+                    listener.model(res, message);
+                    db.save(message);
+                } else {
+                    if (CommonUtil.notNull(wallet)){
+                        listener.model(res, wallet);
+                    }else {
+                        listener.errorModel(null);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                if (CommonUtil.notNull(wallet)){
+                    listener.model(res, wallet);
+                }else {
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+        });
+    }
+
+    /******
+     * 提现
+     * @param listener
+     */
+    public void requestWalletMoney(String money,final ModelListener<Wallet> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("withdraw_sp/withdrawApply.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("money", money));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                Wallet message = res.getObject(Wallet.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
+    /******
+     * 添加支付宝账号
+     * @param listener
+     */
+    public void requestAddWalletAcounnt(String money,final ModelListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("alipay_sp/saveAlipay.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("money", money));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(null);
+                listener.view();
+            }
+        });
+    }
 
     public Token getToken(){
         if (token==null){

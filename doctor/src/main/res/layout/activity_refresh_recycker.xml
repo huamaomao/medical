@@ -4,11 +4,11 @@
     android:orientation="vertical">
     <include layout="@layout/toolbar" />
     <com.baoyz.widget.PullRefreshLayout
-        android:id="@id/pll_Refresh"
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include
-            layout="@layout/pulic_wrap_listview" />
+            layout="@layout/public_wrap_recycler_view" />
     </com.baoyz.widget.PullRefreshLayout>
 
 </LinearLayout>

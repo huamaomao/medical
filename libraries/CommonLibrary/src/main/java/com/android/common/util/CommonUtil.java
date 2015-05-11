@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -205,4 +206,14 @@ public final class CommonUtil {
         if (isEmpty(str)) return "无";
         return str;
     }
+
+    public static String formatMoney(String money){
+        if (isEmpty(money)){
+            money="0";
+        }
+        DecimalFormat format = new DecimalFormat();
+        format.applyPattern("￥#################0.00");
+       return format.format(Double.parseDouble(money));
+    }
+
 }

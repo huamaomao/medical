@@ -22,6 +22,7 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
+import com.rolle.doctor.domain.UploadPicture;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
@@ -36,10 +37,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * Created by Hua_ on 2015/3/27.
+ *
  */
 public class UpdateInfoActivity extends BaseLoadingActivity{
-
 
     @InjectView(R.id.iv_photo)
     ImageView iv_photo;
@@ -81,21 +81,17 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
                     uploadPhoto();
                 }
             }
-        } /*else if (requestCode == INTENT_REQUEST_CAMERA) {
-            if (resultCode == RESULT_OK) {
-                if (cameraFile != null && cameraFile.exists())
-                    sendPicture(cameraFile.getAbsolutePath());
-            }*/
+        }
 
     }
 
     private void uploadPhoto(){
         Picasso.with(getContext()).load(new File( user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
-        userModel.uploadPicture("24", user.headImage,new ViewModel.ModelListener<ResponseMessage>(){
+        userModel.uploadPicture("71", user.headImage,new ViewModel.ModelListener<UploadPicture>(){
             @Override
-            public void model(Response response, ResponseMessage o) {
-
+            public void model(Response response, UploadPicture o) {
+                user.photoId=o.idList[0];
             }
 
             @Override
@@ -114,28 +110,26 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
     @Override
     protected void initView() {
         super.initView();
+        userModel=new UserModel(getContext());
+        user=userModel.getLoginUser();
         timePicker=new SlideDateTimePicker.Builder(getSupportFragmentManager())
                 .setListener(new SlideDateTimeListener() {
                     @Override
                     public void onDateTimeSet(Date date) {
                         tv_date.setText(DateUtil.formatYMD(date));
+                        user.birthday=tv_date.getText().toString();
                     }
                 }).setInitialDate(new Date())
-                        //.setMinDate(minDate)
-                        //.setMaxDate(maxDate)
-                        //.setIs24HourTime(true)
-                        //.setTheme(SlideDateTimePicker.HOLO_DARK)
-                        //.setIndicatorColor(Color.parseColor("#990000"))
                 .build();
         setBackActivity("个人信息");
-        userModel=new UserModel(getContext());
-        user=userModel.getLoginUser();
         et_name.setText(user.nickname);
+        et_name.setSelection(user.nickname.length());
         if (Constants.SEX_GIRL.equals(user.sex)){
             radioGroup.check(R.id.rb_tab_2);
         }else {
             radioGroup.check(R.id.rb_tab_1);
         }
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -150,9 +144,10 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
                 }
             }
         });
-        tv_date.setText(CommonUtil.initTextNull(user.getJobAddress()));
+        tv_date.setText(CommonUtil.initTextNull(user.birthday));
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
+        loadingFragment.setMessage("正在提交数据...");
     }
 
 
@@ -163,31 +158,36 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void updateUser(){
+        if (CommonUtil.isEmpty(et_name.getText().toString())){
+            msgShow("真实姓名不能为空");
+            return;
+        }
+        user.nickname=et_name.getText().toString();
+        showLoading();
+        userModel.requestSaveUser(user, new ViewModel.ModelListener() {
+            @Override
+            public void model(Response response, Object o) {
+
+            }
+
+            @Override
+            public void errorModel(ModelEnum modelEnum) {
+
+            }
+
+            @Override
+            public void view() {
+                hideLoading();
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_save:
-                if (CommonUtil.isEmpty(et_name.getText().toString())){
-                    msgShow("真实姓名不能为空");
-                    return true;
-                }
-                userModel.requestSaveUser(user, new ViewModel.ModelListener() {
-                    @Override
-                    public void model(Response response, Object o) {
-
-                    }
-
-                    @Override
-                    public void errorModel(ModelEnum modelEnum) {
-
-                    }
-
-                    @Override
-                    public void view() {
-
-                    }
-                });
-
+                updateUser();
                 break;
         }
         return super.onOptionsItemSelected(item);

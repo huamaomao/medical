@@ -59,7 +59,8 @@ public class ListModel extends ViewModel {
      * @param id
      * @param listener
      */
-    public void requestTitle(String id,final ModelListener<List<CityResponse.Item>> listener){
+    public void requestTitle(final String id,final ModelListener<List<CityResponse.Item>> listener){
+        final int id_=Integer.parseInt(id);
         execute(RequestApi.requestTitle(id),new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
@@ -68,8 +69,17 @@ public class ListModel extends ViewModel {
                     if ("200".equals(cityResponse.statusCode)){
                         if (CommonUtil.notNull(cityResponse.selectList)){
                             listener.model(res,cityResponse.selectList);
+                            cityResponse.id=id_;
+                            db.save(cityResponse);
                             return;
                         }
+                    }
+                }else {
+                    CityResponse cityResponse1= db.queryById(id_, CityResponse.class);
+                    if (CommonUtil.notNull(cityResponse1)){
+                        listener.model(res,cityResponse1.selectList);
+                    }else {
+                        listener.errorModel(null);
                     }
                 }
 
@@ -77,6 +87,11 @@ public class ListModel extends ViewModel {
 
             @Override
             protected void onFailure(HttpException e, Response res) {
+                CityResponse cityResponse1 = db.queryById(id_, CityResponse.class);
+                if (CommonUtil.notNull(cityResponse1)){
+                    listener.model(res,cityResponse1.selectList);
+                    return;
+                }
                 listener.errorModel(null);
             }
         });

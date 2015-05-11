@@ -9,11 +9,18 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.ModelEnum;
+import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.WalletListAdapater;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.domain.User;
+import com.rolle.doctor.domain.Wallet;
+import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +36,8 @@ public class WalletActivity extends BaseActivity {
     RecyclerView rvView;
     private List<ItemInfo> lsData;
     private WalletListAdapater adapater;
+    private UserModel userModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +49,14 @@ public class WalletActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         setBackActivity("钱包");
+        userModel=new UserModel(getContext());
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-
         rvView.setLayoutManager(layoutManager);
-        lsData=new ArrayList<ItemInfo>();
-        lsData.add(new ItemInfo(R.drawable.icon_amount_smail,"1000.0",WalletListAdapater.TYPE_ACMOUNT));
-        lsData.add(new ItemInfo("招商银行卡","433*******2223",WalletListAdapater.TYPE_BLANK));
-        lsData.add(new ItemInfo(R.drawable.icon_blank_add,"添加银行卡",WalletListAdapater.TYPE_ADD));
+        lsData=new ArrayList<>();
+        lsData.add(new ItemInfo(R.drawable.icon_amount_smail,CommonUtil.formatMoney("0"),WalletListAdapater.TYPE_ACMOUNT));
+        //lsData.add(new ItemInfo("招商银行卡","433*******2223",WalletListAdapater.TYPE_BLANK));
+        lsData.add(new ItemInfo(R.drawable.icon_blank_add,"添加支付宝",WalletListAdapater.TYPE_ADD));
         adapater=new WalletListAdapater(this,lsData);
-        rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rvView.setAdapter(adapater);
         rvView.setHasFixedSize(true);
@@ -61,10 +69,30 @@ public class WalletActivity extends BaseActivity {
                 }else if (position==adapater.getItemCount()-1){
                     ViewUtil.openActivity(AddBlankActivity.class,WalletActivity.this);
                 }
+            }}));
+        loadData();
     }
-}));
 
 
+    private void loadData(){
+        userModel.requestWallet(new ViewModel.ModelListener<Wallet>() {
+            @Override
+            public void model(Response response, Wallet wallet) {
+                ItemInfo itemInfo=lsData.get(0);
+                itemInfo.title= CommonUtil.formatMoney(wallet.accountAmount);
+                adapater.notifyItemChanged(0);
+            }
+
+            @Override
+            public void errorModel(ModelEnum modelEnum) {
+
+            }
+
+            @Override
+            public void view() {
+
+            }
+        });
     }
 
     @Override

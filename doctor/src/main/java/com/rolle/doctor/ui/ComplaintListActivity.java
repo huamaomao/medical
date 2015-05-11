@@ -2,43 +2,31 @@ package com.rolle.doctor.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
-import com.android.common.adapter.MessageRecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
-import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.PublicViewAdapter;
-import com.rolle.doctor.adapter.PublicViewHolder;
 import com.rolle.doctor.domain.FriendResponse;
-import com.rolle.doctor.domain.RecommendedInfo;
 import com.rolle.doctor.domain.RecommendedItemInfo;
-import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.UserModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
 
 /**
- * 收到的推荐   赞   推荐
+ * 投诉
  */
-public class RecommendedActivity extends BaseActivity{
+public class ComplaintListActivity extends BaseActivity{
 
     private PublicViewAdapter<RecommendedItemInfo> adapter;
     @InjectView(R.id.refresh)
@@ -59,7 +47,7 @@ public class RecommendedActivity extends BaseActivity{
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("收到的赞");
+        setBackActivity("收到的投诉");
         refresh.setRefreshStyle(Constants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -93,7 +81,7 @@ public class RecommendedActivity extends BaseActivity{
     }
 
     public void requestData(){
-        userModel.requestPraiseList(new ViewModel.ModelListener<ResponseMessage>() {
+        userModel.requestMessageRecord(new ViewModel.ModelListener<ResponseMessage>() {
             @Override
             public void model(Response response, ResponseMessage responseMessage) {
 
@@ -109,27 +97,7 @@ public class RecommendedActivity extends BaseActivity{
                 refresh.setRefreshing(false);
             }
         });
-       /* model.requestPraise(new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                RecommendedInfo recommendedInfo = res.getObject(RecommendedInfo.class);
-                if (CommonUtil.notNull(recommendedInfo)){
-                    switch (recommendedInfo.statusCode){
-                        case "200":
-                            mDatas.addAll(recommendedInfo.getList());
-                            adapter.notifyDataSetChanged();
-                            break;
-                        case "300":
-                            break;
-                    }
-                }
-            }
 
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-
-            }
-        });*/
     }
 
 }

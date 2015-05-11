@@ -25,7 +25,7 @@ public  class BaseFragment extends Fragment implements IView {
     protected int layoutId;
     protected boolean flag=false;
     protected QuickAdapter quickAdapter;
-     BaseActivity baseActivity;
+    BaseActivity baseActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,13 @@ public  class BaseFragment extends Fragment implements IView {
         setHasOptionsMenu(true);
     }
 
+
+    /****
+     *  设置最后触发时间
+     */
+    protected void setLastClickTime(){
+        ((BaseActivity)getActivity()).setLastClickTime();
+    }
 
 
     public void setTitle(String title){

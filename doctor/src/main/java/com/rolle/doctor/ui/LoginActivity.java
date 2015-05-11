@@ -78,10 +78,10 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.gravity= Gravity.CENTER_HORIZONTAL;
                 if(paramBoolean){
-                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,60f),0,0);
+                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,80f),0,0);
                     ivLogo.setLayoutParams(lp);
                 }else {
-                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,240f),0,0);
+                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,640f),0,0);
                     ivLogo.setLayoutParams(lp);
                 }
             }

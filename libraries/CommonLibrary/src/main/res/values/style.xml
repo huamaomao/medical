@@ -101,7 +101,7 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:minHeight">35dip</item>
+        <item name="android:minHeight">20dip</item>
         <item name="android:background">@color/write</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

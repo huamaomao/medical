@@ -137,23 +137,20 @@
     <style name="text_label_style">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:minHeight">35dp</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:paddingBottom">15dp</item>
     </style>
 
     <style name="text_right_style">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:textColor">@color/text_93</item>
+        <item name="android:maxWidth">240dp</item>
+        <item name="android:singleLine">true</item>
         <item name="android:layout_gravity">center_vertical|right</item>
-        <item name="android:minHeight">35dp</item>
     </style>
-
 
     <style name="item_from_style">
         <item name="android:layout_width">match_parent</item>
@@ -163,11 +160,11 @@
     </style>
 
    <style name="et_styple">
-       <item name="android:minHeight">25dp</item>
-       <item name="android:paddingTop">10dp</item>
-       <item name="android:paddingBottom">20dp</item>
-        <item name="android:paddingLeft">20dp</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:textColor">@color/write</item>
         <item name="android:singleLine">true</item>
         <item name="android:background">@android:color/transparent</item>

@@ -58,6 +58,11 @@
     <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UpdateSpecialityActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UpdateHospitalActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.CommentListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.ComplaintListActivity" android:screenOrientation="portrait" />
 
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>

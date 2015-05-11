@@ -7,24 +7,21 @@ import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
- * 简介
+ * 专长
  */
-public class UpdateIntroActivity extends BaseLoadingActivity{
+public class UpdateSpecialityActivity extends BaseLoadingActivity{
 
-    @InjectView(R.id.et_intro)
+    @InjectView(R.id.et_address)
     EditText et_intro;
     private UserModel userModel;
     private User user;
@@ -32,13 +29,13 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_intro);
+        setContentView(R.layout.activity_update_speciality);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("修改简介");
+        setBackActivity("修改专长");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
         if(CommonUtil.notEmpty(user.intro)){
@@ -62,7 +59,7 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
         switch (item.getItemId()){
             case R.id.toolbar_save:
                 if (CommonUtil.isEmpty(et_intro.getText().toString())) {
-                    msgShow("请填写简介.....");
+                    msgShow("请填写专长.....");
                     return true;
                 }
                 user.intro=et_intro.getText().toString();

@@ -23,7 +23,7 @@ import java.util.List;
 import butterknife.InjectView;
 
 /**
- * ²éÑ¯
+ * æŸ¥è¯¢
  */
 public class SeachActivity extends BaseLoadingActivity {
 

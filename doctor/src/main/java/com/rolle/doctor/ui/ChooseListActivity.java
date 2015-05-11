@@ -18,9 +18,11 @@ import com.android.common.util.ViewUtil;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.ChooseListPresenter;
 import com.rolle.doctor.presenter.LoginPresenter;
 import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -33,19 +35,20 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class ChooseListActivity extends BaseActivity implements ChooseListPresenter.IChooseView{
+public class ChooseListActivity extends BaseActivity{
 
     @InjectView(R.id.rv_view)RecyclerView rv_view;
 
-    private ChooseListPresenter presenter;
     private BaseRecyclerAdapter adapter;
     private ArrayList<CityResponse.Item> items;
+    private UserModel userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_choose);
-        presenter=new ChooseListPresenter(this);
         items=new ArrayList<>();
+        userModel=new UserModel(getContext());
     }
 
     @Override
@@ -91,9 +94,26 @@ public class ChooseListActivity extends BaseActivity implements ChooseListPresen
             @Override
             public void onClick(View v, int position) {
                 Intent intent=new Intent();
-                intent.putExtra(Constants.TYPE,type);
-                intent.putExtra(Constants.POSITION,position);
-                setResult(200,intent);
+                intent.putExtra(Constants.TYPE, type);
+                intent.putExtra(Constants.POSITION, position);
+                setResult(200, intent);
+                User user=userModel.getLoginUser();
+                switch (type){
+                    case 1:
+                        user.regionId=items.get(position).id;
+                        break;
+                    case 2:
+                        user.departmentId=items.get(position).id;
+                        user.department=items.get(position).name;
+                        user.setUpdateStatus();
+                        break;
+                    case 3:
+                        user.jobId=items.get(position).id;
+                        user.doctorTitle=items.get(position).name;
+                        user.setUpdateStatus();
+                        break;
+                }
+                userModel.saveUser(user);
                 finish();
             }
         });
