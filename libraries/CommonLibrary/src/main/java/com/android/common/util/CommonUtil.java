@@ -217,12 +217,13 @@ public final class CommonUtil {
      * @return
      */
     public static boolean isCashOutMoney(String money) {
+        Log.d("money="+money);
         if (isEmpty(money)){
             return false;
         }
         try {
             double b=Double.parseDouble(money);
-            return b<500?false:true;
+            return b<1?false:true;
         }catch (Exception e){
             return false;
         }

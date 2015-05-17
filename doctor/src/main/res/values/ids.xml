@@ -122,6 +122,7 @@
     <item name="et_pwd" type="id" />
     <item name="et_code" type="id" />
     <item name="et_alipay" type="id" />
+    <item name="et_amount" type="id" />
     <item name="et_alipay_name" type="id" />
     <item name="et_blank_account" type="id" />
     <item name="et_blank_name" type="id" />

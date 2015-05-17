@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class Wallet extends ResponseMessage{
     public int id;
-    public int userId;
     public String accountAmount;
     public String frozenAmount;
     public String password;

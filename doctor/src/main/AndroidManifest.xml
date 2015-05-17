@@ -50,8 +50,6 @@
     <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.SettingActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.AboutUsActivity" android:screenOrientation="portrait" />
-
-
     <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
@@ -60,11 +58,11 @@
     <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.CommentListActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletCashoutActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity"
             android:screenOrientation="portrait" android:theme="@style/AppThemeTransparent" />
-
         <service android:name=".service.GotyeService" />
     <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
 </application>

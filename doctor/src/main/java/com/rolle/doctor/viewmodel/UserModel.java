@@ -486,6 +486,33 @@ public class UserModel  extends ViewModel {
                 listener.errorModel(e, res);
             }
         });
+    } /******
+     * 获取用户信息
+     */
+    public void requestUserInfo(String userId,final ModelListener<User> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("user_sp/getUserByMap.json");
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("userId",userId));
+        Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                UserResponse response=res.getObject(UserResponse.class);
+                if (CommonUtil.notNull(response)){
+                    if ("200".equals(response.statusCode)){
+                        listener.model(res, response.user);
+                    }
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                listener.errorModel(e, res);
+            }
+        });
     }
 
     /******
@@ -693,30 +720,30 @@ public class UserModel  extends ViewModel {
      */
     public void saveWallet(Wallet wallet){
         if (CommonUtil.notNull(wallet)){
-            wallet.userId=getLoginUser().id;
+            wallet.id=getLoginUser().id;
             db.save(wallet);
-                if (wallet.list!=null){
-                    for (Wallet.Item item:wallet.list){
-                        item.userId=getLoginUser().id;
-                        db.save(item);
-                    }
+            if (wallet.list!=null){
+                for (Wallet.Item item:wallet.list){
+                    item.userId=getLoginUser().id;
+                    db.save(item);
+                }
             }
         }
     }
 
     public Wallet getWallet(){
         QueryBuilder builder=new QueryBuilder(Wallet.class).where(WhereBuilder.create()
-                .andEquals("userId", getLoginUser().id));
+                .andEquals("id", getLoginUser().id));
         List<Wallet> list=db.query(builder);
-        if (list!=null){
+        if (list!=null&&list.size()>0){
             Wallet wallet=list.get(0);
             QueryBuilder builderList=new QueryBuilder(Wallet.Item.class).where(WhereBuilder.create()
-                    .andEquals("userId", getLoginUser().id));
+                    .andEquals("id", getLoginUser().id));
             List<Wallet.Item> items=db.query(builderList);
             wallet.list=items;
             return wallet;
         }
-        return null;
+        return new Wallet();
     }
 
     /******

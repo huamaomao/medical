@@ -43,7 +43,8 @@ public class WalletDetialActivity extends BaseActivity {
         wallet=userModel.getWallet();
         tv_amount.setText( CommonUtil.formatMoney(wallet.accountAmount));
         if (CommonUtil.isCashOutMoney(wallet.accountAmount)){
-
+            btn_next.setText("不可提现");
+            btn_next.setEnabled(false);
         }
     }
 
@@ -51,7 +52,9 @@ public class WalletDetialActivity extends BaseActivity {
     public void onCashOut(){
         if (!CommonUtil.isCashOutMoney(wallet.accountAmount)){
             btn_next.setEnabled(false);
+            return;
         }
+        ViewUtil.openActivity(WalletDetialActivity.class,getContext());
 
     }
 

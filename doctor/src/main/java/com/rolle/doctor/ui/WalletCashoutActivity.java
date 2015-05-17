@@ -15,7 +15,7 @@ import butterknife.OnClick;
 /**
  * 支付密码
  */
-public class WalletPlayPwdActivity extends BaseActivity {
+public class WalletCashoutActivity extends BaseActivity {
 
     @InjectView(R.id.tv_amount)
     TextView tv_amount;
@@ -29,17 +29,17 @@ public class WalletPlayPwdActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_ca);
+        setContentView(R.layout.activity_wallet_cashout);
     }
 
     @Override
     protected void initView() {
         super.initView();
         setBackActivity("提现");
-        wallet=userModel.getWallet();        userModel=new UserModel(getContext());
-
+        userModel=new UserModel(getContext());
+        wallet=userModel.getWallet();
         tv_amount.setText( CommonUtil.formatMoney(wallet.accountAmount));
-        if (CommonUtil.isCashOutMoney(wallet.accountAmount)){
+        if (!CommonUtil.isCashOutMoney(wallet.accountAmount)){
             btn_next.setEnabled(false);
         }
     }
@@ -49,7 +49,6 @@ public class WalletPlayPwdActivity extends BaseActivity {
         if (!CommonUtil.isCashOutMoney(wallet.accountAmount)){
             btn_next.setEnabled(false);
         }
-
     }
 
 }

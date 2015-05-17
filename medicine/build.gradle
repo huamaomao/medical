@@ -22,7 +22,7 @@ android {
     }
     signingConfigs{
         myConfig {
-            storeFile file("../signed/keystore.jks")
+            storeFile file("../signed/doctor.jks")
             storePassword "doctor...."
             keyAlias "doctor"
             keyPassword "doctor...."
