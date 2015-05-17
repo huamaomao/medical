@@ -36,11 +36,11 @@ public class WalletPlayPwdActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         setBackActivity("提现");
-        userModel=new UserModel(getContext());
-        wallet=userModel.getWallet();
+        wallet=userModel.getWallet();        userModel=new UserModel(getContext());
+
         tv_amount.setText( CommonUtil.formatMoney(wallet.accountAmount));
         if (CommonUtil.isCashOutMoney(wallet.accountAmount)){
-
+            btn_next.setEnabled(false);
         }
     }
 
