@@ -8,7 +8,7 @@
      android:paddingLeft="20dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    android:background="@color/hintText"
-    android:textSize="@dimen/font_size_17"
+    android:background="@color/textc4"
+    android:textSize="@dimen/font_size_15"
     android:textColor="@android:color/black"
    />

@@ -10,6 +10,7 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
@@ -73,12 +74,12 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
                             msgShow("保存成功");
                         }
 
-                        @Override
-                        public void errorModel(ModelEnum modelEnum) {
-                            msgShow("保存失败");
-                        }
+                    @Override
+                    public void errorModel(HttpException e, Response response) {
+                        msgShow("保存失败");
+                    }
 
-                        @Override
+                    @Override
                         public void view() {
                             hideLoading();
                         }

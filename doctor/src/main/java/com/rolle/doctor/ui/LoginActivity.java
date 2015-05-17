@@ -55,7 +55,7 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     @OnClick(R.id.tv_forgot_pwd)
     void doRetrievePwd(){
         finish();
-        ViewUtil.openActivity(RetrievePwdActivity.class,this,true);
+        ViewUtil.openActivity(RetrievePwdSettingActivity.class,this,true);
     }
 
     @Override
@@ -102,5 +102,8 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     @Override
     public void setTel(String tel) {
         etTel.setText(tel);
+        if (CommonUtil.notEmpty(tel)){
+            etTel.setSelection(tel.length());
+        }
     }
 }

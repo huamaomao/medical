@@ -14,6 +14,7 @@ import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
@@ -34,7 +35,7 @@ public class NoteActivity extends BaseActivity{
 
     @InjectView(R.id.et_name)
     EditText et_name;
-    private FriendResponse.Item user;
+    private User user;
 
     private UserModel userModel;
     @Override
@@ -86,8 +87,8 @@ public class NoteActivity extends BaseActivity{
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
-                msgShow("保存失败");
+            public void errorModel(HttpException e, Response response) {
+                    msgShow("保存失败");
             }
 
             @Override

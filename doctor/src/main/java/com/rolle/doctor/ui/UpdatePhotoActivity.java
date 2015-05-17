@@ -18,7 +18,7 @@ public class UpdatePhotoActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_photo);
+        setContentView(R.layout.activity_authentication);
     }
 
     @Override

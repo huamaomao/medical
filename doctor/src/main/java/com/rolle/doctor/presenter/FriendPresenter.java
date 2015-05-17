@@ -11,6 +11,7 @@ import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.PatientSum;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -25,12 +26,10 @@ import java.util.List;
 public class FriendPresenter extends Presenter {
     private UserModel model;
     private IFriendView view;
-    private GotyeModel gotyeModel;
 
     public FriendPresenter(IFriendView view){
         this.view=view;
-        model=new UserModel(view.getContext());
-        gotyeModel=new GotyeModel();
+        model=new UserModel((BaseActivity)view.getContext());
     }
 
     public void doPaitentSum(){

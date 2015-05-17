@@ -14,6 +14,7 @@ import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
 import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
@@ -40,9 +41,9 @@ public class PatientActivity extends BaseActivity{
     private   RecyclerView lvViewAll;
     private   RecyclerView lvViewMin;
     private   RecyclerView lvViewMax;
-    private List<FriendResponse.Item> dataAll;
-    private List<FriendResponse.Item> dataMin;
-    private List<FriendResponse.Item> dataMax;
+    private List<User> dataAll;
+    private List<User> dataMin;
+    private List<User> dataMax;
     private FriendListAdapater adapaterAll;
     private FriendListAdapater adapaterMin;
     private FriendListAdapater adapaterMax;
@@ -76,9 +77,9 @@ public class PatientActivity extends BaseActivity{
     protected void initView() {
         super.initView();
         setBackActivity("患者");
-        dataAll=new ArrayList<FriendResponse.Item>();
-        dataMax=new ArrayList<FriendResponse.Item>();
-        dataMin=new ArrayList<FriendResponse.Item>();
+        dataAll=new ArrayList<>();
+        dataMax=new ArrayList<>();
+        dataMin=new ArrayList<>();
 
         Util.initTabStrip(tabStrip, getContext());
         List<View> views=new ArrayList<>();
@@ -101,7 +102,7 @@ public class PatientActivity extends BaseActivity{
         lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item = dataAll.get(position);
+                User item = dataAll.get(position);
                 if (CommonUtil.notNull(item)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ITEM, item);
@@ -112,7 +113,7 @@ public class PatientActivity extends BaseActivity{
         lvViewMax.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item = dataMax.get(position);
+                User item = dataMax.get(position);
                 if (CommonUtil.notNull(item)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ITEM, item);
@@ -123,7 +124,7 @@ public class PatientActivity extends BaseActivity{
         lvViewMin.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item=dataMin.get(position);
+                User item=dataMin.get(position);
                 if (CommonUtil.notNull(item)){
                     Bundle bundle=new Bundle();
                     bundle.putParcelable(Constants.ITEM,item);
@@ -135,15 +136,15 @@ public class PatientActivity extends BaseActivity{
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                userModel.requestFriendList(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
+                userModel.requestFriendList(new ViewModel.ModelListener<List<User>>() {
                     @Override
-                    public void model(Response response, List<FriendResponse.Item> items) {
+                    public void model(Response response, List<User> items) {
                         // 数据更改
                         loadList();
                     }
 
                     @Override
-                    public void errorModel(ModelEnum modelEnum) {
+                    public void errorModel(HttpException e, Response response) {
 
                     }
 

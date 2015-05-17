@@ -39,12 +39,12 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public boolean flag=false;
 
     private Context mContext;
-    List<FriendResponse.Item> data;
+    List<User> data;
     private OnItemClickListener onItemClickListener;
 
 
 
-    public FriendListAdapater(Context mContext, List<FriendResponse.Item> data,int type) {
+    public FriendListAdapater(Context mContext, List<User> data,int type) {
         this.mContext = mContext;
         this.data = data;
         this.type=type;
@@ -63,7 +63,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     @Override
         public void onBindViewHolder(FriendListAdapater.ViewHolder holder, int position) {
-            final FriendResponse.Item user=data.get(position);
+            final User user=data.get(position);
        /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +206,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
         public void onItemClick(User user);
     }
 
-    public void addCleanItems(List<FriendResponse.Item> items){
+    public void addCleanItems(List<User> items){
         this.data.clear();
         this.data.addAll(items);
         notifyDataSetChanged();

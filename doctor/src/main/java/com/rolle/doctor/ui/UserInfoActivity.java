@@ -9,6 +9,7 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserDetialAdapater;
@@ -30,12 +31,10 @@ public class UserInfoActivity extends BaseActivity{
     @InjectView(R.id.rv_view)
     RecyclerView rvView;
     private List<ItemInfo> lsData;
-
     private UserDetialAdapater adapater;
     private UserModel userModel;
     private User user;
     private ListModel listModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +56,18 @@ public class UserInfoActivity extends BaseActivity{
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 1:
-                        ViewUtil.openActivity(UpdateAddressActivity.class, getContext());
+                        //UpdateAddressActivity
+                       startListActivity(0);
                         break;
                     case 2:
                         ViewUtil.openActivity(UpdateHospitalActivity.class, getContext());
                         break;
                     case 3:
-                        doSectionList();
+                        //职称
+                        startListActivity(3);
                         break;
                     case 4:
-                        doTitleList();
+                        startListActivity(2);
                         break;
                     case 5:
                         ViewUtil.openActivity(UpdateSpecialityActivity.class, getContext());
@@ -81,11 +82,11 @@ public class UserInfoActivity extends BaseActivity{
         user=userModel.getLoginUser();
         lsData.clear();
         lsData.add(new ItemInfo());
-        lsData.add(new ItemInfo("工作地址", CommonUtil.isEmpty(user.jobAddress)?"无":user.jobAddress));
-        lsData.add(new ItemInfo("所在医院",CommonUtil.isEmpty(user.hospitalName)?"无":user.hospitalName));
-        lsData.add(new ItemInfo("医生职称", CommonUtil.isEmpty(user.doctorTitle) ? "无" : user.doctorTitle));
-        lsData.add(new ItemInfo("所在科室", CommonUtil.isEmpty(user.department) ? "无" : user.department));
-        lsData.add(new ItemInfo("专长", CommonUtil.isEmpty(user.specialty) ? "无" : user.specialty));
+        lsData.add(new ItemInfo("工作地址",CommonUtil.initTextNull(user.doctorDetail.workAddress)));
+        lsData.add(new ItemInfo("所在医院",CommonUtil.initTextNull(user.doctorDetail.hospitalName)));
+        lsData.add(new ItemInfo("医生职称",CommonUtil.initTextNull(user.doctorDetail.doctorTitle)));
+        lsData.add(new ItemInfo("所在科室",CommonUtil.initTextNull(user.doctorDetail.department)));
+        lsData.add(new ItemInfo("专长", CommonUtil.initTextNull(user.doctorDetail.speciality)));
         adapater.setUserDetail(user);
         adapater.notifyDataSetChanged();
     }
@@ -101,77 +102,14 @@ public class UserInfoActivity extends BaseActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==200){
             int position=data.getIntExtra(Constants.POSITION,-1);
-
-            CityResponse.Item item=null;
-            /*switch (data.getIntExtra(Constants.TYPE,-1)){
-                case 2:
-                    if (CommonUtil.notNull(titleList)){
-                        item=titleList.get(position);
-                        user.jobId=item.id;
-                        ItemInfo info=lsData.get(3);
-                        info.desc=item.name;
-                        lsData.set(3,info);
-                        adapater.notifyDataSetChanged();
-                    }
-                    break;
-                case 3:
-                    if (CommonUtil.notNull(sectionList)){
-                        item=sectionList.get(position);
-                        user.typeId=item.id;
-                        ItemInfo info=lsData.get(4);
-                        info.desc=item.name;
-                        lsData.set(4,info);
-                        adapater.notifyDataSetChanged();
-                    }
-                    break;
-            }*/
         }
 
     }
 
-
-    public void doSectionList() {
-        listModel.requestTitle("44", new ViewModel.ModelListener<List<CityResponse.Item>>() {
-            @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                startListActivity((ArrayList)items,3);
-            }
-
-            @Override
-            public void errorModel(ModelEnum modelEnum) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-    }
-    public void doTitleList() {
-        listModel.requestTitle("65", new ViewModel.ModelListener<List<CityResponse.Item>>() {
-            @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-
-                startListActivity((ArrayList) items, 2);
-            }
-
-            @Override
-            public void errorModel(ModelEnum modelEnum) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-    }
-
-    private void startListActivity(ArrayList<CityResponse.Item> list,int type){
+    private void startListActivity(int type){
         Intent intent=new Intent(getContext(),ChooseListActivity.class);
         intent.putExtra("type",type);
-        intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST, list);
+        //intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST, list);
         startActivityForResult(intent, 200);
     }
 

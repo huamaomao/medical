@@ -45,9 +45,7 @@ public class DoctorDetialActivity extends BaseActivity{
     @InjectView(R.id.tv_resume)
     TextView tv_resume;
 
-
-
-    private FriendResponse.Item user;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,18 +60,18 @@ public class DoctorDetialActivity extends BaseActivity{
         if (CommonUtil.isNull(user)){
             finish();
         }
-        tv_address.setText(CommonUtil.isEmpty(user.hospitalName)?"无":user.hospitalName);
+        tv_address.setText(CommonUtil.initTextNull(user.doctorDetail.hospitalName));
         StringBuilder builder=new StringBuilder("(");
-        if (CommonUtil.isEmpty(user.doctorTitle)||CommonUtil.isEmpty(user.department)){
+        if (CommonUtil.isEmpty(user.doctorDetail.doctorTitle)||CommonUtil.isEmpty(user.doctorDetail.department)){
             builder.append("无");
         }else {
-            builder.append(user.doctorTitle ).
+            builder.append(user.doctorDetail.doctorTitle ).
                     append("-").
-                    append(user.department);
+                    append(user.doctorDetail.department);
         }
         builder.append(")");
         tv_section.setText(builder.toString());
-        tv_resume.setText(user.describe);
+        tv_resume.setText(user.intro);
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         tv_name.setText(user.nickname);

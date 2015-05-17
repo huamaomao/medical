@@ -174,6 +174,19 @@
        <item name="android:textSize">@dimen/font_size_17</item>
    </style>
 
+    <style name="et_item_styple"  parent="DefaultText">
+        <item name="android:minHeight">25dp</item>
+        <item name="android:textColor">@color/write</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/color_hint</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
+    </style>
+
+
     <style name="btn_style">
         <item name="android:layout_marginTop">30dp</item>
         <item name="android:layout_marginLeft">20dp</item>
@@ -196,6 +209,29 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="DefaultText">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingLeft">5.0dip</item>
+        <item name="android:paddingRight">5.0dip</item>
+        <item name="android:drawablePadding">4.0dip</item>
+    </style>
+    <style name="BloodText" parent="DefaultText">
+        <item name="android:text">- -</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0px</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ListTileText" parent="DefaultText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
 </resources>

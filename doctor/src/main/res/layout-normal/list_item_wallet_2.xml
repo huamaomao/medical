@@ -9,7 +9,7 @@
 
     <TextView
          android:id="@id/tv_item_0"
-        android:text="添加银行卡"
+        android:text="添加银行卡/支付宝账号"
         android:layout_toRightOf="@id/iv_photo"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"

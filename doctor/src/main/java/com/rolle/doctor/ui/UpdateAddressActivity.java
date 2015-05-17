@@ -9,6 +9,7 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
@@ -35,13 +36,9 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("修改工作地址");
+        setBackActivity("详细地址");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
-        if(CommonUtil.notEmpty(user.jobAddress)){
-            et_intro.setText(user.jobAddress);
-            et_intro.setSelection(user.jobAddress.length());
-        }
         loadingFragment.setMessage("正在提交数据...");
 
 
@@ -58,24 +55,22 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_save:
-                if (CommonUtil.isEmpty(et_intro.getText().toString())) {
-                    msgShow("请填写简介.....");
-                    return true;
-                }
-                user.jobAddress=et_intro.getText().toString();
+                user.address=et_intro.getText().toString();
+                user.doctorDetail.workAddress=user.workRegion+et_intro.getText().toString();
                 showLoading();
                 userModel.requestSaveUser(user,new ViewModel.ModelListener<ResponseMessage>() {
                         @Override
                         public void model(Response response, ResponseMessage o) {
                             msgShow("保存成功");
+                            finish();
                         }
 
-                        @Override
-                        public void errorModel(ModelEnum modelEnum) {
-                            msgShow("保存失败");
-                        }
+                    @Override
+                    public void errorModel(HttpException e, Response response) {
+                        msgShow("保存失败");
+                    }
 
-                        @Override
+                    @Override
                         public void view() {
                             hideLoading();
                         }

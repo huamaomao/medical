@@ -61,13 +61,11 @@ public class RegisterInfoActivity extends BaseLoadingActivity implements Registe
     protected void initView() {
         super.initView();
         setBackActivity("基本资料");
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv_view.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         rv_view.setLayoutManager(layoutManager);
-        lsData=new ArrayList<ItemInfo>();
-        lsData.add(new ItemInfo("省份","请选择省份"));
-        lsData.add(new ItemInfo("城市","请选择城市"));
+        lsData=new ArrayList<>();
+        lsData.add(new ItemInfo("工作地址","请选择省份城市"));
         lsData.add(new ItemInfo("科室","请选择科室"));
         adpater=new UserInfoAdapater(this,lsData);
         rv_view.setAdapter(adpater);
@@ -85,11 +83,9 @@ public class RegisterInfoActivity extends BaseLoadingActivity implements Registe
         switch (type){
             case 0:
                 presenter.doVisitList();
-                break;
-            case 1:
                 presenter.doCityList();
                 break;
-            case 2:
+            case 1:
                 presenter.doTitleList();
                 break;
         }

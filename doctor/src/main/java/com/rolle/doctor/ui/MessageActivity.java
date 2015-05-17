@@ -18,6 +18,7 @@ import com.gotye.api.GotyeUser;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
 import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -40,7 +41,7 @@ public class MessageActivity extends BaseActivity{
     @InjectView(R.id.et_message) EditText etMessage;
     private LinkedList<GotyeMessage> data;
     private ChatListAdapater adapater;
-    private FriendResponse.Item  userFriend;
+    private User userFriend;
     private GotyeModel model;
     private UserModel userModel;
     private GotyeUser otherUser;
@@ -64,7 +65,7 @@ public class MessageActivity extends BaseActivity{
         otherUser=new GotyeUser();
         user=new GotyeUser();
         otherUser.setName(userFriend.id + "");
-        user.setName(String.valueOf(userModel.getLoginUser().getId()));
+        user.setName(String.valueOf(userModel.getLoginUser().id));
         adapater.addMoreItem(model.getMessageList(otherUser, false));
         model.initMessageList(otherUser, new GotyeModel.ChatMessageListener() {
             @Override

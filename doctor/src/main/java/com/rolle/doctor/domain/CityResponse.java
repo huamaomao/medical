@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class CityResponse extends ResponseMessage {
     public int id;
-    public List<Item> selectList;
+    public List<Item> list;
     public static class Item implements Parcelable,Serializable{
         public String id;
         public String name;

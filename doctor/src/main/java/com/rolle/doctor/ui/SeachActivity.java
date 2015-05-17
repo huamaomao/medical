@@ -13,6 +13,7 @@ import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
@@ -29,9 +30,9 @@ public class SeachActivity extends BaseLoadingActivity {
 
     @InjectView(R.id.rv_view)
     RecyclerView lvView;
-    private List<FriendResponse.Item> data;
+    private List<User> data;
 
-    private BaseRecyclerAdapter<FriendResponse.Item> adapater;
+    private BaseRecyclerAdapter<User> adapater;
     @InjectView(R.id.seach)
     SearchView seachView;
     private UserModel userModel;
@@ -48,12 +49,12 @@ public class SeachActivity extends BaseLoadingActivity {
         super.initView();
         setBackActivity("");
         userModel=new UserModel(getContext());
-        data=new ArrayList<FriendResponse.Item>();
+        data=new ArrayList<User>();
         adapater=new BaseRecyclerAdapter<>(data);
         adapater.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
-                FriendResponse.Item item=data.get(i);
+                User item=data.get(i);
                 Picasso.with(getContext()).load(item.headImage).placeholder(R.drawable.icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
                 viewHolder.setText(R.id.tv_item_1,item.nickname).setText(R.id.tv_item_0,item.noteName);

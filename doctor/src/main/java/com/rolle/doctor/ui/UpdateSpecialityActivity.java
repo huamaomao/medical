@@ -9,6 +9,7 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
@@ -62,20 +63,21 @@ public class UpdateSpecialityActivity extends BaseLoadingActivity{
                     msgShow("请填写专长.....");
                     return true;
                 }
-                user.intro=et_intro.getText().toString();
+                user.doctorDetail.speciality=et_intro.getText().toString();
                 showLoading();
                 userModel.requestSaveUser(user,new ViewModel.ModelListener<ResponseMessage>() {
                         @Override
                         public void model(Response response, ResponseMessage o) {
                             msgShow("保存成功");
+                            finish();
                         }
 
-                        @Override
-                        public void errorModel(ModelEnum modelEnum) {
-                            msgShow("保存失败");
-                        }
+                    @Override
+                    public void errorModel(HttpException e, Response response) {
+                        msgShow("保存失败");
+                    }
 
-                        @Override
+                    @Override
                         public void view() {
                             hideLoading();
                         }

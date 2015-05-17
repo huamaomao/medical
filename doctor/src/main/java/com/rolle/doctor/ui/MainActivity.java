@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import com.android.common.util.ViewUtil;
-import com.gotye.api.listener.LoginListener;
 import com.rolle.doctor.R;
-import com.rolle.doctor.fragment.AddressListFragment;
 import com.rolle.doctor.fragment.FriendFragment;
 import com.rolle.doctor.fragment.MessageFragment;
 import com.rolle.doctor.fragment.MyFragment;
 import com.rolle.doctor.presenter.FriendListPresenter;
-import com.rolle.doctor.presenter.FriendPresenter;
 
 import butterknife.InjectView;
 

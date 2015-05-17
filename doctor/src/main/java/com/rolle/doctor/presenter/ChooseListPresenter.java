@@ -2,6 +2,7 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.presenter.Presenter;
 import com.android.common.view.IView;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 
 /**
@@ -14,7 +15,7 @@ public class ChooseListPresenter extends Presenter {
     private UserModel model;
     public ChooseListPresenter(IChooseView iView) {
         this.view = iView;
-        model=new UserModel(view.getContext());
+        model=new UserModel((BaseActivity)view.getContext());
     }
 
     public void doChoose(){

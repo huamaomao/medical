@@ -2,26 +2,22 @@ package com.rolle.doctor.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
-import com.android.common.adapter.QuickAdapter;
+
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
 import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
-import com.rolle.doctor.adapter.MessageListAdapter;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
@@ -32,7 +28,6 @@ import com.rolle.doctor.viewmodel.UserModel;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * 医生
@@ -44,8 +39,8 @@ public class TheDoctorActivity extends BaseActivity{
     PullRefreshLayout refresh;
     private   RecyclerView lvViewAll;
     private   RecyclerView lvViewSame;
-    private List<FriendResponse.Item> data;
-    private List<FriendResponse.Item> dataSame;
+    private List<User> data;
+    private List<User> dataSame;
     private FriendListAdapater adapaterAll;
     private FriendListAdapater adapaterSame;
     @InjectView(R.id.tabs)
@@ -74,16 +69,16 @@ public class TheDoctorActivity extends BaseActivity{
             @Override
             public void onRefresh() {
                 //
-                userModel.requestFriendList(new ViewModel.ModelListener<List<FriendResponse.Item>>() {
+                userModel.requestFriendList(new ViewModel.ModelListener<List<User>>() {
                     @Override
-                    public void model(Response response, List<FriendResponse.Item> items) {
+                    public void model(Response response, List<User> items) {
                         // 数据更改
-                        adapaterSame.addCleanItems(userModel.queryFriendList());
-                        adapaterAll.addCleanItems(userModel.querySameFriendList());
+                        adapaterSame.addCleanItems(userModel.querySameFriendList());
+                        adapaterAll.addCleanItems(userModel.queryFriendList());
                     }
 
                     @Override
-                    public void errorModel(ModelEnum modelEnum) {
+                    public void errorModel(HttpException e, Response response) {
 
                     }
 
@@ -120,7 +115,7 @@ public class TheDoctorActivity extends BaseActivity{
         lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item = data.get(position);
+                User item = data.get(position);
                 if (CommonUtil.notNull(item)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ITEM, item);
@@ -131,7 +126,7 @@ public class TheDoctorActivity extends BaseActivity{
         lvViewSame.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FriendResponse.Item item = dataSame.get(position);
+                User item = dataSame.get(position);
                 if (CommonUtil.notNull(item)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ITEM, item);

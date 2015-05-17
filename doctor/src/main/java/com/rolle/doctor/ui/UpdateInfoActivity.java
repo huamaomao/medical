@@ -19,6 +19,7 @@ import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
@@ -95,7 +96,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
                 msgShow("图片上传失败...");
             }
 
@@ -172,7 +173,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
 
             }
 

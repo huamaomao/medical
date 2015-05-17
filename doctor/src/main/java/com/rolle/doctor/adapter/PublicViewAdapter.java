@@ -82,7 +82,6 @@ public class PublicViewAdapter<T> extends BaseAdapter implements OnClickListener
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		commonOnClick.commonOnClick(v);
 	}
 

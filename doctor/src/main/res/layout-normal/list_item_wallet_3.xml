@@ -11,7 +11,7 @@
     <TextView
          android:id="@id/tv_item_1"
         android:layout_marginLeft="10dp"
-       android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/tv_item_0"
         android:textSize="@dimen/font_size_18"
         android:layout_centerVertical="true"
         android:textColor="@color/text_93"

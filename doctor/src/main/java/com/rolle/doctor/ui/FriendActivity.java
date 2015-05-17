@@ -8,11 +8,19 @@ import android.view.Menu;
 import android.widget.EditText;
 
 import com.android.common.util.DividerItemDecoration;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
+import com.rolle.doctor.domain.ContactBean;
 import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.viewmodel.ContactQueryHandler;
+import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,29 +32,57 @@ import butterknife.InjectView;
  * 新朋友
  */
 public class FriendActivity extends BaseActivity{
-
      @InjectView(R.id.rv_view) RecyclerView lvView;
-    private List<FriendResponse.Item> data;
+    private List<User> data;
     private FriendListAdapater adapater;
+    private UserModel userModel;
+
+    private ContactQueryHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient);
+        setContentView(R.layout.activity_new_friend);
+        userModel=new UserModel(this);
+        handler=new ContactQueryHandler(getContentResolver(), new ContactQueryHandler.HandleListener() {
+                @Override
+                public void setAdapter(List<ContactBean> list) {
+                    Log.d("==="+list.size());
+                }
+        });
+        handler.queryList();
+    }
 
+    /****
+     *
+     */
+    private void requestData(){
+        userModel.requestNewFriendList(null, new ViewModel.ModelListener<List<Recommended.Item>>() {
+            @Override
+            public void model(Response response, List<Recommended.Item> items) {
+                Log.d(response.getString());
+            }
+
+            @Override
+            public void errorModel(HttpException e, Response response) {
+
+            }
+
+            @Override
+            public void view() {
+
+            }
+        });
     }
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("添加朋友");
+        setBackActivity("新朋友");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         lvView.setLayoutManager(layoutManager);
         lvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        data=new ArrayList<FriendResponse.Item>();
-        //data.add(new User("主治慢性","23","0",R.drawable.icon_people_1,"叶子","0","0"));
-        //data.add(new User("主治慢性","26","1",R.drawable.icon_people_2,"孟龙","0","1"));
-       // data.add(new User("主治慢性","23","1",R.drawable.icon_people_3,"萌萌","0","1"));
+        data=new ArrayList<>();
         lvView.setLayoutManager(layoutManager);
         adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_FRIEND);
         lvView.setAdapter(adapater);
@@ -54,13 +90,14 @@ public class FriendActivity extends BaseActivity{
         adapater.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
-                if ("0".equals(user.getType())){
+              /*  if ("0".equals(user.typeId)){
                     ViewUtil.openActivity(PatientHActivity.class, FriendActivity.this);
                 }else {
                     ViewUtil.openActivity(DoctorDetialActivity.class, FriendActivity.this);
-                }
+                }*/
             }
         });
+        requestData();
     }
 
 }

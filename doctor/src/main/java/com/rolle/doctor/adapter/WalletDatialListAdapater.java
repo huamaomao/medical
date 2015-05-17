@@ -10,12 +10,14 @@ import android.widget.TextView;
 import com.android.common.adapter.RecyclerGroupAdapter;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.WalleDetail;
+import com.rolle.doctor.domain.Wallet;
+import com.rolle.doctor.domain.WalletBill;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 /**
  * Created by Hua on 2015/4/3.
  */
-public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalleDetail,WalletDatialListAdapater.WalleViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalletBill.Item,WalletDatialListAdapater.WalleViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
 
@@ -29,18 +31,17 @@ public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalleDetail,W
 
     @Override
     public void onBindViewHolder(WalleViewHolder holder, int position){
-        WalleDetail item=getItem(position);
-        holder.amount.setText("¥"+item.amount);
-        holder.date.setText(item.date);
-        holder.title.setText(item.title);
-        holder.status.setText(item.status);
+        WalletBill.Item item=getItem(position);
+        holder.amount.setText("¥"+item.accountAmountChange);
+        holder.date.setText(item.tradingDate);
+        holder.title.setText(item.typeId+"==");
+        holder.status.setText("交易成功");
     }
-
 
 
     @Override
     public long getHeaderId(int position) {
-        return getItem(position).month;
+        return getItem(position).yearMonth;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalleDetail,W
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.tv_item_0);
-        textView.setText(String.valueOf(getItem(position).month));
+        textView.setText(getItem(position).month+"月");
     }
 
     @Override

@@ -9,40 +9,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.common.adapter.BaseRecyclerAdapter;
 import com.android.common.adapter.MessageRecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
-import com.android.common.widget.SeachView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
-import com.rolle.doctor.adapter.MessageListAdapter;
-import com.rolle.doctor.domain.FriendResponse;
-import com.rolle.doctor.domain.MessageUser;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.MessageListPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
-import com.rolle.doctor.ui.DoctorDetialActivity;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.ui.SeachActivity;
-import com.rolle.doctor.ui.TheDoctorActivity;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.InjectView;
-import butterknife.OnClick;
-import butterknife.OnItemClick;
 
 /**
  * 消息
@@ -54,8 +43,8 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     @InjectView(R.id.rv_view)
     RecyclerView rv_view;
 
-    private LinkedList<FriendResponse.Item> lsData;
-    private MessageRecyclerAdapter<FriendResponse.Item> recyclerAdapter;
+    private LinkedList<User> lsData;
+    private MessageRecyclerAdapter<User> recyclerAdapter;
     private MessageListPresenter presenter;
 
     private GotyeModel model;
@@ -67,7 +56,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         setLayoutId(R.layout.fragment_message);
         presenter=new MessageListPresenter(this);
         model=new GotyeModel();
-        userModel=new UserModel(getContext());
+        userModel=new UserModel((BaseActivity)getContext());
 
     }
 
@@ -95,7 +84,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent() {
             @Override
             public void onClick(View v, int position) {
-                FriendResponse.Item item=lsData.get(position);
+                User item=lsData.get(position);
                 if (CommonUtil.notNull(item)){
                     Bundle bundle=new Bundle();
                     bundle.putParcelable(Constants.ITEM,item);
@@ -106,7 +95,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, int i) {
-                FriendResponse.Item messageUser = lsData.get(i);
+                User messageUser = lsData.get(i);
                 if(CommonUtil.isNull(messageUser)) return;
                 viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1, messageUser.message);
@@ -120,7 +109,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 }
                 //是否是医生
                 viewHolder.setImageResource(R.id.iv_type, 0);
-                if ("0".equals(messageUser.type)) {
+                if (Constants.USER_TYPE_DOCTOR.equals(messageUser.typeId)||Constants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
                     viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
                 }
                 TextView textView = viewHolder.getView(R.id.tv_item_2);
@@ -171,17 +160,17 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     }
 
     @Override
-    public void addMessagelist(List<FriendResponse.Item> ls) {
+    public void addMessagelist(List<User> ls) {
         recyclerAdapter.addItemAll(ls);
     }
 
     @Override
-    public void addMessageItem(FriendResponse.Item item) {
+    public void addMessageItem(User item) {
         recyclerAdapter.addItem(item);
     }
 
     @Override
-    public void pushMessageItem(FriendResponse.Item item) {
+    public void pushMessageItem(User item) {
         recyclerAdapter.pushItem(item);
     }
 }

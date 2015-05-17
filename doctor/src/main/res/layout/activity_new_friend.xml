@@ -3,12 +3,53 @@
    style="@style/style_wh_match_v"
     android:background="@color/appbg"
     >
-   <include layout="@layout/toolbar_h" />
+   <include layout="@layout/toolbar" />
+    <LinearLayout android:id="@id/ll_item_0"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        style="@style/list_item_style"
+        >
+        <ImageView
+            android:src="@drawable/icon_weixin"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:text="邀请微信好友"
+            style="@style/ListTileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <include layout="@layout/divider" />
+    <LinearLayout android:id="@id/ll_item_1"
+        style="@style/list_item_style"
+        >
+        <ImageView
+            android:src="@drawable/icon_qq"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:text="邀请QQ好友"
+            style="@style/ListTileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <include layout="@layout/divider" />
+    <LinearLayout android:id="@id/ll_item_2"
+        style="@style/list_item_style"
+        >
+        <ImageView
+            android:src="@drawable/icon_contact"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView
+            android:text="通讯录好友"
+            style="@style/ListTileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <include layout="@layout/divider" />
 
     <include layout="@layout/public_wrap_recycler_view"
-         android:layout_marginTop="20dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
 </LinearLayout>

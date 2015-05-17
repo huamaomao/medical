@@ -12,6 +12,7 @@ import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
@@ -25,14 +26,13 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
 
     private Context mContext;
     List<ItemInfo> data;
-
-    private FriendResponse.Item  user;
+    private User  user;
 
     final  static int TYPE_0=0;
     final  static int TYPE_1=1;
     final  static int TYPE_2=2;
 
-    public void setUser(FriendResponse.Item user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

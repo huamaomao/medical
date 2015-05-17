@@ -3,57 +3,13 @@
    style="@style/style_wh_match_v"
     android:background="@color/appbg"
     >
-   <include layout="@layout/toolbar" />
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
-        android:text="本次验证信息仅限于提现,请使用持卡人本人的储存卡"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/color_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <View
+   <include layout="@layout/toolbar_n" />
+    <include layout="@layout/tab_strip" />
+    <android.support.v4.view.ViewPager
+        android:id="@id/viewpage"
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_marginTop="3dp"
-        android:layout_height="1dp" />
-   <GridLayout
-       android:columnCount="2"
-       android:paddingLeft="20dp"
-       android:paddingRight="20dp"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-        <TextView android:textColor="@color/black" android:gravity="right|center_vertical" android:layout_gravity="right|fill_vertical"
-            android:textSize="@dimen/font_size_16" android:text="持卡人："/>
-        <EditText  android:layout_gravity="fill"
-            android:padding="15dp"
-            android:background="@android:color/transparent"/>
-       <View
-           android:layout_columnSpan="2"
-           android:layout_width="match_parent"
-           android:background="@color/divider"
-           android:layout_height="1dp" />
-       <TextView android:textColor="@color/black" android:gravity="right|center_vertical" android:layout_gravity="right|fill_vertical"
-           android:textSize="@dimen/font_size_16" android:text="卡号："/>
-       <EditText  android:layout_gravity="fill" android:hint="银行卡号"
-           android:background="@android:color/transparent" android:padding="15dp"
-           android:textColorHint="@color/color_hint"/>
-       <View
-           android:layout_columnSpan="2"
-           android:layout_width="match_parent"
-           android:background="@color/divider"
-           android:layout_height="1dp" />
-    </GridLayout>
+        android:layout_height="0px"
+        android:layout_weight="1">
+    </android.support.v4.view.ViewPager>
 
-    <Button
-        android:layout_marginTop="30dp"
-        android:text="下一步"
-         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-       android:background="@drawable/s_ibtn_send"
-        android:textSize="@dimen/font_size_16"
-        android:textColor="@color/write"
-        android:layout_width="match_parent"
-        android:layout_height="35dp" />
 </LinearLayout>

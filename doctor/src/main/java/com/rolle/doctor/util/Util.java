@@ -15,6 +15,8 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,7 +68,6 @@ public final class Util {
             return false;
         }
         return true;
-
     }
 
 
@@ -82,5 +83,39 @@ public final class Util {
     }
 
 
+    public static  List<String> getPlaintList(String date){
+        long l=0;
+        if (CommonUtil.notEmpty(date)){
+            l=Long.decode(date);
+        }
+        List<String> list=new ArrayList<>();
+        if (CommonUtil.isNull(date)||l==0){
+            list.add(TimeUtil.getYm(System.currentTimeMillis()));
+        }else {
+            Calendar end=Calendar.getInstance();
+            end.setTimeInMillis(System.currentTimeMillis());
+            Calendar start=Calendar.getInstance();
+            start.setTimeInMillis(l);
+            int endYear=start.get(Calendar.YEAR);
+            int endMonth=start.get(Calendar.MONTH)+1;
+            for (int startYear=start.get(Calendar.YEAR)+1,startMonth=start.get(Calendar.MONTH);startYear<=endYear&&startMonth<=endMonth;){
+                StringBuilder builder=new StringBuilder();
+                builder.append(startYear).append("-").append(startMonth);
+                list.add(builder.toString());
+                System.out.println(builder.toString());
+                startMonth++;
+                if (startMonth==13){
+                    startYear++;
+                    startMonth=1;
+                }
+            }
+
+
+        }
+        return list;
+    }
+    public static void main(String[] args){
+        getPlaintList("143020323100");
+    }
 
 }

@@ -11,6 +11,7 @@
     <item name="toolbar_set" type="id" />
     <item name="toolbar_seach" type="id" />
     <item name="toolbar_next" type="id" />
+    <item name="toolbar_commit" type="id" />
     <item name="toolbar_save" type="id" />
     <item name="toolbar_register" type="id" />
     <item name="toolbar_login" type="id" />
@@ -33,6 +34,7 @@
     <!-- textView id -->
 
     <item name="tv_name" type="id" />
+    <item name="tv_amount" type="id" />
     <item name="tv_tel_code" type="id" />
     <item name="tv_address" type="id" />
     <item name="tv_section" type="id" />
@@ -66,6 +68,8 @@
 
     <!-- imageview-->
     <item name="iv_photo" type="id" />
+    <item name="iv_add_doctor" type="id" />
+    <item name="iv_add_idcard" type="id" />
     <item name="iv_pic" type="id" />
     <item name="iv_card_img" type="id" />
     <item name="iv_more" type="id" />
@@ -117,6 +121,12 @@
     <item name="et_tel" type="id" />
     <item name="et_pwd" type="id" />
     <item name="et_code" type="id" />
+    <item name="et_alipay" type="id" />
+    <item name="et_alipay_name" type="id" />
+    <item name="et_blank_account" type="id" />
+    <item name="et_blank_name" type="id" />
+
+    <item name="et_content" type="id" />
     <item name="et_hospital" type="id" />
     <item name="et_address" type="id" />
 
@@ -132,9 +142,12 @@
     <item name="btn_status" type="id" />
     <item name="btn_login" type="id" />
     <item name="btn_loginout" type="id" />
+    <item name="btn_next" type="id" />
     <item name="btn_send" type="id" />
     <item name="btn_write" type="id" />
     <item name="btn_invite" type="id" />
+    <item name="btn_alipay_commit" type="id" />
+    <item name="btn_blank_commit" type="id" />
 
     <!-- view-->
     <item name="v_view" type="id" />
@@ -142,4 +155,5 @@
     <item name="tbtn_swich" type="id" />
     <item name="progressBar" type="id" />
     <item name="pieChart" type="id" />
+    <item name="pay_pwd" type="id" />
 </resources>

@@ -15,6 +15,7 @@ import android.widget.Spinner;
 
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
@@ -23,8 +24,10 @@ import com.rolle.doctor.adapter.PatientHInfoListAdapater;
 import com.rolle.doctor.adapter.PatientHListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.adapter.YearSpinnerAdpater;
+import com.rolle.doctor.domain.BloodResponse;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 
 import java.util.ArrayList;
@@ -41,7 +44,6 @@ public class PatientHActivity extends BaseActivity{
     @InjectView(R.id.viewpage) ViewPager viewPager;
     private List<View> viewpages;
     @InjectView(R.id.rg_group)RadioGroup radioGroup;
-
     private List<ItemInfo> lsData;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewInfo;
@@ -49,7 +51,8 @@ public class PatientHActivity extends BaseActivity{
     private PatientHListAdapater adapater;
     private PatientHInfoListAdapater adapater1;
 
-    private FriendResponse.Item user;
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +69,14 @@ public class PatientHActivity extends BaseActivity{
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
-
         user=getIntent().getParcelableExtra(Constants.ITEM);
-
         recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         List ls=new ArrayList();
-        ls.add(1);
-        ls.add(1);
-        ls.add(1);
-        adapater=new PatientHListAdapater(this,ls);
+        ls.add(new BloodResponse.Item());
+        ls.add(new BloodResponse.Item());
+        adapater=new PatientHListAdapater(this,ls,user);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapater);
@@ -88,11 +88,11 @@ public class PatientHActivity extends BaseActivity{
         lsData.add(null);
         lsData.add(new ItemInfo("性别",user.sex));
         lsData.add(new ItemInfo("生日",user.birthday));
-        lsData.add(new ItemInfo("体重",user.weight));
+        lsData.add(new ItemInfo("体重",CommonUtil.initTextNull(user.patientDetail.weight)));
         lsData.add(new ItemInfo("所在地",user.home));
         lsData.add(null);
-        lsData.add(new ItemInfo("健康",user.health));
-        lsData.add(new ItemInfo("过敏药物",user.drugAllergy));
+        lsData.add(new ItemInfo("健康",CommonUtil.initTextNull(user.patientDetail.health)));
+        lsData.add(new ItemInfo("过敏药物", CommonUtil.initTextNull(user.patientDetail.drugAllergy)));
         adapater1=new PatientHInfoListAdapater(this,lsData);
         adapater1.setUser(user);
         recyclerViewInfo.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
@@ -156,6 +156,6 @@ public class PatientHActivity extends BaseActivity{
     void toMessageActivity(){
         Bundle bundle=new Bundle();
         bundle.putParcelable(Constants.ITEM,user);
-        ViewUtil.openActivity(NoteActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
+        ViewUtil.openActivity(MessageActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
     }
 }

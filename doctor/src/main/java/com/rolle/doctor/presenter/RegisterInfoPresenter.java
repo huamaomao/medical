@@ -13,6 +13,7 @@ import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterInfoActivity;
 import com.rolle.doctor.util.Util;
@@ -33,7 +34,7 @@ public class RegisterInfoPresenter extends Presenter {
     private ListModel listModel;
     public RegisterInfoPresenter(IRegisterView iView) {
         this.view = iView;
-        userModel=new UserModel(view.getContext());
+        userModel=new UserModel((BaseActivity)view.getContext());
         listModel=new ListModel(view.getContext());
     }
 
@@ -95,7 +96,7 @@ public class RegisterInfoPresenter extends Presenter {
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
 
             }
 
@@ -118,7 +119,7 @@ public class RegisterInfoPresenter extends Presenter {
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
 
             }
 
@@ -137,7 +138,7 @@ public class RegisterInfoPresenter extends Presenter {
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
 
             }
 

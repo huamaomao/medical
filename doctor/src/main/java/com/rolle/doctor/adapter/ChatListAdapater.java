@@ -46,12 +46,12 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
     private  final static int MESSAGE_RIGHT_PIC=2;
     private final static int MESSAGE_LEFT_PIC=3;
     private String name= GotyeAPI.getInstance().getLoginUser().getName();
-    private FriendResponse.Item friendUser;
+    private User friendUser;
     protected AlertDialogFragment dialog;
 
     private int select=-1;
 
-    public ChatListAdapater(final LinkedList<GotyeMessage> data, Context mContext, FriendResponse.Item friendUser,final  OnSendListener listener) {
+    public ChatListAdapater(final LinkedList<GotyeMessage> data, Context mContext, User friendUser,final  OnSendListener listener) {
         this.data = data;
         this.mContext = mContext;
         this.friendUser = friendUser;

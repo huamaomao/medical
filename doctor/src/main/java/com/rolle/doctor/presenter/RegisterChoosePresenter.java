@@ -12,6 +12,7 @@ import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterTitleActivity;
 import com.rolle.doctor.util.Util;
@@ -28,7 +29,7 @@ public class RegisterChoosePresenter extends Presenter {
     private UserModel userModel;
     public RegisterChoosePresenter(IRegisterView iView) {
         this.view = iView;
-        userModel=new UserModel(view.getContext());
+        userModel=new UserModel((BaseActivity)view.getContext());
     }
 
    public void doNext(){

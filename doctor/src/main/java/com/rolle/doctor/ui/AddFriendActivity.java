@@ -42,7 +42,7 @@ public class AddFriendActivity extends BaseActivity implements AddFriendPresente
 
     @OnClick(R.id.ll_scanning)
     void doScanning(){
-       // ViewUtil.openActivity(MyInviteCodeActivity.class, this);
+       ViewUtil.openActivity(CaptureActivity.class, this);
     }
 
     @Override

@@ -22,6 +22,11 @@ import android.view.WindowManager;
 
 import com.android.common.R;
 import com.android.common.domain.Version;
+import com.android.common.view.IView;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpServerException;
+import com.litesuits.http.response.Response;
 
 /**
  * Created by Hua_ on 2015/2/6.
@@ -34,8 +39,19 @@ public class ViewUtil {
         openActivity(pClass,null,activity,model,false);
     }
 
+    /*****
+     *启动activity 关闭之前的
+     * @param pClass
+     * @param activity
+     */
+    public static void startTopActivity(Class<? extends Activity> pClass,Activity activity){
+        Intent intent=new Intent(activity,pClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+    }
+
     public static void openActivity(Class<?> pClass,Activity activity){
-        openActivity(pClass,null,activity,ActivityModel.ACTIVITY_MODEL_0,false);
+        openActivity(pClass, null, activity, ActivityModel.ACTIVITY_MODEL_0, false);
     }
     public static void openActivity(Class<?> pClass,Activity activity,boolean flag){
         openActivity(pClass,null,activity,ActivityModel.ACTIVITY_MODEL_0,flag);
@@ -188,6 +204,22 @@ public class ViewUtil {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
+
+    /******
+     * initRecyclerView
+     * @param recyclerView
+     * @param context
+     */
+    public static void initRecyclerViewItem(RecyclerView recyclerView,Context context,RecyclerView.Adapter adapter){
+        if (recyclerView==null){
+            return;
+        }
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL,true));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
     /******
      * initRecyclerView
      * @param recyclerView
@@ -255,6 +287,18 @@ public class ViewUtil {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);;
         intent.setType("image/jpeg");
         context.startActivityForResult(intent, Constants.CODE_CAPTURE);
+    }
+
+
+    public static void requestHandle(HttpException e,Response response,Context iView){
+        IView view=(IView)iView;
+        if (e==null){
+
+        }else  if (e instanceof HttpNetException) {
+            view.msgShow(e.getMessage());
+        } else if (e instanceof HttpServerException) {
+            view.msgShow(e.getMessage());
+        }
     }
 
 }

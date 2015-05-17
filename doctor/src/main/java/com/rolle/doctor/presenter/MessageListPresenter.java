@@ -10,6 +10,7 @@ import com.gotye.api.GotyeUser;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.MessageUser;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -29,7 +30,7 @@ public class MessageListPresenter extends Presenter {
 
      public MessageListPresenter(IMessageView iView) {
         this.view = iView;
-        model=new UserModel(view.getContext());
+        model=new UserModel((BaseActivity)view.getContext());
         gotyeModel=new GotyeModel();
     }
 
@@ -51,8 +52,8 @@ public class MessageListPresenter extends Presenter {
    public void doMessage(){
        List<GotyeChatTarget> ls =gotyeModel.getFriendSession();
        if (CommonUtil.isNull(ls))return;
-       List<FriendResponse.Item> userList=new ArrayList<>();
-       FriendResponse.Item user1=null;
+       List<User> userList=new ArrayList<>();
+       User user1=null;
        GotyeUser userTarget=null;
        GotyeMessage message=null;
        for (GotyeChatTarget target:ls){
@@ -77,9 +78,9 @@ public class MessageListPresenter extends Presenter {
 
 
     public static interface IMessageView extends IView{
-        void addMessagelist(List<FriendResponse.Item> ls);
-        void addMessageItem(FriendResponse.Item item);
-        void pushMessageItem(FriendResponse.Item item);
+        void addMessagelist(List<User> ls);
+        void addMessageItem(User item);
+        void pushMessageItem(User item);
     }
 
 }

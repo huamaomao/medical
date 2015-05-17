@@ -8,6 +8,7 @@ import com.android.common.util.Log;
 import com.android.common.util.MD5;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
@@ -17,6 +18,7 @@ import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.service.GotyeService;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.ui.RegisterChooseActivity;
 import com.rolle.doctor.viewmodel.GotyeModel;
@@ -29,6 +31,7 @@ import com.rolle.doctor.viewmodel.UserModel;
 public class LoginPresenter extends Presenter {
     private ILogin view;
     private UserModel model;
+    static String TAG="Login";
     public LoginPresenter(ILogin iView) {
         this.view = iView;
         model=new UserModel(view.getContext());
@@ -42,109 +45,53 @@ public class LoginPresenter extends Presenter {
     }
 
    public void doLogin(){
+       if (!CommonUtil.isMobileNO(view.getTel())){
+           view.msgShow("手机格式错误..");
+            return;
+        }
+        if (CommonUtil.isEmpty(view.getPwd())||view.getPwd().length()<6||view.getPwd().length()>15){
+            view.msgShow("密码格式错误，6至15位");
+            return;
+        }
        view.showLoading();
-       model.requestModel(view.getTel(),view.getPwd(),new HttpModelHandler<String>(){
+       model.requestLogin(view.getTel(), view.getPwd(), new ViewModel.ModelListener<User>() {
            @Override
-           protected void onSuccess(String data, Response res) {
-               Token token=res.getObject(Token.class);
-               Log.d(token);
-               if (CommonUtil.notNull(token)){
-                   switch (token.statusCode){
-                       case "200":
-                          token.tel=view.getTel();
-                          model.setToken(token);
-                           doGetUserInfo();
-
-                          view.hideLoading();
-                          break;
-                       case "300":
-                            view.msgShow("登陆失败账号或密码错误.....");
-                            view.hideLoading();
-                           break;
-                   }
+           public void model(Response response, User user) {
+               if (user.typeId == null) {
+                   ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
+               } else {
+                   doLoginService();
+                   ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
                }
-
            }
 
            @Override
-           protected void onFailure(HttpException e, Response res) {
+           public void errorModel(HttpException e, Response response) {
                if (e instanceof HttpNetException) {
                    HttpNetException netException = (HttpNetException) e;
+                   view.msgShow("无网络访问.....");
                } else if (e instanceof HttpServerException) {
                    HttpServerException serverException = (HttpServerException) e;
+                   view.msgShow("无法访问服务器.....");
+               }else{
+                   view.msgShow("登陆失败.....");
                }
-               view.msgShow("登陆失败");
-               view.hideLoading();
-           }
-
-       },new UserModel.OnValidationListener(){
-           @Override
-           public void errorPwd() {
-               view.msgShow("密码格式错误，6至15位");
-               view.hideLoading();
            }
 
            @Override
-           public void errorTel() {
-               view.msgShow("手机格式错误..");
-               view.hideLoading();
+           public void view() {
+                view.hideLoading();
            }
        });
+
     }
 
     public void doIsLogin(){
        Token token= model.getToken();
-       if (CommonUtil.notEmpty(token.token)){
-           doGetUserInfo();
+       if (CommonUtil.notNull(token)&&token.isLogin()){
+           doLoginService();
+           ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
        }
-    }
-
-    /*****
-     * 获取个人信息
-     */
-    public void doGetUserInfo(){
-        model.requestModel(model.getToken().token,new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                UserResponse user=res.getObject(UserResponse.class);
-                if (CommonUtil.notNull(user)){
-                    switch (user.statusCode){
-                        case "200":
-                            Log.d(user.user);
-                            // 更新 token id
-                            model.getToken().userId=user.user.id;
-                            model.getToken().pwd= MD5.compute(view.getPwd());
-                            model.setToken(model.getToken());
-                            model.db.save(user.user);
-                            Log.d(model.getToken());
-                           if (user.user.typeId==null){
-                               view.getContext().finish();
-                               ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-                           }else {
-                               view.getContext().finish();
-                               ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-                           }
-
-                            break;
-                        case "300":
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                User user=model.getLoginUser();
-                if (user.typeId==null){
-                    view.getContext().finish();
-                    ViewUtil.openActivity(RegisterChooseActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-                }else {
-                    view.getContext().finish();
-                    ViewUtil.openActivity(MainActivity.class,null,view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-                }
-            }
-        });
-        doLoginService();
     }
 
     public void doLoginService(){

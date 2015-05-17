@@ -16,6 +16,7 @@ import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.InviteCodeResponse;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MyInviteCodeActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -30,7 +31,7 @@ public class WriteInviteCodePresenter extends Presenter {
 
     public WriteInviteCodePresenter(IInviteCodeView view){
         this.view=view;
-        model=new UserModel(view.getContext());
+        model=new UserModel((BaseActivity)view.getContext());
     }
 
     public void doSave(){
@@ -47,7 +48,7 @@ public class WriteInviteCodePresenter extends Presenter {
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
                 view.msgShow("保存失败");
             }
 

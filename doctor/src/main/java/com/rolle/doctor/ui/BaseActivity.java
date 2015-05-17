@@ -90,7 +90,7 @@ public class BaseActivity extends ActionBarActivity implements IView{
 
     public void exitApp(){
         Intent intent = new Intent(getContext(),BaseActivity.class);
-        intent.setAction(Constants.ACTIVITY_ACTION); // 说明动作
+        intent.setAction(Constants.ACTIVITY_ACTION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
     }
@@ -152,7 +152,7 @@ public class BaseActivity extends ActionBarActivity implements IView{
     }
 
     protected long lastClickTime;
-    public boolean flagClick=true;
+    public boolean flagClick=false;
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -167,13 +167,15 @@ public class BaseActivity extends ActionBarActivity implements IView{
      *  设置最后触发时间
      */
     public void setLastClickTime(){
+        flagClick=true;
         lastClickTime=System.currentTimeMillis();
     }
 
     public boolean isFastDoubleClick() {
         long time = System.currentTimeMillis();
         long timeD = time - lastClickTime;
-        if (timeD >= 0 && timeD <= 1000) {
+        flagClick=false;
+        if (timeD >= 0 && timeD <= 500) {
             return true;
         } else {
             lastClickTime = time;

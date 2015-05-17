@@ -14,6 +14,7 @@ import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MainActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -27,7 +28,7 @@ public class MessagePresenter extends Presenter {
     private UserModel model;
     public MessagePresenter(IMessageView iView) {
         this.view = iView;
-        model=new UserModel(view.getContext());
+        model=new UserModel((BaseActivity)view.getContext());
     }
 
 

@@ -14,6 +14,7 @@ import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.WalletListAdapater;
@@ -38,7 +39,6 @@ public class WalletActivity extends BaseActivity {
     private WalletListAdapater adapater;
     private UserModel userModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +54,9 @@ public class WalletActivity extends BaseActivity {
         rvView.setLayoutManager(layoutManager);
         lsData=new ArrayList<>();
         lsData.add(new ItemInfo(R.drawable.icon_amount_smail,CommonUtil.formatMoney("0"),WalletListAdapater.TYPE_ACMOUNT));
-        //lsData.add(new ItemInfo("招商银行卡","433*******2223",WalletListAdapater.TYPE_BLANK));
         lsData.add(new ItemInfo(R.drawable.icon_blank_add,"添加支付宝",WalletListAdapater.TYPE_ADD));
         adapater=new WalletListAdapater(this,lsData);
-        rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        rvView.setAdapter(adapater);
-        rvView.setHasFixedSize(true);
-        rvView.setItemAnimator(new DefaultItemAnimator());
+        ViewUtil.initRecyclerView(rvView,getContext(),adapater);
         rvView.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -73,18 +69,24 @@ public class WalletActivity extends BaseActivity {
         loadData();
     }
 
-
     private void loadData(){
         userModel.requestWallet(new ViewModel.ModelListener<Wallet>() {
             @Override
             public void model(Response response, Wallet wallet) {
+                if (wallet==null)return;
                 ItemInfo itemInfo=lsData.get(0);
                 itemInfo.title= CommonUtil.formatMoney(wallet.accountAmount);
                 adapater.notifyItemChanged(0);
+                if (wallet.list!=null){
+                    for (Wallet.Item item:wallet.list){
+                        lsData.add(1,new ItemInfo("支付宝账号",item.mobile,WalletListAdapater.TYPE_BLANK));
+                    }
+                    adapater.notifyItemRangeChanged(1,wallet.list.size());
+                }
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
 
             }
 

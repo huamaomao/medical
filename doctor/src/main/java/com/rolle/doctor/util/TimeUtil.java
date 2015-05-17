@@ -74,6 +74,10 @@ public class TimeUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		return sdf.format(System.currentTimeMillis());
 	}
+	public static String formmatYmd(String  date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(Long.decode(date));
+	}
 
 	@SuppressLint("SimpleDateFormat")
 	public static String currentSplitTimeString(String time) {
@@ -124,7 +128,7 @@ public class TimeUtil {
 		return DateFormat.format("yyyy", localCalendar).toString();
 	}
 
-	public String getDay(Long paramLong) {
+	public static String getDay(Long paramLong) {
 		Calendar localCalendar = Calendar.getInstance();
 		long l = paramLong.longValue();
 		localCalendar.setTimeInMillis(l);
@@ -145,7 +149,7 @@ public class TimeUtil {
 		return DateFormat.format("mm", localCalendar).toString();
 	}
 
-	public String getMonth(Long paramLong) {
+	public   String  getMonthDay(Long paramLong) {
 		Calendar localCalendar = Calendar.getInstance();
 		long l = paramLong.longValue();
 		localCalendar.setTimeInMillis(l);
@@ -195,10 +199,24 @@ public class TimeUtil {
 				return 1;
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return -2;
+	}
+
+	/*****
+	 * yyyy-MM-dd HH:mm  long
+	 * @param startTime
+	 * @return
+	 */
+	public static String formatyMdHm(String startTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			return  sdf.format(new Date(Long.parseLong(startTime)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	/**
@@ -231,6 +249,30 @@ public class TimeUtil {
 			second = 1;
 		}
 		return second;
+	}
+
+	public static String getYm(long date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		return sdf.format(new Date(date));
+	}
+
+	public static long getYm(String date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(Long.decode(date));
+		StringBuilder builder=new StringBuilder();
+		builder.append(calendar.get(Calendar.YEAR)).append(calendar.get(Calendar.MONTH) + 1);
+		return Long.decode(builder.toString());
+	}
+	public static String getMM(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		return sdf.format(new Date(Long.decode(date)));
+	}
+
+
+	public static int getMonthOfDay(long date){
+		Calendar localCalendar = Calendar.getInstance();
+		localCalendar.setTimeInMillis(date);
+		return localCalendar.get(Calendar.DAY_OF_MONTH)+1;
 	}
 
 	public static String getDiffTime(String createTime) {
@@ -268,6 +310,10 @@ public class TimeUtil {
 			if (minutes > 0) {
 				return ((int) minutes)+"分钟前";
 			}
+			if (minutes==0){
+				return  "刚刚";
+			}
+
 
 			Log.e("info", "" + days + "天" + hours + "小时" + minutes + "分");
 			

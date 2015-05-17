@@ -34,9 +34,9 @@ public class HttpNetException extends HttpException {
     }
 
     public enum NetException {
-        NetworkError("Network Is Not Avilable", "暂无网络"),
+        NetworkError("Network Is Not Avilable", "无网络,请检查网络连接...."),
         NetworkDisabled("Current Network Is Disabled By Your Setting", "你已设置禁用该网络类型"),
-        UnReachable("Service UnreachNetwork Is Unstable", "无法访问或网络不稳定");
+        UnReachable("Service UnreachNetwork Is Unstable", "无法访问或网络不稳定...");
         public String reason;
         public String chiReason;
 

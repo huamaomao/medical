@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView android:id="@id/gv_view"
+<ListView android:id="@id/lv_list"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:numColumns="9"
-    android:stretchMode="columnWidth"
-    android:layout_weight="1"
     android:layout_width="match_parent"
-    android:layout_height="0px" />
+    android:layout_height="match_parent"/>

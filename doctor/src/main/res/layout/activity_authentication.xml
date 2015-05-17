@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+   <include layout="@layout/toolbar" />
+    <GridLayout
+        android:columnCount="2"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="20dp"
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="从医证件照"
+            android:layout_marginLeft="@dimen/iten_margin_top"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+            <ImageView android:id="@id/iv_add_doctor"
+                android:src="@drawable/icon_photo_add"
+                android:layout_marginRight="@dimen/iten_margin_top"
+                android:layout_gravity="right"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="@dimen/iten_margin_top"
+                android:layout_width="@dimen/photo_height"
+                android:layout_height="@dimen/photo_height" />
+
+
+        <View   android:layout_marginTop="@dimen/iten_margin_top"
+            android:layout_marginBottom="@dimen/iten_margin_top"
+            android:layout_columnSpan="2" android:background="@color/divider" android:layout_height="0.5dp" />
+
+        <TextView
+            android:text="身份证照片(正面)"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/iv_photo"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/iten_margin_top"
+            android:textSize="@dimen/font_size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView android:id="@id/iv_add_idcard"
+            android:src="@drawable/icon_photo_add"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/iten_margin_top"
+            android:scaleType="centerCrop"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <View android:layout_columnSpan="2"    android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/divider" android:layout_height="1dp" />
+    </GridLayout>
+
+</LinearLayout>

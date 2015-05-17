@@ -5,7 +5,9 @@ import com.android.common.presenter.Presenter;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
+import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
+import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 
 /**
@@ -18,7 +20,7 @@ public class AddFriendPresenter extends Presenter {
     private UserModel model;
     public AddFriendPresenter(IFriendView iView) {
         this.view = iView;
-        model=new UserModel(view.getContext());
+        model=new UserModel((BaseActivity)view.getContext());
     }
 
     public void doAdd(){
@@ -31,7 +33,7 @@ public class AddFriendPresenter extends Presenter {
             }
 
             @Override
-            public void errorModel(ModelEnum modelEnum) {
+            public void errorModel(HttpException e, Response response) {
                 view.msgShow("添加失败");
             }
 

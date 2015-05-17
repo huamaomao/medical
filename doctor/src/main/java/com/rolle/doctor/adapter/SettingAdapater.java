@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.android.common.domain.Version;
+import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
@@ -24,6 +27,7 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static  final int TYPE_A=0;
     public static final int TYPE_B=1;
+    public static final int TYPE_C=2;
     private Context mContext;
     List<ItemInfo> data;
     private User user;
@@ -42,6 +46,8 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (TYPE_A==viewType){
             return new HeadViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_setting_head,parent,false),TYPE_A);
+        }else if(TYPE_C==viewType){
+            return new RecyclerView.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting_loginout,parent,false)){};
         }else{
             return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_more,parent,false),TYPE_B);
         }
@@ -52,7 +58,14 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ItemInfo info=data.get(position);
         if (position==0){
             HeadViewHolder viewHolder=(HeadViewHolder)holder;
-        }else{
+            Version version= ViewUtil.getVersion(mContext);
+            if (CommonUtil.notNull(version)){
+                viewHolder.tv_code.setText("当前版本"+version.versionName);
+            }
+        }else if (position==getItemCount()-1){
+
+        }
+        else{
             ViewHolder viewHolder=(ViewHolder)holder;
             viewHolder.title.setText(info.title);
 
@@ -66,6 +79,9 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
+        if (position==getItemCount()-1){
+            return TYPE_C;
+        }
         return position==0?TYPE_A:TYPE_B;
     }
 

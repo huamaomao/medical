@@ -6,4 +6,5 @@ package com.android.common.viewmodel;
  * @date 2015/4/28 - 9:35
  */
 public enum ModelEnum {
+    Net,Server,NullModel
 }

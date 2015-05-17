@@ -160,15 +160,15 @@ public final class CommonUtil {
 
     /*****
      * 验证手机号 格式
-     *   1(3[0-9]|4[57]|5[0-35-9]|8[025-9])\d{8}$
      * @param mobiles
      * @return
      *
      */
 
     public static boolean isMobileNO(String mobiles){
-        return Pattern.compile("^1(3[0-9]|4[57]|5[0-35-9]|8[025-9])\\d{8}$").matcher(mobiles).matches();
+        return Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$").matcher(mobiles).matches();
     }
+
     /****
      * 验证邮箱格式
      * @param email
@@ -205,6 +205,28 @@ public final class CommonUtil {
     public static String initTextNull(String  str){
         if (isEmpty(str)) return "无";
         return str;
+    }
+    public static String initTextBlood(String  str){
+        if (isEmpty(str)) return "- -";
+        return str;
+    }
+
+    /****
+     * 是否可以提现
+     * @param money
+     * @return
+     */
+    public static boolean isCashOutMoney(String money) {
+        if (isEmpty(money)){
+            return false;
+        }
+        try {
+            double b=Double.parseDouble(money);
+            return b<500?false:true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     public static String formatMoney(String money){

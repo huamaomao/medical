@@ -43,7 +43,7 @@ public class RegisterPresenter extends Presenter {
          return;
      }*/
        view.showLoading();
-        model.requestModel(view.getTel(),new HttpModelHandler<String>() {
+        model.requestModel(view.getTel(),"83",new HttpModelHandler<String>() {
             @Override
             protected void onSuccess(String data, Response res) {
                 ResponseMessage token=res.getObject(ResponseMessage.class);
@@ -73,7 +73,7 @@ public class RegisterPresenter extends Presenter {
             @Override
             public void errorTelNull() {
                 view.hideLoading();
-                view.msgShow("验证码错误");
+                view.msgShow("手机号码错误");
             }
         });
     }

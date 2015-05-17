@@ -38,18 +38,21 @@ public class ListModel extends ViewModel {
                 CityResponse   cityResponse= res.getObject(CityResponse.class);
                 if (CommonUtil.notNull(cityResponse)){
                     if ("200".equals(cityResponse.statusCode)){
-                        if (CommonUtil.notNull(cityResponse.selectList)){
-                            listener.model(res,cityResponse.selectList);
+                        if (CommonUtil.notNull(cityResponse.list)){
+                            listener.model(res,cityResponse.list);
+                            listener.view();
                             return;
                         }
                     }
                 }
-
+                listener.errorModel(null,res);
+                listener.view();
             }
 
             @Override
             protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(null);
+                listener.errorModel(e,res);
+                listener.view();
             }
         });
     }
@@ -67,20 +70,20 @@ public class ListModel extends ViewModel {
                 CityResponse   cityResponse= res.getObject(CityResponse.class);
                 if (CommonUtil.notNull(cityResponse)){
                     if ("200".equals(cityResponse.statusCode)){
-                        if (CommonUtil.notNull(cityResponse.selectList)){
-                            listener.model(res,cityResponse.selectList);
+                        if (CommonUtil.notNull(cityResponse.list)){
+                            listener.model(res,cityResponse.list);
                             cityResponse.id=id_;
                             db.save(cityResponse);
+                            listener.view();
                             return;
                         }
                     }
                 }else {
                     CityResponse cityResponse1= db.queryById(id_, CityResponse.class);
                     if (CommonUtil.notNull(cityResponse1)){
-                        listener.model(res,cityResponse1.selectList);
-                    }else {
-                        listener.errorModel(null);
+                        listener.model(res,cityResponse1.list);
                     }
+                    listener.view();
                 }
 
             }
@@ -89,10 +92,12 @@ public class ListModel extends ViewModel {
             protected void onFailure(HttpException e, Response res) {
                 CityResponse cityResponse1 = db.queryById(id_, CityResponse.class);
                 if (CommonUtil.notNull(cityResponse1)){
-                    listener.model(res,cityResponse1.selectList);
+                    listener.model(res, cityResponse1.list);
                     return;
+                }else {
+                    listener.errorModel(e,res);
                 }
-                listener.errorModel(null);
+                listener.view();
             }
         });
     }

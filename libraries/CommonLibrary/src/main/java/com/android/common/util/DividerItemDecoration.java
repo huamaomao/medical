@@ -35,6 +35,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration{
      */
     private Paint mPaint ;
 
+    public boolean lastItem=false;
     /**
      * 构造方法传入布局方向，不可不传
      * @param context
@@ -42,6 +43,23 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration{
      */
     public DividerItemDecoration(Context context,int orientation) {
         this.mOrientation = orientation;
+        if(orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL){
+            throw new IllegalArgumentException("请传入正确的参数") ;
+        }
+        mItemSize = (int) TypedValue.applyDimension(mItemSize, TypedValue.COMPLEX_UNIT_DIP, context.getResources().getDisplayMetrics());
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG) ;
+        mPaint.setColor(context.getResources().getColor(R.color.divider));
+         /*设置填充*/
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+    /**
+     * 构造方法传入布局方向，不可不传
+     * @param context
+     * @param orientation
+     */
+    public DividerItemDecoration(Context context,int orientation,boolean lastItem) {
+        this.mOrientation = orientation;
+        this.lastItem=lastItem;
         if(orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL){
             throw new IllegalArgumentException("请传入正确的参数") ;
         }
@@ -78,6 +96,9 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration{
             }
             final int top = child.getBottom() + layoutParams.bottomMargin ;
             final int bottom = top + mItemSize ;
+            if (lastItem&&i==childSize-1){
+                return;
+            }
             canvas.drawRect(left,top,right,bottom,mPaint);
         }
     }
