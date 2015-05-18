@@ -18,12 +18,21 @@ public class BaseLoadingActivity extends BaseActivity{
 
 
     protected LoadingFragment loadingFragment;
+    private final  static String commit="正在提交...";
+    private final  static String login="正在登陆...";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadingFragment=LoadingFragment.newInstance();
-        loadingFragment.setMessage("正在登陆...");
+        loadingFragment.setMessage(login);
+    }
+
+    public void setCommitMessage(){
+        loadingFragment.setMessage(commit);
+    }
+    public void setLoginMessage(){
+        loadingFragment.setMessage(login);
     }
 
     @Override

@@ -501,7 +501,7 @@ public class UserModel  extends ViewModel {
             protected void onSuccess(String data, Response res) {
                 UserResponse response=res.getObject(UserResponse.class);
                 if (CommonUtil.notNull(response)){
-                    if ("200".equals(response.statusCode)){
+                    if ("200".equals(response.statusCode)&&response.user!=null){
                         listener.model(res, response.user);
                     }
                 }
@@ -541,6 +541,8 @@ public class UserModel  extends ViewModel {
         });
     }
 
+
+
     /******
      * 上传图片
      * @param typeId
@@ -553,7 +555,7 @@ public class UserModel  extends ViewModel {
         MultipartBody body=new MultipartBody();
         body.addPart(new StringPart("token",getToken().token));
         body.addPart(new StringPart("typeId", typeId));
-        body.addPart(new FilePart("files", new File(path), "image/jpeg"));
+        body.addPart(new FilePart("file", new File(path), "image/jpeg"));
         Request request=new Request(url.toString()).setHttpBody(body).setMethod(HttpMethod.Post);
 
         execute(request, new HttpModelHandler<String>() {
@@ -566,12 +568,14 @@ public class UserModel  extends ViewModel {
                 }else{
                     listener.errorModel(null, res);
                 }
+                listener.view();
             }
 
             @Override
             protected void onFailure(HttpException e, Response res) {
                 requestHandle(e, res, mContext);
                 listener.errorModel(e, res);
+                listener.view();
             }
         });
     }
@@ -621,10 +625,12 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("token", getToken().token));
         if (CommonUtil.notNull(list)){
             for (ContactBean bean:list){
-                 bean.setDesplayName(URLEncoder.encode(bean.getDesplayName()));
+                 bean.setNickname(URLEncoder.encode(bean.getNickname()));
             }
+
             param.add(new NameValuePair("list",JSON.toJSONString(list)));
             Log.d(param.get(1));
+            Log.d(JSON.toJSONString(list));
         }
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
         execute(request, new HttpModelHandler<String>(){
@@ -844,6 +850,40 @@ public class UserModel  extends ViewModel {
     }
 
     /******
+     * 添加银行账号
+     * @param listener
+     */
+    public void requestAddWalletBlankAcounnt(String bankId,String openingAccount,final ModelListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("bankcard_sp/saveBankCard.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("bankId", bankId));
+        param.add(new NameValuePair("openingAccount", openingAccount));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null,res);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+               // requestHandle(e,res,mContext);
+                listener.errorModel(e,res);
+                listener.view();
+            }
+        });
+    }
+
+    /******
      * 账单列表
      * @param listener
      */
@@ -880,6 +920,76 @@ public class UserModel  extends ViewModel {
                 List<WalletBill.Item> list=queryWalletBill();
                 if (CommonUtil.notNull(list))
                     listener.model(res,list);
+                listener.errorModel(e,res);
+                listener.view();
+            }
+        });
+    }
+
+
+    /******
+     * 设置支付密码
+     * @param listener
+     */
+    public void requestPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("wallet_sp/setPassword.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("password", MD5.compute(password)));
+        param.add(new NameValuePair("verifycode", verifycode));
+
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null,res);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                requestHandle(e,res,mContext);
+                listener.errorModel(e,res);
+                listener.view();
+            }
+        });
+    }
+    /******
+     * 获取发送短信验证码
+     * @param listener
+     */
+    public void requestSendPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("wallet_sp/setPassword.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("password", MD5.compute(password)));
+        param.add(new NameValuePair("verifycode", verifycode));
+
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                Log.d(data);
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
+                    listener.model(res, message);
+                } else {
+                    listener.errorModel(null,res);
+                }
+                listener.view();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                requestHandle(e,res,mContext);
                 listener.errorModel(e,res);
                 listener.view();
             }

@@ -8,6 +8,6 @@ import com.android.common.domain.ResponseMessage;
  * @date 2015/5/11 - 13:29
  */
 public class UploadPicture extends ResponseMessage {
-    public String[] urlList;
-    public String[] idList;
+    public String id;
+    public String url;
 }

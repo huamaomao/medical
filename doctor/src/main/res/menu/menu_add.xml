@@ -4,9 +4,10 @@
     tools:context=".ui.MainActivity">
 
     <item android:id="@id/toolbar_add"
-        android:title="添加"
-        android:orderInCategory="0"
+        android:title=""
+        android:icon="@drawable/icon_add"
         app:showAsAction="ifRoom"
+        android:orderInCategory="2"
         android:menuCategory="secondary"/>
 
 </menu>

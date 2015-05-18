@@ -6,8 +6,8 @@ package com.rolle.doctor.domain;
 public class ContactBean {
 
 	private int contactId; //id
-	private String desplayName;//姓名
-	private String phoneNum; // 电话号码
+	private String nickname;//姓名
+	private String mobile; // 电话号码
 	private String pinyin; // 姓名拼音
 
 	public int getContactId() {
@@ -18,20 +18,20 @@ public class ContactBean {
 		this.contactId = contactId;
 	}
 
-	public String getDesplayName() {
-		return desplayName;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setDesplayName(String desplayName) {
-		this.desplayName = desplayName;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	public String getPhoneNum() {
-		return phoneNum;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getPinyin() {

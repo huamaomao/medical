@@ -7,11 +7,11 @@ import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -35,16 +35,16 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     ImageView iv_add_doctor;
     @InjectView(R.id.iv_add_idcard)
     ImageView iv_add_idcard;
+    @InjectView(R.id.tv_status)
+    TextView tv_status;
+
     private UserModel userModel;
     private User user;
     private boolean flag;
+    private MenuItem menuItem;
     private String doctorPath;
-    private String doctorUrl;
     private String idcardPath;
-    private String idcardUrl;
 
-    /*****初始化上传数***/
-    private int status=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,41 +121,62 @@ public class AuthenticationActivity extends BaseLoadingActivity{
             return;
         }
         showLoading();
-        status=0;
-        userModel.uploadPicture("24",iv_add_idcard.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
+        userModel.uploadPicture("24", iv_add_idcard.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
             @Override
             public void model(Response response, UploadPicture o) {
-                user.photoId = o.idList[0];
-                success();
+                user.idImage = o.id;
+                userModel.uploadPicture("26", iv_add_doctor.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
+                    @Override
+                    public void model(Response response, UploadPicture o) {
+                        user.businessLicense = o.id;
+                        userModel.requestSaveUser(user, new ViewModel.ModelListener<ResponseMessage>() {
+                            @Override
+                            public void model(Response response, ResponseMessage responseMessage) {
+                                msgLongShow("认证已经提交，我们会及时审核...");
+                                finish();
+                            }
+
+                            @Override
+                            public void errorModel(HttpException e, Response response) {
+                                msgLongShow("认证提交失败...");
+
+                            }
+
+                            @Override
+                            public void view() {
+                                hideLoading();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void errorModel(HttpException e, Response response) {
+                        msgLongShow("证件上传失败...");
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void view() {
+
+                    }
+                });
+
+
             }
 
             @Override
             public void errorModel(HttpException e, Response response) {
-
+                msgLongShow("证件上传失败...");
+                hideLoading();
             }
 
             @Override
             public void view() {
-                hideLoading();
+
             }
         });
-        userModel.uploadPicture("26", iv_add_doctor.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
-            @Override
-            public void model(Response response, UploadPicture o) {
-                user.photoId = o.idList[0];
-                success();
-            }
 
-            @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
-                hideLoading();
-            }
-        });
     }
 
 
@@ -163,16 +184,40 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     protected void initView() {
         super.initView();
         userModel=new UserModel(getContext());
-        user=userModel.getLoginUser();
+        userModel.requestUserInfo(new ViewModel.ModelListener<User>() {
+            @Override
+            public void model(Response response, User user) {
+
+            }
+
+            @Override
+            public void errorModel(HttpException e, Response response) {
+
+            }
+
+            @Override
+            public void view() {
+
+            }
+        });
         setBackActivity("认证");
+        user=userModel.getLoginUser();
+        setCommitMessage();
+        if ("94".equals(user.isAudit)){
+            tv_status.setText("审核中");
+            setNoCommit();
+        }else if ("95".equals(user.isAudit)){
+            tv_status.setText("认证失败");
+        }else if ("96".equals(user.isAudit)){
+            tv_status.setText("认证成功");
+            setNoCommit();
+            tv_status.setTextColor(getResources().getColor(R.color.hintText));
+        }
     }
 
-    private void success(){
-        status++;
-        if (status==2){
-            hideLoading();
-        }
-
+    public void setNoCommit(){
+        if (CommonUtil.notNull(menuItem))
+            menuItem.setEnabled(false);
     }
 
 
@@ -188,6 +233,7 @@ public class AuthenticationActivity extends BaseLoadingActivity{
         switch (item.getItemId()){
             case R.id.toolbar_save:
                 uploadPhoto();
+                menuItem=item;
                 break;
         }
         return super.onOptionsItemSelected(item);

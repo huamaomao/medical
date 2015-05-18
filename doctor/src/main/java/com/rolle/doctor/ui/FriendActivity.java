@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.widget.EditText;
 
+import com.alibaba.fastjson.JSON;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
@@ -36,9 +37,8 @@ public class FriendActivity extends BaseActivity{
     private List<User> data;
     private FriendListAdapater adapater;
     private UserModel userModel;
-
     private ContactQueryHandler handler;
-
+    private List<ContactBean> contactBeans;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,8 @@ public class FriendActivity extends BaseActivity{
                 @Override
                 public void setAdapter(List<ContactBean> list) {
                     Log.d("==="+list.size());
+                    contactBeans=list;
+                    requestData();
                 }
         });
         handler.queryList();
@@ -57,7 +59,7 @@ public class FriendActivity extends BaseActivity{
      *
      */
     private void requestData(){
-        userModel.requestNewFriendList(null, new ViewModel.ModelListener<List<Recommended.Item>>() {
+        userModel.requestNewFriendList(contactBeans, new ViewModel.ModelListener<List<Recommended.Item>>() {
             @Override
             public void model(Response response, List<Recommended.Item> items) {
                 Log.d(response.getString());

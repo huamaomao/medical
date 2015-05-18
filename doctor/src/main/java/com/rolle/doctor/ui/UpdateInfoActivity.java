@@ -92,7 +92,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         userModel.uploadPicture("71", user.headImage,new ViewModel.ModelListener<UploadPicture>(){
             @Override
             public void model(Response response, UploadPicture o) {
-                user.photoId=o.idList[0];
+                user.photoId=o.id;
             }
 
             @Override

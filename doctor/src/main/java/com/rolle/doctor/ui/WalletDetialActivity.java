@@ -38,11 +38,11 @@ public class WalletDetialActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("提现");
+        setBackActivity("钱包");
         userModel=new UserModel(getContext());
         wallet=userModel.getWallet();
         tv_amount.setText( CommonUtil.formatMoney(wallet.accountAmount));
-        if (CommonUtil.isCashOutMoney(wallet.accountAmount)){
+        if (!CommonUtil.isCashOutMoney(wallet.accountAmount)){
             btn_next.setText("不可提现");
             btn_next.setEnabled(false);
         }
@@ -54,7 +54,7 @@ public class WalletDetialActivity extends BaseActivity {
             btn_next.setEnabled(false);
             return;
         }
-        ViewUtil.openActivity(WalletDetialActivity.class,getContext());
+        ViewUtil.openActivity(WalletCashoutActivity.class,getContext());
 
     }
 

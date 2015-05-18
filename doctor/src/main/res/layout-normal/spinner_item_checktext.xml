@@ -10,4 +10,4 @@
     android:checkMark="@drawable/s_spinner_check"
     android:drawablePadding="20dp"
     android:textColor="@color/black"
-    android:textSize="@dimen/font_size_17" />
+    android:textSize="@dimen/font_size_15" />

@@ -84,8 +84,9 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
         notifyItemInserted(position);
     }
     public void addItem(T item) {
-        mData.push(item);
-        notifyDataSetChanged();
+        mData.addFirst(item);
+        notifyItemChanged(0);
+        //notifyDataSetChanged();
     }
 
     public void pushItem(T item){

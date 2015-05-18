@@ -79,6 +79,8 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     public String status;
     public String home;
     public String typeId;
+    /****  未提交	93审核中	94认证失败	95认证成功	96  *****/
+    public String isAudit;
     /****创建时间***/
     public Long createTime;
     public int state=STATUS_REGISTER;

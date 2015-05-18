@@ -218,6 +218,9 @@
         <item name="android:paddingRight">5.0dip</item>
         <item name="android:drawablePadding">4.0dip</item>
     </style>
+    <style name="T_DefaultText" parent="DefaultText">
+        <item name="android:textSize">15.0sp</item>
+    </style>
     <style name="BloodText" parent="DefaultText">
         <item name="android:text">- -</item>
         <item name="android:textColor">@color/black</item>

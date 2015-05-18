@@ -42,7 +42,7 @@ public class MessageListPresenter extends Presenter {
             @Override
             public void onReceiveMessage(GotyeMessage message){
                 Log.d("onReceiveMessage  接受消息：" + message);
-                doMessage();
+                //doMessage();
                 User user=getUser(message.getSender().getName());
                 if (CommonUtil.notNull(user)){
                     view.addMessageItem(user);
@@ -63,7 +63,7 @@ public class MessageListPresenter extends Presenter {
        for (GotyeChatTarget target:ls){
            user=getUser(target.getName());
            if (CommonUtil.notNull(user)){
-                userList.add(0,user);
+                userList.add(user);
            }
 
        }

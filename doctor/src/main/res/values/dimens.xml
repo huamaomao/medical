@@ -10,5 +10,5 @@
     <dimen name="iten_margin_top">10dp</dimen>
 
 
-
+    <dimen name="title_size">16.0sp</dimen>
 </resources>

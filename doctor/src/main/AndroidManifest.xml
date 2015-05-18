@@ -57,8 +57,12 @@
     <activity android:name=".ui.UpdateHospitalActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.CommentListActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletCashoutPwdActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletChooseActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletSetPwdActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.WalletCashoutActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.WalletResetPwdActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity"

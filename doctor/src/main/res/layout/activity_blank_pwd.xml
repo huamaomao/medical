@@ -29,7 +29,14 @@
         app:passwordLength="6"
         app:passwordTransformation="*"
         app:passwordType="textPassword"/>
-
+    <TextView android:id="@id/tv_code"
+        android:layout_gravity="right"
+        android:text="重置支付密码"
+        style="@style/DefaultText"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
         android:layout_marginTop="30dp"
         android:text="下一步"

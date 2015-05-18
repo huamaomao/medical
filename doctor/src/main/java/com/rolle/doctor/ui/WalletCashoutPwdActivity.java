@@ -3,10 +3,10 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.common.util.CommonUtil;
-import com.android.common.util.ViewUtil;
+import com.android.common.util.Log;
+import com.jungly.gridpasswordview.GridPasswordView;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -15,14 +15,12 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
- * 提现金额
+ * 支付密码
  */
-public class WalletCashoutActivity extends BaseActivity {
+public class WalletCashoutPwdActivity extends BaseActivity {
 
-    @InjectView(R.id.et_amount)
-    EditText et_amount;
-    @InjectView(R.id.btn_next)
-    Button btn_next;
+    @InjectView(R.id.pswView)
+    GridPasswordView pswView;
 
     private UserModel userModel;
 
@@ -31,7 +29,7 @@ public class WalletCashoutActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wallet_cashout);
+        setContentView(R.layout.activity_wallet_pay_pwd);
     }
 
     @Override
@@ -39,18 +37,13 @@ public class WalletCashoutActivity extends BaseActivity {
         super.initView();
         setBackActivity("提现");
         userModel=new UserModel(getContext());
-        wallet=userModel.getWallet();
-        et_amount.setHint("当前金额"+CommonUtil.formatMoney(wallet.accountAmount));
+
     }
 
     @OnClick(R.id.btn_next)
-    public void onCashOut(){
-        String et=et_amount.getText().toString();
-        if (CommonUtil.isCashOutMoney(et,wallet.accountAmount)){
-            msgShow("不可提现...");
-            return;
-        }
-       ViewUtil.openActivity(WalletChooseActivity.class, getContext());
+    public void onPayPwd(){
+        Log.d(pswView.getPassWord());
+       // ViewUtil.openActivity();  WalletResetPwdActivity
     }
 
 }

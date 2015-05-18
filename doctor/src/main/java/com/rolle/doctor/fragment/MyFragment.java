@@ -24,6 +24,7 @@ import com.rolle.doctor.ui.SettingActivity;
 import com.rolle.doctor.ui.UserInfoActivity;
 import com.rolle.doctor.ui.WalletActivity;
 import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
@@ -114,7 +115,7 @@ public class MyFragment extends BaseFragment{
         userModel=new UserModel((BaseActivity)getContext());
         User user=userModel.getLoginUser();
         tv_name.setText(user.nickname);
-        Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
+        Picasso.with(getContext()).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
     }
 

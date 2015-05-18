@@ -175,7 +175,7 @@ public final class CommonUtil {
      * @return
      */
     public static boolean isEmail(String email){
-        return Pattern.compile("^([a-zA-Z0-9]*[-_]?[a-zA-Z0-9]+)*@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$").matcher(email).matches();
+        return Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$").matcher(email).matches();
     }
 
     /****
@@ -217,18 +217,38 @@ public final class CommonUtil {
      * @return
      */
     public static boolean isCashOutMoney(String money) {
-        Log.d("money="+money);
         if (isEmpty(money)){
             return false;
         }
         try {
             double b=Double.parseDouble(money);
+            Log.d("money="+money+"==="+b);
             return b<1?false:true;
         }catch (Exception e){
             return false;
         }
 
     }
+    /****
+     * 是否可以提现
+     * @param money
+     * @return
+     */
+    public static boolean isCashOutMoney(String money,String outMoney) {
+        if (isEmpty(money)){
+            return false;
+        }
+        try {
+            double b=Double.parseDouble(money);
+            double out=Double.parseDouble(outMoney);
+            return b>out?true:false;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+
+
 
     public static String formatMoney(String money){
         if (isEmpty(money)){

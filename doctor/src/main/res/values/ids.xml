@@ -54,6 +54,7 @@
     <item name="tv_num" type="id" />
     <item name="tv_content" type="id" />
     <item name="tv_date" type="id" />
+    <item name="tv_status" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -157,4 +158,5 @@
     <item name="progressBar" type="id" />
     <item name="pieChart" type="id" />
     <item name="pay_pwd" type="id" />
+    <item name="ctv_choose" type="id" />
 </resources>

@@ -1,6 +1,7 @@
 package com.rolle.doctor.util;
 
 
+import com.android.common.util.Log;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.request.Request;
 import com.litesuits.http.request.content.HttpBody;
@@ -34,6 +35,14 @@ public final class RequestApi {
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("typeId",type));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    public static String getImageUrl(String path){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.deleteCharAt(url.length()-1);
+        url.append(path);
+        Log.d("url:"+url.toString());
+        return url.toString();
     }
 
     /******

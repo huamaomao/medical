@@ -3,7 +3,7 @@
     android:background="@color/appbg"
     style="@style/style_wh_match_v">
     <TextView
-        android:text="请绑定本人银行卡"
+        android:text="请绑定本人银行卡,持卡人默认是认证的真实姓名"
         style="@style/DefaultText"
         android:padding="@dimen/iten_margin_top"
         android:textColor="@color/textb3"
@@ -23,6 +23,8 @@
         <EditText
             android:id="@id/et_blank_account"
             android:hint="银行卡号"
+            android:maxLength="19"
+            android:inputType="number"
             android:textColor="@color/black"
             style="@style/et_item_styple" />
     </LinearLayout>
@@ -38,14 +40,15 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@id/tv_code"
-            android:text="选择银行"
-            android:textColor="@color/hintText"
-            style="@style/et_item_styple" />
+        <Spinner
+            android:id="@id/sp_start"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
     <include layout="@layout/divider" />
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/list_item"
@@ -61,7 +64,7 @@
             android:hint="持卡人姓名"
             android:textColor="@color/black"
             style="@style/et_item_styple" />
-    </LinearLayout>
+    </LinearLayout>-->
     <Button
         android:id="@id/btn_blank_commit"
         android:layout_marginTop="@dimen/iten_margin_top"

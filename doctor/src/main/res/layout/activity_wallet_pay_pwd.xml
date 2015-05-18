@@ -28,7 +28,7 @@
         app:gridColor="#ffffff"
         app:passwordLength="6"
         app:passwordTransformation="*"
-        app:passwordType="textPassword"/>
+        app:passwordType="numberPassword"/>
 
     <Button
         android:id="@id/btn_next"

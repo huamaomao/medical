@@ -56,8 +56,8 @@ public class ContactQueryHandler extends AsyncQueryHandler {
                 String number = cursor.getString(2);
                 if (!contactIdMap.containsKey(number)) {
                     ContactBean contact = new ContactBean();
-                    contact.setDesplayName(name);
-                    contact.setPhoneNum(number);
+                    contact.setNickname(name);
+                    contact.setMobile(number);
                     list.add(contact);
                     contactIdMap.put(number, contact);
                 }
