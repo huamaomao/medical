@@ -1,22 +1,10 @@
 package com.rolle.doctor.presenter;
 
 import com.android.common.presenter.Presenter;
-import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ModelEnum;
-import com.android.common.viewmodel.ViewModel;
-import com.litesuits.http.exception.HttpException;
-import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
-import com.rolle.doctor.domain.FriendResponse;
-import com.rolle.doctor.domain.PatientSum;
 import com.rolle.doctor.ui.BaseActivity;
-import com.rolle.doctor.util.Constants;
-import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
-
-import java.util.List;
 
 /**
  * @author Hua_

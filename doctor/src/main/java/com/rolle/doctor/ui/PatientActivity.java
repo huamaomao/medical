@@ -19,7 +19,6 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.util.Util;

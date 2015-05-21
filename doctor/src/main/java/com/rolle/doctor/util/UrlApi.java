@@ -14,8 +14,7 @@ public interface UrlApi{
     public static final String SERVER_NAME=RequestUrl.T.url;
     /***验证码**/
     public static final String TEL_CODE="send_sp/sendVerifycode.json";
-    /***验证手机号与验证码是否匹配**/
-    //public static final String CHECK_TEL_CODE="verifycode_sp/checkVerifycode.json";
+
     /***注册**/
     public static final String REGISTER="user_sp/saveUser.json";
     /***登陆**/
@@ -36,7 +35,7 @@ public interface UrlApi{
     public static final String CITY="region_sp/getRegionByParentId.json";
     /***职称***/
     public static final String TITLE="cd_sp/getCDByParentId.json";
-    /***修改医生***/
+    /***修改医生****/
     public static final String  UPD_DOCTOR_INFO="user_sp/saveDoctor.json";
     /***添加好友***/
     public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";

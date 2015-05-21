@@ -58,7 +58,7 @@ android {
     }
     productFlavors {
         channel {
-            manifestPlaceholders = [ channel:"ruoer" ]
+            manifestPlaceholders = [ channel:"rolle" ]
         }
     }
     channels()

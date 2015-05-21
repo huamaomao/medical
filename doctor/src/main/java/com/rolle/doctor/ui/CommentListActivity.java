@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
-import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
@@ -14,7 +13,6 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;

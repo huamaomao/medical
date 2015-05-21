@@ -33,6 +33,7 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     public String intro;
     public String address;
     public String regionId;
+    public String inviteCode;
 
 
     /***工作地址**/

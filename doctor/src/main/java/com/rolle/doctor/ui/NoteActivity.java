@@ -1,30 +1,20 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.DividerItemDecoration;
-import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
-import com.rolle.doctor.adapter.FriendListAdapater;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.UserModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 

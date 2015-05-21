@@ -1,21 +1,14 @@
 package com.rolle.doctor.presenter;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
-import com.rolle.doctor.R;
-import com.rolle.doctor.domain.InviteCodeResponse;
 import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MyInviteCodeActivity;
 import com.rolle.doctor.viewmodel.UserModel;

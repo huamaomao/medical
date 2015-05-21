@@ -1,4 +1,5 @@
 apply plugin: 'android-library'
+apply plugin: 'maven'
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
@@ -6,12 +7,34 @@ android {
         minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile 'com.alibaba:fastjson:1.1.41'
-    compile 'com.android.support:support-v13:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile project(':libraries:LiteLibrary')
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        name = '3rd'
+      /*  repository(url: "http://xxx.xxx.xxx.xx:8080/content/repositories/releases") {
+            authentication(userName: "xxxx", password: "xxxx")
+        }
+        snapshotRepository(url: "http://xxx.xxx.xxx.xx:8080/content/repositories/snapshots") {
+            authentication(userName: "xxxx", password: "xxxx")
+        }*/
+        pom.version = "1.0.1-SNAPSHOT"
+        pom.artifactId = "3rd"
+        pom.groupId = "com.android.3rd"
+        pom.name = "common"
+        pom.packaging = 'aar'
+    }
 }

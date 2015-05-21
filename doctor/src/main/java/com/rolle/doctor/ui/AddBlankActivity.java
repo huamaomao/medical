@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
@@ -19,9 +18,7 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.CitySpinnerAdpater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
-import com.rolle.doctor.adapter.YearSpinnerAdpater;
 import com.rolle.doctor.domain.CityResponse;
-import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.ListModel;
@@ -32,7 +29,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * 添加账号

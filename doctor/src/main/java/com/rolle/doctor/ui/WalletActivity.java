@@ -1,16 +1,13 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
@@ -19,7 +16,6 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.WalletListAdapater;
 import com.rolle.doctor.domain.ItemInfo;
-import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.viewmodel.UserModel;
 

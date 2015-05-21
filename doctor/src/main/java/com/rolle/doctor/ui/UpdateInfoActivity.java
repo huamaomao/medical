@@ -7,11 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
 import com.android.common.util.ViewUtil;
@@ -22,7 +20,6 @@ import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
-import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.UploadPicture;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
@@ -31,7 +28,6 @@ import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.InjectView;

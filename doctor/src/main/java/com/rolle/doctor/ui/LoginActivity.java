@@ -64,7 +64,7 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
         etPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_SEND){
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
                     doLogin();
                     return true;
                 }
@@ -76,16 +76,17 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
             @Override
             public void onSizeChange(boolean paramBoolean, int w, int h) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.gravity= Gravity.CENTER_HORIZONTAL;
-                if(paramBoolean){
-                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,80f),0,0);
+                lp.gravity = Gravity.CENTER_HORIZONTAL;
+                if (paramBoolean) {
+                    lp.setMargins(0, ViewUtil.px2dip(LoginActivity.this, 80f), 0, 0);
                     ivLogo.setLayoutParams(lp);
-                }else {
-                    lp.setMargins(0,ViewUtil.px2dip(LoginActivity.this,640f),0,0);
+                } else {
+                    lp.setMargins(0, ViewUtil.px2dip(LoginActivity.this, 640f), 0, 0);
                     ivLogo.setLayoutParams(lp);
                 }
             }
         });
+
         presenter.initUser();
     }
 

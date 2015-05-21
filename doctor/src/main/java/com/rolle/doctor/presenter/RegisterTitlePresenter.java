@@ -2,7 +2,6 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ModelEnum;
@@ -12,7 +11,6 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.ui.RegisterInfoActivity;
-import com.rolle.doctor.ui.RegisterTitleActivity;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;

@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
