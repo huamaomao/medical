@@ -23,12 +23,12 @@ dependencies {
 }
 
 uploadArchives {
-    repositories.mavenDeployer {
+    repositories.mavenDeployer{
         name = '3rd'
-      /*  repository(url: "http://xxx.xxx.xxx.xx:8080/content/repositories/releases") {
-            authentication(userName: "xxxx", password: "xxxx")
+       repository(url: "http://114.80.68.147:9999/nexus/content/repositories/3rd") {
+            authentication(userName: "admin", password: "admin123")
         }
-        snapshotRepository(url: "http://xxx.xxx.xxx.xx:8080/content/repositories/snapshots") {
+      /*  snapshotRepository(url: "http://xxx.xxx.xxx.xx:8080/content/repositories/snapshots") {
             authentication(userName: "xxxx", password: "xxxx")
         }*/
         pom.version = "1.0.1-SNAPSHOT"

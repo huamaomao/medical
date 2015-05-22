@@ -8,9 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Constants;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;

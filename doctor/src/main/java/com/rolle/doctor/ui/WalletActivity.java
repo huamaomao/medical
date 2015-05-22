@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;

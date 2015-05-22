@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;

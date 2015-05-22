@@ -2,7 +2,6 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.presenter.Presenter;
 import com.android.common.view.IView;
-import com.android.common.viewmodel.ModelEnum;
 import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.viewmodel.UserModel;
 

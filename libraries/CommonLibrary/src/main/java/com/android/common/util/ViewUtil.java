@@ -48,6 +48,7 @@ public class ViewUtil {
         Intent intent=new Intent(activity,pClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
+        activity.finish();
     }
 
     public static void openActivity(Class<?> pClass,Activity activity){

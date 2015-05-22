@@ -1,30 +1,11 @@
 package com.rolle.doctor.viewmodel;
 
-import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
-import com.android.common.util.MD5;
 import com.android.common.viewmodel.ViewModel;
-import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
-import com.litesuits.http.request.content.MultipartBody;
-import com.litesuits.http.request.content.UrlEncodedFormBody;
-import com.litesuits.http.request.content.multi.FilePart;
-import com.litesuits.http.request.content.multi.StringPart;
-import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.handler.HttpModelHandler;
-import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.util.RequestApi;
-import com.rolle.doctor.util.UrlApi;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Hua

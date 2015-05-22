@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;

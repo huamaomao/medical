@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ModelEnum;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserDetialAdapater;
 import com.rolle.doctor.domain.ItemInfo;
@@ -15,8 +15,10 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.InjectView;
 
 /**

@@ -322,33 +322,4 @@ public class InternalResponse implements Response {
         }
         Log.i(TAG, "~~~~~~~~~~~~~~~~~~~~~~~~~~~-- Http Response Info End --~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
-    //    @Override
-    //    public String toString() {
-    //        StringBuilder sb = new StringBuilder();
-    //        sb.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~-- Http Response Info Start --~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    //                .append("\n  ").append(httpStatus)
-    //                .append("\n  charSet = ").append(charSet)
-    //                .append("\n  useTime = ").append(useTime)
-    //                .append("\n  tryTimes = ").append(tryTimes).append(", redirectTimes = ").append(redirectTimes)
-    //                .append("\n  readedLength = ").append(readedLength).append(", contentLength=").append(contentLength)
-    //                .append("\n  -----header----- ");
-    //        if (headers == null) {
-    //            sb.append("\n  null ");
-    //        } else {
-    //            for (NameValuePair nv : headers) {
-    //                sb.append("\n  ").append(nv);
-    //            }
-    //        }
-    //        sb.append("\n  -----header----- ")
-    //                .append("\n  -----requst----- ").append(request)
-    //                .append("\n  -----requst----- ")
-    //                .append("\n  -----data----- ")
-    //                .append("\n  ").append(dataParser != null ? dataParser.getData() : "null")
-    //                .append("\n  -----data----- ")
-    //                .append("\n  exception : ").append(exception)
-    //                .append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~-- Http Response Info End --~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    //        if (exception != null) Log.e(this.getClass().getSimpleName(), "exception: " + exception);
-    //        return sb.toString();
-    //
-    //    }
 }

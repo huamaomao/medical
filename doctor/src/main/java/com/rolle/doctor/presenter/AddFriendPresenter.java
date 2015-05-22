@@ -3,7 +3,6 @@ package com.rolle.doctor.presenter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.view.IView;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;

@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.common.util.DividerItemDecoration;
-import com.android.common.viewmodel.ModelEnum;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -16,7 +15,6 @@ import com.rolle.doctor.domain.WalletBill;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-
 import java.util.ArrayList;
 import java.util.List;
 

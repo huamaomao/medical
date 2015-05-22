@@ -3,6 +3,7 @@ package com.android.common.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -87,7 +88,7 @@ public final class CommonUtil {
      * @return
      */
     public static boolean isEmpty(String str){
-      return (null==str||"".equals(str.trim()))?true:false;
+        return (null==str||"".equals(str.trim()))?true:false;
     }
     public static boolean notEmpty(String str){
         return (null==str||"".equals(str)||"null".equals(str))?false:true;
@@ -112,11 +113,11 @@ public final class CommonUtil {
                     Field field2 = a.getClass().getDeclaredField(fieldName);
                     field1.setAccessible(true);
                     field2.setAccessible(true);
-                   if (flag){
-                       ret = Integer.valueOf(field1.get(a).toString()).compareTo(Integer.valueOf(field2.get(b).toString()));
-                   }else {
-                       ret = Integer.valueOf(field1.get(b).toString()).compareTo(Integer.valueOf(field2.get(a).toString()));
-                   }
+                    if (flag){
+                        ret = Integer.valueOf(field1.get(a).toString()).compareTo(Integer.valueOf(field2.get(b).toString()));
+                    }else {
+                        ret = Integer.valueOf(field1.get(b).toString()).compareTo(Integer.valueOf(field2.get(a).toString()));
+                    }
                 } catch (Exception ne) {
                     ne.printStackTrace();
                 }
@@ -180,15 +181,50 @@ public final class CommonUtil {
 
     /****
      * 验证昵称
+     * 中英文（包括全角字符）、数字、下划线和减号 （全角及汉字算两位）,长度为4-20位
      * @param name
      * @return
      */
     public static boolean checkName(String name){
-        String str="^([\\w]|[\\u4e00-\\u9fa5])+";
-        Pattern p = Pattern.compile(str);
+        String validateStr = "^[\\w\\-－＿[0-9]\u4e00-\u9fa5\uFF21-\uFF3A\uFF41-\uFF5A]+$";
+        Pattern p = Pattern.compile(validateStr);
+        boolean rs = false;
         Matcher m = p.matcher(name);
-        return m.matches();
+        rs=m.matches();
+        if (rs) {
+            int strLenth = getStrLength(name);
+            if (strLenth < 1 || strLenth > 20) {
+                rs = false;
+            }
+        }
+        return rs;
     }
+
+    /**
+     * 获取字符串的长度，对双字符（包括汉字）按两位计数
+     *
+     * @param value
+     * @return
+     */
+    public static int getStrLength(String value) {
+        int valueLength = 0;
+        String chinese = "[\u0391-\uFFE5]";
+        for (int i = 0; i < value.length(); i++) {
+            String temp = value.substring(i, i + 1);
+            if (temp.matches(chinese)) {
+                valueLength += 2;
+            } else {
+                valueLength += 1;
+            }
+        }
+        return valueLength;
+    }
+
+
+    public static  void main(String s[]){
+        System.out.println(checkName("打发打发"));
+    }
+
 
     /****
      *  验证密码
@@ -198,7 +234,7 @@ public final class CommonUtil {
     public static boolean checkPassword(String pwd){
         if (isEmpty(pwd)||pwd.length()<6||pwd.length()>15)
             return false;
-         return true;
+        return true;
     }
 
 
@@ -222,7 +258,6 @@ public final class CommonUtil {
         }
         try {
             double b=Double.parseDouble(money);
-            Log.d("money="+money+"==="+b);
             return b<1?false:true;
         }catch (Exception e){
             return false;
@@ -248,15 +283,13 @@ public final class CommonUtil {
 
     }
 
-
-
     public static String formatMoney(String money){
         if (isEmpty(money)){
             money="0";
         }
         DecimalFormat format = new DecimalFormat();
         format.applyPattern("￥#################0.00");
-       return format.format(Double.parseDouble(money));
+        return format.format(Double.parseDouble(money));
     }
 
 }
