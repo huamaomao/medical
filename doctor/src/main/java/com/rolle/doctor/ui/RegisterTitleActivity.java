@@ -7,12 +7,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.DividerItemDecoration;
+import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.ViewModel;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.DoctorListAdpater;
 import com.rolle.doctor.domain.CityResponse;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.RegisterTitlePresenter;
+import com.rolle.doctor.viewmodel.ListModel;
+import com.rolle.doctor.viewmodel.UserModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.InjectView;
@@ -22,16 +32,22 @@ import butterknife.InjectView;
  */
 public class RegisterTitleActivity extends BaseActivity implements RegisterTitlePresenter.IRegisterView{
 
+    @InjectView(R.id.refresh)
+    PullRefreshLayout refresh;
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
     private RegisterTitlePresenter presenter;
     private DoctorListAdpater adpater;
     private List<CityResponse.Item> list;
+    private UserModel userModel;
+    private ListModel listModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_choose);
+        setContentView(R.layout.activity_refresh_recycker);
         presenter=new RegisterTitlePresenter(this);
         list=new ArrayList<>();
+        userModel=new UserModel(this);
+        listModel=new ListModel(this);
     }
 
 
@@ -39,18 +55,26 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
     protected void initView() {
         super.initView();
         setBackActivity("职称");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rv_view.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        rv_view.setLayoutManager(layoutManager);
         adpater=new DoctorListAdpater(this,list);
-        rv_view.setAdapter(adpater);
-        rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
+        ViewUtil.initRecyclerView(rv_view, this, adpater);
+        rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 adpater.setIndex(position);
             }
         }));
-        presenter.doLoad();
+        refresh.setRefreshStyle(com.rolle.doctor.util.Constants.PULL_STYLE);
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doLoad();
+            }
+        });
+        refresh.setRefreshing(true);
+        doLoad();
+
+
+
     }
 
 
@@ -58,10 +82,45 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.toolbar_next:
-                presenter.doNext();
+                doNext();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+
+    public void doLoad(){
+        listModel.requestTitle("65", new ViewModel.ModelListener<List<CityResponse.Item>>() {
+            @Override
+            public void model(Response response, List<CityResponse.Item> items) {
+                list.clear();
+                list.addAll(items);
+                adpater.notifyDataSetChanged();
+            }
+
+            @Override
+            public void errorModel(HttpException e, Response response) {
+                msgLongShow("加载数据失败...");
+            }
+
+            @Override
+            public void view() {
+                refresh.setRefreshing(false);
+            }
+        });
+    }
+
+
+    public void doNext(){
+        if (CommonUtil.isNull(adpater.getIndex())){
+            msgShow("请选择职称");
+            return;
+        }
+        User user=userModel.getLoginUser();
+        user.doctorDetail.jobId=adpater.getIndex().id;
+        user.doctorTitle=adpater.getIndex().name;
+        userModel.saveUser(user);
+        ViewUtil.openActivity(RegisterInfoActivity.class,getContext(),true);
     }
 
     @Override
@@ -78,8 +137,6 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
 
     @Override
     public void setTitleList(ArrayList<CityResponse.Item> list) {
-       this.list.clear();
-       this.list.addAll(list);
-       adpater.notifyDataSetChanged();
+
     }
 }

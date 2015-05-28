@@ -42,7 +42,7 @@ import butterknife.OnClick;
 /**
  * Created by Hua_ on 2015/3/27.
  */
-public class ChooseListActivity extends BaseLoadingActivity{
+public class ChooseListActivity extends BaseActivity{
 
     @InjectView(R.id.rv_view)RecyclerView rv_view;
     @InjectView(R.id.refresh)
@@ -53,6 +53,7 @@ public class ChooseListActivity extends BaseLoadingActivity{
     private ListModel listModel;
     private User user;
     private CityResponse.Item VItem;
+    private CityResponse.Item QItem;
     private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +63,13 @@ public class ChooseListActivity extends BaseLoadingActivity{
     }
     /****加载数据***/
     private void requestData(){
-        showLoading();
+        refresh.setRefreshing(true);
         switch (type){
             case 0:
                 doVisitList();
                 setBackActivity("选择省份");
                 break;
             case 1:
-                items.clear();
                 doCityList();
                 setBackActivity("选择城市");
                 break;
@@ -80,6 +80,10 @@ public class ChooseListActivity extends BaseLoadingActivity{
             case 3:
                 doSectionList();
                 setBackActivity("选择职称");
+                break;
+            case 4:
+                doCityList();
+                setBackActivity("选择区县");
                 break;
         }
     }
@@ -102,7 +106,7 @@ public class ChooseListActivity extends BaseLoadingActivity{
 
             @Override
             public void view() {
-                hideLoading();
+                refresh.setRefreshing(false);
             }
         });
     }
@@ -124,7 +128,7 @@ public class ChooseListActivity extends BaseLoadingActivity{
 
             @Override
             public void view() {
-                hideLoading();
+                refresh.setRefreshing(false);
             }
         });
     }
@@ -146,22 +150,20 @@ public class ChooseListActivity extends BaseLoadingActivity{
 
             @Override
             public void view() {
-                hideLoading();
+                refresh.setRefreshing(false);
             }
         });
     }
 
     /*******
-     * 城市
+     * 城市  区县
      */
     public void doCityList(){
-        if (CommonUtil.isNull(VItem)){
-            setBackActivity("选择省份");
-            type=0;
-            requestData();
-            return;
+        String cityId=VItem.id;
+        if (type==4){
+               cityId=QItem.id;
         }
-        listModel.requestCity(VItem.id,new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestCity(cityId,new ViewModel.ModelListener<List<CityResponse.Item>>() {
             @Override
             public void model(Response response, List<CityResponse.Item> items) {
                 adapter.addItemAll(items);
@@ -174,7 +176,7 @@ public class ChooseListActivity extends BaseLoadingActivity{
 
             @Override
             public void view() {
-                hideLoading();
+                refresh.setRefreshing(false);
             }
         });
     }
@@ -193,12 +195,13 @@ public class ChooseListActivity extends BaseLoadingActivity{
         adapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
-                viewHolder.setText(R.id.tv_name,items.get(i).name);
+                viewHolder.setText(R.id.tv_name, items.get(i).name);
             }
 
             @Override
             public BaseRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                final  BaseRecyclerAdapter.ViewHolder holder=new BaseRecyclerAdapter.ViewHolder(getLayoutInflater().inflate(R.layout.item_list_spinner,viewGroup,false)){};
+                final BaseRecyclerAdapter.ViewHolder holder = new BaseRecyclerAdapter.ViewHolder(getLayoutInflater().inflate(R.layout.item_list_spinner, viewGroup, false)) {
+                };
                 return holder;
             }
 
@@ -208,7 +211,6 @@ public class ChooseListActivity extends BaseLoadingActivity{
             }
         });
         ViewUtil.initRecyclerView(rv_view, this, adapter);
-        loadingFragment.setMessage("正在加载数据...");
         requestData();
         adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {
             @Override
@@ -224,16 +226,24 @@ public class ChooseListActivity extends BaseLoadingActivity{
                         type = 1;
                         VItem = items.get(position);
                         requestData();
-                        break;
+                        return;
                     case 1:
                         CityResponse.Item item = items.get(position);
+                        QItem = item;
                         user.workRegionId = item.id;
-                        //填写详细地址  UpdateAddressActivity
-                        StringBuilder builder=new StringBuilder();
-                        builder.append(VItem.name).append(item.name);
-                        user.workRegion=builder.toString();
+                        type = 4;
+                        requestData();
+                        return;
+                    case 4:
+                        CityResponse.Item item1 = items.get(position);
+                        ///填写详细地址  UpdateAddressActivity
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(VItem.name).append(QItem.name).
+                                append(item1.name);
+                        user.workRegion = builder.toString();
+                        user.regionId = item1.id;
                         userModel.saveUser(user);
-                        ViewUtil.openActivity(UpdateAddressActivity.class,getContext(),true);
+                        ViewUtil.openActivity(UpdateAddressActivity.class, getContext(), true);
                         return;
                     case 2:
                         user.doctorDetail.departmentsId = items.get(position).id;
@@ -246,22 +256,18 @@ public class ChooseListActivity extends BaseLoadingActivity{
                         user.setUpdateStatus();
                         break;
                 }
-                if (type >1) {
-                    userModel.saveUser(user);
-                    finish();
-                }
+                userModel.saveUser(user);
+                finish();
             }
         });
 
         refresh.setRefreshStyle(Constants.PULL_STYLE);
-
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 requestData();
             }
         });
-        refresh.setRefreshing(false);
     }
 
     @Override

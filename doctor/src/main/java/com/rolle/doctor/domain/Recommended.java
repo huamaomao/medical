@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author Hua_
- * @Description: 赞
+ * @Description: 评论
  * @date 2015/5/12 - 13:35
  */
 public class Recommended extends ResponseMessage {

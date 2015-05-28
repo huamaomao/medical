@@ -1,6 +1,8 @@
 package com.rolle.doctor.presenter;
 
 import android.content.Intent;
+
+import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
@@ -63,13 +65,17 @@ public class LoginPresenter extends Presenter {
            @Override
            public void errorModel(HttpException e, Response response) {
                if (e instanceof HttpNetException) {
-                   HttpNetException netException = (HttpNetException) e;
                    view.msgShow("无网络访问.....");
                } else if (e instanceof HttpServerException) {
-                   HttpServerException serverException = (HttpServerException) e;
-                   view.msgShow("无法访问服务器.....");
+                   view.msgShow("服务器异常.....");
                }else{
-                   view.msgShow("登陆失败.....");
+                   ResponseMessage message=response.getObject(ResponseMessage.class);
+                   if (CommonUtil.notNull(message)){
+                       view.msgShow(message.message);
+                   }else {
+                       view.msgShow("注册失败");
+                   }
+
                }
            }
 
@@ -83,7 +89,12 @@ public class LoginPresenter extends Presenter {
 
     public void doIsLogin(){
        Token token= model.getToken();
-       if (CommonUtil.notNull(token)&&token.isLogin()){
+        User user=model.getLoginUser();
+       if (CommonUtil.notNull(token)&&token.isLogin()&&CommonUtil.notNull(user)){
+           if (CommonUtil.isEmpty(user.doctorDetail.hospitalName)){
+               ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+               return;
+           }
            doLoginService();
            ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
        }

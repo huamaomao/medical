@@ -60,6 +60,7 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
                         @Override
                         public void model(Response response, ResponseMessage o) {
                             msgShow("保存成功");
+                            setResult(200);
                             finish();
                         }
 

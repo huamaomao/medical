@@ -63,6 +63,7 @@
     <activity android:name=".ui.WalletSetPwdActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.WalletCashoutActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.WalletResetPwdActivity" android:screenOrientation="portrait" />
+    <activity android:name=".ui.FriendListActivity" android:screenOrientation="portrait" />
     <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity"

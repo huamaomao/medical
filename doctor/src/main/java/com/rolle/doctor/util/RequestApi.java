@@ -57,12 +57,13 @@ public final class RequestApi {
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
         param.add(new NameValuePair("verifycode",verifycode));
+        param.add(new NameValuePair("typeId",Constants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
 
     /******
-     *  验证手机短信码
+     *  login
      * @param mobile
      * @param password
      * @return
@@ -73,6 +74,7 @@ public final class RequestApi {
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
+        param.add(new NameValuePair("typeId",Constants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 

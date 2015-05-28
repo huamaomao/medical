@@ -5,6 +5,7 @@
     >
    <include layout="@layout/toolbar" />
     <LinearLayout
+        android:clickable="false"
         style="@style/list_item_style">
             <ImageView
                 android:src="@drawable/icon_renwu"

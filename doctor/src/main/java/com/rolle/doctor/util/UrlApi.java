@@ -39,6 +39,7 @@ public interface UrlApi{
     public static final String  UPD_DOCTOR_INFO="user_sp/saveDoctor.json";
     /***添加好友***/
     public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
+    public static final String FRIEND_ADD_ID="/crm/relation_sp/saveRelationByUserId.json";
 
 
     /***推荐投诉**/

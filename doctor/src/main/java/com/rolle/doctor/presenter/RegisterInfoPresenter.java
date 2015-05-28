@@ -27,11 +27,9 @@ public class RegisterInfoPresenter extends Presenter {
 
     private IRegisterView view;
     private UserModel userModel;
-    private ListModel listModel;
     public RegisterInfoPresenter(IRegisterView iView) {
         this.view = iView;
-        userModel=new UserModel((BaseActivity)view.getContext());
-        listModel=new ListModel(view.getContext());
+        userModel=new UserModel(view.getContext());
     }
 
    public void doNext(){
@@ -43,24 +41,20 @@ public class RegisterInfoPresenter extends Presenter {
            view.msgShow("请输入工作的医院");
            return;
        }
-       if (CommonUtil.isNull(view.getVisit())){
+       if (CommonUtil.isNull(view.getCity())){
            view.msgShow("请选择省份");
            return;
        }
-       if (CommonUtil.isNull(view.getCity())){
-           view.msgShow("请选择城市");
-           return;
-       }
-       if (CommonUtil.isNull(view.getTitleItem())){
+       if (CommonUtil.isNull(view.getTitle())){
            view.msgShow("请选择科室");
            return;
        }
-       User user=userModel.db.queryById(userModel.getToken().userId,User.class);
+       User user=userModel.getLoginUser();
        user.nickname=view.getName();
        user.userName=view.getName();
-       user.doctorTitle=view.getTitleItem().id;
+       user.doctorTitle=view.getTitle();
        user.hospitalAddress=view.getHospital();
-       user.regionId=view.getCity().id;
+       user.regionId=view.getCity();
        user.token=userModel.getToken().token;
        userModel.db.save(user);
        view.showLoading();
@@ -70,7 +64,7 @@ public class RegisterInfoPresenter extends Presenter {
                ResponseMessage message=res.getObject(ResponseMessage.class);
                if (CommonUtil.notNull(message)){
                     if (message.statusCode.equals("200")){
-                        ViewUtil.openActivity(MainActivity.class,view.getContext(),true);
+                        ViewUtil.startTopActivity(MainActivity.class,view.getContext());
                     }
                }
                view.hideLoading();
@@ -84,78 +78,16 @@ public class RegisterInfoPresenter extends Presenter {
 
     }
 
-    public void doVisitList(){
-        listModel.requestCity("1",new ViewModel.ModelListener<List<CityResponse.Item>>() {
-            @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                view.setVisitList((ArrayList) items);
-            }
 
-            @Override
-            public void errorModel(HttpException e, Response response) {
 
-            }
 
-            @Override
-            public void view() {
-
-            }
-        });
-    }
-
-    public void doCityList(){
-        if (view.getVisit()==null){
-            doVisitList();
-            return;
-        }
-        listModel.requestCity(view.getVisit().id,new ViewModel.ModelListener<List<CityResponse.Item>>() {
-            @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                view.setCityList((ArrayList)items);
-            }
-
-            @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-    }
-
-    public void doTitleList(){
-        listModel.requestTitle("44", new ViewModel.ModelListener<List<CityResponse.Item>>() {
-            @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                view.setTitleList((ArrayList) items);
-            }
-
-            @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
-
-            }
-        });
-    }
 
 
 
     public static interface IRegisterView extends IView{
         String getName();
-        CityResponse.Item  getCity();
-        CityResponse.Item  getVisit();
+        String   getCity();
         String  getHospital();
-        CityResponse.Item getTitleItem();
-        void setVisitList(ArrayList<CityResponse.Item> list);
-        void setCityList(ArrayList<CityResponse.Item> list);
-        void setTitleList(ArrayList<CityResponse.Item> list);
-
+        String getTitle();
     }
 }

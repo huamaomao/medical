@@ -10,15 +10,22 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
+import com.android.common.util.ViewUtil;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
+import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserInfoAdapater;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.ItemInfo;
+import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.RegisterInfoPresenter;
 import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,32 +35,22 @@ import butterknife.InjectView;
 /****
  * 基本资料
  */
-public class RegisterInfoActivity extends BaseLoadingActivity implements RegisterInfoPresenter.IRegisterView{
+public class RegisterInfoActivity extends BaseLoadingActivity{
 
     @InjectView(R.id.et_name)
     EditText et_name;
      @InjectView(R.id.et_hospital)
     EditText et_hospital;
-
+    private UserModel userModel;
     @InjectView(R.id.rv_view)RecyclerView  rv_view;
-    private RegisterInfoPresenter presenter;
     private UserInfoAdapater adpater;
     private List<ItemInfo> lsData;
-    private ArrayList<CityResponse.Item> visitList;
-    private ArrayList<CityResponse.Item> cityList;
-    private ArrayList<CityResponse.Item> titleList;
-    private CityResponse.Item visit;
-    private CityResponse.Item city;
-    private CityResponse.Item titleItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_info);
-        presenter=new RegisterInfoPresenter(this);
-        visitList=new ArrayList<>();
-        cityList=new ArrayList<>();
-        titleList=new ArrayList<>();
+        userModel=new UserModel(getContext());
     }
 
 
@@ -66,74 +63,100 @@ public class RegisterInfoActivity extends BaseLoadingActivity implements Registe
         rv_view.setLayoutManager(layoutManager);
         lsData=new ArrayList<>();
         lsData.add(new ItemInfo("工作地址","请选择省份城市"));
-        lsData.add(new ItemInfo("科室","请选择科室"));
+        lsData.add(new ItemInfo("  科室","请选择科室"));
         adpater=new UserInfoAdapater(this,lsData);
         rv_view.setAdapter(adpater);
-        rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {
+        rv_view.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                doChoose(position);
+                switch (position) {
+                    case 0:
+                        startListActivity(0);
+                        break;
+                    case 1:
+                        startListActivity(2);
+                        break;
+                }
             }
         }));
 
     }
 
-
-    private void doChoose(int type){
-        switch (type){
-            case 0:
-                presenter.doVisitList();
-                presenter.doCityList();
-                break;
-            case 1:
-                presenter.doTitleList();
-                break;
-        }
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==200){
-            int position=data.getIntExtra(Constants.POSITION,0);
-            switch (data.getIntExtra(Constants.TYPE,-1)){
-                   case 0:
-                       visit=visitList.get(position);
-                       ItemInfo info=lsData.get(0);
-                       info.desc=visit.name;
-                       lsData.set(0,info);
-                       adpater.notifyItemChanged(0);
-                       presenter.doCityList();
-                       break;
-                    case 1:
-                        city=cityList.get(position);
-                        ItemInfo info1=lsData.get(1);
-                        info1.desc=city.name;
-                        lsData.set(1,info1);
-                        adpater.notifyItemChanged(1);
-                        break;
-                    case 2:
-                        titleItem=titleList.get(position);
-                        ItemInfo info2=lsData.get(2);
-                        info2.desc=titleItem.name;
-                        lsData.set(2,info2);
-                        adpater.notifyItemChanged(2);
-                        break;
+            ItemInfo city=lsData.get(0);
+            User user=userModel.getLoginUser();
+            if (CommonUtil.notEmpty(user.workRegion)){
+                city.desc=user.workRegion;
+                adpater.notifyItemChanged(0);
+            }
+            ItemInfo department=lsData.get(1);
+            if (CommonUtil.notEmpty(user.doctorDetail.department)){
+                department.desc=user.doctorDetail.department;
+                adpater.notifyItemChanged(1);
             }
         }
 
     }
 
     public void doNext(){
+        String name=et_name.getText().toString();
+        String hospital=et_hospital.getText().toString();
+        User user=userModel.getLoginUser();
+        String city=user.regionId;
+        String title=user.doctorDetail.jobId;
+        if (CommonUtil.isEmpty(name)){
+            msgShow("请输入真实姓名");
+            return;
+        }
+        if (CommonUtil.isEmpty(hospital)){
+            msgShow("请输入工作的医院");
+            return;
+        }
+        if (CommonUtil.isNull(city)){
+            msgShow("请选择省份");
+            return;
+        }
+        if (CommonUtil.isNull(title)){
+            msgShow("请选择科室");
+            return;
+        }
+        user.nickname=name;
+        user.userName=name;
+        user.doctorDetail.hospitalName=hospital;
+        userModel.db.save(user);
+        showLoading();
+        userModel.requestUpdateUser(user, new HttpModelHandler<String>() {
+            @Override
+            protected void onSuccess(String data, Response res) {
+                ResponseMessage message = res.getObject(ResponseMessage.class);
+                if (CommonUtil.notNull(message)) {
+                    if (message.statusCode.equals("200")) {
+                        ViewUtil.startTopActivity(MainActivity.class, getContext());
+                    } else {
+                        msgLongShow(message.message);
+                    }
+                }
+                hideLoading();
+            }
+
+            @Override
+            protected void onFailure(HttpException e, Response res) {
+                msgLongShow("注册失败...");
+                hideLoading();
+            }
+        });
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.toolbar_register:
-                presenter.doNext();
+                doNext();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -145,57 +168,10 @@ public class RegisterInfoActivity extends BaseLoadingActivity implements Registe
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    @Override
-    public String getName() {
-        return et_name.getText().toString();
-    }
-
-    @Override
-    public CityResponse.Item getCity() {
-        return city;
-    }
-
-    @Override
-    public CityResponse.Item getVisit() {
-       return visit;
-    }
-
-    @Override
-    public String getHospital() {
-        return et_hospital.getText().toString();
-    }
-
-    @Override
-    public CityResponse.Item getTitleItem() {
-        return titleItem;
-    }
-
-    @Override
-    public void setVisitList(ArrayList<CityResponse.Item> list) {
-        visitList.clear();
-        visitList.addAll(list);
-        startListActivity(list,0);
-    }
-
-    @Override
-    public void setCityList(ArrayList<CityResponse.Item> list) {
-        cityList.clear();
-        cityList.addAll(list);
-        startListActivity(list,1);
-    }
-
-    @Override
-    public void setTitleList(ArrayList<CityResponse.Item> list) {
-        titleList.clear();
-        titleList.addAll(list);
-        startListActivity(list,2);
-    }
-
-    private void startListActivity(ArrayList<CityResponse.Item> list,int type){
+    private void startListActivity(int type){
        Intent intent=new Intent(getContext(),ChooseListActivity.class);
-       intent.putExtra("type",type);
-       intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST,list);
+        intent.putExtra("type",type);
+      // intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST,list);
        startActivityForResult(intent,200);
    }
 

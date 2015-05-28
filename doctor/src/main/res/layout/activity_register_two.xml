@@ -7,7 +7,6 @@
     <TextView android:id="@id/tv_tel_code"
         android:textSize="@dimen/font_size_16"
         android:textColor="@color/write"
-        android:text="验证码短信已发至 +86"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
@@ -31,7 +30,7 @@
                 android:textColorHint="@color/hintText"
                 android:inputType="number"
                 android:background="@android:color/transparent"
-                android:maxLength="6"
+                android:maxLength="4"
                 android:layout_gravity="fill"
                  />
             <Button

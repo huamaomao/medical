@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class RecommendedInfo extends ResponseMessage{
 
-    private List<RecommendedItemInfo> list;
+    public List<RecommendedItemInfo> list;
 
     public List<RecommendedItemInfo> getList() {
         return list;

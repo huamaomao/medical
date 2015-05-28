@@ -729,14 +729,15 @@ public class UserModel  extends ViewModel {
         QueryBuilder builder=new QueryBuilder(Wallet.class).where(WhereBuilder.create()
                 .andEquals("id", getLoginUser().id));
         List<Wallet> list=db.query(builder);
-        if (list!=null&&list.size()>0){
+        //   异常　－－
+        /*if (list!=null&&list.size()>0){
             Wallet wallet=list.get(0);
             QueryBuilder builderList=new QueryBuilder(Wallet.Item.class).where(WhereBuilder.create()
                     .andEquals("id", getLoginUser().id));
             List<Wallet.Item> items=db.query(builderList);
             wallet.list=items;
             return wallet;
-        }
+        }*/
         return new Wallet();
     }
 
@@ -1045,6 +1046,9 @@ public class UserModel  extends ViewModel {
      * @return
      */
     public User getLoginUser(){
+        if(CommonUtil.isNull(getToken())){
+            return null;
+        }
         final User user=getUser(getToken().userId);
         if (CommonUtil.notNull(user)&&user.updateState==User.UPDATE){
             requestUpdateUser(user, new HttpModelHandler<String>() {
@@ -1069,7 +1073,27 @@ public class UserModel  extends ViewModel {
      * @param
      */
     public void requestUpdateUser(User user,HttpModelHandler<String> handler){
-        execute(RequestApi.requestUpdUser(user),handler);
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.UPD_DOCTOR_INFO);
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("typeId",user.typeId));
+        param.add(new NameValuePair("nickname", user.nickname));
+        param.add(new NameValuePair("email",user.email));
+        param.add(new NameValuePair("tel",user.tel));
+        param.add(new NameValuePair("sex",user.sex));
+        param.add(new NameValuePair("age",user.age));
+        param.add(new NameValuePair("photoId",user.photoId));
+        param.add(new NameValuePair("intro",user.intro));
+        param.add(new NameValuePair("address",user.address));
+        param.add(new NameValuePair("workRegionId",user.doctorDetail.workRegionId));
+        param.add(new NameValuePair("specialty",user.doctorDetail.speciality));
+        param.add(new NameValuePair("hospitalName",user.doctorDetail.hospitalName));
+        param.add(new NameValuePair("userName",user.userName));
+        param.add(new NameValuePair("jobId",user.doctorDetail.jobId));
+        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("birthday", user.birthday));
+        Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request,handler);
     }
 
     public static  interface OnValidationListener{

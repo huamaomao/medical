@@ -32,17 +32,7 @@ public class RegisterTitlePresenter extends Presenter {
         userModel=new UserModel(view.getContext());
     }
 
-   public void doNext(){
-       if (CommonUtil.isNull(view.getTitleItem())){
-           view.msgShow("请选择职称");
-           return;
-       }
-       User user=userModel.db.queryById(userModel.getToken().userId,User.class);
-       user.doctorTitle=Util.getUserTitle(view.getTitleItem().id);
-       userModel.saveUser(user);
-       ViewUtil.openActivity(RegisterInfoActivity.class,view.getContext(),true);
 
-    }
 
     public void doLoad(){
         model.requestTitle("65",new ViewModel.ModelListener<List<CityResponse.Item>>() {
@@ -64,7 +54,7 @@ public class RegisterTitlePresenter extends Presenter {
     }
 
 
-    public static interface IRegisterView extends IView{
+    public  interface IRegisterView extends IView{
         CityResponse.Item getTitleItem();
         void setTitleList(ArrayList<CityResponse.Item> list);
     }

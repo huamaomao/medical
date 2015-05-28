@@ -6,6 +6,7 @@
         android:layout_marginLeft="10dp"
         android:textSize="@dimen/font_size_16"
         android:textColor="@color/black"
+        android:minWidth="80dp"
         style="@style/my_image" />
 
     <TextView android:id="@id/tv_item_1"

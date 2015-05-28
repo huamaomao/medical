@@ -1,5 +1,6 @@
 package com.rolle.doctor.presenter;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
@@ -8,6 +9,8 @@ import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.User;
@@ -31,8 +34,8 @@ public class RegisterTwoPresenter extends Presenter {
     }
 
     public void doTwoRegister() {
-        if (!CommonUtil.checkPassword(view.getPwd())) {
-            view.msgShow("验证码必须是6位数字");
+        if (CommonUtil.isEmpty(view.getCode())||view.getCode().length()<4) {
+            view.msgShow("验证码必须是4位数字");
             return;
         }
 
@@ -50,7 +53,19 @@ public class RegisterTwoPresenter extends Presenter {
 
             @Override
             public void errorModel(HttpException e, Response response) {
-                view.msgShow("注册失败");
+                if (e instanceof HttpNetException) {
+                    view.msgShow("无网络访问.....");
+                } else if (e instanceof HttpServerException) {
+                    view.msgShow("服务器异常.....");
+                }else{
+                    ResponseMessage message=response.getObject(ResponseMessage.class);
+                    if (CommonUtil.notNull(message)){
+                        view.msgShow(message.message);
+                    }else {
+                        view.msgShow("注册失败");
+                    }
+
+                }
             }
 
             @Override

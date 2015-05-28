@@ -103,7 +103,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
         }else if (position!=1){
                     BloodResponse.Item item=data.get(position);
-                     setText(viewHolder.itemView, R.id.tv_item_0, item.day);
+                    setText(viewHolder.itemView, R.id.tv_item_0, item.day);
                     setText(viewHolder.itemView,R.id.tv_item_1, CommonUtil.initTextBlood(item.morningNum));
                     setText(viewHolder.itemView,R.id.tv_item_2, CommonUtil.initTextBlood(item.breakfastStart));
                     setText(viewHolder.itemView,R.id.tv_item_3, CommonUtil.initTextBlood(item.breakfastEnd));
