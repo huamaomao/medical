@@ -35,6 +35,7 @@ public class BaseActivity extends ActionBarActivity implements IView{
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
         application=(DoctorApplication)getApplication();
 	}
 

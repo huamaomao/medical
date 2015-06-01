@@ -75,10 +75,11 @@ public class ChooseListActivity extends BaseActivity{
                 break;
             case 2:
                 setBackActivity("选择科室");
-                doTitleList();
+                doSectionList();
+                //doTitleList
                 break;
             case 3:
-                doSectionList();
+                doTitleList();
                 setBackActivity("选择职称");
                 break;
             case 4:
