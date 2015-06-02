@@ -82,10 +82,9 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         });
         refresh.setRefreshing(false);
         recyclerAdapter=new MessageRecyclerAdapter<>(lsData);
-        recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent() {
+        recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent<User>() {
             @Override
-            public void onClick(View v, int position) {
-                User messageUser = recyclerAdapter.getData().get(position);
+            public void onClick(View v,User messageUser , int position) {
                 Log.d(messageUser+"-position:"+position);
                 if (CommonUtil.notNull(messageUser)){
                     Bundle bundle=new Bundle();
@@ -94,10 +93,10 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 }
             }
         });
-        recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods() {
+        recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
-            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, int i) {
-                User messageUser = recyclerAdapter.getData().get(i);
+            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder,User messageUser, int i) {
+                Log.d("postion:"+i);
                 if(CommonUtil.isNull(messageUser)) return;
                 viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1, messageUser.message);

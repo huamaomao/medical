@@ -8,25 +8,17 @@ import android.widget.TextView;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyclerAdapter.ViewHolder> {
-    private final float SCROLL_MULTIPLIER = 0.5f;
-
-    public interface RecyclerAdapterMethods {
-        void onBindViewHolder(ViewHolder viewHolder,final int i);
+    public interface RecyclerAdapterMethods<T>{
+        void onBindViewHolder(ViewHolder viewHolder,T t,final int i);
         ViewHolder onCreateViewHolder(ViewGroup viewGroup,final int i);
         int getItemCount();
     }
 
 
-    public interface OnClickEvent {
-        /**
-         * Event triggered when you click on a item of the adapter
-         *
-         * @param v        view
-         * @param position position on the array
-         */
-        void onClick(View v,final int position);
+    public interface OnClickEvent<T> {
+
+        void onClick(View v,T t,final int position);
     }
     private LinkedList<T> mData;
     private RecyclerAdapterMethods mRecyclerAdapterMethods;
@@ -35,22 +27,18 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        if (mRecyclerAdapterMethods == null)
-            throw new NullPointerException("You must call implementRecyclerAdapterMethods");
-        mRecyclerAdapterMethods.onBindViewHolder(viewHolder, i);
+        mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(i),i);
         if (mOnClickEvent != null)
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnClickEvent.onClick(v, i);
+                    mOnClickEvent.onClick(v,mData.get(i), i);
                 }
             });
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if (mRecyclerAdapterMethods == null)
-            throw new NullPointerException("You must call implementRecyclerAdapterMethods");
         return mRecyclerAdapterMethods.onCreateViewHolder(viewGroup, i);
     }
 
@@ -78,11 +66,11 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
     public void addItem(T item) {
         int index= mData.indexOf(item);
         if (index!=-1){
-            mData.remove(item);
+            mData.remove(index);
             notifyItemChanged(index);
         }
         mData.addFirst(item);
-        notifyItemChanged(0);
+        notifyDataSetChanged();
 
     }
 
@@ -111,8 +99,6 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
 
 
     public int getItemCount() {
-        if (mRecyclerAdapterMethods == null)
-            throw new NullPointerException("You must call implementRecyclerAdapterMethods");
         return mRecyclerAdapterMethods.getItemCount();
     }
 
@@ -143,7 +129,8 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
         public ViewHolder setText(int resId,String title){
             ((TextView)getView(resId)).setText(title);
             return this;
-        } public ViewHolder setImageResource(int resId,int imgId){
+        }
+        public ViewHolder setImageResource(int resId,int imgId){
             ((ImageView)getView(resId)).setImageResource(imgId);
             return this;
         }

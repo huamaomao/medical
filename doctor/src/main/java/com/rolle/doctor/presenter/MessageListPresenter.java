@@ -45,6 +45,9 @@ public class MessageListPresenter extends Presenter {
                 //doMessage();
                 User user=getUser(message.getSender().getName());
                 if (CommonUtil.notNull(user)){
+                    if (user.id==model.getLoginUser().id){
+                       return;
+                    }
                     view.addMessageItem(user);
                 }
         }
@@ -63,6 +66,9 @@ public class MessageListPresenter extends Presenter {
        for (GotyeChatTarget target:ls){
            user=getUser(target.getName());
            if (CommonUtil.notNull(user)){
+               if (target.getName().equals(model.getLoginUser().id+"")){
+                    continue;
+               }
                 userList.add(user);
            }
 
