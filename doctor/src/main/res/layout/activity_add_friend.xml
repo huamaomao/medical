@@ -6,7 +6,7 @@
    <include layout="@layout/toolbar" />
     <LinearLayout
         android:clickable="false"
-        style="@style/list_item_style">
+        style="@style/list_item">
             <ImageView
                 android:src="@drawable/icon_renwu"
                 android:layout_gravity="center_vertical"
@@ -20,6 +20,7 @@
                 android:maxLength="11"
                 android:background="@drawable/icon_et_boder"
                 android:layout_gravity="center_vertical"
+                style="@style/et_styple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                  />

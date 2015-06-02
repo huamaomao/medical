@@ -1,17 +1,10 @@
 package com.android.common.adapter;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,8 +13,8 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
     private final float SCROLL_MULTIPLIER = 0.5f;
 
     public interface RecyclerAdapterMethods {
-        void onBindViewHolder(ViewHolder viewHolder, int i);
-        ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i);
+        void onBindViewHolder(ViewHolder viewHolder,final int i);
+        ViewHolder onCreateViewHolder(ViewGroup viewGroup,final int i);
         int getItemCount();
     }
 
@@ -33,19 +26,18 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
          * @param v        view
          * @param position position on the array
          */
-        void onClick(View v, int position);
+        void onClick(View v,final int position);
     }
     private LinkedList<T> mData;
     private RecyclerAdapterMethods mRecyclerAdapterMethods;
     private OnClickEvent mOnClickEvent;
 
 
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         if (mRecyclerAdapterMethods == null)
             throw new NullPointerException("You must call implementRecyclerAdapterMethods");
-            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, i);
+        mRecyclerAdapterMethods.onBindViewHolder(viewHolder, i);
         if (mOnClickEvent != null)
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,9 +76,14 @@ public class MessageRecyclerAdapter<T> extends RecyclerView.Adapter<MessageRecyc
         notifyItemInserted(position);
     }
     public void addItem(T item) {
+        int index= mData.indexOf(item);
+        if (index!=-1){
+            mData.remove(item);
+            notifyItemChanged(index);
+        }
         mData.addFirst(item);
         notifyItemChanged(0);
-        //notifyDataSetChanged();
+
     }
 
     public void pushItem(T item){

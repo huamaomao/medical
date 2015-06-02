@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.common.util.Toastor;
 import com.dtr.zbar.build.ZBarDecoder;
 import com.rolle.doctor.R;
 import com.rolle.doctor.util.CameraManager;
@@ -87,20 +88,20 @@ public class CaptureActivity extends Activity {
 		mCameraManager = new CameraManager(this);
 		try {
 			mCameraManager.openDriver();
-		} catch (IOException e) {
+			mCamera = mCameraManager.getCamera();
+			mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
+			scanPreview.addView(mPreview);
+			TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT,
+					0.85f);
+			animation.setDuration(3000);
+			animation.setRepeatCount(-1);
+			animation.setRepeatMode(Animation.REVERSE);
+			scanLine.startAnimation(animation);
+		} catch (Exception e) {
 			e.printStackTrace();
+			new Toastor(getApplicationContext()).showLongToast("打开相机失败");
 		}
 
-		mCamera = mCameraManager.getCamera();
-		mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
-		scanPreview.addView(mPreview);
-
-		TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT,
-				0.85f);
-		animation.setDuration(3000);
-		animation.setRepeatCount(-1);
-		animation.setRepeatMode(Animation.REVERSE);
-		scanLine.startAnimation(animation);
 	}
 
 	public void onPause() {

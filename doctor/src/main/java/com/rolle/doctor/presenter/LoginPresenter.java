@@ -65,7 +65,7 @@ public class LoginPresenter extends Presenter {
            @Override
            public void errorModel(HttpException e, Response response) {
                if (e instanceof HttpNetException) {
-                   view.msgShow("无网络访问.....");
+                   view.msgShow("网络异常.....");
                } else if (e instanceof HttpServerException) {
                    view.msgShow("服务器异常.....");
                }else{
@@ -73,7 +73,7 @@ public class LoginPresenter extends Presenter {
                    if (CommonUtil.notNull(message)){
                        view.msgShow(message.message);
                    }else {
-                       view.msgShow("注册失败");
+                       view.msgShow("登陆失败");
                    }
 
                }
@@ -87,15 +87,16 @@ public class LoginPresenter extends Presenter {
 
     }
 
+
     public void doIsLogin(){
        Token token= model.getToken();
         User user=model.getLoginUser();
        if (CommonUtil.notNull(token)&&token.isLogin()&&CommonUtil.notNull(user)){
+           doLoginService();
            if (CommonUtil.isEmpty(user.doctorDetail.hospitalName)){
                ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                return;
            }
-           doLoginService();
            ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
        }
     }

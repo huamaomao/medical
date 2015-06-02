@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.common.adapter.MessageRecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
@@ -56,7 +57,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         setLayoutId(R.layout.fragment_message);
         presenter=new MessageListPresenter(this);
         model=new GotyeModel();
-        userModel=new UserModel((BaseActivity)getContext());
+        userModel=new UserModel(getContext());
 
     }
 
@@ -84,10 +85,11 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent() {
             @Override
             public void onClick(View v, int position) {
-                User item=lsData.get(position);
-                if (CommonUtil.notNull(item)){
+                User messageUser = recyclerAdapter.getData().get(position);
+                Log.d(messageUser+"-position:"+position);
+                if (CommonUtil.notNull(messageUser)){
                     Bundle bundle=new Bundle();
-                    bundle.putParcelable(Constants.ITEM,item);
+                    bundle.putParcelable(Constants.ITEM,messageUser);
                     ViewUtil.openActivity(MessageActivity.class,bundle,getActivity(), ActivityModel.ACTIVITY_MODEL_1);
                 }
             }
@@ -95,7 +97,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods() {
             @Override
             public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, int i) {
-                User messageUser = lsData.get(i);
+                User messageUser = recyclerAdapter.getData().get(i);
                 if(CommonUtil.isNull(messageUser)) return;
                 viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1, messageUser.message);

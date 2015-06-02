@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
     <activity android:name=".ui.MainActivity"   android:screenOrientation="portrait"/>
-    <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait"/>
+    <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait" android:launchMode="singleTask"/>
     <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
     <activity android:name=".ui.MyInviteCodeActivity"   android:screenOrientation="portrait" />
     <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />

@@ -26,7 +26,6 @@ public interface Constants {
 
     public static final String DB_NAME="doctor.db";
 
-    public static final String QINJIA_KEY="7c2c51ba-2be8-4e94-bcb0-38a6ddb65a51";
 
     /***下路刷新样式***/
     public static final int PULL_STYLE=PullRefreshLayout.STYLE_WATER_DROP;
@@ -46,5 +45,6 @@ public interface Constants {
     /***血糖值****/
     public static final double  MAX_BLOOD=12;
     public static final double  MIN_BLOOD=3.8;
+    public static final String QINJIA_KEY="7c2c51ba-2be8-4e94-bcb0-38a6ddb65a51";
 
 }

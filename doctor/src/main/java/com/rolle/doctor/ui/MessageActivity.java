@@ -96,6 +96,7 @@ public class MessageActivity extends BaseActivity{
     protected void initView() {
         super.initView();
         userFriend=getIntent().getParcelableExtra(Constants.ITEM);
+        Log.d(userFriend);
         if (CommonUtil.isNull(userFriend)){
             finish();
         }
