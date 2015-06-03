@@ -73,7 +73,7 @@ public class MessageListPresenter extends Presenter {
            }
 
        }
-       view.addMessagelist(userList);
+      // view.addMessagelist(userList);
     }
 
      public  User getUser(String id){

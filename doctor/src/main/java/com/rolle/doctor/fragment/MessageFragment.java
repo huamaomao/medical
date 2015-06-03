@@ -1,5 +1,7 @@
 package com.rolle.doctor.fragment;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,21 +16,22 @@ import android.widget.TextView;
 import com.android.common.adapter.MessageRecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.widget.CustomEmptyView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.MessageListPresenter;
 import com.rolle.doctor.ui.AddFriendActivity;
-import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,6 +54,8 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     private GotyeModel model;
     private UserModel userModel;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +63,6 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         presenter=new MessageListPresenter(this);
         model=new GotyeModel();
         userModel=new UserModel(getContext());
-
     }
 
     @Override
@@ -70,6 +74,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
 
     @Override
     protected void initView(final View view, LayoutInflater inflater) {
+
         super.initView(view, inflater);
         lsData=new LinkedList<>();
         refresh.setRefreshStyle(Constants.PULL_STYLE);
@@ -81,11 +86,10 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             }
         });
         refresh.setRefreshing(false);
-        recyclerAdapter=new MessageRecyclerAdapter<>(lsData);
+        recyclerAdapter=new MessageRecyclerAdapter<>(getContext(),lsData);
         recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent<User>() {
             @Override
             public void onClick(View v,User messageUser , int position) {
-                Log.d(messageUser+"-position:"+position);
                 if (CommonUtil.notNull(messageUser)){
                     Bundle bundle=new Bundle();
                     bundle.putParcelable(Constants.ITEM,messageUser);
@@ -93,11 +97,11 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 }
             }
         });
+
         recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
-            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder,User messageUser, int i) {
-                Log.d("postion:"+i);
-                if(CommonUtil.isNull(messageUser)) return;
+            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, User messageUser, int i) {
+                if (CommonUtil.isNull(messageUser)) return;
                 viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1, messageUser.message);
                 viewHolder.setText(R.id.tv_item_3, messageUser.date);
@@ -106,18 +110,20 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                     tvmsg.setVisibility(View.GONE);
                 } else {
                     tvmsg.setVisibility(View.VISIBLE);
-                    tvmsg.setText((messageUser.messageNum>=100) ?"99+":messageUser.messageNum+"");
+                    tvmsg.setText((messageUser.messageNum >= 100) ? "99+" : messageUser.messageNum + "");
                 }
                 //是否是医生
                 viewHolder.setImageResource(R.id.iv_type, 0);
-                if (Constants.USER_TYPE_DOCTOR.equals(messageUser.typeId)||Constants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
+                if (Constants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || Constants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
                     viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
                 }
                 TextView textView = viewHolder.getView(R.id.tv_item_2);
-                StringBuilder builder = new StringBuilder();
-                builder.append(messageUser.age == null ? "?" : messageUser.age);
-                builder.append("岁");
-                viewHolder.setText(R.id.tv_item_2, messageUser.message);
+                if (CommonUtil.notEmpty(messageUser.age)) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(messageUser.age == null ? "" : messageUser.age);
+                    builder.append("岁");
+                    textView.setText(builder.toString());
+                }
                 if ("0".equals(messageUser.sex)) {
                     textView.setBackgroundResource(R.drawable.round_bg_boy);
                     textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_boy), null, null, null);
@@ -125,8 +131,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                     textView.setBackgroundResource(R.drawable.round_bg_girl);
                     textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_girl), null, null, null);
                 }
-                textView.setText(builder.toString());
-                Picasso.with(getContext()).load(messageUser.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(RequestApi.getImageUrl(messageUser.headImage)).placeholder(R.drawable.icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
 
             }
@@ -144,6 +149,10 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         ViewUtil.initRecyclerView(rv_view, getContext(), recyclerAdapter);
         presenter.doMessage();
         presenter.initReceive();
+        //网络广播
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(recyclerAdapter.broadcastReceiver,filter);
+
 
     }
 
@@ -174,4 +183,13 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     public void pushMessageItem(User item) {
         recyclerAdapter.pushItem(item);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            getActivity().unregisterReceiver(recyclerAdapter.broadcastReceiver);
+        }catch (Exception e){}
+    }
+
 }

@@ -8,8 +8,7 @@ import android.view.View;
  * Created by IzanRodrigo on 19/03/2015.
  */
 public interface EmptyView {
-   @Nullable
-   View getEmptyView();
+   @Nullable View getEmptyView();
 
    void setEmptyView(@NonNull View emptyView);
 

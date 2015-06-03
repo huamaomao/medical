@@ -149,7 +149,7 @@ public class UserModel  extends ViewModel {
      */
     public void  requestUpdatePassword(String mobile,String verifycode,String password, final ModelListener<Token> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("user_sp/updatePassword.json");
+        url.append("/crm/user_sp/updatePassword.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", mobile));
         param.add(new NameValuePair("password", MD5.compute(password)));
@@ -479,7 +479,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestUserInfo(String userId,final ModelListener<User> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("user_sp/getUserByMap.json");
+        url.append("/crm/user_sp/getUserByMap.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token",getToken().token));
         param.add(new NameValuePair("userId",userId));
@@ -539,7 +539,7 @@ public class UserModel  extends ViewModel {
      */
     public void  uploadPicture(String typeId,String path, final ModelListener<UploadPicture> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("image_sp/uploadImage.json");
+        url.append("/crm/image_sp/uploadImage.json");
         MultipartBody body=new MultipartBody();
         body.addPart(new StringPart("token",getToken().token));
         body.addPart(new StringPart("typeId", typeId));
@@ -575,7 +575,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestPraiseList( final ModelListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("praise_sp/getPraiseUserListByMap.json");
+        url.append("/crm/praise_sp/getPraiseUserListByMap.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
@@ -608,7 +608,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestNewFriendList(List<ContactBean> list, final ModelListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("user_sp/getNewFriendList.json");
+        url.append("/crm/user_sp/getNewFriendList.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         if (CommonUtil.notNull(list)){
@@ -650,7 +650,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestMessageList(final ModelListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("message_sp/getMessageListByMap.json");
+        url.append("/crm/message_sp/getMessageListByMap.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token",getToken().token));
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
@@ -681,7 +681,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestMessageRecord(final ModelListener<ResponseMessage> listener) {
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("message_sp/getMessageRecordByMap.json");
+        url.append("/crm/message_sp/getMessageRecordByMap.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
@@ -747,7 +747,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestWallet(final ModelListener<Wallet> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("wallet_sp/getWalletByToken.json");
+        url.append("/crm/wallet_sp/getWalletByToken.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
@@ -779,7 +779,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestWalletMoney(String money,final ModelListener<Wallet> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("withdraw_sp/withdrawApply.json");
+        url.append("/crm/withdraw_sp/withdrawApply.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("money", money));
@@ -811,7 +811,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestAddWalletAcounnt(String alipayNo,final ModelListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("alipay_sp/saveAlipay.json");
+        url.append("/crm/alipay_sp/saveAlipay.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("alipayNo", alipayNo));
@@ -844,7 +844,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestAddWalletBlankAcounnt(String bankId,String openingAccount,final ModelListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("bankcard_sp/saveBankCard.json");
+        url.append("/crm/bankcard_sp/saveBankCard.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("bankId", bankId));
@@ -878,7 +878,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestAddWalletBill(final ModelListener<List<WalletBill.Item>> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("withdraw_sp/withdrawLog.json");
+        url.append("/crm/withdraw_sp/withdrawLog.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
@@ -922,7 +922,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("wallet_sp/setPassword.json");
+        url.append("/crm/wallet_sp/setPassword.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("password", MD5.compute(password)));
@@ -956,7 +956,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestSendPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("wallet_sp/setPassword.json");
+        url.append("/crm/wallet_sp/setPassword.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("password", MD5.compute(password)));
@@ -998,7 +998,7 @@ public class UserModel  extends ViewModel {
      */
     public void requestSaveFeedback(String content,final ModelListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
-        url.append("feedback_sp/saveFeedback.json");
+        url.append("/crm/feedback_sp/saveFeedback.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("content", content));

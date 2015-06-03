@@ -18,6 +18,13 @@ import java.util.List;
  */
 public final class RequestApi {
 
+    public static String getImageUrl(String path){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(path);
+        Log.d(url.toString());
+        return url.toString();
+    }
+
     /************** ----------------注册-----登陆-------------- ****************************/
 
     /******
@@ -37,13 +44,6 @@ public final class RequestApi {
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
-    public static String getImageUrl(String path){
-        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.deleteCharAt(url.length()-1);
-        url.append(path);
-        Log.d("url:"+url.toString());
-        return url.toString();
-    }
 
     /******
      *@Description  注册用户

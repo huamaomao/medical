@@ -37,8 +37,8 @@ public abstract class BaseEmptyView extends RelativeLayout implements EmptyView 
 
    public BaseEmptyView(Context context, AttributeSet attrs, int defStyleAttr) {
       super(context, attrs, defStyleAttr);
-      readAttrs(attrs);
-   }
+   readAttrs(attrs);
+}
 
    // Initialization methods
    @Override
@@ -50,7 +50,7 @@ public abstract class BaseEmptyView extends RelativeLayout implements EmptyView 
       }
 
       // Add child
-      super.addView(child);
+     // super.addView(child);
    }
 
    @Override
