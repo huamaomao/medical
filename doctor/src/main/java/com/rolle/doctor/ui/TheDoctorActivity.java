@@ -73,8 +73,8 @@ public class TheDoctorActivity extends BaseActivity{
                     @Override
                     public void model(Response response, List<User> items) {
                         // 数据更改
-                        adapaterSame.addCleanItems(userModel.querySameFriendList());
-                        adapaterAll.addCleanItems(userModel.queryFriendList());
+                        adapaterSame.addItemAll(userModel.querySameFriendList());
+                        adapaterAll.addItemAll(userModel.queryFriendList());
                     }
 
                     @Override
@@ -96,44 +96,13 @@ public class TheDoctorActivity extends BaseActivity{
         data.addAll(userModel.queryFriendList());
         dataSame=new ArrayList<>();
         dataSame.addAll(userModel.querySameFriendList());
-        adapaterSame=new FriendListAdapater(this,dataSame,FriendListAdapater.TYPE_DOCTOR);
-        adapaterAll=new FriendListAdapater(this,data,FriendListAdapater.TYPE_DOCTOR);
-        adapaterAll.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
-            @Override
-            public void onItemClick(User user) {
-                ViewUtil.openActivity(DoctorDetialActivity.class, TheDoctorActivity.this);
-            }
-        });
         List<View> views=new ArrayList<>();
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view,null));
         views.add(getLayoutInflater().inflate(R.layout.public_wrap_recycler_view, null));
         lvViewAll=(RecyclerView)views.get(0);
         lvViewSame=(RecyclerView)views.get(1);
-        ViewUtil.initRecyclerView(lvViewAll,getContext(),adapaterAll);
-        ViewUtil.initRecyclerView(lvViewSame,getContext(),adapaterSame);
-        lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                User item = data.get(position);
-                if (CommonUtil.notNull(item)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.ITEM, item);
-                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle, TheDoctorActivity.this, ActivityModel.ACTIVITY_MODEL_1);
-                }
-            }
-        }));
-        lvViewSame.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                User item = dataSame.get(position);
-                if (CommonUtil.notNull(item)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.ITEM, item);
-                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle, TheDoctorActivity.this, ActivityModel.ACTIVITY_MODEL_1);
-                }
-            }
-        }));
-
+        adapaterSame=new FriendListAdapater(this,dataSame,lvViewAll,FriendListAdapater.TYPE_DOCTOR);
+        adapaterAll=new FriendListAdapater(this,data,lvViewSame,FriendListAdapater.TYPE_DOCTOR);
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
@@ -153,6 +122,15 @@ public class TheDoctorActivity extends BaseActivity{
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            adapaterSame.onDestroyReceiver();
+            adapaterAll.onDestroyReceiver();
+        }catch (Exception e){}
     }
 
 }

@@ -78,19 +78,7 @@ public class FriendListActivity extends BaseActivity{
         super.initView();
         setBackActivity("通讯录好友");
         data=new ArrayList<>();
-        adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_FRIEND);
-        ViewUtil.initRecyclerView(lvView,this,adapater);
-        lvView.setAdapter(adapater);
-        adapater.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
-            @Override
-            public void onItemClick(User user) {
-              /*  if ("0".equals(user.typeId)){
-                    ViewUtil.openActivity(PatientHActivity.class, FriendActivity.this);
-                }else {
-                    ViewUtil.openActivity(DoctorDetialActivity.class, FriendActivity.this);
-                }*/
-            }
-        });
+        adapater=new FriendListAdapater(this,data,lvView,FriendListAdapater.TYPE_FRIEND);
         requestData();
     }
 

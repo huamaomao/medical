@@ -65,9 +65,9 @@ public class PatientActivity extends BaseActivity{
     }
 
     private void loadList(){
-        adapaterAll.addCleanItems(userModel.queryPatientList());
-        adapaterMax.addCleanItems(userModel.queryPatientList());
-        adapaterMin.addCleanItems(userModel.queryPatientList());
+        adapaterAll.addItemAll(userModel.queryPatientList());
+        adapaterMax.addItemAll(userModel.queryPatientList());
+        adapaterMin.addItemAll(userModel.queryPatientList());
     }
 
 
@@ -88,13 +88,11 @@ public class PatientActivity extends BaseActivity{
         lvViewAll=(RecyclerView)views.get(0);
         lvViewMin=(RecyclerView)views.get(1);
         lvViewMax=(RecyclerView)views.get(2);
-        adapaterAll=new FriendListAdapater(this,dataAll,FriendListAdapater.TYPE_PATIENT);
-        adapaterMin=new FriendListAdapater(this,dataMin,FriendListAdapater.TYPE_PATIENT);
-        adapaterMax=new FriendListAdapater(this,dataMax,FriendListAdapater.TYPE_PATIENT);
+        adapaterAll=new FriendListAdapater(this,dataAll,lvViewAll,FriendListAdapater.TYPE_PATIENT);
+        adapaterMin=new FriendListAdapater(this,dataMin,lvViewMin,FriendListAdapater.TYPE_PATIENT);
+        adapaterMax=new FriendListAdapater(this,dataMax,lvViewMax,FriendListAdapater.TYPE_PATIENT);
         adapaterAll.flag=true;
-        ViewUtil.initRecyclerView(lvViewAll,getContext(),adapaterAll);
-        ViewUtil.initRecyclerView(lvViewMin,getContext(),adapaterMin);
-        ViewUtil.initRecyclerView(lvViewMax,getContext(),adapaterMax);
+
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
@@ -172,4 +170,14 @@ public class PatientActivity extends BaseActivity{
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            adapaterAll.onDestroyReceiver();
+            adapaterMin.onDestroyReceiver();
+            adapaterMax.onDestroyReceiver();
+        }catch (Exception e){}
+    }
 }

@@ -59,7 +59,7 @@ public class FriendActivity extends BaseActivity{
 
             @Override
             public void errorModel(HttpException e, Response response) {
-
+                
             }
 
             @Override
@@ -74,19 +74,7 @@ public class FriendActivity extends BaseActivity{
         super.initView();
         setBackActivity("新朋友");
         data=new ArrayList<>();
-        adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_FRIEND);
-        ViewUtil.initRecyclerView(lvView,this,adapater);
-
-        adapater.setOnItemClickListener(new FriendListAdapater.OnItemClickListener() {
-            @Override
-            public void onItemClick(User user) {
-              /*  if ("0".equals(user.typeId)){
-                    ViewUtil.openActivity(PatientHActivity.class, FriendActivity.this);
-                }else {
-                    ViewUtil.openActivity(DoctorDetialActivity.class, FriendActivity.this);
-                }*/
-            }
-        });
+        adapater=new FriendListAdapater(this,data,lvView,FriendListAdapater.TYPE_FRIEND);
         requestData();
     }
 
@@ -95,4 +83,12 @@ public class FriendActivity extends BaseActivity{
         ViewUtil.openActivity(FriendListActivity.class, FriendActivity.this);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            adapater.onDestroyReceiver();
+        }catch (Exception e){}
+    }
 }

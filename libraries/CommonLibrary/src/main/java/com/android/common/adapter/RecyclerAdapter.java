@@ -1,9 +1,12 @@
 package com.android.common.adapter;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +23,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     public interface RecyclerAdapterMethods<T>{
         void onBindViewHolder(ViewHolder viewHolder,T t, int position);
-        ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewTYpe);
+        ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewType);
         int getItemCount();
     }
 
@@ -53,14 +56,40 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     protected List<T> mData;
     private RecyclerAdapterMethods mRecyclerAdapterMethods;
     private OnClickEvent mOnClickEvent;
-
+    /*******是否需要注册网络广播********/
     private RecyclerAdapter(){}
+
+
     public RecyclerAdapter(Context mContext, List<T> data, RecyclerView recyclerView) {
         this.mContext=mContext;
         this.mData = data;
         this.recyclerView=recyclerView;
         itemDecoration=new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
+        //网络广播
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        getContext().registerReceiver(broadcastReceiver,filter);
     }
+    /********isNetwork  是否注册网络广播 **********/
+    public RecyclerAdapter(Context mContext, List<T> data, RecyclerView recyclerView,boolean isNetwork) {
+        this.mContext=mContext;
+        this.mData = data;
+        this.recyclerView=recyclerView;
+        itemDecoration=new DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL);
+        if (isNetwork){
+            //网络广播
+            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            getContext().registerReceiver(broadcastReceiver, filter);
+
+        }
+    }
+
+    /******8
+     * 解除广播
+     */
+    public void onDestroyReceiver(){
+        getContext().unregisterReceiver(broadcastReceiver);
+    }
+
 
 
     public void setNetwork(){
@@ -168,13 +197,12 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             }
 
         }else {
-            final   int index=status==0?position:position-1;
+            final   int index=isHeadView?position-1:position;
             mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index),index);
             if (mOnClickEvent != null)
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int index=position-1;
                         mOnClickEvent.onClick(v,mData.get(index), index);
                     }
 
@@ -194,8 +222,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public int getItemViewType(int position) {
         if (position==0&&isHeadView)
             return TYPE_NET;
+        return getItemType(position);
+    }
+
+    public int getItemType(int position){
         return TYPE_ITEM;
     }
+
 
     public void setOnClickEvent(OnClickEvent onClickEvent) {
         mOnClickEvent = onClickEvent;
@@ -231,13 +264,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
 
     public void addItemAll(List<T> data) {
-        if (data==null){
-            return;
+        if (data!=null){
+            mData.clear();
+            mData.addAll(data);
         }
-        mData.clear();
-        mData.addAll(data);
-        notifyDataSetChanged();
-
+        checkEmpty();
     }
 
     public void removeItem(T item) {
@@ -303,7 +334,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
 
     }
-
     /***************网络监听广播*****************/
     public BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
         @Override
@@ -316,6 +346,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
     };
 
+
+    public Activity getContext(){
+        return (Activity)mContext;
+    }
 
 
 

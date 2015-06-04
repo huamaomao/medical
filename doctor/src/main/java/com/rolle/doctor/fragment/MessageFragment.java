@@ -45,11 +45,9 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     PullRefreshLayout refresh;
     @InjectView(R.id.rv_view)
     RecyclerView rv_view;
-
     private LinkedList<User> lsData;
     private RecyclerAdapter<User> recyclerAdapter;
     private MessageListPresenter presenter;
-
     private GotyeModel model;
     private UserModel userModel;
 
@@ -73,7 +71,6 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
 
     @Override
     protected void initView(final View view, LayoutInflater inflater) {
-
         super.initView(view, inflater);
         lsData=new LinkedList<>();
         refresh.setRefreshStyle(Constants.PULL_STYLE);
@@ -149,9 +146,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
         ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), recyclerAdapter);
         presenter.doMessage();
         presenter.initReceive();
-        //网络广播
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(recyclerAdapter.broadcastReceiver,filter);
+
 
 
     }
@@ -189,7 +184,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     public void onDestroy() {
         super.onDestroy();
         try {
-            getActivity().unregisterReceiver(recyclerAdapter.broadcastReceiver);
+            recyclerAdapter.onDestroyReceiver();
         }catch (Exception e){}
     }
 
