@@ -1,6 +1,6 @@
 package com.rolle.doctor.adapter;
-
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,30 +8,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
-import com.android.common.util.Log;
+import com.android.common.util.DividerItemDecoration;
+import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Util;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
  * Created by Hua on 2015/4/3.
  */
-public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.ViewHolder> {
+public class FriendListAdapater extends RecyclerAdapter<User> {
      int type=TYPE_PATIENT;
     /***患者***/
     public static  final int TYPE_PATIENT=0;
     /****医生*****/
     public static final int TYPE_DOCTOR=1;
-    /****消息*****/
-    public static final int TYPE_MESSAGE=2;
     /****添加 *****/
     public static final int TYPE_FRIEND=3;
 
@@ -39,19 +35,44 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
     public boolean flag=false;
 
     private Context mContext;
-    List<User> data;
-    private OnItemClickListener onItemClickListener;
 
 
-
-    public FriendListAdapater(Context mContext, List<User> data,int type) {
-        this.mContext = mContext;
-        this.data = data;
+    public FriendListAdapater(Context mContext, List<User> data, RecyclerView recyclerView,int type) {
+        super(mContext,data,recyclerView);
+        this.mContext=mContext;
+        this.mData = data;
         this.type=type;
+        initAdapter();
     }
 
+    private void initAdapter(){
+        this.implementRecyclerAdapterMethods(new RecyclerAdapterMethods<User>() {
+            @Override
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, User user, int position) {
+
+            }
+
+            @Override
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewTYpe) {
+                return null;
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        });
+        ViewUtil.initRecyclerViewDecoration(recyclerView,mContext, this);
+
+    }
+            ]
+
+
     @Override
-    public FriendListAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType==)
+               super.onCreateViewHolder(parent, viewType);
+
         if (TYPE_DOCTOR==viewType){
             return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, parent, false));
         }
@@ -136,17 +157,17 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     }
 
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
 
     @Override
     public int getItemViewType(int position) {
+        int  type=super.getItemViewType(position);
+        if (type==TYPE_ITEM){
+            type=this.type;
+        }
         return type;
     }
 
-    public  static class ViewHolder extends RecyclerView.ViewHolder{
+    public  static class ViewHolder extends RecyclerAdapter.ViewHolder{
         TextView tvName,tvSex;
         ImageView ivPhoto;
         public ViewHolder(View itemView) {
@@ -177,16 +198,6 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     }
 
-   /* public  static class MessageViewHolder extends ViewHolder{
-        TextView tvRemarks,tvTime;
-        public MessageViewHolder(View itemView) {
-            super(itemView);
-            tvRemarks=(TextView)itemView.findViewById(R.id.tv_item_3);
-            tvTime=(TextView)itemView.findViewById(R.id.tv_item_4);
-        }
-
-    }*/
-
     public  static class FriendViewHolder extends DoctorViewHolder{
         Button btnStatus;
         ImageView ivType;
@@ -198,17 +209,4 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
 
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener{
-        public void onItemClick(User user);
-    }
-
-    public void addCleanItems(List<User> items){
-        this.data.clear();
-        this.data.addAll(items);
-        notifyDataSetChanged();
-    }
 }

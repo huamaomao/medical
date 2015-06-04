@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppDoctorTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/write</item>
         <item name="android:textColor">@color/black</item>
@@ -21,7 +21,7 @@
         <item name="windowActionBar">false</item>
 
     </style>
-    <style name="AppThemeTransparent" parent="AppTheme">
+    <style name="AppThemeTransparent" parent="AppDoctorTheme">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>

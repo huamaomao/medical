@@ -49,6 +49,7 @@ public class MessageListPresenter extends Presenter {
                        return;
                     }
                     view.addMessageItem(user);
+                    view.setEmpty();
                 }
         }
         });
@@ -73,7 +74,8 @@ public class MessageListPresenter extends Presenter {
            }
 
        }
-      // view.addMessagelist(userList);
+      view.addMessagelist(userList);
+       view.setEmpty();
     }
 
      public  User getUser(String id){
@@ -127,7 +129,7 @@ public class MessageListPresenter extends Presenter {
     public static interface IMessageView extends IView{
         void addMessagelist(List<User> ls);
         void addMessageItem(User item);
-        void pushMessageItem(User item);
+        void setEmpty();
     }
 
 }

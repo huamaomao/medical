@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.common.adapter.MessageRecyclerAdapter;
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.widget.CustomEmptyView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
@@ -48,7 +47,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     RecyclerView rv_view;
 
     private LinkedList<User> lsData;
-    private MessageRecyclerAdapter<User> recyclerAdapter;
+    private RecyclerAdapter<User> recyclerAdapter;
     private MessageListPresenter presenter;
 
     private GotyeModel model;
@@ -86,8 +85,9 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             }
         });
         refresh.setRefreshing(false);
-        recyclerAdapter=new MessageRecyclerAdapter<>(getContext(),lsData);
-        recyclerAdapter.setOnClickEvent(new MessageRecyclerAdapter.OnClickEvent<User>() {
+        recyclerAdapter=new RecyclerAdapter<>(getContext(),lsData,rv_view);
+        recyclerAdapter.empty="暂时没有消息哦,快去\n\"通讯录\"找人聊天吧";
+        recyclerAdapter.setOnClickEvent(new RecyclerAdapter.OnClickEvent<User>() {
             @Override
             public void onClick(View v,User messageUser , int position) {
                 if (CommonUtil.notNull(messageUser)){
@@ -98,9 +98,9 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             }
         });
 
-        recyclerAdapter.implementRecyclerAdapterMethods(new MessageRecyclerAdapter.RecyclerAdapterMethods<User>() {
+        recyclerAdapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
-            public void onBindViewHolder(MessageRecyclerAdapter.ViewHolder viewHolder, User messageUser, int i) {
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, User messageUser, int i) {
                 if (CommonUtil.isNull(messageUser)) return;
                 viewHolder.setText(R.id.tv_item_0, messageUser.nickname);
                 viewHolder.setText(R.id.tv_item_1, messageUser.message);
@@ -137,8 +137,8 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             }
 
             @Override
-            public MessageRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new MessageRecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message, viewGroup, false));
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_message, viewGroup, false));
             }
 
             @Override
@@ -146,7 +146,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 return lsData.size();
             }
         });
-        ViewUtil.initRecyclerView(rv_view, getContext(), recyclerAdapter);
+        ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), recyclerAdapter);
         presenter.doMessage();
         presenter.initReceive();
         //网络广播
@@ -180,9 +180,10 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     }
 
     @Override
-    public void pushMessageItem(User item) {
-        recyclerAdapter.pushItem(item);
+    public void setEmpty() {
+        recyclerAdapter.checkEmpty();
     }
+
 
     @Override
     public void onDestroy() {

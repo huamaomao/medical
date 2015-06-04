@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.common.adapter.RecyclerItemClickListener;
@@ -160,6 +161,15 @@ public class PatientActivity extends BaseActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_seach,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.toolbar_seach:
+                ViewUtil.openActivity(SeachActivity.class,getContext());
+               return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

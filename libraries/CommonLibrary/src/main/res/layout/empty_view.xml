@@ -27,9 +27,10 @@
         android:id="@+id/tv_empty"
         android:text="@string/empty"
         android:textSize="16.0sp"
-        android:layout_gravity="center_horizontal"
-        android:maxWidth="450dp"
+        android:layout_gravity="center"
+        android:maxWidth="300dp"
         android:textColor="#9094ab"
+        android:singleLine="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
