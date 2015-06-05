@@ -40,7 +40,6 @@ import butterknife.OnClick;
  * Created by Hua_ on 2015/3/27.
  */
 public class PatientHActivity extends BaseActivity{
-
     @InjectView(R.id.viewpage) ViewPager viewPager;
     private List<View> viewpages;
     @InjectView(R.id.rg_group)RadioGroup radioGroup;
@@ -65,11 +64,13 @@ public class PatientHActivity extends BaseActivity{
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("小叶病史");
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
         user=getIntent().getParcelableExtra(Constants.ITEM);
+        StringBuilder builder=new StringBuilder();
+        builder.append(user.nickname);
+        setBackActivity(builder.toString());
         recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -84,7 +85,7 @@ public class PatientHActivity extends BaseActivity{
         recyclerViewInfo=(RecyclerView)viewpages.get(1).findViewById(R.id.rv_view);
         LinearLayoutManager manage1=new LinearLayoutManager(this);
         recyclerViewInfo.setLayoutManager(manage1);
-        lsData=new ArrayList<ItemInfo>();
+        lsData=new ArrayList<>();
         lsData.add(null);
         lsData.add(new ItemInfo("性别",user.sex));
         lsData.add(new ItemInfo("生日",user.birthday));

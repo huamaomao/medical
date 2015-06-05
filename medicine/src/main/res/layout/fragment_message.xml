@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLayoutStyle">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@id/ll_item_0"
+                style="@style/style_wh_wrap_v"
+                >
+                    <ImageView
+                        android:src="@drawable/icon_find_doctor"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_gravity="center_horizontal"
+                        android:text="找医生"
+                       style="@style/FindText"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_item_1"
+                android:layout_centerHorizontal="true"
+                style="@style/style_wh_wrap_v">
+                <ImageView
+                    android:src="@drawable/icon_find_dietitian"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="找营养师"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/FindText"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@id/ll_item_2"
+                android:layout_alignParentRight="true"
+                style="@style/style_wh_wrap_v">
+                <ImageView
+                    android:src="@drawable/icon_find_patient"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="找患友"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/FindText"/>
+            </LinearLayout>
+        </RelativeLayout>
+    <include layout="@layout/divider" />
+    <TextView
+        android:text="联系人"
+        android:textColor="@color/color_hint"
+        android:background="@color/appbg"
+        android:textSize="10.0sp"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <include layout="@layout/divider" />
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/public_wrap_recycler_view" />
+    </com.baoyz.widget.PullRefreshLayout>
+</LinearLayout>
+

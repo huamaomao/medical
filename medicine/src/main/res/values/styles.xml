@@ -1,8 +1,200 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+    -->
+
+
+
+
+
+    <!-- 无标题 -->
+    <style name="AppNoTitleBarTheme" parent="android:Theme.Black.NoTitleBar"></style>
+
+
+    
+    <style name="MyAppTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="AppNoTitleBarBaseTheme" parent="android:Theme.Translucent.NoTitleBar"></style>
+    <!-- 全屏 -->
+    <style name="AppFullscreenTheme" parent="android:Theme.Black.NoTitleBar.Fullscreen"></style>
+
+    <style name="AppFullscreenBaseTheme" parent="android:Theme.Translucent.NoTitleBar.Fullscreen"></style>
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+   
+        -->
+    </style>
+    
+    <style name="myDialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item><!--除去title-->
+    </style>
+    
+    <!-- 主调用 -->
+    <style name="home_actionbar_style" parent="@android:style/Theme.Holo" tools:ignore="NewApi">
+        <item name="android:actionBarStyle">@style/OctopusActionBarStyle</item>
+    	<item name="android:popupMenuStyle">@style/MyPopupMenu</item>  
+    	<item name="android:actionMenuTextAppearance">@style/OctopusMenuTittleStyle</item>
+        <item name="android:actionMenuTextColor" tools:ignore="NewApi">@android:color/white</item>
+    </style>
+	<!-- 背景颜色+其他 -->
+    <style name="OctopusActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse" tools:ignore="NewApi">
+    	<item name="android:titleTextStyle">@style/OctopusActionBarTittle</item>
+    	<item name="android:subtitleTextStyle">@style/ActionBarSubtitle</item>
+	</style>
+    <!-- 标题文字颜色 -->
+    <style name="OctopusActionBarTittle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse" tools:ignore="NewApi">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!-- Menu文字颜色 -->
+    <style name="OctopusMenuTittleStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse" tools:ignore="NewApi">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+	<!-- 副标题文字颜色 -->
+	<style name="ActionBarSubtitle" parent="@android:style/TextAppearance.Holo.Medium" tools:ignore="NewApi">
+	    <item name="android:textColor">@android:color/white</item>
+	    <item name="android:textSize">15sp</item>
+	</style>
+	<!-- menu选项背景(可用) -->  
+    <style name="MyPopupMenu" parent="android:style/Widget.Holo.Light.ListPopupWindow">  
+        <item name="android:popupBackground">@drawable/home_getjob_select</item>
+        <item name="android:dropDownSelector">@drawable/home_getjob_unselect</item>
+        
+    </style>  
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <!-- 标题style -->
+    <style name="public_head_style">
+        <item name="android:background">@color/public_black_as</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dip</item>
     </style>
 
+    <style name="home_tab_style">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/public_home_tabs_text_conf</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">10.0dp</item>
+        <item name="android:paddingBottom">10.0dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="home_round">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/s_round</item>
+        <item name="android:layout_width">8dp</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_marginLeft">6dp</item>
+    </style>
+
+
+
+    <!-- 聊天收到文字信息 -->
+    <style name="chat_text_date_style">
+        <item name="android:padding">2dp</item>
+        <item name="android:paddingTop">2dip</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:textColor">@color/public_black_as</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/chat_timestampe_bg</item>
+    </style>
+    <style name="chat_content_date_style">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">#bfbfbf</item>
+    </style>
+    
+    <style name="relativelayoutlayout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingLeft">@dimen/relativelayoutlayout_paddleft</item>
+		<item name="android:paddingTop">@dimen/relativelayoutlayout_paddtop</item>
+		<item name="android:paddingBottom">@dimen/relativelayoutlayout_paddbuttom</item>
+		<item name="android:paddingRight">@dimen/relativelayoutlayout_paddright</item>
+        <item name="android:checked">true</item>	
+    </style>
+    <!-- 移除帐号 -->
+    <style name="relativelayoutlayout_my_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingLeft">@dimen/relativelayoutlayout_paddleft</item>
+		<item name="android:paddingTop">15dip</item>
+		<item name="android:paddingBottom">15dip</item>
+		<item name="android:paddingRight">@dimen/relativelayoutlayout_paddright</item>
+        <item name="android:checked">true</item>
+    </style>
+    <!-- 个人信息 -->
+    <style name="relativelayoutlayout_personal_information">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+		<!-- <item name="android:paddingLeft">10dip</item>
+		<item name="android:paddingTop">13dip</item>
+		<item name="android:paddingBottom">13dip</item>
+		<item name="android:paddingRight">15dip</item> -->
+		<item name="android:padding">15dip</item>
+        <item name="android:checked">true</item>
+    </style>
+    <style name="textview_personal_information_left">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/public_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="textview_personal_information_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/public_636363</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="image_line_black_alpha">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dip</item>
+        <item name="android:background">@color/public_line</item>
+    </style>
+    <!-- 性别单选 -->
+    <style name="personal_information_sex_radio">
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:textColor">@color/public_636363</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">10dip</item>
+    </style>
+    
+    
 </resources>

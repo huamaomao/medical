@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLayoutStyle">
+    <include layout="@layout/toolbar" android:id="@id/toolbar" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/rv_view"
+        android:layout_below="@id/toolbar"
+        android:background="@color/appbg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:saveEnabled="false"
+        android:clipToPadding="true"
+        android:scrollbars="vertical" />
+
+    <ImageButton
+        android:id="@id/iv_send"
+        android:layout_marginBottom="0px"
+        android:layout_gravity="end"
+        android:alpha="0.8"
+        android:background="@drawable/s_btn"
+        android:src="@drawable/icon_send"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="45dp" />
+</RelativeLayout>

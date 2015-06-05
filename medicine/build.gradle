@@ -10,7 +10,7 @@ android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
     defaultConfig {
-        applicationId "com.ruoer.doctor"
+        applicationId "com.roller.medicine"
         compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
         buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
         versionCode Integer.parseInt(project.VERSION_CODE)
@@ -20,18 +20,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
     signingConfigs{
         myConfig {
-            storeFile file("../signed/doctor.jks")
-            storePassword "doctor...."
-            keyAlias "doctor"
-            keyPassword "doctor...."
+            storeFile file("../signed/patient.jks")
+            storePassword "rolle1234"
+            keyAlias "patient"
+            keyPassword "rolle1234"
         }
     }
 
     lintOptions {
         abortOnError false
-        // if true, only report errors
         ignoreWarnings true
         disable 'InvalidPackage'
     }
@@ -39,7 +39,8 @@ android {
         preDexLibraries = false
     }
     packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        // exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/LICENSE.txt'
     }
     buildTypes {
         release {
@@ -57,7 +58,7 @@ android {
     }
     productFlavors {
         channel {
-            manifestPlaceholders = [ channel:"ruoer" ]
+            manifestPlaceholders = [ channel:"rolle" ]
         }
     }
     channels()
@@ -84,8 +85,19 @@ def channels() {
 dependencies {
     /********jar***********/
     compile 'com.alibaba:fastjson:1.1.41'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.android.3rd:xutils:1.0'
+    compile 'com.android.3rd:lite:1.0@aar'
+    //compile 'com.android.3rd:common-util:1.1.2@aar'
+    compile 'com.android.support:appcompat-v7:22.1.+'
+    compile 'com.android.support:recyclerview-v7:22.1.+'
+    compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.3rd:zbardecoder:1.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
+    compile 'com.squareup:android-times-square:1.5.0@aar'
+    //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile project(':libraries:CommonLibrary')
+    compile project(':libraries:GotyeLibrary')
 }
 

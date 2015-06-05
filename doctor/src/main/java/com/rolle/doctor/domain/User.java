@@ -68,6 +68,7 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     public String doctorTitle;
     /*****所在科室****/
     public String department;
+    public String departmentsName;
     public String birthday;
     public String weight;
     /*****专长****/

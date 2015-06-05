@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.roller.medicine.widget.InputMethodLinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/ll_login"
+    style="@style/appLayoutStyle"
+  >
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="45dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        style="@style/item_from_style"
+      >
+        <EditText
+            android:id="@id/et_tel"
+            android:hint="手机号"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:paddingTop="25dp"
+            style="@style/et_styple"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/border"
+            />
+        <EditText android:id="@id/et_pwd"
+            android:hint="输入密码"
+            android:maxLength="15"
+            android:inputType="textPassword"
+            android:imeOptions="actionSend|flagNoExtractUi"
+            android:imeActionLabel="登陆"
+            style="@style/et_styple"
+             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/border"
+            />
+    </LinearLayout>
+
+     <Button
+         android:id="@id/btn_login"
+         android:text="登陆"
+         android:layout_marginTop="33dp"
+         android:textColor="@color/a7"
+         android:background="@drawable/s_btn_login"
+         style="@style/btn_style"
+        />
+        <RelativeLayout
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+
+            <TextView
+                android:id="@id/tv_create_account"
+                android:text="创建新账号"
+                style="@style/textSize17"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@id/tv_forgot_pwd"
+                android:text="忘记密码?"
+                style="@style/textSize17"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+          </RelativeLayout>
+</com.roller.medicine.widget.InputMethodLinearLayout>

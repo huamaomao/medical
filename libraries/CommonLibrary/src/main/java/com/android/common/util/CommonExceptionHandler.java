@@ -1,22 +1,27 @@
 package com.android.common.util;
 
 import android.content.Context;
+import android.os.Build;
+
+import com.android.common.domain.LogDomain;
 import com.android.common.domain.Version;
+import com.litesuits.orm.LiteOrm;
+
+import java.util.Date;
+
 /**
  * Created by Hua_ on 2015/4/16.
  */
 public class CommonExceptionHandler{
-
+        private LiteOrm liteOrm;
 
     /**
      * 自定义异常处理:收集错误信息&发送错误报告
      * @param ex
      * @return true:处理了该异常信息;否则返回false
      */
-    private boolean handleException(Throwable ex,Context context) {
-        final String crashReport = getCrashReport(context, ex);
-
-        return true;
+    private LogDomain handleException(Throwable ex,Context context) {
+         return getCrashReport(context, ex);
     }
 
 
@@ -25,17 +30,25 @@ public class CommonExceptionHandler{
      * @param ex
      * @return
      */
-    private String getCrashReport(Context context, Throwable ex) {
+    private LogDomain getCrashReport(Context context, Throwable ex) {
+        LogDomain logDomain=new LogDomain();
         Version version=ViewUtil.getVersion(context);
+        logDomain.versionCode=version.versionCode;
+        logDomain.versionName=version.versionName;
+        logDomain.model=android.os.Build.MODEL;
+        logDomain.release= Build.VERSION.RELEASE;
+        logDomain.excetion= ex.getMessage();
+        logDomain.date=DateUtil.sdf_date.format(new Date());
         StringBuffer exceptionStr = new StringBuffer();
-        exceptionStr.append("Version: "+version.versionName+"("+version.code+")\n");
-        exceptionStr.append("Android: "+android.os.Build.VERSION.RELEASE+"("+android.os.Build.MODEL+")\n");
-        exceptionStr.append("Exception: "+ex.getMessage()+"\n");
         StackTraceElement[] elements = ex.getStackTrace();
         for (int i = 0; i < elements.length; i++) {
             exceptionStr.append(elements[i].toString()+"\n");
         }
-        return exceptionStr.toString();
+        logDomain.stackTrace=exceptionStr.toString();
+        return logDomain;
     }
+
+
+
 
 }

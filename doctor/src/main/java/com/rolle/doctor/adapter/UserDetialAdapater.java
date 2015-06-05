@@ -19,6 +19,7 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.ui.UpdateInfoActivity;
 import com.rolle.doctor.ui.UpdateIntroActivity;
 import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.util.RequestApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,15 +65,16 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 return;
             }
             UserViewHolder viewHolder=(UserViewHolder)holder;
-            Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+            Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(viewHolder.iv_photo);
             viewHolder.tv_name.setText(user.nickname);
             viewHolder.tv_jianjie.setText(CommonUtil.isEmpty(user.intro)?"无":user.intro);
-            //;
-
-            StringBuilder builder = new StringBuilder();
-            builder.append(user.age == null ? "?" : user.age);
-            builder.append("岁");
+            if (CommonUtil.notEmpty(user.age)){
+                StringBuilder builder = new StringBuilder();
+                builder.append(user.age);
+                builder.append("岁");
+                viewHolder.tv_sex.setText(builder.toString());
+            }
             if ("0".equals(user.sex)) {
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_boy);
                 viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
@@ -80,7 +82,7 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_girl);
                 viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
             }
-            viewHolder.tv_sex.setText(builder.toString());
+
             viewHolder.rl_item_0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,10 +95,8 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                     ViewUtil.openActivity(UpdateIntroActivity.class,(Activity)mContext);
                 }
             });
-            // viewHolder.iv_photo
         }else{
             ViewHolder viewHolder=(ViewHolder)holder;
-            Log.d(info+"======");
             viewHolder.title.setText(info.title);
             viewHolder.desc.setText(info.desc);
         }

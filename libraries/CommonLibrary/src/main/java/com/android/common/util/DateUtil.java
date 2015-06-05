@@ -11,13 +11,13 @@ import java.util.concurrent.locks.ReentrantLock;
 /***
  *
  */
-public class DateUtil {
+public final class DateUtil {
 
      static final   Lock lock = new ReentrantLock();
     public static final String DATEC_FORMAT = "MM月dd日";
-    public static SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
-    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    public static SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static final SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat sdf_datec_format = new SimpleDateFormat(DATEC_FORMAT);
     public static SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm:ss");
 

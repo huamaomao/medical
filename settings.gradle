@@ -1,6 +1,7 @@
 include ':doctor'
-include ':libraries:CommonLibrary'
+include ':medicine'
 include ':libraries:LiteLibrary'
+include ':libraries:CommonLibrary'
 include ':libraries:GotyeLibrary'
 include ':libraries:pagerslidingtabstrip'
 include ':libraries:slideDateTimePicker'

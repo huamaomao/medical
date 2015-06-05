@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/appLayoutStyle" >
+    <include layout="@layout/toolbar" />
+   <ScrollView
+       android:scrollbars="none"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <android.support.v7.widget.AppCompatSpinner
+               android:id="@id/sp_start"
+               android:background="@color/write"
+               android:popupBackground="@color/black"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+           <include layout="@layout/divider" />
+           <CheckedTextView
+               android:id="@id/tv_chat_time"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="start|center_vertical"
+               android:padding="10dp"
+               android:singleLine="true"
+               android:checkMark="@drawable/icon_spinner"
+               android:textColor="@color/black"
+               android:textSize="16sp" />
+           <include layout="@layout/divider" />
+           <android.support.v7.widget.AppCompatSpinner
+               android:id="@id/sp_doctor"
+               android:background="@color/write"
+               android:popupBackground="@color/black"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               />
+           <TextView
+               android:textSize="12.0sp"
+               android:text="血糖值"
+               android:textColor="#999999"
+               android:background="@color/appbg"
+               android:paddingLeft="@dimen/iten_margin_top"
+               android:paddingBottom="4dp"
+               android:paddingTop="4dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@id/tv_name"
+               android:text="0.0mmol/L"
+               android:textColor="#ababab"
+               style="@style/FindText"
+               android:layout_gravity="center_horizontal"
+               android:gravity="center"
+               android:padding="@dimen/iten_margin_top"
+               android:layout_marginTop="10dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <com.roller.medicine.widget.TuneWheel
+               android:id="@id/tune_wheel"
+                android:layout_marginLeft="@dimen/iten_margin_top"
+                android:layout_marginRight="@dimen/iten_margin_top"
+                android:layout_marginBottom="40dp"
+               android:layout_width="match_parent"
+               android:layout_height="50dp" />
+
+           <TextView
+               android:textSize="12.0sp"
+               android:text="备注"
+               android:textColor="#999999"
+               android:background="@color/appbg"
+               android:paddingLeft="@dimen/iten_margin_top"
+               android:paddingBottom="4dp"
+               android:paddingTop="4dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+            <EditText
+                android:id="@id/et_yundong"
+                android:hint="运动情况 (如：慢跑30分钟)"
+               style="@style/et_styple" />
+           <include layout="@layout/divider" />
+           <EditText android:id="@id/et_yonogyao"
+               android:hint="用药情况 (如：胰岛素)"
+               style="@style/et_styple" />
+           <include layout="@layout/divider" />
+           <EditText android:id="@id/et_xinqing"
+               android:hint="心情情况 (如：郁闷、一般般、极佳)"
+               style="@style/et_styple" />
+           <include layout="@layout/divider" />
+       </LinearLayout>
+   </ScrollView>
+</LinearLayout>

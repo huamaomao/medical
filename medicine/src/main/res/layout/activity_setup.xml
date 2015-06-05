@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/public_bg" >
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            layout="@layout/layout_title_head" />
+
+        <ImageView
+            android:id="@+id/image_return"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:scaleType="centerInside"
+            android:src="@drawable/image_return" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_head"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_marginTop="20dip"
+            android:id="@+id/relativelayout_feedback"
+            style="@style/relativelayoutlayout_style"
+            android:background="@color/public_white" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:gravity="center_vertical"
+                android:text="意见反馈"
+                android:textSize="16sp"
+                android:textColor="@color/public_black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/public_image_next" />
+        </RelativeLayout>
+
+        <ImageView style="@style/image_line_black_alpha" />
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_score"
+            style="@style/relativelayoutlayout_style"
+            android:background="@color/public_white" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:gravity="center_vertical"
+                android:text="去评分"
+                android:textSize="16sp"
+                android:textColor="@color/public_black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/public_image_next" />
+        </RelativeLayout>
+
+        <ImageView style="@style/image_line_black_alpha" />
+
+        <RelativeLayout
+            android:layout_marginTop="20dip"
+            android:id="@+id/relativelayout_version"
+            style="@style/relativelayoutlayout_style"
+            android:background="@color/public_white" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:gravity="center_vertical"
+                android:text="版本"
+                android:textSize="16sp"
+                android:textColor="@color/public_black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/public_image_next" />
+        </RelativeLayout>
+
+        <ImageView style="@style/image_line_black_alpha" />
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_about_health_hut"
+            style="@style/relativelayoutlayout_style"
+            android:background="@color/public_white" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:gravity="center_vertical"
+                android:text="关于健康小屋"
+                android:textSize="16sp"
+                android:textColor="@color/public_black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/public_image_next" />
+        </RelativeLayout>
+        <ImageView style="@style/image_line_black_alpha" />
+
+        <RelativeLayout
+            android:layout_marginTop="20dip"
+            android:id="@+id/relativelayout_ext_login"
+            style="@style/relativelayoutlayout_style"
+            android:background="@color/public_white" >
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="退出登录"
+                android:textColor="@color/public_e88b52" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

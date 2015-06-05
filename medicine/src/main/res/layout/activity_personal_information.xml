@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/public_bg" >
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            layout="@layout/layout_title_head" />
+
+        <ImageView
+            android:id="@+id/image_return"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:scaleType="centerInside"
+            android:src="@drawable/image_return" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_head" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_style"
+                android:layout_marginTop="10dip"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="头像" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/public_default_head" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_nickname"
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="昵称" />
+
+                <TextView
+                    android:id="@+id/text_nickname"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="性别" />
+
+                <TextView
+                    android:id="@+id/text_sex"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="出生年月日" />
+
+                <TextView
+                    android:id="@+id/text_birthday"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_phone"
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="手机号码" />
+
+                <TextView
+                    android:id="@+id/text_phone"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_describe"
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="简介" />
+
+                <TextView
+                    android:id="@+id/text_describe"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:layout_marginTop="10dip"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="所在地" />
+
+                <TextView
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="体重" />
+
+                <TextView
+                    android:id="@+id/text_weight"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="身高" />
+
+                <TextView
+                    android:id="@+id/text_height"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <ImageView style="@style/image_line_black_alpha" />
+
+            <RelativeLayout
+                style="@style/relativelayoutlayout_personal_information"
+                android:background="@color/public_white" >
+
+                <TextView
+                    style="@style/textview_personal_information_left"
+                    android:layout_centerVertical="true"
+                    android:text="病类" />
+
+                <TextView
+                    android:id="@+id/text_disease"
+                    style="@style/textview_personal_information_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

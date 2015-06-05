@@ -28,8 +28,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
 
-
-
     /*****是否显示headView  无网络 无数据 item *******/
     public boolean isHeadView=false;
 
@@ -281,7 +279,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
     public int getItemCount() {
-        return status==0?mRecyclerAdapterMethods.getItemCount():mRecyclerAdapterMethods.getItemCount()+1;
+        return isHeadView?mRecyclerAdapterMethods.getItemCount()+1:mRecyclerAdapterMethods.getItemCount();
     }
 
 

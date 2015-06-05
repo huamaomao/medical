@@ -236,8 +236,8 @@ public final class RequestApi {
         param.add(new NameValuePair("intro",user.intro));
         param.add(new NameValuePair("address",user.address));
         param.add(new NameValuePair("workRegionId",user.doctorDetail.workRegionId));
-        param.add(new NameValuePair("specialty",user.doctorDetail.speciality));
-        param.add(new NameValuePair("hospitalName",user.doctorDetail.hospitalName));
+
+        param.add(new NameValuePair("hospitalName",user.doctorDetail.hospitalName));  param.add(new NameValuePair("specialty",user.doctorDetail.speciality));
         param.add(new NameValuePair("userName",user.userName));
         param.add(new NameValuePair("jobId",user.doctorDetail.jobId));
         param.add(new NameValuePair("token",user.token));

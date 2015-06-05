@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/rv_view"
+    android:background="@color/public_white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:saveEnabled="false"
+    android:clipToPadding="true"
+    android:scrollbars="vertical" />

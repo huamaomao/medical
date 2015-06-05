@@ -38,9 +38,9 @@ public class UpdateSpecialityActivity extends BaseLoadingActivity{
         setBackActivity("修改专长");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
-        if(CommonUtil.notEmpty(user.intro)){
-            et_intro.setText(user.intro);
-            et_intro.setSelection(user.intro.length());
+        if(CommonUtil.notEmpty(user.doctorDetail.speciality)){
+            et_intro.setText(user.doctorDetail.speciality);
+            et_intro.setSelection(user.doctorDetail.speciality.length());
         }
         loadingFragment.setMessage("正在提交数据...");
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/public_bg" >
+
+    <RelativeLayout
+        android:id="@+id/layout_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            layout="@layout/layout_title_head" />
+
+        <ImageView
+            android:id="@+id/image_return"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:scaleType="centerInside"
+            android:src="@drawable/image_return" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_head"
+        android:background="@color/public_white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="30dip"
+            android:paddingTop="30dip"
+            android:background="@drawable/public_popuwindow_bg" >
+
+            <ImageView
+                android:id="@+id/image_head"
+                android:layout_width="@dimen/image_head_width_height"
+                android:layout_height="@dimen/image_head_width_height"
+                android:src="@drawable/public_default_head" />
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="笑笑"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="当前户主"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/public_line"
+            android:dividerHeight="0.5dip" >
+        </ListView>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,7 +1,7 @@
 package com.rolle.doctor.adapter;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +13,16 @@ import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
-import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.DoctorDetialActivity;
-import com.rolle.doctor.ui.FriendActivity;
-import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.ui.PatientHActivity;
 import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.util.RequestApi;
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -32,11 +31,11 @@ import java.util.List;
 public class FriendListAdapater extends RecyclerAdapter<User> {
      int type=TYPE_PATIENT;
     /***患者***/
-    public static  final int TYPE_PATIENT=0;
+    public static  final int TYPE_PATIENT=5;
     /****医生*****/
-    public static final int TYPE_DOCTOR=1;
+    public static final int TYPE_DOCTOR=6;
     /****添加 *****/
-    public static final int TYPE_FRIEND=3;
+    public static final int TYPE_FRIEND=7;
 
     /**** 全部 严重 轻微  ***/
     public boolean flag=false;
@@ -57,34 +56,33 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
         this.implementRecyclerAdapterMethods(new RecyclerAdapterMethods<User>() {
             @Override
             public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, User user, int position) {
-                ViewHolder holder=(ViewHolder)viewHolder;
-                StringBuilder builder=new StringBuilder();
-                builder.append(user.age==null?"?":user.age);
+                ViewHolder holder = (ViewHolder) viewHolder;
+                StringBuilder builder = new StringBuilder();
+                builder.append(user.age == null ? "?" : user.age);
                 builder.append("岁");
                 holder.tvName.setText(user.nickname);
                 holder.tvSex.setText(builder.toString());
-                Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                         transform(new CircleTransform()).into(holder.ivPhoto);
-                if ("0".equals(user.sex)){
+                if ("0".equals(user.sex)) {
                     holder.tvSex.setBackgroundResource(R.drawable.round_bg_boy);
-                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy),null,null,null);
-                }else {
+                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                } else {
                     holder.tvSex.setBackgroundResource(R.drawable.round_bg_girl);
-                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl),null,null,null);
+                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
                 }
-                switch (type){
+                switch (type) {
                     case TYPE_DOCTOR:
-                        DoctorViewHolder doctor=(DoctorViewHolder)holder;
-                        doctor.tvRemarks.setText(user.doctorTitle);
+                        DoctorViewHolder doctor = (DoctorViewHolder) holder;
+                        doctor.tvRemarks.setText(user.departmentsName);
                         break;
                     case TYPE_PATIENT:
-
-                        PatientViewHolder patient=(PatientViewHolder)holder;
-                        if (CommonUtil.isEmpty(user.maxNum)){
+                        PatientViewHolder patient = (PatientViewHolder) holder;
+                        if (CommonUtil.isEmpty(user.maxNum)) {
                             patient.tvMaxNum.setVisibility(View.GONE);
                             patient.tvMinNum.setVisibility(View.GONE);
-                        }else {
-                            StringBuilder builder1=new StringBuilder("最低血糖");
+                        } else {
+                            StringBuilder builder1 = new StringBuilder("最低血糖");
                             builder1.append(user.minNum);
                             patient.tvMinNum.setText(builder1.toString());
                             builder1.delete(0, builder1.length());
@@ -106,13 +104,13 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                 }*/
                         break;
                     case TYPE_FRIEND:
-                        FriendViewHolder friend=(FriendViewHolder)holder;
-                        if (Constants.USER_STATUS_ADD.equals(user.status)){
+                        FriendViewHolder friend = (FriendViewHolder) holder;
+                        if (Constants.USER_STATUS_ADD.equals(user.status)) {
                             friend.btnStatus.setText("添加");
-                        }else{
+                        } else {
                             friend.btnStatus.setText("接受");
                         }
-                        if (com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR.equals(user.typeId)){
+                        if (com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR.equals(user.typeId)) {
                             friend.ivType.setImageResource(R.drawable.icon_doctor);
                         }
                         friend.tvRemarks.setText("主治:血糖");
@@ -122,13 +120,12 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
 
             @Override
             public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-                if (TYPE_DOCTOR==viewType){
-                    return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, viewGroup, false));
+                if (TYPE_DOCTOR == viewType) {
+                    return new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, viewGroup, false));
+                } else if (TYPE_FRIEND == viewType) {
+                    return new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend, viewGroup, false));
                 }
-                else if (TYPE_FRIEND==viewType){
-                    return  new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend,viewGroup,false));
-                }
-                return  new PatientViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient,viewGroup,false));
+                return new PatientViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient, viewGroup, false));
             }
 
             @Override
@@ -136,7 +133,7 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                 return mData.size();
             }
         });
-        ViewUtil.initRecyclerViewDecoration(recyclerView,mContext, this);
+        ViewUtil.initRecyclerViewDecoration(recyclerView, mContext, this);
         setOnClickEvent(new OnClickEvent<User>() {
             @Override
             public void onClick(View v, User user, int position) {

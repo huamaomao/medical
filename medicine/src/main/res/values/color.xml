@@ -1,2 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources >
+    <color name="public_bg">#eeeeee</color>
+    <!-- 公用透明色 -->
+    <color name="public_transparent">#00000000</color>
+    <!-- 公用透明灰 -->
+    <color name="public_transparent_gray">#11000000</color>
+    <color name="public_transparent_green">#7f28CCAA</color>
+    
+    <color name="public_green">#28CCAA</color>
+    <color name="public_gray">#595959</color>
+    <color name="public_gray_as">#C2C2C2</color>
+    <color name="public_black">#000000</color>
+    <color name="public_e88b52">#e88b52</color>
+    <color name="public_636363">#636363</color>
+    <color name="public_e47421">#e47421</color>
+    <color name="public_f7f7f7">#f7f7f7</color>
+    <color name="public_bdbdbd">#bdbdbd</color>
+    
+    <color name="public_26CFB3">#26CFB3</color>
+    <color name="public_d4d4d4">#d4d4d4</color>
+    <color name="public_line">#e0e0e0</color>
+    <color name="public_white">#ffffff</color>
+    <color name="public_black_as">#303030</color>
+    <color name="public_white_as">#EDEDED</color>
+    <color name="public_god_blue">#E7F0EF</color>
+    <color name="public_orange">#FAA100</color>
+    <color name="public_red">#FF0000</color>
+    <color name="public_yellow">#FFFF33</color>
+    
+    <color name="color_hint">#bfbfbf</color>
+    <color name="border">#d4d4d4</color>
+    <color name="a7">#a7a7a7</color>
+    <color name="btn_6">#666666</color>
+    <color name="selection_b3">#26cfb3</color>
+    <color name="appbg">#f2f2f2</color>
+    <color name="title_border">#d9dbdb</color>
+
+    <color name="text_a4">#a4a4a4</color>
+    <color name="text_93">#939393</color>
+
+    <color name="message_kemu">#a4a4a4</color>
+    <color name="patient_sort">#f5f5f5</color>
+    <color name="divider">#dedede</color>
+    <color name="message_border">#d2d2d2</color>
+    <color name="title">#26cfb3</color>
+    <color name="text_title">#ffffffff</color>
+    <color name="hintText">#b3b3b3</color>
+    <color name="textb3">#b3b3b3</color>
+    <color name="textc4">#c4c4c4</color>
+    <color name="text_bf">#bfbfb1</color>
+    <color name="chat_bg">#eeeeee</color>
+
+    <color name="time_cl">#bdbdbd</color>
+    <color name="chat_time">#7a7a7a</color>
+    <color name="text_ad">#adadad</color>
+
+    <color name="tb_title">#ededed</color>
+    <color name="tb_title_divider">#dddddd</color>
+
+    <color name="login_et_bg">#4c000000</color>
+    <color name="login_btn">#33000000</color>
+    <color name="bg_selection">#2b83d9</color>
+    <color name="transparent">#66000000</color>
+    <color name="transparent_6">#23000000</color>
+
+</resources>

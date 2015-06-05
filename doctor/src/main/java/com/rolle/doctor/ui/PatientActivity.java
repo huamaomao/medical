@@ -96,39 +96,6 @@ public class PatientActivity extends BaseActivity{
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
-        lvViewAll.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                User item = dataAll.get(position);
-                if (CommonUtil.notNull(item)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.ITEM, item);
-                    ViewUtil.openActivity(MessageActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_1);
-                }
-            }
-        }));
-        lvViewMax.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                User item = dataMax.get(position);
-                if (CommonUtil.notNull(item)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.ITEM, item);
-                    ViewUtil.openActivity(MessageActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_1);
-                }
-            }
-        }));
-        lvViewMin.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                User item=dataMin.get(position);
-                if (CommonUtil.notNull(item)){
-                    Bundle bundle=new Bundle();
-                    bundle.putParcelable(Constants.ITEM,item);
-                    ViewUtil.openActivity(MessageActivity.class,bundle,getContext(), ActivityModel.ACTIVITY_MODEL_1);
-                }
-            }
-        }));
         refresh.setRefreshStyle(Constants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override

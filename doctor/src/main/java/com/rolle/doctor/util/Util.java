@@ -96,21 +96,21 @@ public final class Util {
             end.setTimeInMillis(System.currentTimeMillis());
             Calendar start=Calendar.getInstance();
             start.setTimeInMillis(l);
-            int endYear=start.get(Calendar.YEAR);
-            int endMonth=start.get(Calendar.MONTH)+1;
-            for (int startYear=start.get(Calendar.YEAR)+1,startMonth=start.get(Calendar.MONTH);startYear<=endYear&&startMonth<=endMonth;){
+            int endYear=end.get(Calendar.YEAR);
+            int endMonth=end.get(Calendar.MONTH)+1;
+            for (int startYear=start.get(Calendar.YEAR),startMonth=start.get(Calendar.MONTH)+1;startYear<=endYear;){
+                if (startYear>=endYear&&startMonth>endMonth){
+                    break;
+                }
                 StringBuilder builder=new StringBuilder();
                 builder.append(startYear).append("-").append(startMonth);
                 list.add(builder.toString());
-                System.out.println(builder.toString());
                 startMonth++;
                 if (startMonth==13){
                     startYear++;
                     startMonth=1;
                 }
             }
-
-
         }
         return list;
     }

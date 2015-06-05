@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style">
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_below="@id/tv_item_0"
+        android:layout_width="@dimen/photo_height"
+        android:layout_height="@dimen/photo_height" />
+    <TextView android:id="@id/tv_name"
+        style="@style/TitleDefaultText"
+        android:textColor="@color/title"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+    <TextView android:id="@id/tv_item_0"
+        style="@style/FindText"
+        android:textColor="@color/black"
+        android:layout_below="@id/tv_name"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+    <TextView android:id="@id/tv_item_1"
+        android:layout_marginLeft="10dp"
+       style="@style/DefaultText"
+        android:layout_toRightOf="@id/tv_name"
+        android:textColor="@color/textc4"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+</RelativeLayout>

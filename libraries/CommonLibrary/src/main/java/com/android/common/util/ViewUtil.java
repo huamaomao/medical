@@ -29,7 +29,7 @@ import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 
 /**
- * Created by Hua_ on 2015/2/6.
+ * 操作view 工具类
  */
 public class ViewUtil {
 
@@ -178,7 +178,7 @@ public class ViewUtil {
             Version version=new Version();
             PackageInfo info=packageManager.getPackageInfo(context.getPackageName(),0);
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            version.code=info.versionCode;
+            version.versionCode=info.versionCode;
             version.versionName=info.versionName;
             if (CommonUtil.notNull(applicationInfo)&&CommonUtil.notNull(applicationInfo.metaData)){
                 version.channel=applicationInfo.metaData.getString("UMENG_CHANNEL");

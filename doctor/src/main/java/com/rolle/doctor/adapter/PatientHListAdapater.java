@@ -59,10 +59,10 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         this.mContext = mContext;
         this.data = data;
         this.user = user;
-        model=new UserModel((BaseActivity)mContext);
+        model=new UserModel(mContext);
         bloodResponse=new BloodResponse();
-        initBloodList(Util.getPlaintList(user.doctorDetail.createTime).get(0));
-        requestData(Util.getPlaintList(user.doctorDetail.createTime).get(0));
+        initBloodList(Util.getPlaintList(user.patientDetail.createTime).get(0));
+        requestData(Util.getPlaintList(user.patientDetail.createTime).get(0));
     }
 
     @Override
@@ -202,17 +202,12 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         pieChart.setDescription("");
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Regular.ttf");
-
         pieChart.setCenterTextTypeface(Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Light.ttf"));
-
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColorTransparent(true);
-
         pieChart.setTransparentCircleColor(Color.WHITE);
-
         pieChart.setHoleRadius(58f);
         pieChart.setTransparentCircleRadius(61f);
-
         pieChart.setDrawCenterText(true);
 
         pieChart.setRotationAngle(0);
@@ -243,30 +238,14 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         PieDataSet dataSet = new PieDataSet(yVals1, "血糖数");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-
         // add a lot of colors
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
+        ArrayList<Integer> colors = new ArrayList();
+       // colors.add(ColorTemplate.getHoloBlue());
+        colors.add( Color.parseColor("#c1fa15"));
+        colors.add( Color.parseColor("#fe5f00"));
+        colors.add(Color.parseColor("#8ac5f7"));
         dataSet.setColors(colors);
-
         PieData data = new PieData(xVals, dataSet);
-
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.BLACK);

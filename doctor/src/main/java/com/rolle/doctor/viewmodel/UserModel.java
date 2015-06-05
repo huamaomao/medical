@@ -474,7 +474,8 @@ public class UserModel  extends ViewModel {
                 listener.errorModel(e, res);
             }
         });
-    } /******
+    }
+    /******
      * 获取用户信息
      */
     public void requestUserInfo(String userId,final ModelListener<User> listener){

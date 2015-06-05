@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLayoutStyle">
+    <include layout="@layout/toolbar" />
+    <RelativeLayout
+        android:id="@id/rl_item_0"
+        style="@style/list_item_style">
+        <ImageView android:id="@id/iv_photo"
+            android:layout_alignParentLeft="true"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height" />
+        <TextView android:id="@id/tv_name"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_16"
+            android:layout_toRightOf="@id/iv_photo"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <ImageView
+            android:src="@drawable/icon_more"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_height"
+            android:layout_height="@dimen/more_height" />
+    </RelativeLayout>
+    <View
+        android:background="@color/appbg"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <RelativeLayout
+        style="@style/list_item_style">
+        <TextView android:id="@id/tv_item_0"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_16"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/black"
+            android:text="屏蔽消息"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <ToggleButton
+            android:id="@id/tbtn_swich"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:checked="false"
+            android:textOff="关"
+            android:textOn="开" />
+    </RelativeLayout>
+    <include layout="@layout/divider" />
+    <RelativeLayout
+        android:id="@id/rl_item_1"
+        style="@style/list_item_style">
+
+        <TextView android:id="@id/tv_item_0"
+            android:text="备注名"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_16"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <ImageView
+            android:src="@drawable/icon_more"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_height"
+            android:layout_height="@dimen/more_height" />
+    </RelativeLayout>
+    <include layout="@layout/divider" />
+    <RelativeLayout
+        android:id="@id/rl_item_2"
+        style="@style/list_item_style">
+
+        <TextView android:id="@id/tv_item_0"
+            android:text="查找聊天记录"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_16"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <ImageView
+            android:src="@drawable/icon_more"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_height"
+            android:layout_height="@dimen/more_height" />
+    </RelativeLayout>
+    <View
+        android:background="@color/appbg"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@id/btn_del_message"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:text="删除聊天记录"
+        android:gravity="center"
+        android:layout_height="40dp"
+        style="@style/btn_style"
+        android:layout_marginRight="@dimen/iten_margin_top"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:background="@drawable/s_btn_del_message"
+        android:textColor="@color/public_black"
+        />
+    <Button
+        android:id="@id/btn_join_blacklist"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:text="加入黑名单"
+        android:gravity="center"
+        android:layout_height="40dp"
+        style="@style/btn_style"
+        android:layout_marginRight="@dimen/iten_margin_top"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:background="@drawable/s_btn_del_join"
+        android:textColor="@color/write"
+        />
+
+</LinearLayout>

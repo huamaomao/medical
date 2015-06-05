@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appStyle">
+    <include layout="@layout/toolbar" />
+    <include layout="@layout/public_frame" />
+    <RadioGroup
+        android:id="@id/rg_group"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/public_white_as"
+        android:orientation="horizontal" >
+        <RadioButton
+            android:id="@id/tab_home"
+            style="@style/home_tab_style"
+            android:drawableTop="@drawable/home_talk_conf"
+            android:text="首页" />
+        <RadioButton
+            android:id="@id/tab_message"
+            style="@style/home_tab_style"
+            android:drawableTop="@drawable/home_channel_conf"
+            android:text="消息" />
+        <RadioButton
+            android:id="@id/tab_knowledge_quiz"
+            style="@style/home_tab_style"
+            android:drawableTop="@drawable/home_find_conf"
+            android:text="知识问答" />
+        <RadioButton
+            android:id="@id/tab_my"
+            style="@style/home_tab_style"
+            android:checked="true"
+            android:drawableTop="@drawable/home_getjob_conf"
+            android:text="我的" />
+    </RadioGroup>
+</LinearLayout>

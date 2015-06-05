@@ -47,6 +47,7 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
         if (CommonUtil.notNull(activity)){
             new Toastor(activity).showSingletonToast("服务异常...");
         }else {
+
         }
     }
 }

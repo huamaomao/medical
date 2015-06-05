@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
+    <item android:id="@id/toolbar_setting"
+        android:title=""
+        android:icon="@drawable/icon_setting"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:menuCategory="secondary"/>
+
+</menu>

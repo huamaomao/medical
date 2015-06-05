@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLayoutStyle">
+    <include layout="@layout/toolbar" />
+    <TextView
+        android:text="备注名"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:textColor="@color/text_ad"
+        android:textSize="@dimen/font_size_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.android.common.widget.CleanEditText
+        android:id="@id/et_name"
+        style="@style/et_styple"
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/divider" />
+
+</LinearLayout>

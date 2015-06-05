@@ -107,7 +107,6 @@ public class UserInfoActivity extends BaseActivity{
     private void startListActivity(int type){
         Intent intent=new Intent(getContext(),ChooseListActivity.class);
         intent.putExtra("type",type);
-        //intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST, list);
         startActivityForResult(intent, 200);
     }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/public_popuwindow_bg" 
+    android:clickable="true"
+    android:gravity="bottom">
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="120dip"
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingTop="10dip"
+        android:paddingRight="10dip"
+        android:paddingBottom="5dip"
+        android:background="@color/public_bg">
+        <EditText 
+            android:id="@+id/edit_comments_content"
+            android:layout_width="match_parent"
+            android:layout_height="75dip"
+            android:background="@color/public_white"
+            android:padding="8dip"
+            android:gravity="top"
+            android:focusable="true"
+            android:clickable="true"
+            android:hint="输入内容......"/>
+        <Button 
+            android:id="@+id/button_release"
+            android:layout_marginTop="5dip"
+            android:layout_gravity="right"
+            android:layout_width="50dip"
+            android:layout_height="25dip"
+            android:gravity="center"
+            android:background="@drawable/button_shape"
+            android:text="发布"/>
+    </LinearLayout>
+
+</LinearLayout>
