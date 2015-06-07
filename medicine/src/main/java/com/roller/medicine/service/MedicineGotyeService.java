@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
+
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.gotye.api.GotyeAPI;
@@ -16,16 +17,16 @@ import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.NotifyListener;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MedicineGotyeService extends Service implements NotifyListener,LoginListener {
 	public static final String ACTION_LOGIN = "gotyeim.login";
 	public static final String ACTION_RUN_BACKGROUND = "gotyeim.login";
 	private GotyeAPI api;
-    private MedicineDataService userModel;
+    private DataModel userModel;
     private static final String TAG="GotyeService";
 
 	@Override
@@ -40,7 +41,7 @@ public class MedicineGotyeService extends Service implements NotifyListener,Logi
 		api.init(getBaseContext(), Constants.QINJIA_KEY);
 		api.beginReceiveOfflineMessage();
 		api.addListener(this);
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
 	}
 
 	@Override

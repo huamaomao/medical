@@ -8,17 +8,20 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.android.log.Log;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -31,7 +34,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.btn_send)
 	Button btn_send;
 
-	private MedicineDataService service;
+	private DataModel service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 	protected void initView() {
 		super.initView();
 		setBackActivity("注册");
-		service=new MedicineDataService();
+		service=new DataModel();
 	}
 
 	@OnClick(R.id.btn_send)
@@ -66,35 +69,26 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		try {
-			service.requestCheckTelCode(et_tel.getText().toString(), et_code.getText().toString(), new SimpleResponseListener() {
-				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					//成功
-					Bundle bundle=new Bundle();
-					bundle.putString(Constants.DATA_TEL,et_tel.getText().toString());
-					bundle.putString(Constants.DATA_CODE, et_code.getText().toString());
-					ViewUtil.openActivity(RegisterUserActivity.class, bundle, RegisterTelActivity.this, ActivityModel.ACTIVITY_MODEL_1);
+		service.requestCheckTelCode(et_tel.getText().toString(), et_code.getText().toString(), new SimpleResponseListener() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				Bundle bundle=new Bundle();
+				bundle.putString(Constants.DATA_TEL,et_tel.getText().toString());
+				bundle.putString(Constants.DATA_CODE, et_code.getText().toString());
+				ViewUtil.openActivity(RegisterUserActivity.class, bundle, RegisterTelActivity.this, ActivityModel.ACTIVITY_MODEL_1);
+			}
 
-				}
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException
+						(e, info);
+			}
 
-				@Override
-				public void requestError(com.lidroid.xutils.exception.HttpException e, BaseInfo info) {
-					if (CommonUtil.notNull(info)){
-						showLongMsg(info.message);
-					}else if (CommonUtil.notNull(e)){
-						showLongMsg(e.getMessage());
-					}
-				}
-
-				@Override
-				public void requestView() {
-					hideLoading();
-				}
-			});
-		}catch (Exception e){
-			hideLoading();
-		}
+			@Override
+			public void requestView() {
+				hideLoading();
+			}
+		});
 
 	}
 
@@ -147,25 +141,20 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 			showLongMsg("请填写正确的手机号");
 			return;
 		}
-		try {
-			timeSendStart();
-			service.requestSendSms(et_tel.getText().toString(), "83", new SimpleResponseListener() {
-				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					Log.d("onSuccess:" + result);
-					showLongMsg("发送成功");
-				}
 
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					showLongMsg("发送失败...");
-					downTimer.onFinish();
-				}
-			});
-		}catch (Exception e){
+		service.requestSendSms(et_tel.getText().toString(), "83", new SimpleResponseListener<ResponseMessage>() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				showLongMsg("发送成功");
+				timeSendStart();
+			}
 
-		}
-
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException
+						(e,info);
+			}
+		});
 
 
 	}

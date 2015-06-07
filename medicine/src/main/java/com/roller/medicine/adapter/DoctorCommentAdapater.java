@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.android.common.util.CommonUtil;
 import com.gotye.api.GotyeAPI;
 import com.roller.medicine.R;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.RecommendedInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -74,7 +74,7 @@ public class DoctorCommentAdapater extends RecyclerView.Adapter<RecyclerView.Vie
             userViewHolder.tv_section.setText(builder.toString());
             userViewHolder.tv_resume.setText(userInfo.intro);
             userViewHolder.tv_position.setText(CommonUtil.initTextNull(userInfo.doctorDetail.jobAddress));
-            Picasso.with(mContext).load(MedicineDataService.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).
+            Picasso.with(mContext).load(DataModel.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(userViewHolder.iv_photo);
             userViewHolder.tv_name.setText(userInfo.nickname);
             StringBuilder builder1=new StringBuilder("评论 (");
@@ -83,7 +83,7 @@ public class DoctorCommentAdapater extends RecyclerView.Adapter<RecyclerView.Vie
         }else {
             RecommendedInfo.Item info=data.get(position);
             ViewHolder viewHolder=(ViewHolder)holder;
-            Picasso.with(mContext).load(MedicineDataService.getImageUrl(info.headImage)).placeholder(R.drawable.icon_default).
+            Picasso.with(mContext).load(DataModel.getImageUrl(info.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(viewHolder.iv_photo);
             viewHolder.tv_content.setText(info.content);
             viewHolder.tv_time.setText(TimeUtil.getDiffTime(info.createTime));

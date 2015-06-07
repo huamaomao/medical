@@ -15,10 +15,10 @@ import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.ui.DoctorDetialActivity;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class FriendListAdapater extends RecyclerView.Adapter<FriendListAdapater.
             }
         });
         holder.tvName.setText(user.nickname);
-        Picasso.with(mContext).load(MedicineDataService.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(mContext).load(DataModel.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(holder.ivPhoto);
         switch (type){
             case TYPE_DOCTOR:

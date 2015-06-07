@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,14 +22,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.PercentFormatter;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.BloodInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
+import com.roller.medicine.viewmodel.DataModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +44,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
     final  static int TYPE_0=0;
     final  static int TYPE_1=1;
     final  static int TYPE_2=2;
-    private MedicineDataService model;
+    private DataModel model;
     private UserInfo user;
     private String selectionItem;
     private QuickAdapter<BloodInfo.Item> quickAdapter;
@@ -52,7 +56,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         this.refresh=refresh;
         this.mContext = mContext;
         this.data = data;
-        model=new MedicineDataService();
+        model=new DataModel();
         this.user =model.getLoginUser();
         bloodResponse=new BloodInfo();
         list=new ArrayList<>();
@@ -126,28 +130,24 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
     private void requestData(String date){
             initBloodList(date);
-            try {
-                model.requestBloodList(date, new SimpleResponseListener<BloodInfo>() {
-                    @Override
-                    public void requestSuccess(BloodInfo info, String result) {
-                        bloodResponse=info;
-                        notifyItemChanged(1);
-                        changeBloodListData(info.list);
-                    }
+            model.requestBloodList(date, new SimpleResponseListener<BloodInfo>() {
+                @Override
+                public void requestSuccess(BloodInfo info, Response response) {
+                    bloodResponse=info;
+                    notifyItemChanged(1);
+                    changeBloodListData(info.list);
+                }
 
-                    @Override
-                    public void requestError(com.lidroid.xutils.exception.HttpException e, BaseInfo info) {
+                @Override
+                public void requestError(HttpException e, ResponseMessage info) {
 
-                    }
+                }
+                @Override
+                public void requestView() {
+                    refresh.setRefreshing(false);
+                }
+            });
 
-                    @Override
-                    public void requestView() {
-                        refresh.setRefreshing(false);
-                    }
-                });
-            }catch (Exception e){
-
-            }
     }
 
 

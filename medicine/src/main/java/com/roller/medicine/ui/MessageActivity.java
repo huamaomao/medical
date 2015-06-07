@@ -7,27 +7,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.gotye.api.GotyeMessage;
 import com.gotye.api.GotyeUser;
-import com.lidroid.xutils.exception.HttpException;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.ChatListAdapater;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.fragment.CommentDialogFragment;
-import com.roller.medicine.httpservice.GotyeService;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.service.MedicineGotyeService;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
+import com.roller.medicine.viewmodel.GotyeService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
     private ChatListAdapater adapater;
     private UserInfo userFriend;
     private GotyeService model;
-    private MedicineDataService userModel;
+    private DataModel userModel;
     private GotyeUser otherUser;
     private GotyeUser user;
     private CommentDialogFragment dialogFragment;
@@ -149,30 +151,23 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
 
             @Override
             public void onConfirm() {
-                //点赞
-                try {
-                    showLoading();
-                    userModel.requestPraise(userFriend.id+"", new SimpleResponseListener<BaseInfo>() {
+                userModel.requestPraise(userFriend.id + "", new SimpleResponseListener() {
+                    @Override
+                    public void requestSuccess(ResponseMessage info, Response response) {
+                        showLongMsg("点赞成功");
+                        finish();
+                    }
 
-                        @Override
-                        public void requestSuccess(BaseInfo info, String result) {
-                            showLongMsg("点赞成功");
-                            finish();
-                        }
+                    @Override
+                    public void requestError(HttpException e, ResponseMessage info) {
+                        showLongMsg("点赞失败");
+                    }
 
-                        @Override
-                        public void requestError(HttpException e, BaseInfo info) {
-                            showLongMsg("点赞失败");
-                        }
-
-                        @Override
-                        public void requestView() {
-                            hideLoading();
-                        }
-                    });
-                }catch (Exception e){
+                    @Override
+                    public void requestView() {
                         hideLoading();
-                }
+                    }
+                });
             }
 
             @Override
@@ -187,7 +182,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
 
 
         model=new GotyeService();
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
         data=new LinkedList<>();
         adapater=new ChatListAdapater(data, this, userFriend, new ChatListAdapater.OnSendListener() {
             @Override

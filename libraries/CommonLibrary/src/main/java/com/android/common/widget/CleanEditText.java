@@ -3,6 +3,7 @@ package com.android.common.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -18,7 +19,7 @@ import com.android.common.util.Log;
 /**
  * CleanEditText
  */
-public class CleanEditText extends EditText {
+public class CleanEditText extends AppCompatEditText {
 
     private Drawable imgDel;
     /******
@@ -30,11 +31,7 @@ public class CleanEditText extends EditText {
         this.flag = flag;
     }
 
-    public CleanEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
+  
 
     public CleanEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);

@@ -3,16 +3,17 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.widget.InputMethodLinearLayout;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -26,7 +27,7 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.et_content)
 	EditText et_content;
 	private int userId;
-	private MedicineDataService service;
+	private DataModel service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 			}
 		});
 
-		service=new MedicineDataService();
+		service=new DataModel();
 
 
 	}
@@ -63,28 +64,23 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		try {
-			service.requestComment(userId+"", et_content.getText().toString(), new SimpleResponseListener<BaseInfo>(){
-				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					showLongMsg("评论成功");
-					setResult(Constants.CODE);
-					finish();
-				}
+		service.requestComment(userId + "", et_content.getText().toString(), new SimpleResponseListener() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				showLongMsg("评论成功");
+				setResult(Constants.CODE);
+				finish();
+			}
 
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					showLongMsg("评论失败");
-				}
-
-				@Override
-				public void requestView() {
-					 hideLoading();
-				}
-			});
-		}catch (Exception e){
-
-		}
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+			}
+			@Override
+			public void requestView() {
+				hideLoading();
+			}
+		});
 
 	}
 

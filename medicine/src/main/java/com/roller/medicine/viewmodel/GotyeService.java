@@ -1,4 +1,4 @@
-package com.roller.medicine.httpservice;
+package com.roller.medicine.viewmodel;
 
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;

@@ -8,19 +8,20 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSON;
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
-import com.litesuits.android.log.Log;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -35,7 +36,7 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.btn_send)
 	Button btn_send;
 
-	private MedicineDataService service;
+	private DataModel service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 	protected void initView() {
 		super.initView();
 		setBackActivity("找回密码");
-		service=new MedicineDataService();
+		service=new DataModel();
 	}
 
 	@OnClick(R.id.btn_send)
@@ -77,65 +78,40 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		try {
-			service.requestPassword(et_tel.getText().toString(),et_pwd.getText().toString() ,et_code.getText().toString(), new SimpleResponseListener() {
-				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					//成功
-					TokenInfo tokenInfo= JSON.parseObject(result,TokenInfo.class);
-					tokenInfo.tel=et_tel.getText().toString();
-					service.setToken(tokenInfo);
-					try {
-						service.requestUserInfo(new SimpleResponseListener() {
-							@Override
-							public void requestSuccess(BaseInfo info, String result) {
-								UserResponseInfo userInfo = JSON.parseObject(result, UserResponseInfo.class);
-								if (userInfo.user != null) {
-									service.saveUser(userInfo.user);
-									//登陆成功
-									ViewUtil.startTopActivity(HomeActivity.class, RegisterPasswordActivity.this);
-									return;
-								}
-								showLongMsg(" 获取个人信息失败....");
-							}
+		service.requestPassword(et_tel.getText().toString(), et_pwd.getText().toString(), et_code.getText().toString(), new SimpleResponseListener<TokenInfo>() {
+			@Override
+			public void requestSuccess(TokenInfo info, Response response) {
+				info.tel=et_tel.getText().toString();
+				service.setToken(info);
+				service.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
+					@Override
+					public void requestSuccess(UserResponseInfo info, Response response) {
+						service.saveUser(info.user);
+							//登陆成功
+						ViewUtil.startTopActivity(HomeActivity.class, RegisterPasswordActivity.this);
+						return;
+					}
 
-							@Override
-							public void requestError(HttpException e, BaseInfo info) {
-								if (CommonUtil.notNull(info)) {
-									showLongMsg(info.message);
-								} else if (CommonUtil.notNull(e)) {
-									showLongMsg(e.getMessage());
-								}
-							}
-
-							@Override
-							public void requestView() {
-								hideLoading();
-							}
-						});
-					}catch (Exception e){
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+					}
+					@Override
+					public void requestView() {
 						hideLoading();
 					}
+				});
+			}
 
-				}
-
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					if (CommonUtil.notNull(info)){
-						showLongMsg(info.message);
-					}else if (CommonUtil.notNull(e)){
-						showLongMsg(e.getMessage());
-					}
-				}
-
-				@Override
-				public void requestView() {
-					hideLoading();
-				}
-			});
-		}catch (Exception e){
-			hideLoading();
-		}
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+			}
+			@Override
+			public void requestView() {
+				hideLoading();
+			}
+		});
 
 	}
 
@@ -188,24 +164,19 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 			showLongMsg("请填写正确的手机号");
 			return;
 		}
-		try {
-			timeSendStart();
-			service.requestSendSms(et_tel.getText().toString(), "84", new SimpleResponseListener() {
+
+		timeSendStart();
+		service.requestSendSms(et_tel.getText().toString(), "84", new SimpleResponseListener<ResponseMessage>() {
 				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					Log.d("onSuccess:" + result);
+				public void requestSuccess(ResponseMessage info, Response response) {
 					showLongMsg("发送成功");
 				}
 
 				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					showLongMsg("发送失败...");
-					downTimer.onFinish();
+				public void requestError(HttpException e, ResponseMessage info) {
+					new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
 				}
 			});
-		}catch (Exception e){
-
-		}
 	}
 
 }

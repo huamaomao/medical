@@ -18,10 +18,10 @@ import com.gotye.api.GotyeMessageStatus;
 import com.gotye.api.GotyeMessageType;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.LinkedList;
@@ -109,7 +109,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             }
         }
 
-        Picasso.with(mContext).load(MedicineDataService.getImageUrl(friendUser.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(mContext).load(DataModel.getImageUrl(friendUser.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(holder.ivPhoto);
         switch (holder.type){
             case MESSAGE_LEFT_MESSAGE:
@@ -264,8 +264,6 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             notifyItemChanged(index);
         }
     }
-
-
     public void addMoreItem(List<GotyeMessage> ls){
         if (CommonUtil.notNull(ls)){
             data.addAll(0,ls);

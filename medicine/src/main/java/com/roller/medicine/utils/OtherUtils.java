@@ -1,23 +1,5 @@
 package com.roller.medicine.utils;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -33,12 +15,15 @@ import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import org.json.JSONObject;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Pattern;
 
-import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
-import com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack;
-import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
-import com.lidroid.xutils.util.LogUtils;
-import com.roller.medicine.httpservice.Constants;
 
 public class OtherUtils {
 
@@ -214,7 +199,6 @@ public class OtherUtils {
 				}
 			}
 		} catch (Exception e1) {
-			LogUtils.e("json解析异常"+jsonstr);
 //			e1.printStackTrace();
 		}
 		return valueMap;
@@ -296,25 +280,6 @@ public class OtherUtils {
 
 	public static String TIP = "CJL";
 
-	/** 加密base64(pwd+TIP) */
-	public static String getBase64AddTipPwd(String pwd) {
-		return Base64Utils.encode(pwd + TIP);
-	}
-
-	/** 解密base64(pwd+TIP) */
-	@SuppressLint("NewApi")
-	public static String getBase64DelTipPwd(Context context) {
-		String sharedPwd = SharedPreferencesUtils.getSharedParam(context,
-				Constants.PARAM.PWD, "").toString();
-		if (sharedPwd == null || "".equals(sharedPwd))
-			return "";
-//		LogUtils.e("缓存密码: "+sharedPwd);
-		String tippwd = Base64Utils.decode(sharedPwd);
-//		LogUtils.e("缓存密码2: "+tippwd);
-		if(tippwd == null) return "";
-		LogUtils.i(tippwd + "=" + (tippwd.length() - TIP.length()));
-		return tippwd.substring(0, tippwd.length() - TIP.length());
-	}
 
 	/**
 	 * 计算经纬度
@@ -378,7 +343,6 @@ public class OtherUtils {
 	/**
 	 * 检查当前网络是否可用
 	 * 
-	 * @param context
 	 * @return
 	 */
 	public static boolean isNetworkAvailable(Activity activity) {
@@ -442,54 +406,5 @@ public class OtherUtils {
 		}
 		return res;
 	}
-	
-	/**
-	 * 圆形图片
-	 */
-	public static BitmapLoadCallBack<ImageView> roundBitmapLoadCallBack = new BitmapLoadCallBack<ImageView>() {
-		@Override
-		public void onLoadCompleted(ImageView container,
-				String uri, Bitmap bitmap,
-				BitmapDisplayConfig config, BitmapLoadFrom from) {
-			container.setImageBitmap(ImageUtils.toRoundCorner(
-					bitmap, 180));
-		}
-		@Override
-		public void onLoadFailed(ImageView container, String uri,
-				Drawable drawable) {
-			try {
-				BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-				container.setImageBitmap(ImageUtils.toRoundCorner(
-						bitmapDrawable.getBitmap(), 180));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	};
-	
-	/**
-	 *  方形图片
-	 */
-	public static BitmapLoadCallBack<ImageView> squareBitmapLoadCallBack = new BitmapLoadCallBack<ImageView>() {
-		public void onLoadCompleted(ImageView container,
-				String uri, Bitmap bitmap,
-				BitmapDisplayConfig config, BitmapLoadFrom from) {
-			container.setImageBitmap(ImageUtils.toRoundCorner(
-					bitmap, 15));
-		}
-		@Override
-		public void onLoadFailed(ImageView container,
-				String uri, Drawable drawable) {
-			try {
-				BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-				container.setImageBitmap(ImageUtils.toRoundCorner(
-						bitmapDrawable.getBitmap(), 15));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-	};
-	
 	
 }

@@ -1,77 +1,35 @@
 package com.roller.medicine.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
-import com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack;
-import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonGetView;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonOnClick;
-import com.roller.medicine.adapter.PublicViewHolder;
-import com.roller.medicine.base.BaseApplication;
-import com.roller.medicine.base.BaseFragment;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshBase;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshBase.OnRefreshListener;
+import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.customview.pulltorefreshview.PullToRefreshListView;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataService;
-import com.roller.medicine.info.MyLikeInfo;
 import com.roller.medicine.info.MyLikeItemInfo;
-import com.roller.medicine.info.MyLikePostInfo;
-import com.roller.medicine.info.MyLikeReplyInfo;
-import com.roller.medicine.utils.ImageUtils;
-import com.roller.medicine.utils.OtherUtils;
-import com.roller.medicine.utils.TimeUtils;
-import com.roller.medicine.utils.XUtilsBitmapHelp;
 
 import java.util.LinkedList;
 
-public class MyLikeFragment extends BaseFragment implements
-ICommonGetView<MyLikeItemInfo>, ICommonOnClick ,OnRefreshListener<ListView>{
+import butterknife.InjectView;
 
-	@ViewInject(R.id.listview)
-	private PullToRefreshListView pullToRefreshListView;
+public class MyLikeFragment extends BaseToolbarFragment {
+
+	@InjectView(R.id.listview)
+	 PullToRefreshListView pullToRefreshListView;
 	
 	private ListView listView;
 	private LinkedList<MyLikeItemInfo> mDatas = new LinkedList<MyLikeItemInfo>();
 	private PublicViewAdapter<MyLikeItemInfo> adapter;
-	private BitmapUtils mBitmapUtils;
-	public static MyLikeFragment fragment = null;
 
-	public static MyLikeFragment newInstance() {
-		if (fragment == null) {
-			fragment = new MyLikeFragment();
-		}
-		return fragment;
-	}
-	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_my_clffans, container, false);
-		ViewUtils.inject(this, view);
-		initView();
-		return view;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setLayoutId(R.layout.fragment_my_clffans);
 	}
+
 	
-	private void initView(){
+/*	private void initView(){
 		pullToRefreshListView.setPullRefreshEnabled(true);
 		pullToRefreshListView.setPullLoadEnabled(false);
 		pullToRefreshListView.setScrollLoadEnabled(true);
@@ -88,16 +46,16 @@ ICommonGetView<MyLikeItemInfo>, ICommonOnClick ,OnRefreshListener<ListView>{
 		pullToRefreshListView.doPullRefreshing(true, 300);
 	}
 	
-	/**
+	*//**
 	 * 设置刷新时间
-	 */
+	 *//*
 	private void setLastUpdateTime() {
 		pullToRefreshListView.setLastUpdatedLabel(TimeUtils.currentLocalTimeString());
 	}
 	
-	/**
+	*//**
 	 * 加载点赞的数据
-	 */
+	 *//*
 	private void getPraiseListByMap(){
 		try {
 			DataService.getInstance().getPraiseListByMap(this, BaseApplication.TOKEN);
@@ -252,6 +210,6 @@ ICommonGetView<MyLikeItemInfo>, ICommonOnClick ,OnRefreshListener<ListView>{
 			
 			mBitmapUtils.display(image_item_like_head, item.getHeadImage(),OtherUtils.roundBitmapLoadCallBack);
 		}
-	}
+	}*/
 
 }

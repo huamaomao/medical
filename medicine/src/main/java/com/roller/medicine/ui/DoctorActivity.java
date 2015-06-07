@@ -3,19 +3,20 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.widget.EmptyView;
 import com.baoyz.widget.PullRefreshLayout;
-import com.lidroid.xutils.exception.HttpException;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.FriendListAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class DoctorActivity extends BaseToolbarActivity {
 	@InjectView(R.id.rv_view)
 	RecyclerView recyclerView;
 	private List<UserInfo> data;
-	private MedicineDataService service;
+	private DataModel service;
 	private FriendListAdapater adapater;
 	private EmptyView emptyView;
 
@@ -43,7 +44,7 @@ public class DoctorActivity extends BaseToolbarActivity {
 	protected void initView() {
 		super.initView();
 		setBackActivity("医生");
-		service=new MedicineDataService();
+		service=new DataModel();
 		refresh.setRefreshStyle(Constants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
@@ -58,26 +59,22 @@ public class DoctorActivity extends BaseToolbarActivity {
 	}
 
 	public void doFriendList(){
-		try {
-			service.requestDoctorList(Constants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
-				@Override
-				public void requestSuccess(FriendResponseInfo info, String result) {
-					adapater.addCleanItems(info.friendList);
-				}
+		service.requestDoctorList(Constants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
+			@Override
+			public void requestSuccess(FriendResponseInfo info, Response response) {
+				adapater.addCleanItems(info.friendList);
+			}
 
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
 
-				}
+			}
 
-				@Override
-				public void requestView() {
-					refresh.setRefreshing(false);
-				}
-			});
-		}catch (Exception e){
-			refresh.setRefreshing(false);
-		}
+			@Override
+			public void requestView() {
+				refresh.setRefreshing(false);
+			}
+		});
 	}
 
 }

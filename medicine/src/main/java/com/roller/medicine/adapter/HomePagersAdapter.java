@@ -1,14 +1,12 @@
 package com.roller.medicine.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lidroid.xutils.util.LogUtils;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePagersAdapter extends FragmentPagerAdapter {
 

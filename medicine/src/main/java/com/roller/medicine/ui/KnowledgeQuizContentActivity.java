@@ -1,24 +1,8 @@
 package com.roller.medicine.ui;
 
-import java.util.LinkedList;
-
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.LayoutParams;
-import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,76 +11,59 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonGetView;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonOnClick;
-import com.roller.medicine.adapter.PublicViewHolder;
-import com.roller.medicine.base.BaseActivity;
-import com.roller.medicine.base.BaseApplication;
+import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.customview.listview.HorizontalListView;
 import com.roller.medicine.customview.listview.PublicListView;
-import com.roller.medicine.customview.scrollview.PublicScrollView;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataService;
-import com.roller.medicine.info.KnowledgeQuizContentInfo;
-import com.roller.medicine.info.KnowledgeQuizContentReplyListItemInfo;
-import com.roller.medicine.info.KnowledgeQuizItemImageListInfo;
-import com.roller.medicine.info.KnowledgeQuizItemInfo;
-import com.roller.medicine.utils.OtherUtils;
-import com.roller.medicine.utils.XUtilsBitmapHelp;
 
-public class KnowledgeQuizContentActivity extends BaseActivity implements
-		ICommonGetView<Object>, ICommonOnClick ,OnItemClickListener{
+import java.util.LinkedList;
 
-	@ViewInject(R.id.text_title)
-	private TextView text_title;
-	@ViewInject(R.id.text_from)
-	private TextView text_from;
-	@ViewInject(R.id.text_content_title)
-	private TextView text_content_title;
-	@ViewInject(R.id.text_content)
-	private TextView text_content;
-	@ViewInject(R.id.text_of_taste)
-	private TextView text_of_taste;
-	@ViewInject(R.id.text_comments_count)
-	private TextView text_comments_count;
-	@ViewInject(R.id.image_praidse)
-	private ImageView image_praidse;
-	@ViewInject(R.id.text_praidse_count)
-	private TextView text_praidse_count;
-	@ViewInject(R.id.horizontal_listview)
-	private HorizontalListView horizontal_listview;
-	@ViewInject(R.id.public_of_taste_listview)
-	private PublicListView public_of_taste_listview;
-	@ViewInject(R.id.edit_comments_content)
-	private EditText edit_comments_content;
-	@ViewInject(R.id.include_comments_popuwindow)
-	private View include_comments_popuwindow;
-	@ViewInject(R.id.linearlayout_praise)
-	private LinearLayout linearlayout_praise;
-	@ViewInject(R.id.image_praise_buttom)
-	private ImageView image_praise_buttom;
-	@ViewInject(R.id.scrollview)
-	private ScrollView scrollview;
-	@ViewInject(R.id.button_release)
-	private Button button_release;
-	@ViewInject(R.id.text_pupopwindow_delete)
-	private TextView text_pupopwindow_delete;
-	@ViewInject(R.id.text_pupopwindow_inform_reply)
-	private TextView text_pupopwindow_inform_reply;
+import butterknife.InjectView;
+
+public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
+
+	@InjectView(R.id.text_title)
+	 TextView text_title;
+	@InjectView(R.id.text_from)
+	 TextView text_from;
+	@InjectView(R.id.text_content_title)
+	 TextView text_content_title;
+	@InjectView(R.id.text_content)
+	 TextView text_content;
+	@InjectView(R.id.text_of_taste)
+	 TextView text_of_taste;
+	@InjectView(R.id.text_comments_count)
+	 TextView text_comments_count;
+	@InjectView(R.id.image_praidse)
+	 ImageView image_praidse;
+	@InjectView(R.id.text_praidse_count)
+	 TextView text_praidse_count;
+	@InjectView(R.id.horizontal_listview)
+	 HorizontalListView horizontal_listview;
+	@InjectView(R.id.public_of_taste_listview)
+	 PublicListView public_of_taste_listview;
+	@InjectView(R.id.edit_comments_content)
+	 EditText edit_comments_content;
+	@InjectView(R.id.include_comments_popuwindow)
+	 View include_comments_popuwindow;
+	@InjectView(R.id.linearlayout_praise)
+	 LinearLayout linearlayout_praise;
+	@InjectView(R.id.image_praise_buttom)
+	 ImageView image_praise_buttom;
+	@InjectView(R.id.scrollview)
+	 ScrollView scrollview;
+	@InjectView(R.id.button_release)
+	 Button button_release;
+	@InjectView(R.id.text_pupopwindow_delete)
+	 TextView text_pupopwindow_delete;
+	@InjectView(R.id.text_pupopwindow_inform_reply)
+	 TextView text_pupopwindow_inform_reply;
 
 	private PublicViewAdapter<Object> listAdapter;
 	private PublicViewAdapter<Object> replyListAdapter;
 	private LinkedList<Object> mListDatas = new LinkedList<Object>();
 	private LinkedList<Object> mReplyListDatas = new LinkedList<Object>();
-	private BitmapUtils mBitmapUtils;
-	private BitmapUtils mHeadBitmapUtils;
 	private DisplayMetrics dm;
 	private PopupWindow mPopupWindow;
 	private Bundle bundle;
@@ -106,16 +73,14 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_knowledge_quiz_content);
-		ViewUtils.inject(this);
-		initView();
+
 	}
 
-	@SuppressLint("NewApi")
-	private void initView() {
+	protected void initView() {
 		text_title.setText("论坛正文");
-		initPopupWindow();
+		//initPopupWindow();
 		dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
+	/*	getWindowManager().getDefaultDisplay().getMetrics(dm);
 		bundle = this.getIntent().getBundleExtra("bundle");
 		public_of_taste_listview.setOnItemClickListener(this);
 		
@@ -127,22 +92,20 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 				R.layout.listview_comments, this, this,Constants.TAG.TAG_COMMENTS_LIST);
 
 		public_of_taste_listview.setAdapter(replyListAdapter);
-		getPostByMap();
+		getPostByMap();*/
 	}
 
 	/**
 	 * 加载论坛数据
 	 * 
-	 * @param id
-	 * @param boardId
 	 */
 	private void getPostByMap() {
-		try {
+		/*try {
 			DataService.getInstance().getPostByMap(this, BaseApplication.TOKEN,
 					bundle.getString(Constants.ID), bundle.getString("boardId"));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -151,11 +114,11 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	 * 点赞
 	 */
 	private void savePraise(String postId,String repiyId,String typeId,String mainUserId){
-		try {
+	/*	try {
 			DataService.getInstance().savePraise(this, BaseApplication.TOKEN, postId, repiyId, typeId, mainUserId);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -163,11 +126,11 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	 * @param id
 	 */
 	private void deletePraise(String id){
-		try {
+		/*try {
 			DataService.getInstance().deletePraise(this, BaseApplication.TOKEN,id);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	/**
@@ -178,11 +141,11 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	 * @param byReplyUserId 评论帖子时为createUserId  评论个人时为replyId
 	 */
 	private void saveReply(String id,String boardId,String content,String byReplyUserId){
-		try {
+		/*try {
 			DataService.getInstance().saveReply(this, BaseApplication.TOKEN, id, boardId, content, byReplyUserId);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -190,11 +153,11 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	 * @param id
 	 */
 	private void informReply(String id){
-		try {
+	/*	try {
 			DataService.getInstance().informReply(this, BaseApplication.TOKEN, id);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
@@ -202,14 +165,14 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	 * @param id
 	 */
 	private void deleteReply(String id){
-		try {
+		/*try {
 			DataService.getInstance().deleteReply(this, BaseApplication.TOKEN, id);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
-	@Override
+/*	@Override
 	public void onSuccess(String url, String result, int resultCode, Object tag) {
 		super.onSuccess(url, result, resultCode, tag);
 		if (resultCode != 200) {
@@ -383,9 +346,9 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 	}
 	
 
-	/**
+	*//**
 	 * 底部弹窗
-	 */
+	 *//*
 	private void initPopupWindow() {
 		View view = getLayoutInflater().inflate(R.layout.layout_pupopwindow_knowledge_item, null);
 		ViewUtils.inject(this, view);
@@ -447,5 +410,5 @@ public class KnowledgeQuizContentActivity extends BaseActivity implements
 		
 		return super.onKeyDown(keyCode, event);
 	}
-	
+	*/
 }

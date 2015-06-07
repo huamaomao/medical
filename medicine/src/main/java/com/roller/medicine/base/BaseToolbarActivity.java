@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import com.android.common.util.CommonUtil;
+import com.roller.medicine.R;
 import com.roller.medicine.utils.Constants;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -139,5 +140,9 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 			lastClickTime = time;
 			return false;
 		}
+	}
+
+	public BaseToolbarActivity getContent(){
+		return this;
 	}
 }

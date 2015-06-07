@@ -13,14 +13,19 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.gotye.api.GotyeChatTarget;
 import com.gotye.api.GotyeMessage;
 import com.gotye.api.GotyeUser;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.ui.AddFriendActivity;
 import com.roller.medicine.ui.DietitianActivity;
@@ -28,15 +33,13 @@ import com.roller.medicine.ui.DoctorActivity;
 import com.roller.medicine.ui.PatientActivity;
 import com.roller.medicine.ui.SeachActivity;
 import com.roller.medicine.base.BaseToolbarFragment;
-import com.roller.medicine.httpservice.GotyeService;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
+import com.roller.medicine.viewmodel.GotyeService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,14 +62,14 @@ public class TabMessageFragment extends BaseToolbarFragment {
     private LinkedList<UserInfo> lsData;
     private RecyclerAdapter<UserInfo> recyclerAdapter;
     private GotyeService gotyeService;
-    private MedicineDataService medicineDataService;
+    private DataModel medicineDataService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_message);
         gotyeService=new GotyeService();
-        medicineDataService=new MedicineDataService();
+        medicineDataService=new DataModel();
     }
 
     @Override
@@ -125,7 +128,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
                     textView.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.icon_girl), null, null, null);
                 }
                 textView.setText(builder.toString());
-                Picasso.with(getActivity()).load(MedicineDataService.getImageUrl(messageUser.headImage)).placeholder(R.drawable.icon_default).
+                Picasso.with(getActivity()).load(DataModel.getImageUrl(messageUser.headImage)).placeholder(R.drawable.icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
 
             }
@@ -196,32 +199,25 @@ public class TabMessageFragment extends BaseToolbarFragment {
                 user1.date= TimeUtil.getDiffTime(message.getDate() * 1000);
             }
         }else {
-          try {
-              medicineDataService.requestUserInfo(id, new SimpleResponseListener() {
-                  @Override
-                  public void requestSuccess(BaseInfo info, String result) {
-                      UserResponseInfo responseInfo= JSON.parseObject(result, UserResponseInfo.class);
-                      if (CommonUtil.notNull(responseInfo.user)){
-                          GotyeUser   userTarget=new GotyeUser();
-                          userTarget.setName(responseInfo.user.id + "");
-                          responseInfo.user.messageNum=gotyeService.getMessageCount(userTarget);
-                          GotyeMessage gotyeMessage=gotyeService.getLastMessage(userTarget);
-                          if (CommonUtil.notNull(gotyeMessage)){
-                              responseInfo.user.message=gotyeMessage.getText();
-                              responseInfo.user.date= TimeUtil.getDiffTime(gotyeMessage.getDate()*1000);
-                          }
-                          //add user message
-                      }
+            medicineDataService.requestUserInfo(id, new SimpleResponseListener<UserResponseInfo>() {
+                @Override
+                public void requestSuccess(UserResponseInfo info, Response response) {
+                    GotyeUser userTarget = new GotyeUser();
+                    userTarget.setName(info.user.id + "");
+                    info.user.messageNum = gotyeService.getMessageCount(userTarget);
+                    GotyeMessage gotyeMessage = gotyeService.getLastMessage(userTarget);
+                    if (CommonUtil.notNull(gotyeMessage)) {
+                        info.user.message = gotyeMessage.getText();
+                        info.user.date = TimeUtil.getDiffTime(gotyeMessage.getDate() * 1000);
+                    }
+                }
 
-                  }
-
-                  @Override
-                  public void requestError(com.lidroid.xutils.exception.HttpException e, BaseInfo info) {
-
-                  }});
-          }catch(Exception e){}
+                @Override
+                public void requestError(HttpException e, ResponseMessage info) {
+                    new AppHttpExceptionHandler().via(getActivity()).handleException(e, info);
+                }
+            });
         }
-
         return user1;
 
     }

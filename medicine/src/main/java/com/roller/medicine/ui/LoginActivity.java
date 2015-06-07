@@ -6,19 +6,22 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.alibaba.fastjson.JSON;
+
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.service.MedicineGotyeService;
+import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.widget.InputMethodLinearLayout;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -34,7 +37,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.et_pwd)
 	EditText et_pwd;
 
-	private MedicineDataService service;
+	private DataModel service;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 			}
 		});
 
-		service=new MedicineDataService();
+		service=new DataModel();
 		loadingFragment.setLoginMessage();
 		TokenInfo tokenInfo=service.getToken();
 		if (CommonUtil.notNull(tokenInfo)){
@@ -101,59 +104,45 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		try {
-			service.requestLogin(et_tel.getText().toString(), et_pwd.getText().toString(), new SimpleResponseListener() {
-				@Override
-				public void requestSuccess(BaseInfo info, String result) {
-					TokenInfo tokenInfo= JSON.parseObject(result,TokenInfo.class);
-					tokenInfo.tel=et_tel.getText().toString();
-					service.setToken(tokenInfo);
-					service.getToken();
-					try {
-						service.requestUserInfo(new SimpleResponseListener() {
-							@Override
-							public void requestSuccess(BaseInfo info, String result) {
-								UserResponseInfo userInfo=JSON.parseObject(result,UserResponseInfo.class);
-								if (userInfo.user!=null){
-									service.saveUser(userInfo.user);
-									//登陆成功
-									doMainActivty();
-									return;
-								}
-								showLongMsg(" 获取个人信息失败....");
-						}
+		service.requestLogin(et_tel.getText().toString(), et_pwd.getText().toString(), new SimpleResponseListener<TokenInfo>() {
+			@Override
+			public void requestSuccess(TokenInfo info, Response response) {
+				info.tel=et_tel.getText().toString();
+				service.setToken(info);
+				service.getToken();
+				service.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
+					@Override
+					public void requestSuccess(UserResponseInfo info, Response response) {
+						service.saveUser(info.user);
+						//登陆成功
+						doMainActivty();
+						return;
+					}
 
-							@Override
-							public void requestError(HttpException e, BaseInfo info) {
-								showLongMsg("登陆异常....");
-							}
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+					}
 
-							@Override
-							public void requestView() {
-								hideLoading();
-							}
-						});
-					}catch (Exception e){
+					@Override
+					public void requestView() {
+						super.requestView();
 						hideLoading();
 					}
+				});
+			}
 
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+			}
 
-				}
-
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					if (CommonUtil.notNull(info)){
-						showLongMsg(info.message);
-					}else if (CommonUtil.notNull(e)){
-						showLongMsg(e.getMessage());
-					}
-					hideLoading();
-				}
-
-			});
-		}catch (Exception e){
-			hideLoading();
-		}
+			@Override
+			public void requestView() {
+				super.requestView();
+				hideLoading();
+			}
+		});
 	}
 
 	public void doMainActivty(){

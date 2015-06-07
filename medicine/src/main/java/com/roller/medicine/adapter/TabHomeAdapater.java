@@ -25,10 +25,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.roller.medicine.R;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.HomeAdviceInfo;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -167,7 +167,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }else if (holder instanceof  RecommedViewHolder){
             final   RecommedViewHolder recommedViewHolder=(RecommedViewHolder)holder;
             recommedViewHolder.tv_name.setText(homeInfo.nickname);
-            Picasso.with(mContext).load(MedicineDataService.getImageUrl(homeInfo.headImage)).placeholder(R.drawable.icon_default).
+            Picasso.with(mContext).load(DataModel.getImageUrl(homeInfo.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(recommedViewHolder.iv_photo);
             recommedViewHolder.tv_content.setText(homeInfo.advice.doctorAdvice);
             recommedViewHolder.tv_comment.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +187,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 protected void convert(ViewHolderHelp viewHolderHelp, HomeAdviceInfo.Food food) {
                     viewHolderHelp.setText(R.id.tv_item_0,food.foodName);
-                    Picasso.with(mContext).load(MedicineDataService.getImageUrl(food.url)).placeholder(R.drawable.icon_default).
+                    Picasso.with(mContext).load(DataModel.getImageUrl(food.url)).placeholder(R.drawable.icon_default).
                            into((ImageView) viewHolderHelp.getView(R.id.iv_photo));
                 }
             };

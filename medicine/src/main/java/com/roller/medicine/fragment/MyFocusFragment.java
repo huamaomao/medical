@@ -1,67 +1,36 @@
 package com.roller.medicine.fragment;
 
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.roller.medicine.R;
+import com.roller.medicine.adapter.PublicViewAdapter;
+import com.roller.medicine.base.BaseToolbarFragment;
+import com.roller.medicine.customview.pulltorefreshview.PullToRefreshListView;
+import com.roller.medicine.info.MyFocusFansCommentsItemInfo;
+
 import java.util.LinkedList;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import butterknife.InjectView;
 
-import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.roller.medicine.R;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonGetView;
-import com.roller.medicine.adapter.PublicViewAdapter.ICommonOnClick;
-import com.roller.medicine.adapter.PublicViewAdapter;
-import com.roller.medicine.adapter.PublicViewHolder;
-import com.roller.medicine.base.BaseApplication;
-import com.roller.medicine.base.BaseFragment;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshBase;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshListView;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshBase.OnRefreshListener;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataService;
-import com.roller.medicine.info.MyFocusFansCommentsInfo;
-import com.roller.medicine.info.MyFocusFansCommentsItemInfo;
-import com.roller.medicine.utils.OtherUtils;
-import com.roller.medicine.utils.TimeUtils;
-import com.roller.medicine.utils.XUtilsBitmapHelp;
+public class MyFocusFragment extends BaseToolbarFragment{
 
-public class MyFocusFragment extends BaseFragment implements
-ICommonGetView<MyFocusFansCommentsItemInfo>, ICommonOnClick ,OnRefreshListener<ListView>{
+	@InjectView(R.id.listview)
+	 PullToRefreshListView pullToRefreshListView;
 
-	@ViewInject(R.id.listview)
-	private PullToRefreshListView pullToRefreshListView;
-	
 	private ListView listView;
 	private LinkedList<MyFocusFansCommentsItemInfo> mDatas = new LinkedList<MyFocusFansCommentsItemInfo>();
 	private PublicViewAdapter<MyFocusFansCommentsItemInfo> adapter;
-	private BitmapUtils mBitmapUtils;
-	public static MyFocusFragment fragment = null;
-	public static MyFocusFragment newInstance() {
-		if (fragment == null) {
-			fragment = new MyFocusFragment();
-		}
-		return fragment;
-	}
-	
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_my_clffans, container, false);
-		ViewUtils.inject(this, view);
-		initView();
-		return view;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setLayoutId(R.layout.fragment_my_clffans);
 	}
+
+
 	
-	private void initView(){
+	/*private void initView(){
 		mBitmapUtils = XUtilsBitmapHelp.getBitmapUtilsInstance(
 				getActivity(),R.drawable.public_default_head, R.drawable.public_default_head);
 		
@@ -80,9 +49,9 @@ ICommonGetView<MyFocusFansCommentsItemInfo>, ICommonOnClick ,OnRefreshListener<L
 		pullToRefreshListView.doPullRefreshing(true, 300);
 	}
 	
-	/**
+	*//**
 	 * 设置刷新时间
-	 */
+	 *//*
 	private void setLastUpdateTime() {
 		pullToRefreshListView.setLastUpdatedLabel(TimeUtils.currentLocalTimeString());
 	}
@@ -162,5 +131,5 @@ ICommonGetView<MyFocusFansCommentsItemInfo>, ICommonOnClick ,OnRefreshListener<L
 		text_item_nickname.setText(item.getNickname());
 		mBitmapUtils.display(image_item_head, item.getHeadImage(),OtherUtils.roundBitmapLoadCallBack);
 	}
-	
+	*/
 }

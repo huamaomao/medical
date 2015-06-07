@@ -1,35 +1,18 @@
 package com.roller.medicine.fragment;
 
-import java.util.LinkedList;
-
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.baoyz.widget.PullRefreshLayout;
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.exception.HttpException;
 import com.roller.medicine.R;
-import com.roller.medicine.base.BaseToolbarFragment;
-import com.roller.medicine.ui.KnowledgeQuizContentActivity;
 import com.roller.medicine.adapter.PublicViewAdapter;
-import com.roller.medicine.adapter.PublicViewHolder;
-import com.roller.medicine.base.BaseApplication;
-import com.roller.medicine.base.BaseFragment;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshBase;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataService;
-import com.roller.medicine.info.KnowledgeQuizInfo;
+import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
+
+import java.util.LinkedList;
 
 import butterknife.InjectView;
 
@@ -43,8 +26,6 @@ public class HomeTabKnowledgeQuizFragment extends BaseToolbarFragment{
 
 	private LinkedList<KnowledgeQuizItemInfo> mDatas = new LinkedList<KnowledgeQuizItemInfo>();
 	private PublicViewAdapter<KnowledgeQuizItemInfo> adapter;
-	
-	private BitmapUtils mBitmapUtils;
 	private Resources mResources;
 	private int pageNum = 1;
 
@@ -62,10 +43,10 @@ public class HomeTabKnowledgeQuizFragment extends BaseToolbarFragment{
 		setTitle("论坛");
 	}
 
-
-	/**
+/*
+	*//**
 	 * 加载数据
-	 */
+	 *//*
 	public void initData() {
 		try {
 			DataService.getInstance().getPostListByMap(this, BaseApplication.TOKEN,pageNum);
@@ -74,9 +55,9 @@ public class HomeTabKnowledgeQuizFragment extends BaseToolbarFragment{
 		}
 	}
 
-	/**
+	*//**
 	 * 点赞
-	 */
+	 *//*
 	private void savePraise(String postId,String repiyId,String typeId,String mainUserId){
 		try {
 			DataService.getInstance().savePraise(this, BaseApplication.TOKEN, postId, repiyId, typeId, mainUserId);
@@ -85,10 +66,10 @@ public class HomeTabKnowledgeQuizFragment extends BaseToolbarFragment{
 		}
 	}
 	
-	/**
+	*//**
 	 * 取消赞
 	 * @param id
-	 */
+	 *//*
 	private void deletePraise(String id){
 		try {
 			DataService.getInstance().deletePraise(this, BaseApplication.TOKEN,id);
@@ -236,19 +217,6 @@ public class HomeTabKnowledgeQuizFragment extends BaseToolbarFragment{
 		bundle.putString(Constants.ID, item.getId());
 		bundle.putString("boardId", item.getBoardId());
 		openActivity(KnowledgeQuizContentActivity.class, bundle);
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
+	}*/
 
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
 }

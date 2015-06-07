@@ -3,7 +3,7 @@
     android:id="@id/ll_login"
     style="@style/appLayoutStyle">
     <include layout="@layout/toolbar" />
-    <com.roller.medicine.widget.CleanEditText
+    <com.android.common.widget.CleanEditText
         android:id="@id/et_tel"
         android:hint="手机号"
         android:layout_marginTop="15dp"

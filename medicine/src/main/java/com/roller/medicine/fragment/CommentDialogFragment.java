@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.common.widget.AlertDialog;
 import com.roller.medicine.R;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -41,7 +40,7 @@ public class CommentDialogFragment extends DialogFragment {
         imageView=(ImageView)view.findViewById(R.id.iv_photo);
         textView=(TextView)view.findViewById(R.id.tv_name);
 
-        Picasso.with(getActivity()).load(MedicineDataService.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into((ImageView)imageView);
         textView.setText(userInfo.nickname);
         builder.setView(view)

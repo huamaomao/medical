@@ -1,7 +1,5 @@
 package com.roller.medicine.customview.pulltorefreshview;
 
-import com.lidroid.xutils.util.LogUtils;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -59,7 +57,6 @@ public abstract class LoadingLayout extends FrameLayout implements
 	 */
 	public LoadingLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
 		init(context, attrs);
 	}
 

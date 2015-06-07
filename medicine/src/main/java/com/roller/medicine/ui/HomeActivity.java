@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.android.common.util.ViewUtil;
+import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.fragment.HomeTabKnowledgeQuizFragment;
 import com.roller.medicine.fragment.HomeTabMyFragment;
@@ -36,7 +37,7 @@ public class HomeActivity extends BaseToolbarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pages_home);
 		activity = this;
-		showCalendarInDialog("选择日期",R.layout.dialog);
+		showCalendarInDialog("选择日期", R.layout.dialog);
 	}
 
 	public String getTitleDate(){
@@ -117,7 +118,7 @@ public class HomeActivity extends BaseToolbarActivity {
 		Toolbar.LayoutParams params = new Toolbar.LayoutParams(
 				Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
 		//params.setMargins(3, 3, 3, 4);//设置外边界
-		subView.setLayoutParams(params);//给子视图设定参数，当然也可以在addview时进行设置
+		subView.setLayoutParams(params);
 		mToolbar.addView(subView);
 		subView.setOnClickListener(new View.OnClickListener() {
 			@Override

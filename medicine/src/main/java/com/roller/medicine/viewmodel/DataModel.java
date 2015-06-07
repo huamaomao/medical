@@ -2,7 +2,6 @@ package com.roller.medicine.viewmodel;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
@@ -18,9 +17,6 @@ import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataHttpService;
-import com.roller.medicine.httpservice.UrlApi;
 import com.roller.medicine.info.BloodInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
 import com.roller.medicine.info.FriendResponseInfo;
@@ -29,10 +25,9 @@ import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.utils.MD5;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -51,7 +46,7 @@ public class DataModel extends ViewModel{
     }
 
     public static String getImageUrl(String path){
-        StringBuilder url=new StringBuilder(com.roller.medicine.httpservice.UrlApi.SERVER_NAME);
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(path);
         Log.d(url.toString());
         return url.toString();
@@ -230,7 +225,7 @@ public class DataModel extends ViewModel{
     /**
      * 注册用户
      */
-    public void requestRigster(String tel,String nickName,String pwd,String code,String inviteCode,SimpleResponseListener responseService) throws Exception {
+    public void requestRigster(String tel,String nickName,String pwd,String code,String inviteCode,SimpleResponseListener<TokenInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("nickname", nickName));
@@ -246,7 +241,7 @@ public class DataModel extends ViewModel{
     /**
      * 获取个人信息
      */
-    public void requestUserInfo(SimpleResponseListener<ResponseMessage> responseService){
+    public void requestUserInfo(SimpleResponseListener<UserResponseInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(requestUrl(UrlApi.USER_INFO)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
@@ -255,7 +250,7 @@ public class DataModel extends ViewModel{
     /**
      * 获取用户信息
      */
-    public void requestUserInfo(String userId,SimpleResponseListener responseService){
+    public void requestUserInfo(String userId,SimpleResponseListener<UserResponseInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("userId", userId));
@@ -266,7 +261,7 @@ public class DataModel extends ViewModel{
     /**
      * login
      */
-    public void requestLogin(String tel,String pwd,SimpleResponseListener responseService){
+    public void requestLogin(String tel,String pwd,SimpleResponseListener<TokenInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
@@ -278,7 +273,7 @@ public class DataModel extends ViewModel{
     /**
      * 重置密码
      */
-    public void requestPassword(String tel,String pwd,String verifycode,SimpleResponseListener responseService){
+    public void requestPassword(String tel,String pwd,String verifycode,SimpleResponseListener<TokenInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("verifycode", verifycode));
@@ -319,7 +314,7 @@ public class DataModel extends ViewModel{
     /**
      * add
      */
-    public void requestAddFriend(String tel,SimpleResponseListener responseService){
+    public void requestAddFriend(String tel,SimpleResponseListener<ResponseMessage> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("token", getToken().token));
@@ -550,7 +545,6 @@ public class DataModel extends ViewModel{
     /**
      * 点赞
      * @param responseService
-     * @param token
      * @throws Exception
      */
     public void savePraise(String postId,String repiyId,String typeId,String mainUserId,SimpleResponseListener<ResponseMessage> responseService){
@@ -567,176 +561,120 @@ public class DataModel extends ViewModel{
     /**
      * 取消赞
      * @param responseService
-     * @param token
-     * @throws Exception
      */
-    public void deletePraise(SimpleResponseListener<ResponseMessage> responseService, String token,String id){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("id", id);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.DELETEREPLY, map, Constants.TAG.TAG_NONE);
+    public void deletePraise(String id,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("id", id));
+        Request request=new Request(requestUrl("/crm/praise_sp/deleteReply.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 谈论详情
-     * @param responseService
-     * @param token
-     * @param id
-     * @param boardId
-     * @throws Exception
      */
-    public void getPostByMap(IResponseListener responseService, String token,String id,String boardId) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("postId", id);
-        map.put("boardId", boardId);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.GETPOSTBYMAP, map, Constants.TAG.TAG_NONE);
+    public void getPostByMap(String postId,String boardId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("postId", postId));
+        param.add(new NameValuePair("boardId", boardId));
+        Request request=new Request(requestUrl("/crm/post_sp/getPostByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 发表评论
-     * @param responseService
-     * @param token
-     * @param id
-     * @param boardId
-     * @throws Exception
      */
-    public void saveReply(IResponseListener responseService, String token,String id,String boardId,String content,String byReplyUserId) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("postId", id);
-        map.put("boardId", boardId);
-        map.put("content", content);
-        map.put("byReplyUserId", byReplyUserId);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.SAVEREPLY, map, Constants.TAG.TAG_NONE);
+    public void saveReply(String postId,String boardId,String content,String byReplyUserId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("postId", postId));
+        param.add(new NameValuePair("boardId", boardId));
+        param.add(new NameValuePair("content", content));
+        param.add(new NameValuePair("byReplyUserId", byReplyUserId));
+        Request request=new Request(requestUrl("/crm/reply_sp/saveReply.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 举报内容
-     * @param responseService
-     * @param token
-     * @param id
-     * @throws Exception
      */
-    public void informReply(IResponseListener responseService, String token,String id) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("postId", id);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.INFORMREPLY, map, Constants.TAG.TAG_NONE);
+    public void informReply( String postId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("postId", postId));
+        Request request=new Request(requestUrl("/crm/reply_sp/informReply.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      *  删除评论
-     * @param responseService
-     * @param token
-     * @param id
-     * @throws Exception
      */
-    public void deleteReply(IResponseListener responseService, String token,String id) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("postId", id);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.DELETEPRAISE, map, Constants.TAG.TAG_NONE);
+    public void deleteReply(String postId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("postId", postId));
+        Request request=new Request(requestUrl("/crm/praise_sp/deletePraise.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 我的评论
-     * @param responseService
-     * @param token
-     * @throws Exception
      */
-    public void getPostReplyListByMap(IResponseListener responseService, String token) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.GETPOSTREPLYLISTBYMAP, map, Constants.TAG.TAG_NONE);
+    public void getPostReplyListByMap(SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request=new Request(requestUrl("/crm/post_sp/getPostReplyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 新建家庭成员
-     * @param responseService
-     * @param token
-     * @throws Exception
      */
-    public void saveFamilyGroup(IResponseListener responseService, String token,String mobile,
-                                String sex,String birthday,String appellation) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("mobile", mobile);
-        map.put("sex", sex);
-        map.put("birthday", birthday);
-        map.put("appellation", appellation);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.SAVEFAMILYGROUP, map, Constants.TAG.TAG_NONE);
+    public void saveFamilyGroup(String mobile,String sex,String birthday,String appellation,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("mobile", mobile));
+        param.add(new NameValuePair("sex", sex));
+        param.add(new NameValuePair("birthday", birthday));
+        param.add(new NameValuePair("appellation", appellation));
+        Request request=new Request(requestUrl("/crm/family_sp/saveFamilyGroup.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 获取成员列表
-     * @param responseService
-     * @param token
-     * @throws Exception
      */
-    public void getFamilyListByMap(IResponseListener responseService, String token) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.GETFAMILYLISTBYMAP, map, Constants.TAG.TAG_NONE);
+    public void getFamilyListByMap(SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request=new Request(requestUrl("/crm/family_sp/getFamilyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 删除帐号
-     * @param responseService
-     * @param token
-     * @param groupId
-     * @param familyGroupId
-     * @throws Exception
      */
-    public void deleteFamilyGroup(IResponseListener responseService, String token,String groupId,
-                                  String familyGroupId) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("groupId", groupId);
-        map.put("familyGroupId", familyGroupId);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.DELETEFAMILYGROUP, map, Constants.TAG.TAG_NONE);
+    public void deleteFamilyGroup(String groupId, String familyGroupId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("groupId", groupId));
+        param.add(new NameValuePair("familyGroupId", familyGroupId));
+        Request request=new Request(requestUrl("/crm/family_sp/deleteFamilyGroup.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
 
     /**
      * 更改户主
-     * @param responseService
-     * @param token
-     * @param groupId
-     * @param familyGroupId
-     * @throws Exception
      */
-    public void updateFamilyGroup(IResponseListener responseService, String token,String groupId,
-                                  String familyGroupId) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        map.put("groupId", groupId);
-        map.put("familyGroupId", familyGroupId);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.UPDATEFAMILYGROUP, map, Constants.TAG.TAG_NONE);
+    public void updateFamilyGroup(String token,String groupId, String familyGroupId,SimpleResponseListener<ResponseMessage> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("groupId", groupId));
+        param.add(new NameValuePair("familyGroupId", familyGroupId));
+        Request request=new Request(requestUrl("/crm/family_sp/updateFamilyGroup.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
     }
-
-    /**
-     * 获取首页数据
-     * @param responseService
-     * @param token
-     * @throws Exception
-     */
-    public void getPatientHome(IResponseListener responseService, String token) throws Exception {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("token", token);
-        DataHttpService.getInstance().requestByPost(
-                responseService,Constants.URL.GETPATIENTHOME, map, Constants.TAG.TAG_NONE);
-    }
-
 
 
 }

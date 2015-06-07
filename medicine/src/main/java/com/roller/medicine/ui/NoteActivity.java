@@ -5,14 +5,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
 
@@ -24,7 +27,7 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
     @InjectView(R.id.et_name)
     EditText et_name;
     private UserInfo user;
-    private MedicineDataService userModel;
+    private DataModel userModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,7 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
     protected void initView() {
         super.initView();
         setBackActivity("备注信息");
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
         user=getIntent().getParcelableExtra(Constants.ITEM);
         if (CommonUtil.notNull(user)){
             et_name.setText(user.noteName);
@@ -67,32 +70,22 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
             return;
         }
         showLoading();
-        try {
-            userModel.requestAddFriendId(user.id + "", et_name.getText().toString(), new SimpleResponseListener<BaseInfo>() {
-                @Override
-                public void requestSuccess(BaseInfo info, String result) {
-                    showLongMsg("设置成功");
-                    user.noteName=et_name.getText().toString();
-                    userModel.saveUser(user);
-                }
+        userModel.requestAddFriendId(user.id + "", et_name.getText().toString(), new SimpleResponseListener() {
+            @Override
+            public void requestSuccess(ResponseMessage info, Response response) {
+                showLongMsg("设置成功");
+                user.noteName=et_name.getText().toString();
+                userModel.saveUser(user);
+            }
 
-                @Override
-                public void requestError(com.lidroid.xutils.exception.HttpException e, BaseInfo info) {
-                    if (CommonUtil.notNull(info)) {
-                        showLongMsg(info.message);
-                    } else if (CommonUtil.notNull(e)) {
-                        showLongMsg(e.getMessage());
-                    }
-                }
-
-                @Override
-                public void requestView() {
-                    hideLoading();
-                }
-            });
-        }catch (Exception e){
-            hideLoading();
-            showLongMsg("设置失败");
-        }
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+            }
+            @Override
+            public void requestView() {
+                hideLoading();
+            }
+        });
     }
 }

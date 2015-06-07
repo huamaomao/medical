@@ -12,17 +12,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.YearSpinnerAdpater;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.widget.TuneWheel;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -54,7 +56,7 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.et_xinqing)
 	EditText et_xinqing;
 
-	private MedicineDataService service;
+	private DataModel service;
 	private YearSpinnerAdpater finamyAdpater;
 	private YearSpinnerAdpater timeAdpater;
 	private CalendarPickerView dialogView;
@@ -135,7 +137,7 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 
 	protected void initView(){
 		super.initView();
-		service=new MedicineDataService();
+		service=new DataModel();
 		List<HomeInfo.Family>  list= getIntent().getParcelableArrayListExtra(Constants.ITEM);
 		if (CommonUtil.isNull(list)){
 			list=new ArrayList<>();
@@ -182,28 +184,23 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 
 
 	public void saveBlood(){
-		try{
-			showLoading();
-			service.requestSaveBlood(tv_date.getText().toString(), "22", "22", new SimpleResponseListener<HomeInfo>() {
-				@Override
-				public void requestSuccess(HomeInfo info, String result) {
-					showLongMsg("保存成功.....");
-				}
+		showLoading();
+		service.requestSaveBlood(tv_date.getText().toString(), "22", "22", new SimpleResponseListener<HomeInfo>() {
+			@Override
+			public void requestSuccess(HomeInfo info, Response response) {
+				showLongMsg("保存成功.....");
+			}
 
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					showLongMsg("保存失败.....");
-				}
-
-				@Override
-				public void requestView() {
-					super.requestView();
-					hideLoading();
-				}
-			});
-		}catch (Exception e){
-			hideLoading();
-		}
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+			}
+			@Override
+			public void requestView() {
+				super.requestView();
+				hideLoading();
+			}
+		});
 	}
 
 

@@ -5,24 +5,21 @@ import android.provider.ContactsContract.Contacts.Data;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.roller.medicine.R;
-import com.roller.medicine.base.BaseActivity;
 import com.roller.medicine.base.BaseApplication;
-import com.roller.medicine.httpservice.Constants;
-import com.roller.medicine.httpservice.DataService;
+import com.roller.medicine.base.BaseToolbarActivity;
 
-public class UpdatePersonalInformationActivity extends BaseActivity{
+import butterknife.InjectView;
+import butterknife.OnClick;
 
-	@ViewInject(R.id.edit_content)
-	private EditText edit_content;
-	@ViewInject(R.id.text_title)
-	private TextView text_title;
-	@ViewInject(R.id.text_ok)
-	private TextView text_ok;
+public class UpdatePersonalInformationActivity extends BaseToolbarActivity{
+
+	@InjectView(R.id.edit_content)
+	 EditText edit_content;
+	@InjectView(R.id.text_title)
+	 TextView text_title;
+	@InjectView(R.id.text_ok)
+	 TextView text_ok;
 	
 	private String id = "";
 	private String title = "";
@@ -32,19 +29,15 @@ public class UpdatePersonalInformationActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_update_personal_information);
-		ViewUtils.inject(this);
-		initView();
+
 	}
-	
-	private void initView(){
-		Bundle bundle = this.getIntent().getBundleExtra("bundle");
-		id = bundle.getString(Constants.ID);
-		content = bundle.getString(Constants.CONTENT);
+
+	protected void initView(){
 		initTitle();
 	}
 	
 	private void initTitle(){
-		if(Constants.NICKNAME.equals(id)){
+		/*if(Constants.NICKNAME.equals(id)){
 			title = "编辑昵称";
 		}else if(Constants.PHONE.equals(id)){
 			title = "编辑手机号";
@@ -52,16 +45,12 @@ public class UpdatePersonalInformationActivity extends BaseActivity{
 			title = "编辑描述";
 		}
 		text_title.setText(title);
-		edit_content.setText(content);
+		edit_content.setText(content);*/
 	}
 	
 	@OnClick({R.id.image_return,R.id.text_ok})
 	public void onViewOnClick(View view){
 		switch (view.getId()) {
-		case R.id.image_return:
-			onReturn();
-			break;
-
 		case R.id.text_ok:
 			initData();
 			break;
@@ -71,7 +60,7 @@ public class UpdatePersonalInformationActivity extends BaseActivity{
 	private void initData(){
 		content = edit_content.getText().toString();
 		
-		if(Constants.NICKNAME.equals(id)){
+		/*if(Constants.NICKNAME.equals(id)){
 			try {
 				DataService.getInstance().saveDoctor(this, BaseApplication.TOKEN, null, content,
 						null, null, null, null, null, null, null, null, null, null, null);
@@ -92,14 +81,14 @@ public class UpdatePersonalInformationActivity extends BaseActivity{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
-	@Override
+	/*@Override
 	public void onSuccess(String url, String result, int resultCode, Object tag) {
 		super.onSuccess(url, result, resultCode, tag);
 		if(resultCode == 200){
 			onReturn();
 		}
-	}
+	}*/
 }

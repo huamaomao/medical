@@ -45,7 +45,6 @@
                     android:id="@+id/text_from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="晚上22:08  来源：叶子"
                     android:textColor="@color/public_bdbdbd" />
 
                 <TextView
@@ -66,7 +65,6 @@
                     android:id="@+id/text_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="最近汤料报，好烦，你个逗逼，，逗逼你是边境牧羊犬，，，懂不，边境的。。逗逼"
                     android:textColor="@color/public_636363"
                     android:textSize="13sp" />
 
@@ -84,7 +82,7 @@
                         android:layout_marginLeft="40dip"
                         android:drawableLeft="@drawable/image_message_drawable"
                         android:drawablePadding="3dip"
-                        android:text="21" />
+                        />
 
                     <LinearLayout
                         android:id="@+id/linearlayout_praise"
@@ -105,7 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dip"
-                            android:text="1" />
+                           />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

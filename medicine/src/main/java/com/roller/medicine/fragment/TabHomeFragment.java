@@ -13,23 +13,23 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.ui.CreateBloodActivity;
-import com.roller.medicine.ui.HomeActivity;
-import com.roller.medicine.ui.HomeBloodActivity;
 import com.roller.medicine.adapter.TabHomeAdapater;
 import com.roller.medicine.adapter.ViewPagerAdapter;
 import com.roller.medicine.base.BaseToolbarFragment;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
+import com.roller.medicine.ui.CreateBloodActivity;
+import com.roller.medicine.ui.HomeActivity;
+import com.roller.medicine.ui.HomeBloodActivity;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 	@InjectView(R.id.rg_group)
 	RadioGroup radioGroup;
-	private MedicineDataService medicineDataService;
+	private DataModel model;
 	private String date=null;
 	private ViewPagerAdapter pagerAdapter;
 
@@ -95,7 +95,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	@Override
 	protected void initView(View view, LayoutInflater inflater) {
 		super.initView(view, inflater);
-		medicineDataService=new MedicineDataService();
+		model=new DataModel();
 		data=new ArrayList<>();
 		recyclerAdapter=new TabHomeAdapater(getActivity(),data);
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), recyclerAdapter);
@@ -154,26 +154,21 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 
 	public void requestData(){
-		try {
-			medicineDataService.requestHomeData(date,new SimpleResponseListener<HomeInfo>() {
-				@Override
-				public void requestSuccess(HomeInfo info, String result) {
-					Log.d(info);
-					rl_viewpage.setVisibility(View.GONE);
-					data.add(null);
-					data.add(null);
-					recyclerAdapter.setHomeInfo(info);
+		model.requestHomeData(date, new SimpleResponseListener<HomeInfo>() {
+			@Override
+			public void requestSuccess(HomeInfo info, Response response) {
+				rl_viewpage.setVisibility(View.GONE);
+				data.add(null);
+				data.add(null);
+				recyclerAdapter.setHomeInfo(info);
+			}
 
-				}
+			@Override
+			public void requestError(com.litesuits.http.exception.HttpException e, ResponseMessage info) {
+				 new AppHttpExceptionHandler().via(getActivity()).handleException(e,info);
+			}
+		});
 
-				@Override
-				public void requestError(HttpException e, BaseInfo info) {
-					Log.d(info);
-				}
-			});
-		}catch (Exception e){
-
-		}
 	}
 
 

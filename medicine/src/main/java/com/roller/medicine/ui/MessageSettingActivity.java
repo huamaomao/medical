@@ -6,19 +6,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
 import com.android.common.util.ActivityModel;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.GotyeService;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
+import com.roller.medicine.viewmodel.GotyeService;
 import com.squareup.picasso.Picasso;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -42,7 +39,7 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
     TextView tv_name;
 
     private UserInfo user;
-    private MedicineDataService userModel;
+    private DataModel userModel;
     private GotyeService gotyeService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
     protected void initView() {
         super.initView();
         setBackActivity("聊天信息");
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
         user=getIntent().getParcelableExtra(Constants.ITEM);
         tbtn_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -63,7 +60,7 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
 
             }
         });
-        Picasso.with(this).load(MedicineDataService.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(this).load(DataModel.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         tv_name.setText(user.nickname);
         gotyeService=new GotyeService();

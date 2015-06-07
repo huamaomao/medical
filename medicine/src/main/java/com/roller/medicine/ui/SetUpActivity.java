@@ -3,25 +3,26 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.roller.medicine.R;
-import com.roller.medicine.base.BaseActivity;
+import com.roller.medicine.base.BaseToolbarActivity;
 
-public class SetUpActivity extends BaseActivity{
+import butterknife.InjectView;
 
-	@ViewInject(R.id.text_title)
-	private TextView text_title;
+public class SetUpActivity extends BaseToolbarActivity{
+
+	@InjectView(R.id.text_title)
+	 TextView text_title;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setup);
-		ViewUtils.inject(this);
-		initView();
+
 	}
-	
-	private void initView(){
-		text_title.setText("设置");
+
+	@Override
+	protected void initView() {
+		super.initView();
+		setToolbarTitle("设置");
 	}
 }

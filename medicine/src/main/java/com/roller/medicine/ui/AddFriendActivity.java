@@ -5,14 +5,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
+import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -22,7 +24,7 @@ import butterknife.OnClick;
 public class AddFriendActivity extends BaseToolbarActivity{
     @InjectView(R.id.et_tel)
     EditText et_tel;
-    private MedicineDataService dataService;
+    private DataModel dataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class AddFriendActivity extends BaseToolbarActivity{
     protected void initView() {
         super.initView();
         setBackActivity("添加朋友");
-        dataService=new MedicineDataService();
+        dataService=new DataModel();
     }
 
 
@@ -70,23 +72,17 @@ public class AddFriendActivity extends BaseToolbarActivity{
             showLongMsg("手机格式错误");
             return;
         }
-        try {
-            dataService.requestAddFriend(et_tel.getText().toString(), new SimpleResponseListener<BaseInfo>() {
-                @Override
-                public void requestSuccess(BaseInfo info, String result) {
-                    showLongMsg("添加成功");
-                }
+        dataService.requestAddFriend(et_tel.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
+            @Override
+            public void requestSuccess(ResponseMessage info, Response response) {
+                showLongMsg("添加成功");
+            }
 
-                @Override
-                public void requestError(HttpException e, BaseInfo info) {
-                    if (CommonUtil.notNull(info)) {
-                        showLongMsg(info.message);
-                    } else if (CommonUtil.notNull(e)) {
-                        showLongMsg(e.getMessage());
-                    }
-                }
-            });
-        }catch (Exception e){}
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+            }
+        });
     }
 
 }

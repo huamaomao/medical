@@ -1,8 +1,10 @@
 package com.roller.medicine.info;
 
+import com.android.common.domain.ResponseMessage;
+
 import java.util.List;
 
-public class MyFocusFansCommentsInfo extends BaseInfo{
+public class MyFocusFansCommentsInfo extends ResponseMessage{
 
 	private List<MyFocusFansCommentsItemInfo> list;
 

@@ -1,11 +1,7 @@
 package com.roller.medicine.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup.LayoutParams;
@@ -14,64 +10,74 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gotye.api.Utils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
+import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.FragmentViewPagerAdapter;
 import com.roller.medicine.adapter.FragmentViewPagerAdapter.OnExtraPageChangeListener;
+import com.roller.medicine.base.BaseToolbarActivity;
+import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.fragment.MyCommentsFragment;
 import com.roller.medicine.fragment.MyFansFragment;
 import com.roller.medicine.fragment.MyFocusFragment;
 import com.roller.medicine.fragment.MyLikeFragment;
 
-public class MyCLFFansActivity extends FragmentActivity{
-	
-	@ViewInject(R.id.viewpager)
-	private ViewPager mViewPager;
-	@ViewInject(R.id.text_title)
-	private TextView text_title;
-	@ViewInject(R.id.text_comments)
-	private TextView text_comments;
-	@ViewInject(R.id.text_like)
-	private TextView text_like;
-	@ViewInject(R.id.text_focus)
-	private TextView text_focus;
-	@ViewInject(R.id.text_fans)
-	private TextView text_fans;
-	@ViewInject(R.id.image_line)
-	private ImageView image_line;
-	
-	public List<Fragment> fragments = new ArrayList<Fragment>();
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+import butterknife.OnClick;
+
+public class MyCLFFansActivity extends BaseToolbarActivity{
+
+	@InjectView(R.id.viewpager)
+	 ViewPager mViewPager;
+	@InjectView(R.id.text_title)
+	 TextView text_title;
+	@InjectView(R.id.text_comments)
+	 TextView text_comments;
+	@InjectView(R.id.text_like)
+	 TextView text_like;
+	@InjectView(R.id.text_focus)
+	 TextView text_focus;
+	@InjectView(R.id.text_fans)
+	 TextView text_fans;
+	@InjectView(R.id.image_line)
+	 ImageView image_line;
+
+
+	private List<Fragment> fragments=new ArrayList<>();
+
 	private int currPosition = 0;
 	private int indicatorWidth = 0;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_clffans_tab);
-		ViewUtils.inject(this);
-		initView();
 	}
-	
-	private void initView(){
+
+	protected void initView(){
 		text_title.setText("我的主页");
-		fragments.add(MyCommentsFragment.newInstance());
-		fragments.add(MyLikeFragment.newInstance());
-		fragments.add(MyFocusFragment.newInstance());
-		fragments.add(MyFansFragment.newInstance());
-		
+
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		indicatorWidth = dm.widthPixels / 4;
 		LayoutParams cursor_Params = image_line.getLayoutParams();
 		cursor_Params.width = indicatorWidth;
 		image_line.setLayoutParams(cursor_Params);
-		
+		fragments.add(new MyCommentsFragment());
+		fragments.add(new MyLikeFragment());
+		fragments.add(new MyFocusFragment());
+		fragments.add(new MyFansFragment());
+
 		FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(
 				getSupportFragmentManager(), mViewPager,fragments);
 		adapter.setOnExtraPageChangeListener(pageChangeListener);
 		mViewPager.setAdapter(adapter);
+
 	}
+
+
+
 	
 	private OnExtraPageChangeListener pageChangeListener = new OnExtraPageChangeListener(){
 		

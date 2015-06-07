@@ -4,22 +4,27 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.lidroid.xutils.exception.HttpException;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.DoctorCommentAdapater;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
-import com.roller.medicine.info.BaseInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
 import com.roller.medicine.info.RecommendedInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.myinterface.SimpleResponseListener;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.viewmodel.DataModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 /**
@@ -31,7 +36,7 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
     RecyclerView recyclerView;
     private DoctorCommentAdapater adapater;
     private List<RecommendedInfo.Item> data;
-    private MedicineDataService userModel;
+    private DataModel userModel;
     private UserInfo user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
     protected void initView() {
         super.initView();
         setBackActivity("详细资料");
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
         user=getIntent().getParcelableExtra(Constants.ITEM);
         if (CommonUtil.isNull(user)){
             finish();
@@ -64,27 +69,23 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
 
 
     public void doDoctor(){
-       try {
-           userModel.requestDoctorDetail(user.id + "", new SimpleResponseListener<DoctorDetialInfo>() {
-               @Override
-               public void requestSuccess(DoctorDetialInfo info, String result) {
-                    if (CommonUtil.notNull(info.user)){
-                        adapater.setUserInfo(info.user);
-                    }
-                   if (CommonUtil.notNull(info.list)){
-                       data.addAll(info.list);
-                   }
-                   adapater.notifyDataSetChanged();
-               }
+        userModel.requestDoctorDetail(user.id + "", new SimpleResponseListener<DoctorDetialInfo>() {
+            @Override
+            public void requestSuccess(DoctorDetialInfo info, Response response) {
+                if (CommonUtil.notNull(info.user)){
+                    adapater.setUserInfo(info.user);
+                }
+                if (CommonUtil.notNull(info.list)){
+                    data.addAll(info.list);
+                }
+                adapater.notifyDataSetChanged();
+            }
 
-               @Override
-               public void requestError(HttpException e, BaseInfo info) {
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
 
-               }
-           });
-       }catch (Exception e){
-
-       }
+            }
+        });
     }
 
 
@@ -106,32 +107,21 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
 
 
     public void doAddFriend(){
-
         showLoading();
-        try {
-            userModel.requestAddFriendId(user.id + "",  user.noteName, new SimpleResponseListener<BaseInfo>() {
-                @Override
-                public void requestSuccess(BaseInfo info, String result) {
-                    showLongMsg("关注成功");
-                }
+        userModel.requestAddFriendId(user.id + "", user.noteName, new SimpleResponseListener() {
+            @Override
+            public void requestSuccess(ResponseMessage info, Response response) {
+                showLongMsg("关注成功");
+            }
 
-                @Override
-                public void requestError(com.lidroid.xutils.exception.HttpException e, BaseInfo info) {
-                    if (CommonUtil.notNull(info)) {
-                        showLongMsg(info.message);
-                    } else if (CommonUtil.notNull(e)) {
-                        showLongMsg(e.getMessage());
-                    }
-                }
-
-                @Override
-                public void requestView() {
-                    hideLoading();
-                }
-            });
-        }catch (Exception e){
-            hideLoading();
-            showLongMsg("关注失败");
-        }
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+            }
+            @Override
+            public void requestView() {
+                hideLoading();
+            }
+        });
     }
 }

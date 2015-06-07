@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.android.common.adapter.BaseRecyclerAdapter;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.httpservice.MedicineDataService;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class SeachActivity extends BaseToolbarActivity {
     private BaseRecyclerAdapter<UserInfo> adapater;
     @InjectView(R.id.seach)
     SearchView seachView;
-    private MedicineDataService userModel;
+    private DataModel userModel;
 
 
     @Override
@@ -45,7 +47,7 @@ public class SeachActivity extends BaseToolbarActivity {
     protected void initView() {
         super.initView();
         setBackActivity("");
-        userModel=new MedicineDataService();
+        userModel=new DataModel();
         data=new ArrayList<>();
         adapater=new BaseRecyclerAdapter<>(data);
         adapater.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
