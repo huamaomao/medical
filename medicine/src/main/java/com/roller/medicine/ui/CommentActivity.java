@@ -1,5 +1,6 @@
 package com.roller.medicine.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -26,8 +27,11 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 	InputMethodLinearLayout llLogin;
 	@InjectView(R.id.et_content)
 	EditText et_content;
-	private int userId;
+	private String userId;
 	private DataModel service;
+	private int type;
+	private String  id;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,10 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 		setContentView(R.layout.message_comment_fragment);
 	}
 	protected void initView(){
-		userId=getIntent().getIntExtra(Constants.ITEM,0);
+		Intent intent =getIntent();
+		userId=getIntent().getExtras().getString(Constants.ITEM, "0");
+		type=getIntent().getExtras().getInt(Constants.TYPE, 0);
+		id=getIntent().getExtras().getString(Constants.DATA_CODE);
 		super.initView();
 		llLogin.setOnSizeChangedListenner(new InputMethodLinearLayout.OnSizeChangedListenner() {
 			@Override
@@ -64,23 +71,45 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		service.requestComment(userId + "", et_content.getText().toString(), new SimpleResponseListener() {
-			@Override
-			public void requestSuccess(ResponseMessage info, Response response) {
-				showLongMsg("评论成功");
-				setResult(Constants.CODE);
-				finish();
-			}
+		if (type==0){
+			service.requestComment(userId, et_content.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
+				@Override
+				public void requestSuccess(ResponseMessage info, Response response) {
+					showLongMsg("评论成功");
+					setResult(Constants.CODE);
+					finish();
+				}
 
-			@Override
-			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
-			}
-			@Override
-			public void requestView() {
-				hideLoading();
-			}
-		});
+				@Override
+				public void requestError(HttpException e, ResponseMessage info) {
+					new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+				}
+				@Override
+				public void requestView() {
+					hideLoading();
+				}
+			});
+		}else if (type==1){
+			service.saveReply(userId, null, et_content.getText().toString(), id, new SimpleResponseListener<ResponseMessage>() {
+				@Override
+				public void requestSuccess(ResponseMessage info, Response response) {
+					showLongMsg("评论成功");
+					setResult(Constants.CODE);
+					finish();
+				}
+
+				@Override
+				public void requestError(HttpException e, ResponseMessage info) {
+					new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+				}
+
+				@Override
+				public void requestView() {
+					hideLoading();
+				}
+			});
+		}
+
 
 	}
 

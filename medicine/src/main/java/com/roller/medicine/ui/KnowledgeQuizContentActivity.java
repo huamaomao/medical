@@ -1,8 +1,11 @@
 package com.roller.medicine.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,54 +14,42 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.customview.listview.HorizontalListView;
 import com.roller.medicine.customview.listview.PublicListView;
+import com.roller.medicine.info.KnowledgeQuizContentInfo;
+import com.roller.medicine.info.KnowledgeQuizItemInfo;
+import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.viewmodel.DataModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.InjectView;
 
 public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 
-	@InjectView(R.id.text_title)
-	 TextView text_title;
-	@InjectView(R.id.text_from)
-	 TextView text_from;
-	@InjectView(R.id.text_content_title)
-	 TextView text_content_title;
-	@InjectView(R.id.text_content)
-	 TextView text_content;
-	@InjectView(R.id.text_of_taste)
-	 TextView text_of_taste;
-	@InjectView(R.id.text_comments_count)
-	 TextView text_comments_count;
-	@InjectView(R.id.image_praidse)
-	 ImageView image_praidse;
-	@InjectView(R.id.text_praidse_count)
-	 TextView text_praidse_count;
-	@InjectView(R.id.horizontal_listview)
-	 HorizontalListView horizontal_listview;
-	@InjectView(R.id.public_of_taste_listview)
-	 PublicListView public_of_taste_listview;
-	@InjectView(R.id.edit_comments_content)
-	 EditText edit_comments_content;
-	@InjectView(R.id.include_comments_popuwindow)
-	 View include_comments_popuwindow;
-	@InjectView(R.id.linearlayout_praise)
-	 LinearLayout linearlayout_praise;
-	@InjectView(R.id.image_praise_buttom)
-	 ImageView image_praise_buttom;
-	@InjectView(R.id.scrollview)
-	 ScrollView scrollview;
-	@InjectView(R.id.button_release)
-	 Button button_release;
-	@InjectView(R.id.text_pupopwindow_delete)
-	 TextView text_pupopwindow_delete;
-	@InjectView(R.id.text_pupopwindow_inform_reply)
-	 TextView text_pupopwindow_inform_reply;
+	@InjectView(R.id.refresh)
+	PullRefreshLayout refresh;
+	@InjectView(R.id.rv_view)
+	RecyclerView rv_view;
+
+	private RecyclerAdapter<Object> adapter;
+	private List<Object> mData;
+
+
 
 	private PublicViewAdapter<Object> listAdapter;
 	private PublicViewAdapter<Object> replyListAdapter;
@@ -69,15 +60,93 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 	private Bundle bundle;
 	private boolean commentsIsContent = true;
 	private boolean buttomPraise = true;
+	private String id=null;
+	private DataModel dataModel;
+
+	private KnowledgeQuizContentInfo contentInfo;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_knowledge_quiz_content);
-
 	}
 
 	protected void initView() {
-		text_title.setText("论坛正文");
+		id=getIntent().getExtras().getString(Constants.ITEM);
+		setBackActivity("论坛正文");
+		dataModel=new DataModel();
+		mData=new ArrayList();
+		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				loadData();
+			}
+		});
+		adapter=new RecyclerAdapter(getContent(),mData,rv_view){
+			@Override
+			public int getItemType(int position) {
+				if (mData.get(position)==null){
+					return 22;
+				}
+				return super.getItemType(position);
+			}
+		};
+		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods() {
+			@Override
+			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, Object o, int position) {
+				if (mData.get(position)==null){
+					StringBuilder builder = new StringBuilder();
+					builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
+					viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(contentInfo.createTime));
+					viewHolder.setText(R.id.tv_source,"来源：" + contentInfo.source);
+					viewHolder.setText(R.id.tv_title,contentInfo.title);
+					viewHolder.setText(R.id.tv_comment,CommonUtil.initTextValue(contentInfo.replyCount));
+					viewHolder.setText(R.id.tv_praise,CommonUtil.initTextValue(contentInfo.praiseCount));
+					TextView tv_praise=viewHolder.getView(R.id.tv_praise);
+					if ("false".equals(contentInfo.isPraise)) {
+						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContent().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+						tv_praise.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								setLastClickTime();
+								savePraise(contentInfo.id, contentInfo.replyId, "74", contentInfo.createUserId);
+							}
+						});
+					} else {
+						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContent().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
+						tv_praise.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								deletePraise(contentInfo.id);
+							}
+						});
+					}
+						/*@InjectView(R.id.horizontal_listview)
+					HorizontalListView horizontal_listview;*/
+
+				}else {
+
+				}
+			}
+
+			@Override
+			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+				if (viewType==22){
+					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.list_head_quiz,viewGroup,false));
+				}
+				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.listview_comments,viewGroup,false));
+			}
+
+			@Override
+			public int getItemCount() {
+				return mData.size();
+			}
+		});
+
+
+		ViewUtil.initRecyclerViewDecoration(rv_view,getContent(),adapter);
+		loadData();
 		//initPopupWindow();
 		dm = new DisplayMetrics();
 	/*	getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -95,43 +164,71 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 		getPostByMap();*/
 	}
 
+
+
 	/**
 	 * 加载论坛数据
 	 * 
 	 */
-	private void getPostByMap() {
-		/*try {
-			DataService.getInstance().getPostByMap(this, BaseApplication.TOKEN,
-					bundle.getString(Constants.ID), bundle.getString("boardId"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+	private void loadData() {
+
+		dataModel.getPostByMap(id, null, new SimpleResponseListener<KnowledgeQuizContentInfo>() {
+			@Override
+			public void requestSuccess(final KnowledgeQuizContentInfo info, Response response) {
+				contentInfo=info;
+				mData.add(null);
+				adapter.notifyItemUpdate(0);
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+
+			}
+
+			@Override
+			public void requestView() {
+				super.requestView();
+				adapter.checkEmpty();
+			}
+		});
+
 	}
-	
-	/**
-	 * 评论帖子时为createUserId
-	 * 评论个人时为replyId
-	 * 点赞
-	 */
+
 	private void savePraise(String postId,String repiyId,String typeId,String mainUserId){
-	/*	try {
-			DataService.getInstance().savePraise(this, BaseApplication.TOKEN, postId, repiyId, typeId, mainUserId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		dataModel.savePraise(postId, repiyId, typeId, mainUserId, new SimpleResponseListener<ResponseMessage>() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
+				adapter.notifyItemUpdate(0);
+				showMsg("点赞成功");
+
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				showMsg("点赞失败");
+			}
+		});
+
 	}
-	
-	/**
-	 * 取消赞
-	 * @param id
-	 */
+
 	private void deletePraise(String id){
-		/*try {
-			DataService.getInstance().deletePraise(this, BaseApplication.TOKEN,id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		dataModel.deletePraise(id, new SimpleResponseListener<ResponseMessage>() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				contentInfo.praiseCount=CommonUtil.numberCut(contentInfo.praiseCount);
+				adapter.notifyItemUpdate(0);
+				showMsg("取消赞成功");
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				showMsg("取消赞失败");
+			}
+		});
 	}
+
+
 
 	/**
 	 * 发表评论

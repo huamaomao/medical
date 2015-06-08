@@ -291,5 +291,31 @@ public final class CommonUtil {
         format.applyPattern("￥#################0.00");
         return format.format(Double.parseDouble(money));
     }
+    public static String numberCount(String values){
+        int i=0;
+        if (isEmpty(values)){
+            i=0;
+        }else {
+            try {
+                i=Integer.valueOf(values);
+            }catch (Exception e){}
+        }
+        i++;
+        return String.valueOf(i);
+    }
+
+    public static String numberCut(String values){
+        int i=0;
+        if (isEmpty(values)){
+            i=0;
+        }else {
+            try {
+                i=Integer.valueOf(values);
+            }catch (Exception e){}
+        }
+        i--;
+        return String.valueOf(i);
+    }
+
 
 }

@@ -21,11 +21,13 @@ import com.roller.medicine.info.BloodInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.HomeInfo;
+import com.roller.medicine.info.KnowledgeQuizContentInfo;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
+import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.MD5;
 import java.util.ArrayList;
 import java.util.List;
@@ -265,7 +267,7 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
-        param.add(new NameValuePair("typeId", com.roller.medicine.utils.Constants.USER_TYPE_PATIENT + ""));
+        param.add(new NameValuePair("typeId", Constants.USER_TYPE_DOCTOR + ""));
         Request request=new Request(requestUrl(UrlApi.LOGIN)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -571,9 +573,9 @@ public class DataModel extends ViewModel{
     }
 
     /**
-     * 谈论详情
+     * 帖子详情
      */
-    public void getPostByMap(String postId,String boardId,SimpleResponseListener<ResponseMessage> responseService){
+    public void getPostByMap(String postId,String boardId,SimpleResponseListener<KnowledgeQuizContentInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("postId", postId));
@@ -675,6 +677,5 @@ public class DataModel extends ViewModel{
         Request request=new Request(requestUrl("/crm/family_sp/updateFamilyGroup.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
-
 
 }

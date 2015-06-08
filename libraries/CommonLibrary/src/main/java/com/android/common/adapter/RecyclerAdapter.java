@@ -22,7 +22,7 @@ import java.util.List;
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     public interface RecyclerAdapterMethods<T>{
-        void onBindViewHolder(ViewHolder viewHolder,T t, int position);
+        void onBindViewHolder(final ViewHolder viewHolder,final T t,final int position);
         ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewType);
         int getItemCount();
     }
@@ -216,6 +216,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         return mRecyclerAdapterMethods.onCreateViewHolder(viewGroup, viewType);
     }
 
+
+
+
     @Override
     public int getItemViewType(int position) {
         if (position==0&&isHeadView)
@@ -232,6 +235,17 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         mOnClickEvent = onClickEvent;
     }
 
+    public void notifyItemUpdate(int position){
+        notifyItemChanged(isHeadView?position+1:position);
+    }
+
+    public void notifyItemMove(int position){
+        notifyItemRemoved(isHeadView ? position + 1 : position);
+    }
+
+    public void notifyItemAdd(int position){
+        notifyItemInserted(isHeadView ? position + 1 : position);
+    }
 
 
 
@@ -249,6 +263,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public void addItem(T item, int position) {
         mData.add(position, item);
         notifyItemInserted(position);
+
     }
     public void addItem(T item) {
         int index= mData.indexOf(item);

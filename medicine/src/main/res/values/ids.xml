@@ -61,7 +61,9 @@
     <item name="tv_content" type="id" />
     <item name="tv_date" type="id" />
     <item name="tv_status" type="id" />
+    <item name="tv_source" type="id" />
     <item name="tv_comment" type="id" />
+    <item name="tv_praise" type="id" />
 
     <item name="tv_item_0" type="id" />
     <item name="tv_item_1" type="id" />
@@ -76,6 +78,9 @@
 
     <!-- imageview-->
     <item name="iv_photo" type="id" />
+    <item name="iv_shared" type="id" />
+    <item name="iv_comment" type="id" />
+    <item name="iv_praise" type="id" />
     <item name="iv_add_doctor" type="id" />
     <item name="iv_add_idcard" type="id" />
     <item name="iv_pic" type="id" />

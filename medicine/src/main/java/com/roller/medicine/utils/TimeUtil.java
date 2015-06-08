@@ -284,6 +284,54 @@ public class TimeUtil {
 		return localCalendar.get(Calendar.DAY_OF_MONTH)+1;
 	}
 
+
+	public static String getFmdLongTime(String createTime) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Long  date=Long.decode(createTime);
+		try {
+
+			Date d1 = new Date(System.currentTimeMillis());// 你也可以获取当前时间
+			long diff = d1.getTime() - date;// 这样得到的差值是微秒级别
+
+			long days = diff / (1000 * 60 * 60 * 24);
+
+			long hours = (diff - days * (1000 * 60 * 60 * 24))
+					/ (1000 * 60 * 60);
+
+			long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+					* (1000 * 60 * 60))
+					/ (1000 * 60);
+
+			if (days > 7) {
+				return "一个星期前";
+			}
+
+			if (days > 0) {
+				return ((int) days)+"天前";
+			}
+
+			if (hours > 0) {
+				return ((int) hours)+"小时前";
+			}
+
+			if (minutes > 0) {
+				return ((int) minutes)+"分钟前";
+			}
+			if (minutes<=0){
+				return  "刚刚";
+			}
+
+
+			Log.e("info", "" + days + "天" + hours + "小时" + minutes + "分");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+
+
 	public static String getDiffTime(String createTime) {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
