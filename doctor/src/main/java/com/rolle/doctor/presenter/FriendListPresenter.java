@@ -23,8 +23,6 @@ public class FriendListPresenter extends Presenter {
     }
 
 
-
-
    public static interface IFriendView extends IView{
 
    }

@@ -2,9 +2,11 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -32,20 +34,20 @@ public class WriteInviteCodePresenter extends Presenter {
             return;
         }
         view.showLoading();
-        model.requestWriteInviteCode(view.getInviteCode(),new ViewModel.ModelListener<ResponseMessage>() {
+        model.requestWriteInviteCode(view.getInviteCode(), new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage responseMessage) {
+            public void requestSuccess(ResponseMessage info, Response response) {
                 view.msgShow("填写成功");
                 ViewUtil.openActivity(MyInviteCodeActivity.class,view.getContext(),true);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                view.msgShow("保存失败");
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(view.getContext()).handleException(e, info);
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 view.hideLoading();
             }
         });

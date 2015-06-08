@@ -7,6 +7,7 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.MD5;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
@@ -25,6 +26,7 @@ import com.litesuits.orm.db.assit.WhereBuilder;
 import com.rolle.doctor.domain.BloodResponse;
 import com.rolle.doctor.domain.ContactBean;
 import com.rolle.doctor.domain.FriendResponse;
+import com.rolle.doctor.domain.InviteCodeResponse;
 import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.UploadPicture;
@@ -65,32 +67,22 @@ public class UserModel  extends ViewModel {
         db.save(user.patientDetail);
     }
 
-    public void requestUserInfo(final ModelListener<User> listener){
-        execute(RequestApi.requestUserInfo(getToken().token), new HttpModelHandler<String>() {
+    public void requestUserInfo(final SimpleResponseListener<User> listener){
+        execute(RequestApi.requestUserInfo(getToken().token), new SimpleResponseListener<UserResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                UserResponse user = res.getObject(UserResponse.class);
-                if (CommonUtil.notNull(user)) {
-                    switch (user.statusCode) {
-                        case "200":
-                            // 更新 token id
-                            getToken().userId = user.user.id;
-                            setToken(getToken());
-                            saveUser(user.user);
-                            listener.model(res, user.user);
-                            break;
-                        case "300":
-                            listener.errorModel(null, res);
-                            break;
-                    }
-                }
-                listener.view();
+            public void requestSuccess(UserResponse user, Response response) {
+                getToken().userId = user.user.id;
+                setToken(getToken());
+                saveUser(user.user);
+                listener.requestSuccess(user.user, response);
+                listener.requestView();
+
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(e, res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e,info);
+                listener.requestView();
             }
         });
     }
@@ -98,44 +90,24 @@ public class UserModel  extends ViewModel {
     /*****
      * @Description  注册填写用户名
      */
-    public void  requestRegister(String tel,String verifycode,String password,final ModelListener<User> listener){
-        execute(RequestApi.requestRegister(tel, verifycode, password), new HttpModelHandler<String>() {
+    public void  requestRegister(String tel,String verifycode,String password,final SimpleResponseListener<User> listener){
+
+        execute(RequestApi.requestRegister(tel, verifycode, password), new SimpleResponseListener<Token>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Token token = res.getObject(Token.class);
-                if (CommonUtil.notNull(token)) {
-                    switch (token.statusCode) {
-                        case "200":
-                            setToken(token);
-                            requestUserInfo(new ModelListener<User>() {
-                                @Override
-                                public void model(Response response, User user) {
-                                    listener.model(response, user);
-                                }
-
-                                @Override
-                                public void errorModel(HttpException e, Response response) {
-                                    listener.errorModel(e, response);
-                                }
-
-                                @Override
-                                public void view() {
-                                    listener.view();
-                                }
-                            });
-                            break;
-                        case "300":
-                            listener.errorModel(null,res);
-                            listener.view();
-                            break;
-                    }
-                }
+            public void requestSuccess(Token token, Response response) {
+                setToken(token);
+                requestUserInfo(listener);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e,info);
+                listener.requestView();
+            }
+
+            @Override
+            public void requestView() {
+
             }
         });
     }
@@ -147,7 +119,7 @@ public class UserModel  extends ViewModel {
      *@Description 找回密码
      * @param listener
      */
-    public void  requestUpdatePassword(String mobile,String verifycode,String password, final ModelListener<Token> listener){
+    public void  requestUpdatePassword(String mobile,String verifycode,String password, final SimpleResponseListener<User> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/updatePassword.json");
         List<NameValuePair> param=new ArrayList<>();
@@ -155,92 +127,43 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("password", MD5.compute(password)));
         param.add(new NameValuePair("verifycode", verifycode));
         com.litesuits.http.request.Request request=new com.litesuits.http.request.Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
+        execute(request, new SimpleResponseListener<Token>() {
             @Override
-            protected void onSuccess(String data, final com.litesuits.http.response.Response res) {
-                Log.d(data);
-                final  Token token=res.getObject(Token.class);
-                if (CommonUtil.notNull(token)){
-                    switch (token.statusCode){
-                        case "200":
-                            setToken(token);
-                            requestUserInfo(new ModelListener<User>() {
-                                @Override
-                                public void model(Response response, User user) {
-                                    listener.model(res, token);
-                                }
+            public void requestSuccess(Token token, Response response) {
+                setToken(token);
+                requestUserInfo(listener);
 
-                                @Override
-                                public void errorModel(HttpException e, Response response) {
-                                    listener.errorModel(e, response);
-                                }
-
-                                @Override
-                                public void view() {
-                                    listener.view();
-                                }
-                            });
-                            break;
-                        case "300":
-                            listener.errorModel(null, res);
-                            break;
-                    }
-                }
-                listener.view();
             }
 
             @Override
-            protected void onFailure(HttpException e, com.litesuits.http.response.Response res) {
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+                listener.requestView();
             }
+
         });
+
     }
     /***
      *@Description 登陆
      * @param tel
      * @param listener
      */
-    public void  requestLogin(String tel,String pwd,final ModelListener<User> listener){
-        execute(RequestApi.requestLogin(tel, MD5.compute(pwd)), new HttpModelHandler<String>() {
+    public void  requestLogin(String tel,String pwd,final SimpleResponseListener<User> listener){
+        execute(RequestApi.requestLogin(tel, MD5.compute(pwd)), new SimpleResponseListener<Token>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Token token=res.getObject(Token.class);
-                if (CommonUtil.notNull(token)){
-                    switch (token.statusCode){
-                        case "200":
-                            setToken(token);
-                            requestUserInfo(new ModelListener<User>() {
-                                @Override
-                                public void model(Response response, User user) {
-                                    listener.model(response, user);
-                                }
-
-                                @Override
-                                public void errorModel(HttpException e, Response response) {
-                                    listener.errorModel(e, response);
-                                }
-
-                                @Override
-                                public void view() {
-                                    listener.view();
-                                }
-                            });
-                            break;
-                        case "300":
-                            listener.errorModel(null,res);
-                            break;
-                    }
-                }
-                listener.view();
+            public void requestSuccess(Token info, Response response) {
+                setToken(token);
+                requestUserInfo(listener);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+                listener.requestView();
             }
         });
+
     }
 
 
@@ -254,21 +177,17 @@ public class UserModel  extends ViewModel {
     }
 
     public void requestFriendList() {
-        execute(RequestApi.requestFriendList(getToken().token, null), new HttpModelHandler<String>() {
+        execute(RequestApi.requestFriendList(getToken().token, null), new SimpleResponseListener<FriendResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                FriendResponse responseMessage = res.getObject(FriendResponse.class);
-                if (CommonUtil.notNull(responseMessage)) {
-                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)) {
-                        saveFriendList(responseMessage.friendList);
-                    }
-                }
+            public void requestSuccess(FriendResponse info, Response response) {
+                saveFriendList(info.friendList);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
+
         });
     }
 
@@ -279,29 +198,25 @@ public class UserModel  extends ViewModel {
         }
     }
 
-    public void requestFriendList(final ModelListener<List<User>> listener) {
-        execute(RequestApi.requestFriendList(getToken().token, null), new HttpModelHandler<String>() {
+    public void requestFriendList(final SimpleResponseListener<List<User>> listener) {
+        execute(RequestApi.requestFriendList(getToken().token, null), new SimpleResponseListener<FriendResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                FriendResponse responseMessage = res.getObject(FriendResponse.class);
-                if (CommonUtil.notNull(responseMessage)) {
-                    if ("200".equals(responseMessage.statusCode) && CommonUtil.notNull(responseMessage.friendList)) {
-                        saveFriendList(responseMessage.friendList);
-                        listener.model(res, responseMessage.friendList);
-                        listener.view();
-                    }
-
-                }
+            public void requestSuccess(FriendResponse info, Response response) {
+                saveFriendList(info.friendList);
+                listener.requestSuccess(info.friendList,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                Log.d(mContext);
-                requestHandle(e, res, mContext);
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
+
     }
 
 
@@ -387,9 +302,9 @@ public class UserModel  extends ViewModel {
 
 
     /****
-
+     *
     */
-    public void requestModelUserCode(HttpModelHandler<String> handler){
+    public void requestModelUserCode(SimpleResponseListener<InviteCodeResponse> handler){
         execute(RequestApi.requestUserInviteCode(token.token),handler);
     }
 
@@ -399,56 +314,20 @@ public class UserModel  extends ViewModel {
     /****
      * 填写邀请码
      */
-    public void requestWriteInviteCode(String inviteCode, final ModelListener<ResponseMessage> listener){
-        execute(RequestApi.requestSaveInviteCode(getToken().token, inviteCode),new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(responseMessage)){
-                    if ("200".equals(responseMessage.statusCode)){
-                      listener.model(res,responseMessage);
-                    }else{
+    public void requestWriteInviteCode(String inviteCode, final SimpleResponseListener<ResponseMessage> listener){
+        execute(RequestApi.requestSaveInviteCode(getToken().token, inviteCode), listener);
 
-                    }
-                }
-                listener.view();
-            }
 
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
     }
 
-    public void requestAddFriend(String userId,String noteName,final ModelListener<ResponseMessage> listener){
-        execute(RequestApi.requestAddFriend(getToken().token, userId, noteName),new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                ResponseMessage   responseMessage= res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(responseMessage)){
-                    if ("200".equals(responseMessage.statusCode)){
-                        listener.model(res, responseMessage);
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e, res);
-                listener.view();
-            }
-        });
+    public void requestAddFriend(String userId,String noteName,final SimpleResponseListener<ResponseMessage> listener){
+        execute(RequestApi.requestAddFriend(getToken().token, userId, noteName), listener);
     }
 
     /******
      * 血糖记录
      */
-    public void requestBloodList(String date,String userId,final ModelListener<BloodResponse> listener){
+    public void requestBloodList(String date,String userId,final SimpleResponseListener<BloodResponse> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(UrlApi.BLOOD_LIST);
         List<NameValuePair> param=new ArrayList<>();
@@ -456,76 +335,42 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("userId",userId));
         param.add(new NameValuePair("startTime",date));
         Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                BloodResponse response=res.getObject(BloodResponse.class);
-                if (CommonUtil.notNull(response)){
-                    if ("200".equals(response.statusCode)){
-                        listener.model(res, response);
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e, res, mContext);
-                listener.errorModel(e, res);
-            }
-        });
+        execute(request,listener);
     }
     /******
      * 获取用户信息
      */
-    public void requestUserInfo(String userId,final ModelListener<User> listener){
+    public void requestUserInfo(String userId,final SimpleResponseListener<User> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/getUserByMap.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token",getToken().token));
         param.add(new NameValuePair("userId",userId));
         Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                UserResponse response=res.getObject(UserResponse.class);
-                if (CommonUtil.notNull(response)){
-                    if ("200".equals(response.statusCode)&&response.user!=null){
-                        listener.model(res, response.user);
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(e, res);
-            }
-        });
+        execute(request, listener);
     }
 
     /******
      * 保存用户信息
      */
-    public void requestSaveUser(final User user, final ModelListener<ResponseMessage> listener){
+    public void requestSaveUser(final User user, final SimpleResponseListener<ResponseMessage> listener){
         user.token=getToken().token;
         user.id=getToken().userId;
-        execute(RequestApi.requestUpdUser(user), new HttpModelHandler<String>() {
+        execute(RequestApi.requestUpdUser(user), new SimpleResponseListener<ResponseMessage>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                ResponseMessage message=res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message)||"200".equals(message.statusCode)){
-                    listener.model(res,res.getObject(ResponseMessage.class));
-                    saveUser(user);
-                }
-                listener.view();
+            public void requestSuccess(ResponseMessage info, Response response) {
+                saveUser(user);
+                listener.requestSuccess(info, response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e, res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }
@@ -538,7 +383,7 @@ public class UserModel  extends ViewModel {
      * @param path
      * @param listener
      */
-    public void  uploadPicture(String typeId,String path, final ModelListener<UploadPicture> listener){
+    public void  uploadPicture(String typeId,String path, final SimpleResponseListener<UploadPicture> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/image_sp/uploadImage.json");
         MultipartBody body=new MultipartBody();
@@ -546,27 +391,7 @@ public class UserModel  extends ViewModel {
         body.addPart(new StringPart("typeId", typeId));
         body.addPart(new FilePart("file", new File(path), "image/jpeg"));
         Request request=new Request(url.toString()).setHttpBody(body).setMethod(HttpMethod.Post);
-
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                UploadPicture message=res.getObject(UploadPicture.class);
-                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)){
-                    listener.model(res,message);
-                }else{
-                    listener.errorModel(null, res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e, res, mContext);
-                listener.errorModel(e, res);
-                listener.view();
-            }
-        });
+        execute(request, listener);
     }
 
 
@@ -574,30 +399,26 @@ public class UserModel  extends ViewModel {
      * 收到的 赞
      * @param listener
      */
-    public void requestPraiseList( final ModelListener<List<Recommended.Item>> listener){
+    public void requestPraiseList( final SimpleResponseListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/praise_sp/getPraiseUserListByMap.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>(){
+        execute(request, new SimpleResponseListener<Recommended>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                Recommended message=res.getObject(Recommended.class);
-                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)&&CommonUtil.notNull(message.list)){
-                    listener.model(res,message.list);
-                }else{
-                    listener.errorModel(null,res);
-                }
-                listener.view();
+            public void requestSuccess(Recommended info, Response response) {
+                listener.requestSuccess(info.list,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e, res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
 
@@ -607,7 +428,7 @@ public class UserModel  extends ViewModel {
      *  新朋友
      * @param listener
      */
-    public void requestNewFriendList(List<ContactBean> list, final ModelListener<List<Recommended.Item>> listener){
+    public void requestNewFriendList(final List<ContactBean> list, final SimpleResponseListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/getNewFriendList.json");
         List<NameValuePair> param=new ArrayList<>();
@@ -622,24 +443,20 @@ public class UserModel  extends ViewModel {
             Log.d(JSON.toJSONString(list));
         }
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>(){
+        execute(request, new SimpleResponseListener<Recommended>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                Recommended message=res.getObject(Recommended.class);
-                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)&&CommonUtil.notNull(message.list)){
-                    listener.model(res,message.list);
-                }else{
-                    listener.errorModel(null,res);
-                }
-                listener.view();
+            public void requestSuccess(Recommended info, Response response) {
+                listener.requestSuccess(info.list,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
 
@@ -649,29 +466,26 @@ public class UserModel  extends ViewModel {
      * 评论列表
      * @param listener
      */
-    public void requestMessageList(final ModelListener<List<Recommended.Item>> listener){
+    public void requestMessageList(final SimpleResponseListener<List<Recommended.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/message_sp/getMessageListByMap.json");
         List<NameValuePair> param=new ArrayList<>();
-        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>(){
+        execute(request, new SimpleResponseListener<Recommended>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                Recommended message=res.getObject(Recommended.class);
-                if (CommonUtil.notNull(message)&&"200".equals(message.statusCode)&&CommonUtil.notNull(message.list)){
-                    listener.model(res,message.list);
-                }else{
-                    listener.errorModel(null,res);
-                }
-                listener.view();
+            public void requestSuccess(Recommended info, Response response) {
+              listener.requestSuccess(info.list,response);
             }
+
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }
@@ -680,32 +494,13 @@ public class UserModel  extends ViewModel {
      * 收到的投诉
      * @param listener
      */
-    public void requestMessageRecord(final ModelListener<ResponseMessage> listener) {
+    public void requestMessageRecord(final SimpleResponseListener<ResponseMessage> listener) {
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/message_sp/getMessageRecordByMap.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
 
 
@@ -746,30 +541,27 @@ public class UserModel  extends ViewModel {
      * 请求钱包
      * @param listener
      */
-    public void requestWallet(final ModelListener<Wallet> listener){
+    public void requestWallet(final SimpleResponseListener<Wallet> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/wallet_sp/getWalletByToken.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
+        execute(request, new SimpleResponseListener<Wallet>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                Wallet message = res.getObject(Wallet.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                    saveWallet(message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
+            public void requestSuccess(Wallet info, Response response) {
+                listener.requestSuccess(info, response);
+                saveWallet(info);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.model(res, getWallet());
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }
@@ -778,72 +570,34 @@ public class UserModel  extends ViewModel {
      * 提现
      * @param listener
      */
-    public void requestWalletMoney(String money,final ModelListener<Wallet> listener){
+    public void requestWalletMoney(String money,final SimpleResponseListener<Wallet> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/withdraw_sp/withdrawApply.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("money", money));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                Wallet message = res.getObject(Wallet.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e, res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
     /******
      * 添加支付宝账号
      * @param listener
      */
-    public void requestAddWalletAcounnt(String alipayNo,final ModelListener<ResponseMessage> listener){
+    public void requestAddWalletAcounnt(String alipayNo,final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/alipay_sp/saveAlipay.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("alipayNo", alipayNo));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request, listener);
     }
 
     /******
      * 添加银行账号
      * @param listener
      */
-    public void requestAddWalletBlankAcounnt(String bankId,String openingAccount,final ModelListener<ResponseMessage> listener){
+    public void requestAddWalletBlankAcounnt(String bankId,String openingAccount,final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/bankcard_sp/saveBankCard.json");
         List<NameValuePair> param = new ArrayList<>();
@@ -851,69 +605,45 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("bankId", bankId));
         param.add(new NameValuePair("openingAccount", openingAccount));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-               // requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
 
     /******
      * 账单列表
      * @param listener
      */
-    public void requestAddWalletBill(final ModelListener<List<WalletBill.Item>> listener){
+    public void requestAddWalletBill(final SimpleResponseListener<List<WalletBill.Item>> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/withdraw_sp/withdrawLog.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
-        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
+        final Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new SimpleResponseListener<WalletBill>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                WalletBill message = res.getObject(WalletBill.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)&&CommonUtil.notNull(message.list)){
-                    List<WalletBill.Item> temap=new ArrayList<WalletBill.Item>();
-                    for (WalletBill.Item item:message.list){
-                        item.yearMonth= TimeUtil.getYm(item.tradingTime);
-                        item.month= TimeUtil.getMM(item.tradingTime);
-                        item.userId=getLoginUser().id;
-                        item.tradingDate=TimeUtil.formmatYmd(item.tradingTime);
-                        temap.add(item);
-                        db.save(item);
-                    }
-                    listener.model(res,temap);
-                } else {
-                    listener.errorModel(null,res);
+            public void requestSuccess(WalletBill info, Response response) {
+                List<WalletBill.Item> temap=new ArrayList();
+                for (WalletBill.Item item:info.list){
+                    item.yearMonth= TimeUtil.getYm(item.tradingTime);
+                    item.month= TimeUtil.getMM(item.tradingTime);
+                    item.userId=getLoginUser().id;
+                    item.tradingDate=TimeUtil.formmatYmd(item.tradingTime);
+                    temap.add(item);
+                    db.save(item);
                 }
-                listener.view();
+                listener.requestSuccess(temap,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res){
-                List<WalletBill.Item> list=queryWalletBill();
-                if (CommonUtil.notNull(list))
-                    listener.model(res,list);
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
+
     }
 
 
@@ -921,7 +651,7 @@ public class UserModel  extends ViewModel {
      * 设置支付密码
      * @param listener
      */
-    public void requestPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
+    public void requestPayPassword(String password,String verifycode,final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/wallet_sp/setPassword.json");
         List<NameValuePair> param = new ArrayList<>();
@@ -930,32 +660,13 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("verifycode", verifycode));
 
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
     /******
      * 获取发送短信验证码
      * @param listener
      */
-    public void requestSendPayPassword(String password,String verifycode,final ModelListener<ResponseMessage> listener){
+    public void requestSendPayPassword(String password,String verifycode,final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/wallet_sp/setPassword.json");
         List<NameValuePair> param = new ArrayList<>();
@@ -964,26 +675,7 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("verifycode", verifycode));
 
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res) {
-                requestHandle(e,res,mContext);
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
 
     public List<WalletBill.Item>  queryWalletBill(){
@@ -997,32 +689,14 @@ public class UserModel  extends ViewModel {
      * 意见反馈
      * @param listener
      */
-    public void requestSaveFeedback(String content,final ModelListener<ResponseMessage> listener){
+    public void requestSaveFeedback(String content,final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/feedback_sp/saveFeedback.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("content", content));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
-        execute(request, new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, Response res) {
-                Log.d(data);
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message) && "200".equals(message.statusCode)) {
-                    listener.model(res, message);
-                } else {
-                    listener.errorModel(null,res);
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, Response res){
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+        execute(request,listener);
     }
 
     public Token getToken(){
@@ -1052,16 +726,16 @@ public class UserModel  extends ViewModel {
         }
         final User user=getUser(getToken().userId);
         if (CommonUtil.notNull(user)&&user.updateState==User.UPDATE){
-            requestUpdateUser(user, new HttpModelHandler<String>() {
+            requestUpdateUser(user, new SimpleResponseListener<ResponseMessage>() {
                 @Override
-                protected void onSuccess(String data, Response res) {
+                public void requestSuccess(ResponseMessage info, Response response) {
                     Log.d("更新用户信息成功.......");
                     user.setNoUpdateStatus();
                     saveUser(user);
                 }
 
                 @Override
-                protected void onFailure(HttpException e, Response res) {
+                public void requestError(HttpException e, ResponseMessage info) {
                     Log.d("更新用户信息失败.......");
                 }
             });
@@ -1073,7 +747,7 @@ public class UserModel  extends ViewModel {
      *
      * @param
      */
-    public void requestUpdateUser(User user,HttpModelHandler<String> handler){
+    public void requestUpdateUser(User user,SimpleResponseListener<ResponseMessage> handler){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(UrlApi.UPD_DOCTOR_INFO);
         List<NameValuePair> param=new ArrayList<>();
@@ -1095,11 +769,6 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("birthday", user.birthday));
         Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request,handler);
-    }
-
-    public static  interface OnValidationListener{
-        void errorTel();
-        void errorPwd();
     }
 
 }

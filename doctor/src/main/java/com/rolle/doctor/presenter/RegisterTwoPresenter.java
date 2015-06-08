@@ -3,10 +3,12 @@ package com.rolle.doctor.presenter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.MD5;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
@@ -45,31 +47,19 @@ public class RegisterTwoPresenter extends Presenter {
         }
         String password = MD5.compute(view.getPwd());
         view.showLoading();
-        userModel.requestRegister(view.getTel(), view.getCode(), password, new ViewModel.ModelListener<User>() {
+        userModel.requestRegister(view.getTel(), view.getCode(), password, new SimpleResponseListener<User>() {
             @Override
-            public void model(Response response, User user) {
+            public void requestSuccess(User info, Response response) {
                 ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                if (e instanceof HttpNetException) {
-                    view.msgShow("无网络访问.....");
-                } else if (e instanceof HttpServerException) {
-                    view.msgShow("服务器异常.....");
-                }else{
-                    ResponseMessage message=response.getObject(ResponseMessage.class);
-                    if (CommonUtil.notNull(message)){
-                        view.msgShow(message.message);
-                    }else {
-                        view.msgShow("注册失败");
-                    }
-
-                }
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(view.getContext()).handleException(e,info);
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 view.hideLoading();
             }
         });
@@ -96,7 +86,7 @@ public class RegisterTwoPresenter extends Presenter {
        });
     }
 
-    public static interface IRegisterView extends IView{
+    public  interface IRegisterView extends IView{
         String getTel();
         String getCode();
         String getPwd();

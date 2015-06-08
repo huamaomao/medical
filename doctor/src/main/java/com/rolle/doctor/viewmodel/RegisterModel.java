@@ -2,8 +2,8 @@ package com.rolle.doctor.viewmodel;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
-import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.util.RequestApi;
 
@@ -38,41 +38,12 @@ public class RegisterModel extends ViewModel{
      * @param tel
      * @param listener
      */
-    public void  requestSendSms(String tel,String type, final ModelListener<ResponseMessage> listener){
-        execute(RequestApi.requestTelCode(tel, type), new HttpModelHandler<String>() {
-            @Override
-            protected void onSuccess(String data, com.litesuits.http.response.Response res) {
-                ResponseMessage token=res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(token)){
-                    switch (token.statusCode){
-                        case "200":
-                            listener.model(res,token);
-                            break;
-                        case "300":
-                            listener.errorModel(null,res);
-                            break;
-                    }
-                }
-                listener.view();
-            }
-
-            @Override
-            protected void onFailure(HttpException e, com.litesuits.http.response.Response res) {
-                listener.errorModel(e,res);
-                listener.view();
-            }
-        });
+    public void  requestSendSms(String tel,String type, final SimpleResponseListener<ResponseMessage> listener){
+        execute(RequestApi.requestTelCode(tel, type), listener);
     }
 
-
-
-    public static  interface OnValidationListener{
+    public   interface OnValidationListener{
         void errorTelNull();
-    }
-
-    public static  interface OnUserValidationListener{
-        void errorPwd();
-        void errorCode();
     }
 
 }

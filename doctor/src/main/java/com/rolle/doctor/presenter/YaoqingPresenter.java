@@ -1,9 +1,11 @@
 package com.rolle.doctor.presenter;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
@@ -25,27 +27,15 @@ public class YaoqingPresenter extends Presenter {
     }
 
     public void doMyCode(){
-
-        model.requestModelUserCode(new HttpModelHandler<String>() {
+        model.requestModelUserCode(new SimpleResponseListener<InviteCodeResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                InviteCodeResponse token=res.getObject(InviteCodeResponse.class);
-                Log.d(token);
-                if (CommonUtil.notNull(token)){
-                    switch (token.statusCode){
-                        case "200":
-                            view.setMyCode(token.inviteCode);
-                            view.setMyNum(token.inviteSum);
-                            break;
-                        case "300":
-
-                            break;
-                    }
-                }
+            public void requestSuccess(InviteCodeResponse info, Response response) {
+                view.setMyCode(info.inviteCode);
+                view.setMyNum(info.inviteSum);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });

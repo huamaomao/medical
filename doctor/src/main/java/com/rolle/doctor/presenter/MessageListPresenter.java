@@ -1,9 +1,11 @@
 package com.rolle.doctor.presenter;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.gotye.api.GotyeChatTarget;
 import com.gotye.api.GotyeMessage;
@@ -43,14 +45,7 @@ public class MessageListPresenter extends Presenter {
             public void onReceiveMessage(GotyeMessage message){
                 Log.d("onReceiveMessage  接受消息：" + message);
                 //doMessage();
-                User user=getUser(message.getSender().getName());
-                if (CommonUtil.notNull(user)){
-                    if (user.id==model.getLoginUser().id){
-                       return;
-                    }
-                    view.addMessageItem(user);
-                    view.setEmpty();
-                }
+               getUser(message.getSender().getName());
         }
         });
     }
@@ -62,66 +57,58 @@ public class MessageListPresenter extends Presenter {
    public void doMessage(){
        List<GotyeChatTarget> ls =gotyeModel.getFriendSession();
        if (CommonUtil.isNull(ls))return;
-       List<User> userList=new ArrayList<>();
-       User user=null;
-       for (GotyeChatTarget target:ls){
-           user=getUser(target.getName());
-           if (CommonUtil.notNull(user)){
-               if (target.getName().equals(model.getLoginUser().id+"")){
-                    continue;
-               }
-                userList.add(user);
-           }
-
+       int length=ls.size();
+       GotyeChatTarget target=null;
+       for (int i=length-1;i>=0;i++){
+           target=ls.get(i);
+           getUser(target.getName());
+           getUser(target.getName());
        }
-      view.addMessagelist(userList);
        view.setEmpty();
     }
 
-     public  User getUser(String id){
-         User user1=null;
-         GotyeUser userTarget=null;
-         GotyeMessage message=null;
-             //     可能获取不到用户  需从服务器拉取  不在好友列表中
-             user1= model.getUser(Integer.valueOf(id));
-             if (CommonUtil.notNull(user1)){
-                 userTarget=new GotyeUser();
-                 userTarget.setName(user1.id + "");
-                 user1.messageNum=gotyeModel.getMessageCount(userTarget);
-                 message=gotyeModel.getLastMessage(userTarget);
-                 Log.d(user1);
-                 if (CommonUtil.notNull(message)){
-                     user1.message=message.getText();
-                     user1.date= TimeUtil.getDiffTime(message.getDate()*1000);
-                 }
-             }else {
-                 model.requestUserInfo(id, new ViewModel.ModelListener<User>() {
-                     @Override
-                     public void model(Response response, User user) {
-                         GotyeUser   userTarget=new GotyeUser();
-                         userTarget.setName(user.id + "");
-                         user.messageNum=gotyeModel.getMessageCount(userTarget);
-                         GotyeMessage gotyeMessage=gotyeModel.getLastMessage(userTarget);
-                         if (CommonUtil.notNull(gotyeMessage)){
-                             user.message=gotyeMessage.getText();
-                             user.date= TimeUtil.getDiffTime(gotyeMessage.getDate()*1000);
-                         }
-                         view.addMessageItem(user);
-                     }
+     public void getUser(final String id){
+         //可能获取不到用户  需从服务器拉取  不在好友列表中
+         model.requestUserInfo(id, new SimpleResponseListener<User>() {
+                  @Override
+                  public void requestSuccess(User info, Response response) {
+                      GotyeUser   userTarget=new GotyeUser();
+                      userTarget.setName(info.id + "");
+                      info.messageNum=gotyeModel.getMessageCount(userTarget);
+                      GotyeMessage gotyeMessage=gotyeModel.getLastMessage(userTarget);
+                      if (CommonUtil.notNull(gotyeMessage)){
+                          info.message=gotyeMessage.getText();
+                          info.date= TimeUtil.getDiffTime(gotyeMessage.getDate()*1000);
+                      }
+                      if (info.id==model.getLoginUser().id){
+                          return;
+                      }
+                      view.addMessageItem(info);
+                      view.setEmpty();
+                  }
 
-                     @Override
-                     public void errorModel(HttpException e, Response response) {
+                  @Override
+                  public void requestError(HttpException e, ResponseMessage info) {
+                      User user1= model.getUser(Integer.valueOf(id));
+                      if (CommonUtil.isNull(user1))return;
+                      GotyeUser  userTarget=new GotyeUser();
+                      userTarget.setName(user1.id + "");
+                      user1.messageNum=gotyeModel.getMessageCount(userTarget);
+                      GotyeMessage message=gotyeModel.getLastMessage(userTarget);
+                      Log.d(user1);
+                      if (CommonUtil.notNull(message)){
+                          user1.message=message.getText();
+                          user1.date= TimeUtil.getDiffTime(message.getDate()*1000);
+                      }
+                      if (user1.id==model.getLoginUser().id){
+                          return;
+                      }
+                      view.addMessageItem(user1);
+                      view.setEmpty();
 
-                     }
+                  }
 
-                     @Override
-                     public void view() {
-
-                     }
-                 });
-             }
-
-         return user1;
+              });
 
      }
 

@@ -1,9 +1,11 @@
 package com.rolle.doctor.presenter;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -35,22 +37,18 @@ public class RegisterTitlePresenter extends Presenter {
 
 
     public void doLoad(){
-        model.requestTitle("65",new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        model.requestTitle("65", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                view.setTitleList((ArrayList)items);
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
+                view.setTitleList((ArrayList)info);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
 

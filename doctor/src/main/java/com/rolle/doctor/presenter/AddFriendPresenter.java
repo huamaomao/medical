@@ -3,6 +3,7 @@ package com.rolle.doctor.presenter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -25,25 +26,26 @@ public class AddFriendPresenter extends Presenter {
     public void doAdd(){
         if (flag)return;
         flag=true;
-        model.requestAddFriend(view.getTel(),"",new ViewModel.ModelListener<ResponseMessage>(){
+        model.requestAddFriend(view.getTel(), "", new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage message) {
-                    view.msgShow("添加成功");
+            public void requestSuccess(ResponseMessage info, Response response) {
+                view.msgShow("添加成功");
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
                 view.msgShow("添加失败");
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 flag=false;
             }
         });
+
     }
 
-    public static interface IFriendView extends IView{
+    public  interface IFriendView extends IView{
         String getTel();
     }
 

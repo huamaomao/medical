@@ -83,12 +83,6 @@ public abstract class ViewModel{
         }
     }
 
-    public static interface ModelListener<T>{
-        public void model(Response response,T t);
-        public void errorModel(HttpException e,Response response);
-        /***最终反馈 view **/
-        public void view();
-    }
 
 
 

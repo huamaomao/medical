@@ -2,7 +2,9 @@ package com.rolle.doctor.viewmodel;
 
 import android.content.Context;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -31,28 +33,21 @@ public class ListModel extends ViewModel {
      * @param id
      * @param listener
      */
-    public void requestCity(String id,final ModelListener<List<CityResponse.Item>> listener){
-        execute(RequestApi.requestCity(id),new HttpModelHandler<String>() {
+    public void requestCity(String id,final SimpleResponseListener<List<CityResponse.Item>> listener){
+        execute(RequestApi.requestCity(id), new SimpleResponseListener<CityResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                CityResponse   cityResponse= res.getObject(CityResponse.class);
-                if (CommonUtil.notNull(cityResponse)){
-                    if ("200".equals(cityResponse.statusCode)){
-                        if (CommonUtil.notNull(cityResponse.list)){
-                            listener.model(res,cityResponse.list);
-                            listener.view();
-                            return;
-                        }
-                    }
-                }
-                listener.errorModel(null,res);
-                listener.view();
+            public void requestSuccess(CityResponse info, Response response) {
+                listener.requestSuccess(info.list,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                listener.errorModel(e,res);
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }
@@ -62,42 +57,24 @@ public class ListModel extends ViewModel {
      * @param id
      * @param listener
      */
-    public void requestTitle(final String id,final ModelListener<List<CityResponse.Item>> listener){
+    public void requestTitle(final String id,final SimpleResponseListener<List<CityResponse.Item>> listener){
         final int id_=Integer.parseInt(id);
-        execute(RequestApi.requestTitle(id),new HttpModelHandler<String>() {
+        execute(RequestApi.requestTitle(id), new SimpleResponseListener<CityResponse>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                CityResponse   cityResponse= res.getObject(CityResponse.class);
-                if (CommonUtil.notNull(cityResponse)){
-                    if ("200".equals(cityResponse.statusCode)){
-                        if (CommonUtil.notNull(cityResponse.list)){
-                            listener.model(res,cityResponse.list);
-                            cityResponse.id=id_;
-                            db.save(cityResponse);
-                            listener.view();
-                            return;
-                        }
-                    }
-                }else {
-                    CityResponse cityResponse1= db.queryById(id_, CityResponse.class);
-                    if (CommonUtil.notNull(cityResponse1)){
-                        listener.model(res,cityResponse1.list);
-                    }
-                    listener.view();
-                }
-
+            public void requestSuccess(CityResponse info, Response response) {
+                info.id=id_;
+                db.save(info);
+                listener.requestSuccess(info.list,response);
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                CityResponse cityResponse1 = db.queryById(id_, CityResponse.class);
-                if (CommonUtil.notNull(cityResponse1)){
-                    listener.model(res, cityResponse1.list);
-                    return;
-                }else {
-                    listener.errorModel(e,res);
-                }
-                listener.view();
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }

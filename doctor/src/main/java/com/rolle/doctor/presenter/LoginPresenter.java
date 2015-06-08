@@ -1,19 +1,18 @@
 package com.rolle.doctor.presenter;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
-import com.android.common.viewmodel.ViewModel;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
-import com.litesuits.http.exception.HttpNetException;
-import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.service.GotyeService;
@@ -51,11 +50,11 @@ public class LoginPresenter extends Presenter {
             return;
         }
        view.showLoading();
-       model.requestLogin(view.getTel(), view.getPwd(), new ViewModel.ModelListener<User>() {
+       model.requestLogin(view.getTel(), view.getPwd(), new SimpleResponseListener<User>() {
            @Override
-           public void model(Response response, User user) {
-               if (user.typeId == null) {
-                   ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
+           public void requestSuccess(User info, Response response) {
+               if (info.typeId == null) {
+                   ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2, true);
                } else {
                    doLoginService();
                    ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
@@ -63,28 +62,10 @@ public class LoginPresenter extends Presenter {
            }
 
            @Override
-           public void errorModel(HttpException e, Response response) {
-               if (e instanceof HttpNetException) {
-                   view.msgShow("网络异常.....");
-               } else if (e instanceof HttpServerException) {
-                   view.msgShow("服务器异常.....");
-               }else{
-                   ResponseMessage message=response.getObject(ResponseMessage.class);
-                   if (CommonUtil.notNull(message)){
-                       view.msgShow(message.message);
-                   }else {
-                       view.msgShow("登陆失败");
-                   }
-
-               }
-           }
-
-           @Override
-           public void view() {
-                view.hideLoading();
+           public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via((Activity)view).handleException(e, info);
            }
        });
-
     }
 
 

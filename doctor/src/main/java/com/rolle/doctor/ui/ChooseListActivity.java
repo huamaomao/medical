@@ -3,22 +3,13 @@ package com.rolle.doctor.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
-import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.ViewModel;
-import com.android.common.widget.InputMethodLinearLayout;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -26,18 +17,14 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.ChooseListPresenter;
-import com.rolle.doctor.presenter.LoginPresenter;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by Hua_ on 2015/3/27.

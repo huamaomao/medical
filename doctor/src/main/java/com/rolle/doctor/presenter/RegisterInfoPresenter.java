@@ -2,9 +2,11 @@ package com.rolle.doctor.presenter;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.presenter.Presenter;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.view.IView;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -58,20 +60,19 @@ public class RegisterInfoPresenter extends Presenter {
        user.token=userModel.getToken().token;
        userModel.db.save(user);
        view.showLoading();
-       userModel.requestUpdateUser(user,new HttpModelHandler<String>() {
+       userModel.requestUpdateUser(user, new SimpleResponseListener<ResponseMessage>() {
            @Override
-           protected void onSuccess(String data, Response res) {
-               ResponseMessage message=res.getObject(ResponseMessage.class);
-               if (CommonUtil.notNull(message)){
-                    if (message.statusCode.equals("200")){
-                        ViewUtil.startTopActivity(MainActivity.class,view.getContext());
-                    }
-               }
-               view.hideLoading();
+           public void requestSuccess(ResponseMessage info, Response response) {
+               ViewUtil.startTopActivity(MainActivity.class,view.getContext());
            }
 
            @Override
-           protected void onFailure(HttpException e, Response res) {
+           public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(view.getContext()).handleException(e,info);
+           }
+
+           @Override
+           public void requestView() {
                view.hideLoading();
            }
        });

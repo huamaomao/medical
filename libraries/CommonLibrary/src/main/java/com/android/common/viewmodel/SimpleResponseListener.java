@@ -9,7 +9,7 @@ import com.litesuits.http.response.Response;
  * @Description:简单回调函数
  * @date 2015/5/20 - 18:49
  */
-public abstract class SimpleResponseListener<Model extends ResponseMessage>{
+public abstract class SimpleResponseListener<Model>{
 
     public abstract void requestSuccess(Model info,Response response);
 
