@@ -5,25 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/public_white" >
 
-    <RelativeLayout
-        android:id="@+id/layout_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
-        <ImageView
-            android:id="@+id/image_setup"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_alignParentRight="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_search" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

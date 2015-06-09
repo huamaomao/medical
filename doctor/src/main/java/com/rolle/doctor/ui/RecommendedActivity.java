@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -86,19 +88,19 @@ public class RecommendedActivity extends BaseActivity{
     }
 
     public void requestData(){
-        userModel.requestPraiseList(new ViewModel.ModelListener<List<Recommended.Item>>() {
+        userModel.requestPraiseList(new SimpleResponseListener<List<Recommended.Item>>() {
             @Override
-            public void model(Response response, List<Recommended.Item> list) {
-                recyclerAdapter.addItemAll(list);
+            public void requestSuccess(List<Recommended.Item> info, Response response) {
+                recyclerAdapter.addItemAll(info);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });

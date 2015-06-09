@@ -12,7 +12,7 @@ import com.roller.medicine.base.BaseToolbarActivity;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class PersonalInformationActivity extends BaseToolbarActivity{
+public class UserInfoActivity extends BaseToolbarActivity{
 	
 	@InjectView(R.id.text_nickname)
 	 TextView text_nickname;
@@ -20,8 +20,6 @@ public class PersonalInformationActivity extends BaseToolbarActivity{
 	 TextView text_phone;
 	@InjectView(R.id.text_describe)
 	 TextView text_describe;
-	@InjectView(R.id.text_title)
-	 TextView text_title;
 	@InjectView(R.id.text_sex)
 	 TextView text_sex;
 	@InjectView(R.id.text_birthday)
@@ -53,7 +51,7 @@ public class PersonalInformationActivity extends BaseToolbarActivity{
 	}
 	
 	
-	@OnClick({R.id.image_return,R.id.relativelayout_nickname,R.id.relativelayout_phone
+	@OnClick({R.id.relativelayout_nickname,R.id.relativelayout_phone
 		,R.id.relativelayout_describe})
 	public void onViewOnClick(View view){
 		Bundle bundle = null;

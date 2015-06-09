@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -121,59 +123,45 @@ public class AuthenticationActivity extends BaseLoadingActivity{
             return;
         }
         showLoading();
-        userModel.uploadPicture("24", iv_add_idcard.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
+        userModel.uploadPicture("24", iv_add_idcard.getTag().toString(), new SimpleResponseListener<UploadPicture>() {
             @Override
-            public void model(Response response, UploadPicture o) {
-                user.idImage = o.id;
-                userModel.uploadPicture("26", iv_add_doctor.getTag().toString(), new ViewModel.ModelListener<UploadPicture>() {
+            public void requestSuccess(UploadPicture info, Response response) {
+                user.businessLicense = info.id;
+                userModel.uploadPicture("26", iv_add_doctor.getTag().toString(), new SimpleResponseListener<UploadPicture>() {
                     @Override
-                    public void model(Response response, UploadPicture o) {
-                        user.businessLicense = o.id;
-                        userModel.requestSaveUser(user, new ViewModel.ModelListener<ResponseMessage>() {
+                    public void requestSuccess(UploadPicture info, Response response) {
+                        user.businessLicense = info.id;
+                        userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
                             @Override
-                            public void model(Response response, ResponseMessage responseMessage) {
+                            public void requestSuccess(ResponseMessage info, Response response) {
                                 msgLongShow("认证已经提交，我们会及时审核...");
                                 finish();
                             }
 
                             @Override
-                            public void errorModel(HttpException e, Response response) {
-                                msgLongShow("认证提交失败...");
-
+                            public void requestError(HttpException e, ResponseMessage info) {
+                                new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
                             }
 
                             @Override
-                            public void view() {
+                            public void requestView() {
                                 hideLoading();
                             }
                         });
-
                     }
 
                     @Override
-                    public void errorModel(HttpException e, Response response) {
+                    public void requestError(HttpException e, ResponseMessage info) {
                         msgLongShow("证件上传失败...");
                         hideLoading();
                     }
-
-                    @Override
-                    public void view() {
-
-                    }
                 });
-
-
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
                 msgLongShow("证件上传失败...");
                 hideLoading();
-            }
-
-            @Override
-            public void view() {
-
             }
         });
 
@@ -184,23 +172,22 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     protected void initView() {
         super.initView();
         userModel=new UserModel(getContext());
-        userModel.requestUserInfo(new ViewModel.ModelListener<User>() {
+        userModel.requestUserInfo(new SimpleResponseListener<User>() {
             @Override
-            public void model(Response response, User user) {
+            public void requestSuccess(User info, Response response) {
 
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
         setBackActivity("认证");
+        initData();
+    }
+
+    private void initData(){
         user=userModel.getLoginUser();
         setCommitMessage();
         if ("94".equals(user.isAudit)){

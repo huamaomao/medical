@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -16,7 +18,6 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.presenter.ChooseListPresenter;
 import com.rolle.doctor.util.Constants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -80,42 +81,42 @@ public class ChooseListActivity extends BaseActivity{
      * 省会
      */
     public void doVisitList(){
-        listModel.requestCity("1",new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestCity("1", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
-                Log.d("model"+items.size());
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 adapter.addItemAll(items);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
                 msgLongShow("加载省份失败....");
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });
+
     }
 
     /******
      * 科室
      */
     public void doSectionList(){
-        listModel.requestTitle("44", new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestTitle("44", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 adapter.addItemAll(items);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });
@@ -125,19 +126,19 @@ public class ChooseListActivity extends BaseActivity{
      * 职称
      */
     public void doTitleList() {
-        listModel.requestTitle("65", new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestTitle("65", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 adapter.addItemAll(items);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });
@@ -151,19 +152,19 @@ public class ChooseListActivity extends BaseActivity{
         if (type==4){
                cityId=QItem.id;
         }
-        listModel.requestCity(cityId,new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestCity(cityId, new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 adapter.addItemAll(items);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });

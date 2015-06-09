@@ -76,6 +76,7 @@
     <item name="tv_item_8" type="id" />
     <item name="tv_item_9" type="id" />
 
+
     <!-- imageview-->
     <item name="iv_photo" type="id" />
     <item name="iv_shared" type="id" />
@@ -122,6 +123,8 @@
     <item name="rl_item_0"  type="id" />
     <item name="rl_item_1"  type="id" />
     <item name="rl_item_2"  type="id" />
+    <item name="rl_item_3"  type="id" />
+    <item name="rl_item_4"  type="id" />
 
     <!--- imageButton -->
     <item name="ibtn_send"  type="id" />

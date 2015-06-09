@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
    style="@style/appLayoutStyle">
     <LinearLayout
         android:orientation="horizontal"
@@ -82,11 +83,11 @@
         android:visibility="gone"
         android:textColor="@color/public_636363"
         android:textSize="14sp" />
-    <com.roller.medicine.customview.listview.PublicListView
+   <!-- <com.roller.medicine.customview.listview.PublicListView
         android:id="@+id/public_of_taste_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/public_white"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dip" />
+        android:dividerHeight="0dip" />-->
 </LinearLayout>

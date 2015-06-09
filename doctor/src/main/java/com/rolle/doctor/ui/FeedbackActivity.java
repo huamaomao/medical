@@ -7,8 +7,10 @@ import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -45,23 +47,24 @@ public class FeedbackActivity extends BaseLoadingActivity{
             return;
         }
         showLoading();
-        userModel.requestSaveFeedback(et_content.getText().toString(), new ViewModel.ModelListener<ResponseMessage>() {
+        userModel.requestSaveFeedback(et_content.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage responseMessage) {
+            public void requestSuccess(ResponseMessage info, Response response) {
                 msgShow("提交成功....");
                 finish();
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                msgShow("提交失败....");
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 hideLoading();
             }
         });
+
     }
 
     @Override

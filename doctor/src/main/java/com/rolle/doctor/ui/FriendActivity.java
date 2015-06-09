@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -51,22 +53,18 @@ public class FriendActivity extends BaseActivity{
      *
      */
     private void requestData(){
-        userModel.requestNewFriendList(null, new ViewModel.ModelListener<List<Recommended.Item>>() {
+        userModel.requestNewFriendList(null, new SimpleResponseListener<List<Recommended.Item>>() {
             @Override
-            public void model(Response response, List<Recommended.Item> items) {
-                Log.d(response.getString());
+            public void requestSuccess(List<Recommended.Item> info, Response response) {
+
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
     @Override

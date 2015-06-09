@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -56,24 +57,24 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
                 user.address=et_intro.getText().toString();
                 user.doctorDetail.workAddress=user.workRegion+et_intro.getText().toString();
                 showLoading();
-                userModel.requestSaveUser(user,new ViewModel.ModelListener<ResponseMessage>() {
-                        @Override
-                        public void model(Response response, ResponseMessage o) {
-                            msgShow("保存成功");
-                            setResult(200);
-                            finish();
-                        }
+                userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
+                    @Override
+                    public void requestSuccess(ResponseMessage info, Response response) {
+                        msgShow("保存成功");
+                        setResult(200);
+                        finish();
+                    }
 
                     @Override
-                    public void errorModel(HttpException e, Response response) {
+                    public void requestError(HttpException e, ResponseMessage info) {
                         msgShow("保存失败");
                     }
 
                     @Override
-                        public void view() {
-                            hideLoading();
-                        }
-                    });
+                    public void requestView() {
+                        hideLoading();
+                    }
+                });
                 break;
         }
         return super.onOptionsItemSelected(item);

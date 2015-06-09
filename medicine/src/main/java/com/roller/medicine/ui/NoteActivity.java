@@ -70,7 +70,7 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
             return;
         }
         showLoading();
-        userModel.requestAddFriendId(user.id + "", et_name.getText().toString(), new SimpleResponseListener() {
+        userModel.requestAddFriendId(user.id + "", et_name.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
                 showLongMsg("设置成功");

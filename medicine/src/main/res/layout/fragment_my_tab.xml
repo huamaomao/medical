@@ -1,47 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/public_white" >
-
-    <RelativeLayout
-        android:id="@+id/layout_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
-        <ImageView
-            android:id="@+id/image_notice"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_notice" />
-
-        <ImageView
-            android:id="@+id/image_setup"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_alignParentRight="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_setup" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/layout_head" >
-
+<?xml version="1.0" encoding="utf-8" ?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/appLayoutStyle"
+        android:fillViewport="false">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
             <RelativeLayout
-                android:id="@+id/relativelayout_personal_information"
+                android:id="@id/rl_item_0"
                 style="@style/relativelayoutlayout_style"
                 android:background="@color/public_white"
                 android:padding="10dip" >
@@ -53,7 +20,7 @@
                     android:orientation="horizontal" >
 
                     <ImageView
-                        android:id="@+id/image_my_head"
+                        android:id="@id/iv_photo"
                         android:layout_width="@dimen/image_head_width_height"
                         android:layout_height="@dimen/image_head_width_height"
                         android:src="@drawable/public_default_head" />
@@ -65,19 +32,21 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/text_name"
+                            android:id="@id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="加载中..."
                             android:textColor="@color/public_black"
                             android:textSize="16sp" />
-
                         <TextView
-                            android:id="@+id/text_describe"
+                            android:id="@id/tv_jianjie"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dip"
-                            android:text="简介：这个人很懒，什么都没有留下..." />
+                            android:textSize="14.0sp"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:textColor="@color/text_93"
+                            android:text="简介：暂无简介" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -90,54 +59,60 @@
             </RelativeLayout>
 
             <ImageView style="@style/image_line_black_alpha" />
-
-            <LinearLayout
+            <android.support.v7.widget.GridLayout
+                app:orientation="horizontal"
+                app:columnCount="4"
+                app:rowCount="2"
+                android:paddingTop="@dimen/iten_margin_top"
+                android:paddingBottom="@dimen/iten_margin_top"
+                app:alignmentMode="alignMargins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/public_white"
-                android:orientation="horizontal"
-                android:paddingBottom="11dip"
-                android:paddingTop="11dip" >
+                android:layout_height="wrap_content">
+                <TextView
+                    app:layout_columnWeight="1"
+                    android:text="评论"
+                    style="@style/my_title"
+                    />
+                <TextView
+                    app:layout_columnWeight="1"
+                    android:text="喜欢"
+                    style="@style/my_title" />
 
                 <TextView
-                    android:id="@+id/text_comments"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="评论\n15"
-                    android:textColor="@color/public_black" />
+                    app:layout_columnWeight="1"
+                    android:text="关注"
+                    style="@style/my_title"/>
 
                 <TextView
-                    android:id="@+id/text_like"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="喜欢\n15"
-                    android:textColor="@color/public_black" />
+                    app:layout_columnWeight="1"
+                    android:text="粉丝"
+                    style="@style/my_title" />
 
                 <TextView
-                    android:id="@+id/text_focus"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="关注\n15"
-                    android:textColor="@color/public_black" />
+                    app:layout_columnWeight="1"
+                    android:id="@id/tv_item_1"
+                    android:text="0"
+                    style="@style/my_value" />
 
                 <TextView
-                    android:id="@+id/text_fans"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="粉丝\n15"
-                    android:textColor="@color/public_black" />
-            </LinearLayout>
+                    app:layout_columnWeight="1"
+                    android:id="@id/tv_item_2"
+                    android:text="0"
+                    style="@style/my_value" />
 
+                <TextView
+                    app:layout_columnWeight="1"
+                    android:id="@id/tv_item_3"
+                    android:text="0"
+                    style="@style/my_value" />
+
+                <TextView
+                    app:layout_columnWeight="1"
+                    android:id="@id/tv_item_4"
+                    android:text="0"
+                    style="@style/my_value" />
+            </android.support.v7.widget.GridLayout>
             <ImageView style="@style/image_line_black_alpha" />
-			
             <ImageView 
                 android:layout_width="match_parent"
                 android:layout_height="10dip"
@@ -159,9 +134,9 @@
                     android:text="家庭成员" />
 
                 <com.roller.medicine.customview.listview.HorizontalListView
-                    android:id="@+id/listview"
+                    android:id="@id/lv_list"
                     android:layout_width="match_parent"
-                    android:layout_height="70dip" >
+                    android:layout_height="wrap_content" >
                 </com.roller.medicine.customview.listview.HorizontalListView>
             </LinearLayout>
 
@@ -171,8 +146,98 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dip"
                 android:background="@color/public_bg"/>
-            
-            <LinearLayout
+            <RelativeLayout
+                android:id="@id/rl_item_1"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+               style="@style/list_item_data_style">
+                <ImageView
+                    android:id="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/image_remove_account" />
+                <TextView
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="新建家庭成员"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/public_black"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/public_image_next" />
+            </RelativeLayout>
+            <ImageView style="@style/image_line_black_alpha" />
+            <RelativeLayout
+                android:id="@id/rl_item_2"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                style="@style/list_item_data_style">
+                <ImageView
+                    android:id="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/image_remove_account" />
+                <TextView
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="移除帐号"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/public_black"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/public_image_next" />
+            </RelativeLayout>
+            <ImageView style="@style/image_line_black_alpha" />
+            <RelativeLayout
+                android:id="@id/rl_item_3"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                style="@style/list_item_data_style">
+                <ImageView
+                    android:id="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/image_change_household" />
+                <TextView
+                    android:layout_toRightOf="@id/iv_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="更改户主"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/public_black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/public_image_next" />
+            </RelativeLayout>
+            <ImageView style="@style/image_line_black_alpha" />
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/public_white"
@@ -227,7 +292,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/image_remove_account" />
+                            android:src="@drawable/image_remove_account移除帐号" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -263,6 +328,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/image_change_household" />
+                            更改户主
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -282,8 +348,6 @@
                 </RelativeLayout>
 
                 <ImageView style="@style/image_line_black_alpha" />
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+</ScrollView>

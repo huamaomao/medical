@@ -85,7 +85,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
      * 解除广播
      */
     public void onDestroyReceiver(){
-        getContext().unregisterReceiver(broadcastReceiver);
+        try {
+            getContext().unregisterReceiver(broadcastReceiver);
+        }catch (Exception e){}
     }
 
 

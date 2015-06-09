@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.fragment.HomeTabKnowledgeQuizFragment;
-import com.roller.medicine.fragment.HomeTabMyFragment;
+import com.roller.medicine.fragment.TabKnowledgeQuizFragment;
+import com.roller.medicine.fragment.TabMyFragment;
 import com.roller.medicine.fragment.TabHomeFragment;
 import com.roller.medicine.fragment.TabMessageFragment;
 import com.roller.medicine.utils.TimeUtil;
@@ -146,11 +146,11 @@ public class HomeActivity extends BaseToolbarActivity {
 						break;
 					case R.id.tab_knowledge_quiz:
 						setToolbarTitle("知识问答");
-						ViewUtil.turnToFragment(getSupportFragmentManager(), HomeTabKnowledgeQuizFragment.class, null, R.id.fl_content);
+						ViewUtil.turnToFragment(getSupportFragmentManager(), TabKnowledgeQuizFragment.class, null, R.id.fl_content);
 						break;
 					case R.id.tab_my:
 						setToolbarTitle("我的");
-						ViewUtil.turnToFragment(getSupportFragmentManager(), HomeTabMyFragment.class, null, R.id.fl_content);
+						ViewUtil.turnToFragment(getSupportFragmentManager(), TabMyFragment.class, null, R.id.fl_content);
 						break;
 				}
 			}

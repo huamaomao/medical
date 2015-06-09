@@ -15,9 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewHolderHelp;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -122,24 +124,20 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
 
     private void requestData(String date){
-        model.requestBloodList(date,user.id+"", new ViewModel.ModelListener<BloodResponse>() {
+        model.requestBloodList(date, user.id + "", new SimpleResponseListener<BloodResponse>() {
             @Override
-            public void model(Response response, BloodResponse o) {
-                bloodResponse=o;
+            public void requestSuccess(BloodResponse info, Response response) {
+                bloodResponse=info;
                 notifyItemChanged(1);
-                changeBloodListData(o.list);
+                changeBloodListData(info.list);
             }
 
             @Override
-            public void errorModel( HttpException e,Response response) {
-
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
     private void changeBloodListData(List<BloodResponse.Item> list){

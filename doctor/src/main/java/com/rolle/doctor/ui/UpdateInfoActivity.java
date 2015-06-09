@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ViewModel;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.litesuits.http.exception.HttpException;
@@ -84,22 +85,18 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
     private void uploadPhoto(){
         Picasso.with(getContext()).load(new File( user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
-        userModel.uploadPicture("71", user.headImage,new ViewModel.ModelListener<UploadPicture>(){
+        userModel.uploadPicture("71", user.headImage, new SimpleResponseListener<UploadPicture>() {
             @Override
-            public void model(Response response, UploadPicture o) {
-                user.photoId=o.id;
+            public void requestSuccess(UploadPicture info, Response response) {
+                user.photoId=info.id;
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
                 msgShow("图片上传失败...");
             }
-
-            @Override
-            public void view() {
-
-            }
         });
+
     }
 
 
@@ -161,22 +158,23 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         }
         user.nickname=et_name.getText().toString();
         showLoading();
-        userModel.requestSaveUser(user, new ViewModel.ModelListener() {
+        userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, Object o) {
+            public void requestSuccess(ResponseMessage info, Response response) {
 
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 hideLoading();
             }
         });
+
     }
 
     @Override

@@ -48,6 +48,8 @@ public class BaseActivity extends ActionBarActivity implements IView{
         super.onPostCreate(savedInstanceState);
         if (Constants.ACTIVITY_ACTION.equals(getIntent().getAction())){
             finish();
+            android.os.Process.killProcess(android.os.Process.myPid()); //获取PID
+            System.exit(0);   //常规java、c#的标准退出法，返回值为0代表正常退出
             return;
         }
         ButterKnife.inject(this);

@@ -106,21 +106,17 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
     }
 
 
-    public void doAddFriend(){
+    public void doAddFriend() {
         showLoading();
         userModel.requestAddFriendId(user.id + "", user.noteName, new SimpleResponseListener() {
             @Override
-            public void requestSuccess(ResponseMessage info, Response response) {
+            public void requestSuccess(Object info, Response response) {
                 showLongMsg("关注成功");
             }
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
                 new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
-            }
-            @Override
-            public void requestView() {
-                hideLoading();
             }
         });
     }

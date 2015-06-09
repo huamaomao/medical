@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/public_bg" >
-
-    <RelativeLayout
-        android:id="@+id/layout_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
-        <ImageView
-            android:id="@+id/image_return"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_return" />
-    </RelativeLayout>
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/appLayoutStyle" >
+  <include layout="@layout/toolbar" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_head"
         android:background="@color/public_white"
         android:orientation="vertical" >
 
@@ -69,4 +48,4 @@
         </ListView>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

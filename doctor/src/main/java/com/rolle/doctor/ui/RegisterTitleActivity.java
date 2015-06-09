@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Constants;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -90,21 +92,21 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
 
 
     public void doLoad(){
-        listModel.requestTitle("65", new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestTitle("65", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 list.clear();
-                list.addAll(items);
+                list.addAll(info);
                 adpater.notifyDataSetChanged();
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                msgLongShow("加载数据失败...");
+            public void requestError(HttpException e, ResponseMessage info) {
+                    msgLongShow("加载数据失败...");
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });

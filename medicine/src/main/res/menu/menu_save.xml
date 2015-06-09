@@ -6,6 +6,6 @@
     <item android:id="@id/toolbar_save"
         android:title="保存"
         app:showAsAction="ifRoom"
-        android:menuCategory="secondary"/>
+        android:menuCategory="container"/>
 
 </menu>

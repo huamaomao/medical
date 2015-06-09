@@ -5,9 +5,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -43,7 +45,6 @@ public class FriendListActivity extends BaseActivity{
         handler=new ContactQueryHandler(getContentResolver(), new ContactQueryHandler.HandleListener() {
                 @Override
                 public void setAdapter(List<ContactBean> list) {
-                    Log.d("==="+list.size());
                     contactBeans=list;
                     requestData();
                 }
@@ -55,22 +56,18 @@ public class FriendListActivity extends BaseActivity{
      *
      */
     private void requestData(){
-        userModel.requestNewFriendList(contactBeans, new ViewModel.ModelListener<List<Recommended.Item>>() {
+        userModel.requestNewFriendList(contactBeans, new SimpleResponseListener<List<Recommended.Item>>() {
             @Override
-            public void model(Response response, List<Recommended.Item> items) {
-                Log.d(response.getString());
-            }
-
-            @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestSuccess(List<Recommended.Item> info, Response response) {
 
             }
 
             @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
     @Override

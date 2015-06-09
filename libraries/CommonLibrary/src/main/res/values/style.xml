@@ -106,6 +106,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+    <style name="list_item_data_style" parent="list_item">
+        <item name="android:background">@drawable/s_item_selector</item>
+    </style>
     <style name="list_item_style">
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingBottom">10dp</item>
@@ -119,6 +122,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="list_item_c_style">
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingBottom">10dp</item>

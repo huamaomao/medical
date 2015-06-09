@@ -568,7 +568,7 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("id", id));
-        Request request=new Request(requestUrl("/crm/praise_sp/deleteReply.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        Request request=new Request(requestUrl("/crm/praise_sp/deletePraise.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
 

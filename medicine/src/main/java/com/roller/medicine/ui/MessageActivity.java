@@ -153,7 +153,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
             public void onConfirm() {
                 userModel.requestPraise(userFriend.id + "", new SimpleResponseListener() {
                     @Override
-                    public void requestSuccess(ResponseMessage info, Response response) {
+                    public void requestSuccess(Object info, Response response) {
                         showLongMsg("点赞成功");
                         finish();
                     }
@@ -168,6 +168,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
                         hideLoading();
                     }
                 });
+
             }
 
             @Override

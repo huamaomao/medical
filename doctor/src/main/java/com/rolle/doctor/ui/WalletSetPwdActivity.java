@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.litesuits.http.exception.HttpException;
@@ -49,20 +50,20 @@ public class WalletSetPwdActivity extends BaseLoadingActivity {
             return;
         }
         showLoading();
-        userModel.requestPayPassword(pswView.getPassWord(), "", new ViewModel.ModelListener<ResponseMessage>() {
+        userModel.requestPayPassword(pswView.getPassWord(), "", new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage responseMessage) {
+            public void requestSuccess(ResponseMessage info, Response response) {
                 msgLongShow("设置支付密码成功...");
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
                 msgLongShow("设置支付密码失败...");
             }
 
             @Override
-            public void view() {
-                hideLoading();
+            public void requestView() {
+                    hideLoading();
             }
         });
 

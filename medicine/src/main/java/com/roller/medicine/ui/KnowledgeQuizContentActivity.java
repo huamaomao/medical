@@ -1,5 +1,6 @@
 package com.roller.medicine.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -38,6 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 
@@ -49,17 +51,6 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 	private RecyclerAdapter<Object> adapter;
 	private List<Object> mData;
 
-
-
-	private PublicViewAdapter<Object> listAdapter;
-	private PublicViewAdapter<Object> replyListAdapter;
-	private LinkedList<Object> mListDatas = new LinkedList<Object>();
-	private LinkedList<Object> mReplyListDatas = new LinkedList<Object>();
-	private DisplayMetrics dm;
-	private PopupWindow mPopupWindow;
-	private Bundle bundle;
-	private boolean commentsIsContent = true;
-	private boolean buttomPraise = true;
 	private String id=null;
 	private DataModel dataModel;
 
@@ -95,22 +86,22 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods() {
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, Object o, int position) {
-				if (mData.get(position)==null){
+				if (mData.get(position) == null) {
 					StringBuilder builder = new StringBuilder();
 					builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
 					viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(contentInfo.createTime));
-					viewHolder.setText(R.id.tv_source,"来源：" + contentInfo.source);
-					viewHolder.setText(R.id.tv_title,contentInfo.title);
-					viewHolder.setText(R.id.tv_comment,CommonUtil.initTextValue(contentInfo.replyCount));
-					viewHolder.setText(R.id.tv_praise,CommonUtil.initTextValue(contentInfo.praiseCount));
-					TextView tv_praise=viewHolder.getView(R.id.tv_praise);
+					viewHolder.setText(R.id.tv_source, "来源：" + contentInfo.source);
+					viewHolder.setText(R.id.tv_title, contentInfo.title);
+					viewHolder.setText(R.id.tv_comment, CommonUtil.initTextValue(contentInfo.replyCount));
+					viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
+					TextView tv_praise = viewHolder.getView(R.id.tv_praise);
 					if ("false".equals(contentInfo.isPraise)) {
 						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContent().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
 						tv_praise.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								setLastClickTime();
-								savePraise(contentInfo.id, contentInfo.replyId, "74", contentInfo.createUserId);
+								savePraise();
 							}
 						});
 					} else {
@@ -122,20 +113,26 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 							}
 						});
 					}
+					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							doComment();
+						}
+					});
 						/*@InjectView(R.id.horizontal_listview)
 					HorizontalListView horizontal_listview;*/
 
-				}else {
+				} else {
 
 				}
 			}
 
 			@Override
 			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-				if (viewType==22){
-					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.list_head_quiz,viewGroup,false));
+				if (viewType == 22) {
+					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.list_head_quiz, viewGroup, false));
 				}
-				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.listview_comments,viewGroup,false));
+				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.listview_comments, viewGroup, false));
 			}
 
 			@Override
@@ -145,23 +142,8 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 		});
 
 
-		ViewUtil.initRecyclerViewDecoration(rv_view,getContent(),adapter);
+		ViewUtil.initRecyclerViewDecoration(rv_view, getContent(), adapter);
 		loadData();
-		//initPopupWindow();
-		dm = new DisplayMetrics();
-	/*	getWindowManager().getDefaultDisplay().getMetrics(dm);
-		bundle = this.getIntent().getBundleExtra("bundle");
-		public_of_taste_listview.setOnItemClickListener(this);
-		
-		listAdapter = new PublicViewAdapter<Object>(this, mListDatas,
-				R.layout.listview_recommended, this, this,Constants.TAG.TAG_RECOMMENDED_LIST);
-
-		horizontal_listview.setAdapter(listAdapter);
-		replyListAdapter = new PublicViewAdapter<Object>(this, mReplyListDatas,
-				R.layout.listview_comments, this, this,Constants.TAG.TAG_COMMENTS_LIST);
-
-		public_of_taste_listview.setAdapter(replyListAdapter);
-		getPostByMap();*/
 	}
 
 
@@ -171,11 +153,12 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 	 * 
 	 */
 	private void loadData() {
-
+		refresh.setRefreshing(true);
 		dataModel.getPostByMap(id, null, new SimpleResponseListener<KnowledgeQuizContentInfo>() {
 			@Override
 			public void requestSuccess(final KnowledgeQuizContentInfo info, Response response) {
-				contentInfo=info;
+				contentInfo = info;
+				mData.clear();
 				mData.add(null);
 				adapter.notifyItemUpdate(0);
 			}
@@ -188,14 +171,42 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 			@Override
 			public void requestView() {
 				super.requestView();
+				refresh.setRefreshing(false);
 				adapter.checkEmpty();
 			}
 		});
 
 	}
+	@OnClick(R.id.iv_shared)
+	void doShared(){
+		//分享
+	}
 
-	private void savePraise(String postId,String repiyId,String typeId,String mainUserId){
-		dataModel.savePraise(postId, repiyId, typeId, mainUserId, new SimpleResponseListener<ResponseMessage>() {
+
+	@OnClick(R.id.iv_comment)
+	 void doComment(){
+		if (CommonUtil.isNull(contentInfo)){
+			showMsg("暂无数据，无法评论");
+			return;
+		}
+
+		setLastClickTime();
+		Intent intent=new Intent(getContent(),CommentActivity.class);
+		Bundle bundle=new Bundle();
+		bundle.putString(Constants.ITEM, contentInfo.id);
+		bundle.putInt(Constants.TYPE, Constants.TYPE_COMMENT);
+		bundle.putString(Constants.DATA_CODE, contentInfo.createUserId);
+		intent.putExtras(bundle);
+		startActivityForResult(intent, Constants.CODE);
+	}
+	@OnClick(R.id.iv_praise)
+	 void savePraise(){
+		if (CommonUtil.isNull(contentInfo)){
+			showMsg("暂无数据，无法点赞");
+			return;
+		}
+		setLastClickTime();
+		dataModel.savePraise(contentInfo.id, contentInfo.replyId, "74", contentInfo.createUserId, new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
 				contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
@@ -209,7 +220,6 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 				showMsg("点赞失败");
 			}
 		});
-
 	}
 
 	private void deletePraise(String id){
@@ -229,6 +239,11 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 	}
 
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		adapter.onDestroyReceiver();
+	}
 
 	/**
 	 * 发表评论

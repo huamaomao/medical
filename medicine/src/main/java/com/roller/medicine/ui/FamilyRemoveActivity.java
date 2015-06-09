@@ -13,12 +13,8 @@ import java.util.LinkedList;
 
 import butterknife.InjectView;
 
-public class RemoveAccountActivity extends BaseToolbarActivity{
+public class FamilyRemoveActivity extends BaseToolbarActivity{
 
-	@InjectView(R.id.text_title)
-	 TextView text_title;
-	@InjectView(R.id.listview)
-	 ListView listview;
 	
 	private PublicViewAdapter<MyAccountListItemInfo> adapter;
 	private LinkedList<MyAccountListItemInfo> mDatas = new LinkedList<MyAccountListItemInfo>();
@@ -27,6 +23,12 @@ public class RemoveAccountActivity extends BaseToolbarActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_remove_account);
+	}
+
+	@Override
+	protected void initView() {
+		super.initView();
+		setBackActivity("移除账号");
 	}
 
 	/*private void initView(){

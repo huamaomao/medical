@@ -8,9 +8,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ViewModel;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.astuetz.PagerSlidingTabStrip;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -101,24 +102,20 @@ public class AddBlankActivity extends BaseLoadingActivity implements View.OnClic
     }
 
     public void loadBlank(){
-        listModel.requestTitle("97", new ViewModel.ModelListener<List<CityResponse.Item>>() {
+        listModel.requestTitle("97", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
-            public void model(Response response, List<CityResponse.Item> items) {
+            public void requestSuccess(List<CityResponse.Item> info, Response response) {
                 itemList.clear();
-                itemList.addAll(items);
+                itemList.addAll(info);
                 spinnerAdpater.notifyDataSetChanged();
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
 
@@ -130,22 +127,22 @@ public class AddBlankActivity extends BaseLoadingActivity implements View.OnClic
              }
          }
         showLoading();
-        userModel.requestAddWalletAcounnt(et_alipay.getText().toString(), new ViewModel.ModelListener<ResponseMessage>() {
-            @Override
-            public void model(Response response, ResponseMessage responseMessage) {
-                success();
-            }
+         userModel.requestAddWalletAcounnt(et_alipay.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
+             @Override
+             public void requestSuccess(ResponseMessage info, Response response) {
+                     success();
+             }
 
-            @Override
-            public void errorModel(HttpException e, Response response) {
-                msgLongShow("绑定支付宝失败..");
-            }
+             @Override
+             public void requestError(HttpException e, ResponseMessage info) {
+                    new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+             }
 
-            @Override
-            public void view() {
-                hideLoading();
-            }
-        });
+             @Override
+             public void requestView() {
+                 hideLoading();
+             }
+         });
     }
 
     void onBlankAccount(){
@@ -161,19 +158,19 @@ public class AddBlankActivity extends BaseLoadingActivity implements View.OnClic
         }
 
         showLoading();
-        userModel.requestAddWalletBlankAcounnt(et_blank_account.getText().toString(), item.id, new ViewModel.ModelListener<ResponseMessage>() {
+        userModel.requestAddWalletBlankAcounnt(et_blank_account.getText().toString(), item.id, new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage responseMessage) {
+            public void requestSuccess(ResponseMessage info, Response response) {
                 success();
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                msgLongShow("绑定银行卡失败...");
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 hideLoading();
             }
         });

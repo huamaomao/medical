@@ -8,6 +8,6 @@
         android:icon="@drawable/icon_add"
         app:showAsAction="ifRoom"
         android:orderInCategory="2"
-        android:menuCategory="secondary"/>
+        android:menuCategory="container"/>
 
 </menu>

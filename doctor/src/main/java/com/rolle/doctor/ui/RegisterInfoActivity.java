@@ -11,10 +11,12 @@ import android.widget.EditText;
 
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpModelHandler;
@@ -128,23 +130,19 @@ public class RegisterInfoActivity extends BaseLoadingActivity{
         user.doctorDetail.hospitalName=hospital;
         userModel.db.save(user);
         showLoading();
-        userModel.requestUpdateUser(user, new HttpModelHandler<String>() {
+        userModel.requestUpdateUser(user, new SimpleResponseListener<ResponseMessage>() {
             @Override
-            protected void onSuccess(String data, Response res) {
-                ResponseMessage message = res.getObject(ResponseMessage.class);
-                if (CommonUtil.notNull(message)) {
-                    if (message.statusCode.equals("200")) {
-                        ViewUtil.startTopActivity(MainActivity.class, getContext());
-                    } else {
-                        msgLongShow(message.message);
-                    }
-                }
-                hideLoading();
+            public void requestSuccess(ResponseMessage info, Response response) {
+                ViewUtil.startTopActivity(MainActivity.class, getContext());
             }
 
             @Override
-            protected void onFailure(HttpException e, Response res) {
-                msgLongShow("注册失败...");
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
+            }
+
+            @Override
+            public void requestView() {
                 hideLoading();
             }
         });
@@ -171,7 +169,6 @@ public class RegisterInfoActivity extends BaseLoadingActivity{
     private void startListActivity(int type){
        Intent intent=new Intent(getContext(),ChooseListActivity.class);
         intent.putExtra("type",type);
-      // intent.putParcelableArrayListExtra(com.rolle.doctor.util.Constants.LIST,list);
        startActivityForResult(intent,200);
    }
 

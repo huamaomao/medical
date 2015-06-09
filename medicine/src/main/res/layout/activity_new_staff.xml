@@ -1,40 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/public_bg" >
-
-    <RelativeLayout
-        android:id="@+id/layout_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
-        <ImageView
-            android:id="@+id/image_return"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:scaleType="centerInside"
-            android:src="@drawable/image_return" />
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dip"
-            android:background="@drawable/button_add_staff_shape"
-            android:gravity="center"
-            android:text="保存"
-            android:textColor="@color/public_white"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appbg"
+    style="@style/appLayoutStyle">
+    <include layout="@layout/toolbar" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,20 +12,17 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/image_head"
-            android:layout_width="@dimen/image_head_width_height"
-            android:layout_height="@dimen/image_head_width_height"
+            android:id="@id/iv_photo"
+            android:layout_width="@dimen/photo_height"
+            android:layout_height="@dimen/photo_height"
             android:layout_marginBottom="15dip"
             android:layout_marginTop="15dip"
-            android:src="@drawable/public_default_head" />
-
-        <ImageView style="@style/image_line_black_alpha" />
-
+            android:src="@drawable/icon_default" />
+        <include layout="@layout/divider" />
         <LinearLayout
             style="@style/relativelayoutlayout_personal_information"
             android:background="@color/public_white"
             android:padding="0dip" >
-
             <TextView
                 style="@style/textview_personal_information_left"
                 android:layout_weight="0.5"
@@ -65,11 +30,14 @@
                 android:text="关系:" />
 
             <EditText
-                android:id="@+id/edit_between"
+                android:id="@id/et_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
+                style="@style/et_styple"
                 android:background="@null"
+                android:hint="输入称呼"
+                android:textColor="@color/black"
                 android:singleLine="true"
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dip" />
@@ -135,11 +103,14 @@
                 android:text="手机号码:" />
 
             <EditText
-                android:id="@+id/edit_phone"
+                android:id="@id/et_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:background="@null"
+                android:textColor="@color/black"
+                style="@style/et_styple"
+                android:hint="输入手机号"
                 android:singleLine="true"
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dip"  />
@@ -148,6 +119,7 @@
         <ImageView style="@style/image_line_black_alpha" />
 
         <LinearLayout
+            android:id="@id/ll_item_0"
             style="@style/relativelayoutlayout_personal_information"
             android:background="@color/public_white"
             android:padding="0dip" >
@@ -158,16 +130,18 @@
                 android:padding="15dip"
                 android:text="出生年月日:" />
 
-            <EditText
-                android:id="@+id/edit_birthday"
+            <TextView
+                android:id="@id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
+                android:textColor="@color/black"
                 android:background="@null"
                 android:singleLine="true"
+                android:text="选择出生日期"
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dip"  />
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

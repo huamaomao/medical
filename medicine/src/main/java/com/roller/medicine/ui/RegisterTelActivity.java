@@ -69,7 +69,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 			return;
 		}
 		showLoading();
-		service.requestCheckTelCode(et_tel.getText().toString(), et_code.getText().toString(), new SimpleResponseListener() {
+		service.requestCheckTelCode(et_tel.getText().toString(), et_code.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
 				Bundle bundle=new Bundle();

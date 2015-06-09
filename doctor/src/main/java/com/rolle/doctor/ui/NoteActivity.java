@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -68,21 +69,16 @@ public class NoteActivity extends BaseActivity{
             return;
         }
         user.noteName=et_name.getText().toString();
-        userModel.requestAddFriend(user.id + "", et_name.getText().toString(), new ViewModel.ModelListener<ResponseMessage>() {
+        userModel.requestAddFriend(user.id + "", et_name.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
             @Override
-            public void model(Response response, ResponseMessage responseMessage) {
+            public void requestSuccess(ResponseMessage info, Response response) {
                 userModel.saveUser(user);
                 msgShow("保存成功");
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-                    msgShow("保存失败");
-            }
-
-            @Override
-            public void view() {
-
+            public void requestError(HttpException e, ResponseMessage info) {
+                msgShow("保存失败");
             }
         });
     }

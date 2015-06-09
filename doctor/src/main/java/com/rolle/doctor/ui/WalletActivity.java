@@ -8,8 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -66,9 +68,9 @@ public class WalletActivity extends BaseActivity {
     }
 
     private void loadData(){
-        userModel.requestWallet(new ViewModel.ModelListener<Wallet>() {
+        userModel.requestWallet(new SimpleResponseListener<Wallet>() {
             @Override
-            public void model(Response response, Wallet wallet) {
+            public void requestSuccess(Wallet wallet, Response response) {
                 if (wallet==null)return;
                 ItemInfo itemInfo=lsData.get(0);
                 itemInfo.title= CommonUtil.formatMoney(wallet.accountAmount);
@@ -82,15 +84,11 @@ public class WalletActivity extends BaseActivity {
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
-
-            }
-
-            @Override
-            public void view() {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
         });
+
     }
 
     @Override

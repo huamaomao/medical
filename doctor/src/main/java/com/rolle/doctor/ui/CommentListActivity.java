@@ -6,8 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
-import com.android.common.viewmodel.ViewModel;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -85,23 +86,22 @@ public class CommentListActivity extends BaseActivity{
     }
 
     public void requestData(){
-        userModel.requestMessageList(new ViewModel.ModelListener<List<Recommended.Item>>() {
+        userModel.requestMessageList(new SimpleResponseListener<List<Recommended.Item>>() {
             @Override
-            public void model(Response response, List<Recommended.Item> items) {
-                recyclerAdapter.addItemAll(items);
+            public void requestSuccess(List<Recommended.Item> info, Response response) {
+                recyclerAdapter.addItemAll(info);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
+            public void requestView() {
                 refresh.setRefreshing(false);
             }
         });
-
     }
 
 }

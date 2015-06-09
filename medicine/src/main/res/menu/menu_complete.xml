@@ -4,6 +4,6 @@
         android:title="完成"
         android:orderInCategory="0"
         app:showAsAction="ifRoom"
-        android:menuCategory="secondary"/>
+        android:menuCategory="container"/>
 
 </menu>

@@ -13,10 +13,9 @@ import java.util.LinkedList;
 
 import butterknife.InjectView;
 
-public class ChangeHouseHoldActivity extends BaseToolbarActivity {
+public class FamilyUpdateActivity extends BaseToolbarActivity {
 
-	@InjectView(R.id.text_title)
-	 TextView text_title;
+
 	@InjectView(R.id.listview)
 	 ListView listview;
 	@InjectView(R.id.image_head)
@@ -34,8 +33,7 @@ public class ChangeHouseHoldActivity extends BaseToolbarActivity {
 	}
 
 	protected void initView(){
-		text_title.setText("更改户主");
-
+		setBackActivity("更改户主");
 	}
 
 	/**

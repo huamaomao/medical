@@ -8,9 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.common.adapter.RecyclerItemClickListener;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
 import com.baoyz.widget.PullRefreshLayout;
@@ -69,21 +71,20 @@ public class TheDoctorActivity extends BaseActivity{
             @Override
             public void onRefresh() {
                 //
-                userModel.requestFriendList(new ViewModel.ModelListener<List<User>>() {
+                userModel.requestFriendList(new SimpleResponseListener<List<User>>() {
                     @Override
-                    public void model(Response response, List<User> items) {
-                        // 数据更改
+                    public void requestSuccess(List<User> info, Response response) {
                         adapaterSame.addItemAll(userModel.querySameFriendList());
                         adapaterAll.addItemAll(userModel.queryFriendList());
                     }
 
                     @Override
-                    public void errorModel(HttpException e, Response response) {
+                    public void requestError(HttpException e, ResponseMessage info) {
 
                     }
 
                     @Override
-                    public void view() {
+                    public void requestView() {
                         refresh.setRefreshing(false);
                     }
                 });

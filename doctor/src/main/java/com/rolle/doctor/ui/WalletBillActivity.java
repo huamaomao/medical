@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.DividerItemDecoration;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -68,21 +70,21 @@ public class WalletBillActivity extends BaseActivity {
     }
 
     private void loadData(){
-        userModel.requestAddWalletBill(new ViewModel.ModelListener<List<WalletBill.Item>>() {
+        userModel.requestAddWalletBill(new SimpleResponseListener<List<WalletBill.Item>>() {
             @Override
-            public void model(Response response, List<WalletBill.Item> item) {
+            public void requestSuccess(List<WalletBill.Item> info, Response response) {
                 mAdapter.clear();
-                mAdapter.addAll(item);
+                mAdapter.addAll(info);
             }
 
             @Override
-            public void errorModel(HttpException e, Response response) {
+            public void requestError(HttpException e, ResponseMessage info) {
 
             }
 
             @Override
-            public void view() {
-                refresh.setRefreshing(false);
+            public void requestView() {
+               hideLoading();
             }
         });
     }

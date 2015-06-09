@@ -7,6 +7,6 @@
         android:icon="@drawable/icon_setting"
         android:orderInCategory="0"
         app:showAsAction="always"
-        android:menuCategory="secondary"/>
+        android:menuCategory="container"/>
 
 </menu>

@@ -95,17 +95,17 @@
         <activity   android:name=".ui.RegisterTelActivity" android:screenOrientation="portrait"/>
         <activity   android:name=".ui.RegisterUserActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.RemoveAccountActivity" android:screenOrientation="portrait"/>
+            android:name=".ui.FamilyRemoveActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.SetUpActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.MyCLFFansActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.NewStaffActivity" android:screenOrientation="portrait"/>
+            android:name=".ui.FamilyAddActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.ChangeHouseHoldActivity" android:screenOrientation="portrait"/>
+            android:name=".ui.FamilyUpdateActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.PersonalInformationActivity" android:screenOrientation="portrait"/>
+            android:name=".ui.UserInfoActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.RegisterPasswordActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.DoctorActivity" android:screenOrientation="portrait"/>
