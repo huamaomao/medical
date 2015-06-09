@@ -31,6 +31,25 @@ public class FamilyRemoveActivity extends BaseToolbarActivity{
 		setBackActivity("移除账号");
 	}
 
+
+	/***
+	 * 获取家庭列表
+	 */
+	private void requesFamilyList(){
+
+	}
+
+	/***
+	 * 获取家庭列表
+	 */
+	private void requesRemoveFamily(){
+
+	}
+
+
+
+
+
 	/*private void initView(){
 		text_title.setText("移除账号");
 		adapter = new PublicViewAdapter<MyAccountListItemInfo>(

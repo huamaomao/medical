@@ -1,5 +1,7 @@
 package com.roller.medicine.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,14 +16,24 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.DateUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
+import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.info.UploadPicture;
+import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.util.Date;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -42,6 +54,9 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 	TextView tv_date;
 	private DataModel dataModel;
 	private String sex=Constants.SEX_BOY;
+	private SlideDateTimePicker timePicker;
+	private UserInfo user;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +67,67 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 	protected void initView() {
 		setBackActivity("新建人员");
 		dataModel=new DataModel();
+		user=new UserInfo();
+		timePicker=new SlideDateTimePicker.Builder(getSupportFragmentManager())
+				.setListener(new SlideDateTimeListener() {
+					@Override
+					public void onDateTimeSet(Date date) {
+						tv_date.setText(DateUtil.formatYMD(date));
+						user.birthday=tv_date.getText().toString();
+					}
+				}).setInitialDate(new Date())
+				.build();
+		//Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+
+	}
+
+
+	@OnClick(R.id.iv_photo)
+	void onUploadPhoto(){
+		ViewUtil.startPictureActivity(getContext());
 	}
 
 	//选择日期
 	@OnClick(R.id.ll_item_0)
 	void  doChooseDate(){
+		timePicker.show();
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// 选取图片的返回值
+		if (requestCode == com.android.common.util.Constants.CODE_PIC) {
+			if (data != null) {
+				Uri uri = data.getData();
+				if (uri != null) {
+					user.headImage=ViewUtil.getRealFilePath(getContext(), uri);
+					uploadPhoto();
+				}
+			}
+		}
 
 	}
-	
+
+
+	private void uploadPhoto() {
+		Picasso.with(getContext()).load(new File(user.headImage)).placeholder(R.drawable.icon_default).
+				transform(new CircleTransform()).into(iv_photo);
+		dataModel.uploadPicture("71", user.headImage, new SimpleResponseListener<UploadPicture>() {
+			@Override
+			public void requestSuccess(UploadPicture info, Response response) {
+				user.photoId = info.id;
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				showMsg("图片上传失败...");
+			}
+		});
+	}
+
+
 	/**
 	 * 添加成员
 	 */
@@ -93,7 +161,7 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+				new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
 			}
 
 			@Override

@@ -10,7 +10,10 @@ import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.request.Request;
+import com.litesuits.http.request.content.MultipartBody;
 import com.litesuits.http.request.content.UrlEncodedFormBody;
+import com.litesuits.http.request.content.multi.FilePart;
+import com.litesuits.http.request.content.multi.StringPart;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.orm.LiteOrm;
@@ -25,10 +28,13 @@ import com.roller.medicine.info.KnowledgeQuizContentInfo;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.TokenInfo;
+import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.MD5;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -677,5 +683,23 @@ public class DataModel extends ViewModel{
         Request request=new Request(requestUrl("/crm/family_sp/updateFamilyGroup.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
+
+
+    /******
+     * 上传图片
+     * @param typeId
+     * @param path
+     * @param listener
+     */
+    public void  uploadPicture(String typeId,String path, final SimpleResponseListener<UploadPicture> listener){
+        MultipartBody body=new MultipartBody();
+        body.addPart(new StringPart("token",getToken().token));
+        body.addPart(new StringPart("typeId", typeId));
+        body.addPart(new FilePart("file", new File(path), "image/jpeg"));
+        Request request=new Request(requestUrl("/crm/image_sp/uploadImage.json")).setHttpBody(body).setMethod(HttpMethod.Post);
+        execute(request, listener);
+    }
+
+
 
 }

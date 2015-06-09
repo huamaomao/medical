@@ -118,8 +118,8 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
                 break;
             case MESSAGE_LEFT_PIC:
                 holder.tvName.setText(CommonUtil.isEmpty(friendUser.noteName)?friendUser.nickname:friendUser.noteName);
-                Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.drawable.icon_default)
-                        .resize(120,120).into(holder.iv_pic);
+                Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.drawable.icon_default).transform(new CircleTransform())
+                        .resize(120, 120).into(holder.iv_pic);
                 // 查看图片
                 holder.iv_pic.setOnClickListener(new View.OnClickListener() {
                     @Override

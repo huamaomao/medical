@@ -104,5 +104,6 @@ dependencies {
    // compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile project(':libraries:CommonLibrary')
     compile project(':libraries:GotyeLibrary')
+    compile project(':libraries:slideDateTimePicker')
 }
 

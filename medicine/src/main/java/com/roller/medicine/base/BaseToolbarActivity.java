@@ -142,7 +142,7 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 		}
 	}
 
-	public BaseToolbarActivity getContent(){
+	public BaseToolbarActivity getContext(){
 		return this;
 	}
 }

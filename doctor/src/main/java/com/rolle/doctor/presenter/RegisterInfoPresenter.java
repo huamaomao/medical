@@ -82,9 +82,6 @@ public class RegisterInfoPresenter extends Presenter {
 
 
 
-
-
-
     public static interface IRegisterView extends IView{
         String getName();
         String   getCity();

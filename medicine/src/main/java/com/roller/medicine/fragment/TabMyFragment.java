@@ -20,6 +20,7 @@ import com.roller.medicine.ui.FamilyAddActivity;
 import com.roller.medicine.ui.FamilyRemoveActivity;
 import com.roller.medicine.ui.FamilyUpdateActivity;
 import com.roller.medicine.ui.UserInfoActivity;
+import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +70,7 @@ public class TabMyFragment extends BaseToolbarFragment{
 		tv_name.setText(userInfo.nickname);
 		if (CommonUtil.notEmpty(userInfo.intro))
 			tv_jianjie.setText(userInfo.intro);
-		Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).into(iv_photo);
+		Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
 	}
 
 
