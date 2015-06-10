@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.info.MyAccountListItemInfo;
+import com.roller.medicine.info.FamilytInfo;
 
 import java.util.LinkedList;
 
@@ -23,8 +23,8 @@ public class FamilyUpdateActivity extends BaseToolbarActivity {
 	@InjectView(R.id.text_name)
 	 TextView text_name;
 	
-	private PublicViewAdapter<MyAccountListItemInfo> adapter;
-	private LinkedList<MyAccountListItemInfo> mDatas = new LinkedList<MyAccountListItemInfo>();
+	private PublicViewAdapter<FamilytInfo> adapter;
+	private LinkedList<FamilytInfo> mDatas = new LinkedList<FamilytInfo>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -7,13 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
@@ -65,6 +62,7 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 	}
 
 	protected void initView() {
+		super.initView();
 		setBackActivity("新建人员");
 		dataModel=new DataModel();
 		user=new UserInfo();

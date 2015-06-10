@@ -1,77 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/public_bg" >
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLayoutStyle" >
+    <include layout="@layout/toolbar" />
     <RelativeLayout
-        android:id="@+id/layout_head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
+        android:id="@id/rl_item_0"
+        style="@style/relativelayoutlayout_style"
+        android:background="@color/public_white"
+        android:padding="10dip" >
         <ImageView
-            android:id="@+id/image_return"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:src="@drawable/image_return"
-            android:scaleType="centerInside"/>
+            android:id="@id/iv_photo"
+            android:layout_marginRight="@dimen/iten_margin_top"
+            android:layout_width="@dimen/image_head_width_height"
+            android:layout_height="@dimen/image_head_width_height"
+            android:layout_centerVertical="true"
+            android:src="@drawable/public_default_head" />
+        <TextView
+            android:id="@id/tv_name"
+            android:layout_toRightOf="@id/iv_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/public_black"
+            android:textSize="16sp" />
+        <ImageView
+            android:id="@id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/public_image_next" />
+        <TextView
+            android:id="@id/tv_jianjie"
+            android:layout_below="@id/tv_name"
+            android:layout_toRightOf="@id/iv_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:textSize="14.0sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_toLeftOf="@id/iv_more"
+            android:textColor="@color/text_93"
+            android:text="简介：暂无简介" />
     </RelativeLayout>
-
+    <include layout="@layout/divider" />
+    <android.support.design.widget.TabLayout
+        android:id="@id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_head"
         android:orientation="vertical" >
-
-        <RelativeLayout
-            android:id="@+id/relativelayout_personal_information"
-            style="@style/relativelayoutlayout_style" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/public_black"
-                        android:textSize="16sp"
-                        android:text="陈笑熙" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="简介：暂无简介" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/public_image_next" />
-        </RelativeLayout>
-
-        <ImageView style="@style/image_line_black_alpha" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -136,9 +114,9 @@
         <ImageView style="@style/image_line_black_alpha" />
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+            android:id="@id/viewpage"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

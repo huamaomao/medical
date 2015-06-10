@@ -214,7 +214,8 @@ public class TabMessageFragment extends BaseToolbarFragment {
 
                 @Override
                 public void requestError(HttpException e, ResponseMessage info) {
-                    new AppHttpExceptionHandler().via(getActivity()).handleException(e, info);
+                    Log.d(info);
+                   // new AppHttpExceptionHandler().via(getActivity()).handleException(e, info);
                 }
             });
         }

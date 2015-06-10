@@ -48,7 +48,6 @@ public class HomeInfo extends ResponseMessage {
 		public String isImportance;
 		public String headImage;
 		public String nickname;
-
 		@Override
 		public int describeContents() {
 			return 0;

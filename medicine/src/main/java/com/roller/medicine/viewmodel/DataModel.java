@@ -22,6 +22,7 @@ import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.roller.medicine.info.BloodInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
+import com.roller.medicine.info.FamilytInfo;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.info.KnowledgeQuizContentInfo;
@@ -262,7 +263,7 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("userId", userId));
-        Request request=new Request(requestUrl(UrlApi.CHECK_TEL_CODE)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        Request request=new Request(requestUrl("/crm/user_sp/getUserByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
 
@@ -653,7 +654,7 @@ public class DataModel extends ViewModel{
     /**
      * 获取成员列表
      */
-    public void getFamilyListByMap(SimpleResponseListener<ResponseMessage> responseService){
+    public void getFamilyListByMap(SimpleResponseListener<FamilytInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(requestUrl("/crm/family_sp/getFamilyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
@@ -693,7 +694,7 @@ public class DataModel extends ViewModel{
      */
     public void  uploadPicture(String typeId,String path, final SimpleResponseListener<UploadPicture> listener){
         MultipartBody body=new MultipartBody();
-        body.addPart(new StringPart("token",getToken().token));
+        body.addPart(new StringPart("token", getToken().token));
         body.addPart(new StringPart("typeId", typeId));
         body.addPart(new FilePart("file", new File(path), "image/jpeg"));
         Request request=new Request(requestUrl("/crm/image_sp/uploadImage.json")).setHttpBody(body).setMethod(HttpMethod.Post);

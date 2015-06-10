@@ -140,6 +140,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
                         public void onClick(View v) {
                             select=position;
                             dialog.show(((BaseToolbarActivity)mContext).getSupportFragmentManager(),"dialog");
+
                         }
                     });
                 }else if (GotyeMessageStatus.GotyeMessageStatusSending==message.getStatus()){

@@ -194,7 +194,7 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException(e, info);
+				new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
 			}
 			@Override
 			public void requestView() {

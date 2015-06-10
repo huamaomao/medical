@@ -74,7 +74,7 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 				loadData();
 			}
 		});
-		adapter=new RecyclerAdapter(getContent(),mData,rv_view){
+		adapter=new RecyclerAdapter(getContext(),mData,rv_view){
 			@Override
 			public int getItemType(int position) {
 				if (mData.get(position)==null){
@@ -96,7 +96,7 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 					viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
 					TextView tv_praise = viewHolder.getView(R.id.tv_praise);
 					if ("false".equals(contentInfo.isPraise)) {
-						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContent().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
 						tv_praise.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -105,7 +105,7 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 							}
 						});
 					} else {
-						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContent().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
+						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
 						tv_praise.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
@@ -130,9 +130,9 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 			@Override
 			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 				if (viewType == 22) {
-					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.list_head_quiz, viewGroup, false));
+					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_head_quiz, viewGroup, false));
 				}
-				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContent()).inflate(R.layout.listview_comments, viewGroup, false));
+				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.listview_comments, viewGroup, false));
 			}
 
 			@Override
@@ -142,7 +142,7 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 		});
 
 
-		ViewUtil.initRecyclerViewDecoration(rv_view, getContent(), adapter);
+		ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
 		loadData();
 	}
 
@@ -191,7 +191,7 @@ public class KnowledgeQuizContentActivity extends BaseToolbarActivity{
 		}
 
 		setLastClickTime();
-		Intent intent=new Intent(getContent(),CommentActivity.class);
+		Intent intent=new Intent(getContext(),CommentActivity.class);
 		Bundle bundle=new Bundle();
 		bundle.putString(Constants.ITEM, contentInfo.id);
 		bundle.putInt(Constants.TYPE, Constants.TYPE_COMMENT);

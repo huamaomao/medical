@@ -80,7 +80,7 @@ public class AddFriendActivity extends BaseToolbarActivity{
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
-                new AppHttpExceptionHandler().via(getContent()).handleException(e,info);
+                new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
             }
         });
     }

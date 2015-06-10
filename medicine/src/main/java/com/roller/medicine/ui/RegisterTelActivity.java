@@ -80,7 +80,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException
+				new AppHttpExceptionHandler().via(getContext()).handleException
 						(e, info);
 			}
 
@@ -151,7 +151,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException
+				new AppHttpExceptionHandler().via(getContext()).handleException
 						(e,info);
 			}
 		});

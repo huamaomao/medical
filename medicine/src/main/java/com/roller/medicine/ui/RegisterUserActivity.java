@@ -111,7 +111,7 @@ public class RegisterUserActivity extends BaseLoadingToolbarActivity{
 
 					@Override
 					public void requestError(HttpException e, ResponseMessage info) {
-						new AppHttpExceptionHandler().via(getContent()).handleException
+						new AppHttpExceptionHandler().via(getContext()).handleException
 								(e,info);
 					}
 					@Override
@@ -123,7 +123,7 @@ public class RegisterUserActivity extends BaseLoadingToolbarActivity{
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContent()).handleException
+				new AppHttpExceptionHandler().via(getContext()).handleException
 						(e,info);
 			}
 			@Override

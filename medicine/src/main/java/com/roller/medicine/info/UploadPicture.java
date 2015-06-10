@@ -4,7 +4,7 @@ import com.android.common.domain.ResponseMessage;
 
 /**
  * @author Hua_
- * @Description: ÉÏ´«Í¼Æ¬
+ * @Description:
  * @date 2015/5/11 - 13:29
  */
 public class UploadPicture extends ResponseMessage {

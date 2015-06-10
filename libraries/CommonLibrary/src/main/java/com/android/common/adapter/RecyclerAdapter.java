@@ -295,6 +295,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     }
 
+    public void removeItem(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+        checkEmpty();
+
+    }
+
     public int getItemCount() {
         return isHeadView?mRecyclerAdapterMethods.getItemCount()+1:mRecyclerAdapterMethods.getItemCount();
     }

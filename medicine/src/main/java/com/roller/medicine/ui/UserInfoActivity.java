@@ -60,16 +60,15 @@ public class UserInfoActivity extends BaseToolbarActivity{
 			
 		case R.id.relativelayout_nickname:
 
-			ViewUtil.openActivity(UpdatePersonalInformationActivity.class,getContent() , ActivityModel.ACTIVITY_MODEL_2);
-
+			ViewUtil.openActivity(UpdatePersonalInformationActivity.class,getContext() , ActivityModel.ACTIVITY_MODEL_2);
 			break;
 			
 		case R.id.relativelayout_phone:
-			ViewUtil.openActivity(UpdatePersonalInformationActivity.class, getContent(), ActivityModel.ACTIVITY_MODEL_2);
+			ViewUtil.openActivity(UpdatePersonalInformationActivity.class, getContext(), ActivityModel.ACTIVITY_MODEL_2);
 			break;
 			
 		case R.id.relativelayout_describe:
-			ViewUtil.openActivity(UpdatePersonalInformationActivity.class, getContent(), ActivityModel.ACTIVITY_MODEL_2);
+			ViewUtil.openActivity(UpdatePersonalInformationActivity.class, getContext(), ActivityModel.ACTIVITY_MODEL_2);
 			break;
 
 		}

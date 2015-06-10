@@ -1,21 +1,20 @@
 package com.roller.medicine.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.FragmentViewPagerAdapter;
 import com.roller.medicine.adapter.FragmentViewPagerAdapter.OnExtraPageChangeListener;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.fragment.MyCommentsFragment;
 import com.roller.medicine.fragment.MyFansFragment;
 import com.roller.medicine.fragment.MyFocusFragment;
@@ -25,38 +24,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
-public class MyCLFFansActivity extends BaseToolbarActivity{
+public class MyHomeActivity extends BaseToolbarActivity{
 
-	@InjectView(R.id.viewpager)
+	@InjectView(R.id.viewpage)
 	 ViewPager mViewPager;
-	@InjectView(R.id.text_title)
-	 TextView text_title;
-	@InjectView(R.id.text_comments)
-	 TextView text_comments;
-	@InjectView(R.id.text_like)
-	 TextView text_like;
-	@InjectView(R.id.text_focus)
-	 TextView text_focus;
-	@InjectView(R.id.text_fans)
-	 TextView text_fans;
-	@InjectView(R.id.image_line)
-	 ImageView image_line;
-
-
+	@InjectView(R.id.tabs)
+	TabLayout tabLayout;
 	private List<Fragment> fragments=new ArrayList<>();
-
 	private int currPosition = 0;
 	private int indicatorWidth = 0;
 	@Override
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_my_clffans_tab);
+		setContentView(R.layout.activity_my_home);
 	}
 
 	protected void initView(){
-		text_title.setText("我的主页");
+		super.initView();
+		View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		tabLayout.addTab(tabLayout.newTab().setCustomView(view));
+		View view1=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
+		/*View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		View view1=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		View view2=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		tabLayout.addView(view1);
+		tabLayout.addView(view1);
+		tabLayout.addView(view2);*/
+		/*text_title.setText("我的主页");
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -73,13 +69,13 @@ public class MyCLFFansActivity extends BaseToolbarActivity{
 				getSupportFragmentManager(), mViewPager,fragments);
 		adapter.setOnExtraPageChangeListener(pageChangeListener);
 		mViewPager.setAdapter(adapter);
-
+*/
 	}
 
 
 
 	
-	private OnExtraPageChangeListener pageChangeListener = new OnExtraPageChangeListener(){
+/*	private OnExtraPageChangeListener pageChangeListener = new OnExtraPageChangeListener(){
 		
 		@Override
 		public void onExtraPageSelected(int i) {
@@ -119,7 +115,7 @@ public class MyCLFFansActivity extends BaseToolbarActivity{
 		animation.setFillAfter(true);
 		image_line.startAnimation(animation);
 	}
-	
+	*/
 	
 		//case R.id.tAllOrder:
 		//	Log.e("info", "点击时的状态:" + Utils.orderFragment);

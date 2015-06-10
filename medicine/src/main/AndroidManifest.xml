@@ -99,7 +99,7 @@
         <activity
             android:name=".ui.SetUpActivity" android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.MyCLFFansActivity" android:screenOrientation="portrait"/>
+            android:name=".ui.MyHomeActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.FamilyAddActivity" android:screenOrientation="portrait"/>
         <activity

@@ -19,6 +19,7 @@ import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.ui.FamilyAddActivity;
 import com.roller.medicine.ui.FamilyRemoveActivity;
 import com.roller.medicine.ui.FamilyUpdateActivity;
+import com.roller.medicine.ui.MyHomeActivity;
 import com.roller.medicine.ui.UserInfoActivity;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.viewmodel.DataModel;
@@ -85,7 +86,7 @@ public class TabMyFragment extends BaseToolbarFragment{
 		switch (view.getId()){
 			case R.id.rl_item_0://info
 				setLastClickTime();
-				ViewUtil.openActivity(UserInfoActivity.class,getActivity());
+				ViewUtil.openActivity(MyHomeActivity.class,getActivity());
 				break;
 			case R.id.rl_item_1://新建
 				setLastClickTime();

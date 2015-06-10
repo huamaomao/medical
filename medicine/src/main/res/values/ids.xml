@@ -165,6 +165,7 @@
     <!-- button -->
     <item name="btn_status" type="id" />
     <item name="btn_login" type="id" />
+    <item name="btn_delete" type="id" />
     <item name="btn_loginout" type="id" />
     <item name="btn_next" type="id" />
     <item name="btn_send" type="id" />

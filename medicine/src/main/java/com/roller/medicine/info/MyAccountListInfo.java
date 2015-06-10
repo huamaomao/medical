@@ -7,13 +7,13 @@ import java.util.List;
 public class MyAccountListInfo extends ResponseMessage {
 
 	
-	private List<MyAccountListItemInfo> list;
+	private List<FamilytInfo> list;
 
-	public List<MyAccountListItemInfo> getList() {
+	public List<FamilytInfo> getList() {
 		return list;
 	}
 
-	public void setList(List<MyAccountListItemInfo> list) {
+	public void setList(List<FamilytInfo> list) {
 		this.list = list;
 	}
 
