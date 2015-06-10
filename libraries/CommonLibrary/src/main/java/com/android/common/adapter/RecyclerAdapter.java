@@ -55,6 +55,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private RecyclerAdapterMethods mRecyclerAdapterMethods;
     private OnClickEvent mOnClickEvent;
     /*******是否需要注册网络广播********/
+
     private RecyclerAdapter(){}
 
 
@@ -173,16 +174,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     @Override
                     public void onClick(View v) {
                         Intent intent = null;
-                        //判断手机系统的版本  即API大于10 就是3.0或以上版本
-                        if (android.os.Build.VERSION.SDK_INT > 10) {
+                        //判断手机系统的版本   就是3.0或以上版本
+                        if(android.os.Build.VERSION.SDK_INT > 13 ) {
+                            intent=new Intent(android.provider.Settings.ACTION_SETTINGS);
+                        }else{
                             intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                        } else {
-                            intent = new Intent();
-                            ComponentName component = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
-                            intent.setComponent(component);
-                            intent.setAction("android.intent.action.VIEW");
                         }
-                        mContext.startActivity(intent);
+                         mContext.startActivity(intent);
                     }
                 });
             }
@@ -198,7 +196,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
         }else {
             final   int index=isHeadView?position-1:position;
-            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index),index);
+                mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index), index);
             if (mOnClickEvent != null)
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

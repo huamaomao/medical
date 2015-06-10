@@ -1,6 +1,7 @@
 package com.android.common.util;
 
 import android.app.Activity;
+import android.support.design.widget.Snackbar;
 
 import com.android.common.domain.ResponseMessage;
 import com.litesuits.http.data.HttpStatus;
@@ -41,7 +42,7 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
                 onClientException(ce, ce.getExceptionType());
             }
         }else {
-            new Toastor(activity).showSingletonToast("请求失败...");
+            show("请求失败...");
         }
 
         return this;
@@ -59,8 +60,8 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
     @Override
     protected void onClientException(HttpClientException e, HttpClientException.ClientException e1) {
         // 客户端异常
-        if (CommonUtil.notNull(activity)){
-            new Toastor(activity).showSingletonToast("客户端异常...");
+        if (CommonUtil.notNull(activity)) {
+            show("客户端异常...");
         }else {
 
         }
@@ -71,7 +72,8 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
     protected void onNetException(HttpNetException e, HttpNetException.NetException e1) {
         // 网络异常
         if (CommonUtil.notNull(activity)){
-            new Toastor(activity).showSingletonToast("网络异常...");
+            show("网络异常...");
+           // new Toastor(activity).showSingletonToast("网络异常...");
         }else {
 
         }
@@ -83,9 +85,16 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
     protected void onServerException(HttpServerException e, HttpServerException.ServerException e1, HttpStatus httpStatus) {
         //服务异常
         if (CommonUtil.notNull(activity)){
-            new Toastor(activity).showSingletonToast("服务异常...");
+            show("服务异常...");
         }else {
 
         }
+    }
+
+    private void show(String msg){
+        if (CommonUtil.notNull(activity)){
+            Snackbar.make(activity.getCurrentFocus(),msg,Snackbar.LENGTH_SHORT).show();
+        }
+
     }
 }

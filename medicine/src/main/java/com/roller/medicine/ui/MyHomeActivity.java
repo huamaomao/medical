@@ -4,25 +4,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.roller.medicine.R;
-import com.roller.medicine.adapter.FragmentViewPagerAdapter;
-import com.roller.medicine.adapter.FragmentViewPagerAdapter.OnExtraPageChangeListener;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.fragment.MyCommentsFragment;
-import com.roller.medicine.fragment.MyFansFragment;
-import com.roller.medicine.fragment.MyFocusFragment;
-import com.roller.medicine.fragment.MyLikeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MyHomeActivity extends BaseToolbarActivity{
@@ -34,6 +25,12 @@ public class MyHomeActivity extends BaseToolbarActivity{
 	private List<Fragment> fragments=new ArrayList<>();
 	private int currPosition = 0;
 	private int indicatorWidth = 0;
+
+
+	TextView tv_comment;
+	TextView tv_love;
+	TextView tv_focus;
+	TextView tv_fans;
 	@Override
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,10 +39,24 @@ public class MyHomeActivity extends BaseToolbarActivity{
 
 	protected void initView(){
 		super.initView();
+		setBackActivity("我的主页");
 		View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		((TextView)ButterKnife.findById(view,R.id.tv_title)).setText("评论");
+		tv_comment=ButterKnife.findById(view,R.id.tv_name);
 		tabLayout.addTab(tabLayout.newTab().setCustomView(view));
 		View view1=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		((TextView)ButterKnife.findById(view1,R.id.tv_title)).setText("喜欢");
+		tv_love=ButterKnife.findById(view1,R.id.tv_name);
 		tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
+		View view2=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		((TextView)ButterKnife.findById(view2,R.id.tv_title)).setText("关注");
+		tv_focus=ButterKnife.findById(view2,R.id.tv_name);
+		tabLayout.addTab(tabLayout.newTab().setCustomView(view2));
+		View view3=getLayoutInflater().inflate(R.layout.tab_my_home,null);
+		((TextView)ButterKnife.findById(view3,R.id.tv_title)).setText("粉丝");
+		tv_fans=ButterKnife.findById(view3,R.id.tv_name);
+		tabLayout.addTab(tabLayout.newTab().setCustomView(view3));
+
 		/*View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
 		View view1=getLayoutInflater().inflate(R.layout.tab_my_home,null);
 		View view2=getLayoutInflater().inflate(R.layout.tab_my_home,null);
