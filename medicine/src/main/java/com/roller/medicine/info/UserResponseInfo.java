@@ -9,4 +9,11 @@ import com.android.common.domain.ResponseMessage;
  */
 public class UserResponseInfo extends ResponseMessage {
     public UserInfo user;
+
+    @Override
+    public String toString() {
+        return "UserResponseInfo{" +
+                "user=" + user +
+                "} " + super.toString();
+    }
 }

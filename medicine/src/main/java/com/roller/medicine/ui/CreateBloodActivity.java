@@ -166,12 +166,12 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 				tv_name.setText(builder.toString());
 			}
 		});
-
-		finamyAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_write_text,list);
-		timeAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_write_text,getResources().getStringArray(R.array.lineTime));
+		finamyAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_g_text,list);
+		timeAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_g_text,getResources().getStringArray(R.array.lineTime));
 		sp_finamy.setAdapter(finamyAdpater);
 		sp_time.setAdapter(timeAdpater);
 		setBackActivity("录入血糖");
+
 		sp_time.setSelection(index);
 		sp_finamy.setSelection(0);
 		tv_date.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +182,6 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 		});
 		showCalendarInDialog("选择日期", R.layout.dialog);
 	}
-
 
 	public void saveBlood(){
 		showLoading();

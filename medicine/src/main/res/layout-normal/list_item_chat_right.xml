@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:background="@android:color/transparent"
+    android:background="@color/chat_bg"
    style="@style/list_item_style">
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@id/tv_chat_time"
         android:padding="2dp"
         android:background="@drawable/round_bg_time"
-        android:textColor="@color/chat_time"
-        android:textSize="@dimen/font_size_14"
+        style="@style/timeText"
         android:layout_marginBottom="3dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -24,13 +23,10 @@
         android:id="@id/tv_item_1"
         android:layout_below="@id/tv_chat_time"
         android:layout_toLeftOf="@id/iv_photo"
-        android:textColor="@color/write"
         android:background="@drawable/icon_chat_right"
-        android:textSize="@dimen/font_size_13"
-        android:maxWidth="240dp"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/write"
+        style="@style/textChat"
+      />
 
     <include layout="@layout/item_loading"
         android:layout_height="wrap_content"

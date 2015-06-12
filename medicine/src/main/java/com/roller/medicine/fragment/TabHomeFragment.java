@@ -81,11 +81,11 @@ public class TabHomeFragment extends BaseToolbarFragment{
 			this.itemView=view;
 			ButterKnife.inject(this, view);
 		}
-		@Optional  @OnClick(R.id.ibtn_add_)
+		 @OnClick(R.id.ibtn_add)
 		void doAddLeft(){
 			openCreateBlood(item);
 		}
-		 @OnClick(R.id.ibtn_add)
+		@Optional  @OnClick(R.id.ibtn_add_)
 		void doAdd(){
 			 openCreateBlood(++item);
 		}
@@ -165,7 +165,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 			@Override
 			public void requestError(com.litesuits.http.exception.HttpException e, ResponseMessage info) {
-				 new AppHttpExceptionHandler().via(getActivity()).handleException(e,info);
+				// new AppHttpExceptionHandler().via(getActivity()).handleException(e,info);
 			}
 		});
 

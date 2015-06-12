@@ -46,9 +46,6 @@ public class TabMyFragment extends BaseToolbarFragment{
 	TextView tv_concern;
 	@InjectView(R.id.tv_item_4)
 	TextView tv_fans;
-
-	private PublicViewAdapter<MyItemInfo> adapter = null;
-	private LinkedList<MyItemInfo> mDatas = new LinkedList<>();
 	private View view;
 	/** 标志位，标志已经初始化完成。 */
 	private boolean isPrepared;

@@ -21,12 +21,15 @@ import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.roller.medicine.info.BloodInfo;
+import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
 import com.roller.medicine.info.FamilytInfo;
+import com.roller.medicine.info.FocusInfo;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.info.KnowledgeQuizContentInfo;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
+import com.roller.medicine.info.LoveInfo;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UploadPicture;
@@ -180,6 +183,7 @@ public class DataModel extends ViewModel{
     }
 
     public void saveFriendList(List<UserInfo> list){
+        if (CommonUtil.isNull(list)) return;
         for (UserInfo user:list){
             user.friendId=getLoginUser().id;
             saveUser(user);
@@ -484,10 +488,10 @@ public class DataModel extends ViewModel{
     /**
      * 我的关注 我的粉丝
      * @param responseService
-     * @param typeId
+     * @param typeId  1 关注我的   2 我的关注
      * @throws Exception
      */
-    public void getRelationListByMap(String typeId,SimpleResponseListener<ResponseMessage> responseService){
+    public void getRelationListByMap(String typeId,SimpleResponseListener<FocusInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("typeId", typeId));
@@ -500,10 +504,9 @@ public class DataModel extends ViewModel{
      * @param responseService
      * @throws Exception
      */
-    public void getPraiseListByMap(String typeId,SimpleResponseListener<ResponseMessage> responseService){
+    public void getPraiseListByMap(SimpleResponseListener<LoveInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
-        param.add(new NameValuePair("typeId", typeId));
         Request request=new Request(requestUrl("/crm/praise_sp/getPraiseListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -630,7 +633,7 @@ public class DataModel extends ViewModel{
     /**
      * 我的评论
      */
-    public void getPostReplyListByMap(SimpleResponseListener<ResponseMessage> responseService){
+    public void getPostReplyListByMap(SimpleResponseListener<CommentInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         Request request=new Request(requestUrl("/crm/post_sp/getPostReplyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));

@@ -25,7 +25,7 @@
                android:gravity="start|center_vertical"
                android:padding="10dp"
                android:singleLine="true"
-               android:checkMark="@drawable/icon_spinner"
+               android:checkMark="@drawable/icon_spinner_g"
                android:textColor="@color/black"
                android:textSize="16sp" />
            <include layout="@layout/divider" />

@@ -1,25 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/appLayoutStyle" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/appLayoutStyle">
     <include layout="@layout/toolbar" />
     <RelativeLayout
         android:id="@id/rl_item_0"
         style="@style/relativelayoutlayout_style"
-        android:background="@color/public_white"
+        android:background="@color/color_into"
         android:padding="10dip" >
         <ImageView
             android:id="@id/iv_photo"
             android:layout_marginRight="@dimen/iten_margin_top"
             android:layout_width="@dimen/image_head_width_height"
-            android:layout_height="@dimen/image_head_width_height"
-            android:layout_centerVertical="true"
-            android:src="@drawable/public_default_head" />
+            android:layout_height="@dimen/image_head_width_height" />
         <TextView
             android:id="@id/tv_name"
             android:layout_toRightOf="@id/iv_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/public_black"
-            android:textSize="16sp" />
+            style="@style/TitleDefaultText" />
         <ImageView
             android:id="@id/iv_more"
             android:layout_width="wrap_content"
@@ -34,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dip"
+            android:layout_marginRight="14dp"
             android:textSize="14.0sp"
             android:maxLines="2"
             android:ellipsize="end"
@@ -42,81 +42,15 @@
             android:text="简介：暂无简介" />
     </RelativeLayout>
     <include layout="@layout/divider" />
-    <android.support.design.widget.TabLayout
+    <com.android.common.widget.TabLayout
         android:id="@id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dip" >
-
-            <LinearLayout
-                android:layout_centerVertical="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/text_comments"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="评论\n15"
-                    android:textSize="16sp"
-                    android:textColor="@color/public_black" />
-
-                <TextView
-                    android:id="@+id/text_like"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="喜欢\n15"
-                    android:textSize="16sp"
-                    android:textColor="@color/public_black" />
-
-                <TextView
-                    android:id="@+id/text_focus"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="关注\n15"
-                    android:textSize="16sp"
-                    android:textColor="@color/public_black" />
-
-                <TextView
-                    android:id="@+id/text_fans"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="粉丝\n15"
-                    android:textSize="16sp"
-                    android:textColor="@color/public_black" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/image_line"
-                android:layout_width="wrap_content"
-                android:layout_height="3dip"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="0.5dip"
-                android:background="@color/public_26CFB3" />
-        </RelativeLayout>
-
-        <ImageView style="@style/image_line_black_alpha" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@id/viewpage"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </LinearLayout>
-
+        android:background="@color/color_into"
+        app:tabIndicatorHeight="@dimen/tab_indicator_height"
+        android:layout_height="65dp" />
+    <include layout="@layout/divider" />
+    <android.support.v4.view.ViewPager
+        android:id="@id/viewpage"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

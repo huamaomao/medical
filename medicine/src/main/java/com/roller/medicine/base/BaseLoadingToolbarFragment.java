@@ -14,18 +14,19 @@ import com.android.common.util.CommonUtil;
 
 import butterknife.ButterKnife;
 
-public  class BaseToolbarFragment extends Fragment{
+public  class BaseLoadingToolbarFragment extends Fragment{
     protected final String TAG="test";
     protected View rootView=null;
     protected int layoutId;
     protected boolean flag=false;
-    BaseToolbarActivity baseActivity;
+    BaseLoadingToolbarActivity baseActivity;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        baseActivity=(BaseToolbarActivity)getActivity();
+        baseActivity=(BaseLoadingToolbarActivity)getActivity();
     }
     public Toolbar getToolbar(){
         return baseActivity.mToolbar;
@@ -37,8 +38,24 @@ public  class BaseToolbarFragment extends Fragment{
         ((BaseToolbarActivity)getActivity()).setLastClickTime();
     }
 
+    protected void showLoading() {
+        if (CommonUtil.notNull(baseActivity))
+        baseActivity.showLoading();
+
+    }
+    protected void setLoadingMessage(String msg) {
+        if (CommonUtil.notNull(baseActivity))
+            baseActivity.loadingFragment.setMessage(msg);
+
+    }
+
+    protected void hideLoading() {
+        if (CommonUtil.notNull(baseActivity))
+            baseActivity.hideLoading();
+    }
 
     public void setTitle(String title){
+        if (CommonUtil.notNull(baseActivity))
         baseActivity.setToolbarTitle(title);
     }
 
@@ -98,7 +115,7 @@ public  class BaseToolbarFragment extends Fragment{
      *
      * @param content 提示的内容
      */
-    public void msgShow(String content) {
+    public void showMsg(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_SHORT).show();
     }
 
@@ -107,7 +124,7 @@ public  class BaseToolbarFragment extends Fragment{
      *
      * @param content 提示的内容
      */
-    public void msgLongShow(String content) {
+    public void showLongMsg(String content) {
         Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
     }
 }

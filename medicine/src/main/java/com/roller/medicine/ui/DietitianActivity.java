@@ -20,6 +20,7 @@ import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.InjectView;
 
 public class DietitianActivity extends BaseToolbarActivity {
@@ -52,9 +53,10 @@ public class DietitianActivity extends BaseToolbarActivity {
 			}
 		});
 		data=new ArrayList<>();
-		adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_DOCTOR);
-		ViewUtil.initRecyclerView(recyclerView,this,adapater);
-		adapater.addCleanItems(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
+		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
+		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
+		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
+
 	}
 
 	public void doFriendList(){

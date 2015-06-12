@@ -1,5 +1,6 @@
 package com.roller.medicine.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.ui.AddFriendActivity;
 import com.roller.medicine.ui.DietitianActivity;
 import com.roller.medicine.ui.DoctorActivity;
+import com.roller.medicine.ui.MessageActivity;
 import com.roller.medicine.ui.PatientActivity;
 import com.roller.medicine.ui.SeachActivity;
 import com.roller.medicine.base.BaseToolbarFragment;
@@ -88,7 +90,9 @@ public class TabMessageFragment extends BaseToolbarFragment {
         recyclerAdapter.setOnClickEvent(new RecyclerAdapter.OnClickEvent<UserInfo>() {
             @Override
             public void onClick(View v, UserInfo userInfo, int position) {
-                UserInfo item = lsData.get(position);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable(Constants.ITEM,userInfo);
+                ViewUtil.openActivity(MessageActivity.class, bundle,getActivity(), ActivityModel.ACTIVITY_MODEL_1);
 
             }
         });
@@ -150,6 +154,11 @@ public class TabMessageFragment extends BaseToolbarFragment {
         gotyeService.initReceive(new GotyeService.ReceiveMessageListener() {
             @Override
             public void onReceiveMessage(GotyeMessage message) {
+                if (CommonUtil.notNull(message)&&message.getReceiver().getName().equals(medicineDataService.getLoginUser().id)){
+                    UserInfo user=getUser(message.getSender().getName());
+                    if (CommonUtil.notNull(user))
+                        recyclerAdapter.pushItem(user);
+                }
 
             }
         });
@@ -187,13 +196,12 @@ public class TabMessageFragment extends BaseToolbarFragment {
         GotyeUser userTarget=null;
         GotyeMessage message=null;
         //     可能获取不到用户  需从服务器拉取  不在好友列表中
-        user1= medicineDataService.getUser(Integer.valueOf(id));
+        user1= medicineDataService.getUser(CommonUtil.parseInt(id));
         if (CommonUtil.notNull(user1)){
             userTarget=new GotyeUser();
             userTarget.setName(user1.id + "");
             user1.messageNum=gotyeService.getMessageCount(userTarget);
             message=gotyeService.getLastMessage(userTarget);
-            Log.d(user1);
             if (CommonUtil.notNull(message)){
                 user1.message=message.getText();
                 user1.date= TimeUtil.getDiffTime(message.getDate() * 1000);
@@ -202,6 +210,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
             medicineDataService.requestUserInfo(id, new SimpleResponseListener<UserResponseInfo>() {
                 @Override
                 public void requestSuccess(UserResponseInfo info, Response response) {
+                    if (info.user==null)return;
                     GotyeUser userTarget = new GotyeUser();
                     userTarget.setName(info.user.id + "");
                     info.user.messageNum = gotyeService.getMessageCount(userTarget);
@@ -210,6 +219,8 @@ public class TabMessageFragment extends BaseToolbarFragment {
                         info.user.message = gotyeMessage.getText();
                         info.user.date = TimeUtil.getDiffTime(gotyeMessage.getDate() * 1000);
                     }
+                    medicineDataService.saveUser(info.user);
+                    recyclerAdapter.pushItem(info.user);
                 }
 
                 @Override

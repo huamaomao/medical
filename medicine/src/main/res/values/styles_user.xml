@@ -118,7 +118,7 @@
     </style>
 
     <style name="timeText">
-        <item name="android:textSize">10.0sp</item>
+        <item name="android:textSize">11.0sp</item>
         <item name="android:textColor">@color/time_cl</item>
     </style>
 
@@ -183,6 +183,62 @@
     </style>
     <style name="my_value" parent="my_title">
         <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">13.0sp</item>
     </style>
+
+    <!--   message  style -->
+    <style name="textMsgNum">
+        <item name="android:textColor">@color/write</item>
+        <item name="android:textSize">10.0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:minWidth">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/icon_message_number</item>
+    </style>
+
+    <style name="textLastMsg">
+        <item name="android:textColor">@color/message_kemu</item>
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="textSex">
+        <item name="android:textColor">@color/write</item>
+        <item name="android:textSize">12.0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+    </style>
+
+    <style name="textChat">
+        <item name="android:textColor">@color/write</item>
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:maxWidth">240dip</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+
+
+    <style name="refreshStyle">
+        <item name="android:background">@color/chat_bg</item>
+    </style>
+
 
 </resources>

@@ -116,7 +116,7 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
-                new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+                new AppHttpExceptionHandler().via(getCurrentFocus()).handleException(e, info);
             }
         });
     }

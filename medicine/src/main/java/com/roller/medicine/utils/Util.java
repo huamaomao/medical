@@ -1,6 +1,13 @@
 package com.roller.medicine.utils;
 
+import android.content.Context;
+import android.widget.ImageView;
+
 import com.android.common.util.CommonUtil;
+import com.roller.medicine.R;
+import com.roller.medicine.viewmodel.DataModel;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -43,5 +50,8 @@ public final class Util {
         return list;
     }
 
+    public static void loadPhoto(Context context,String url,ImageView imageView){
+        Picasso.with(context).load(DataModel.getImageUrl(url)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(imageView);
 
+    }
 }

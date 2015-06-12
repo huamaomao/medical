@@ -8,6 +8,8 @@
         android:id="@id/tv_title"
         style="@style/my_title"
         android:text="评论"
+        android:layout_marginBottom="5dp"
+        android:paddingTop="@dimen/iten_margin_top"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -16,6 +18,7 @@
         style="@style/my_value"
         android:layout_gravity="center_horizontal"
         android:text="0"
+        android:paddingBottom="@dimen/iten_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

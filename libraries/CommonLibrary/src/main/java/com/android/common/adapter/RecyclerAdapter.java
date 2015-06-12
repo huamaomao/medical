@@ -22,7 +22,7 @@ import java.util.List;
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     public interface RecyclerAdapterMethods<T>{
-        void onBindViewHolder(final ViewHolder viewHolder,final T t,final int position);
+        void onBindViewHolder(final ViewHolder viewHolder,final T item,final int position);
         ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewType);
         int getItemCount();
     }
@@ -273,6 +273,15 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
         mData.add(0,item);
         notifyItemInserted(0);
+    }
+
+    public void pushItem(T item) {
+        int index= mData.indexOf(item);
+        if (index!=-1){
+            mData.remove(index);
+        }
+        mData.add(0,item);
+       notifyDataSetChanged();
     }
 
 

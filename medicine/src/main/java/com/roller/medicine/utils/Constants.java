@@ -43,6 +43,9 @@ public interface Constants {
     public static final String USER_TYPE_DIETITAN="4";
     public static final String USER_TYPE_PATIENT="5";
 
+    public static final String USER_ADD="76";
+    public static final String USER_NO_ADD="77";
+
     public static final int CODE=200;
 
 }

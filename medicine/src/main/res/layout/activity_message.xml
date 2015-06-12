@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/chat_bg"
     style="@style/appLayoutStyle">
     <include layout="@layout/toolbar" />
 
     <com.baoyz.widget.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@id/refresh"
+        android:background="@color/chat_bg"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1">
-        <include layout="@layout/public_wrap_recycler_view"
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@id/rv_view"
             android:background="@color/chat_bg"
-            android:layout_height="0px"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            />
+            android:layout_height="wrap_content"
+            android:saveEnabled="false"
+            android:clipToPadding="true"
+            android:scrollbars="vertical" />
     </com.baoyz.widget.PullRefreshLayout>
 
     <View android:background="@color/message_border"

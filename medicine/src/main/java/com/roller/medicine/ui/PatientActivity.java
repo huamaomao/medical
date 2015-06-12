@@ -31,7 +31,6 @@ public class PatientActivity extends BaseToolbarActivity {
 	private List<UserInfo> data;
 	private DataModel service;
 	private FriendListAdapater adapater;
-	private EmptyView emptyView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +52,15 @@ public class PatientActivity extends BaseToolbarActivity {
 			}
 		});
 		data=new ArrayList<>();
-		adapater=new FriendListAdapater(this,data,FriendListAdapater.TYPE_PATIENT);
-		ViewUtil.initRecyclerView(recyclerView,this,adapater);
-		adapater.addCleanItems(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
+		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_PATIENT);
+		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
+		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
 	}
-
 	public void doFriendList(){
-		service.requestPatientList(new SimpleResponseListener<FriendResponseInfo>() {
+		service.requestPatientList(new SimpleResponseListener<FriendResponseInfo>(){
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
-				adapater.addCleanItems(info.friendList);
+				adapater.addItemAll(info.friendList);
 			}
 
 			@Override

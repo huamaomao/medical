@@ -1,7 +1,9 @@
 package com.roller.medicine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewHolderHelp;
+import com.android.common.util.ViewUtil;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -27,7 +31,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.roller.medicine.R;
 import com.roller.medicine.info.HomeAdviceInfo;
 import com.roller.medicine.info.HomeInfo;
+import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.ui.MessageActivity;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -166,6 +173,19 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }else if (holder instanceof  RecommedViewHolder){
             final   RecommedViewHolder recommedViewHolder=(RecommedViewHolder)holder;
+            recommedViewHolder.btn_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //资讯
+                    UserInfo user=new UserInfo();
+                    user.id=CommonUtil.parseInt(homeInfo.userId);
+                    user.nickname=homeInfo.nickname;
+                    user.headImage=homeInfo.headImage;
+                    Bundle bundle=new Bundle();
+                    bundle.putParcelable(Constants.ITEM,user);
+                    ViewUtil.openActivity(MessageActivity.class, bundle, (Activity)mContext, ActivityModel.ACTIVITY_MODEL_1);
+                }
+            });
             recommedViewHolder.tv_name.setText(homeInfo.nickname);
             Picasso.with(mContext).load(DataModel.getImageUrl(homeInfo.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(recommedViewHolder.iv_photo);

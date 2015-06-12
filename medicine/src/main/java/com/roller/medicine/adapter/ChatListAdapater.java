@@ -43,7 +43,6 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
     private String name= GotyeAPI.getInstance().getLoginUser().getName();
     private UserInfo friendUser;
     protected AlertDialogFragment dialog;
-
     private int select=-1;
 
     public ChatListAdapater(final LinkedList<GotyeMessage> data, Context mContext, UserInfo friendUser, final OnSendListener listener) {

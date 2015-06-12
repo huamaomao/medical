@@ -41,7 +41,6 @@ public class DoctorCommentAdapater extends RecyclerView.Adapter<RecyclerView.Vie
         this.data = data;
         this.mContext = mContext;
         this.userInfo = friendUser;
-
     }
 
     public void setUserInfo(UserInfo info){
@@ -61,6 +60,9 @@ public class DoctorCommentAdapater extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (position==0){
             UserViewHolder  userViewHolder=(UserViewHolder)holder;
+            if (CommonUtil.isNull(userInfo.doctorDetail)){
+                userInfo.doctorDetail=new UserInfo.DoctorDetail();
+            }
             userViewHolder.tv_address.setText(CommonUtil.initTextNull(userInfo.doctorDetail.hospitalName));
             StringBuilder builder=new StringBuilder("(");
             if (CommonUtil.isEmpty(userInfo.doctorDetail.doctorTitle)|| CommonUtil.isEmpty(userInfo.doctorDetail.department)){
@@ -102,7 +104,6 @@ public class DoctorCommentAdapater extends RecyclerView.Adapter<RecyclerView.Vie
             return ITEM_TYPE_HEAD;
         return  ITEM_TYPE_COMMENT;
     }
-
 
     public class UserViewHolder extends RecyclerView.ViewHolder{
         @InjectView(R.id.iv_photo)

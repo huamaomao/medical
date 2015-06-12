@@ -1,68 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style">
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/photo_height"
+        android:layout_height="@dimen/photo_height" />
+    <TextView
+        android:id="@id/tv_name"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:layout_toRightOf="@id/iv_photo"
+        style="@style/TitleDefaultText"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
 
-    <RelativeLayout
-        style="@style/relativelayoutlayout_style">
+    <ImageView
+        android:id="@id/iv_pic"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/public_sex_man" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+    <Button
+        android:id="@id/iv_more"
+        android:text="+ 关注"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/s_btn_send"
+        android:layout_width="60dp"
+        android:layout_height="30dp" />
 
-            <ImageView
-                android:id="@+id/image_item_head"
-                android:layout_width="@dimen/image_head_width_height"
-                android:layout_height="@dimen/image_head_width_height"
-                android:src="@drawable/public_default_head" />
-
-            <TextView
-                android:id="@+id/text_item_nickname"
-                android:layout_marginLeft="10dip"
-                android:textSize="16sp"
-                android:textColor="@color/public_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="主主" />
-            
-            <ImageView
-                android:id="@+id/image_item_sex"
-                android:layout_marginLeft="10dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/public_sex_man" />
-            
-            <ImageView
-                android:id="@+id/image_item_type"
-                android:layout_marginLeft="5dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/public_medicine" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/image_item_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/public_image_next" />
-        
-        <TextView 
-            android:id="@+id/text_item_focus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/public_26CFB3"
-            android:text="+关注"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/public_white"
-            android:padding="5dip"/>
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

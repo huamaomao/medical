@@ -37,7 +37,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
   }
 
   /***
-   * ÊÇ·ñ´«µÝ
+   *
    * @param disallowIntercept
    */
   @Override

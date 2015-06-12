@@ -2,6 +2,7 @@ package com.android.common.util;
 
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.android.common.domain.ResponseMessage;
 import com.litesuits.http.data.HttpStatus;
@@ -15,13 +16,19 @@ import com.litesuits.http.response.handler.HttpExceptionHandler;
  * @Description: 异常处理
  * @date 2015/5/21 - 17:29
  */
-public class AppHttpExceptionHandler extends HttpExceptionHandler {
-    protected  Activity activity;
-
+public final class AppHttpExceptionHandler extends HttpExceptionHandler {
+    private   Activity activity;
+    private View view;
     public  AppHttpExceptionHandler via(Activity activity){
         this.activity=activity;
         return this;
     }
+
+    public  AppHttpExceptionHandler via(View view){
+        this.view=view;
+        return this;
+    }
+
     public HttpExceptionHandler handleException(Exception e,ResponseMessage message) {
         if (message!=null){
             onResponseException(message);
@@ -60,23 +67,14 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
     @Override
     protected void onClientException(HttpClientException e, HttpClientException.ClientException e1) {
         // 客户端异常
-        if (CommonUtil.notNull(activity)) {
-            show("客户端异常...");
-        }else {
-
-        }
+        show("客户端异常...");
 
     }
 
     @Override
     protected void onNetException(HttpNetException e, HttpNetException.NetException e1) {
         // 网络异常
-        if (CommonUtil.notNull(activity)){
-            show("网络异常...");
-           // new Toastor(activity).showSingletonToast("网络异常...");
-        }else {
-
-        }
+        show("网络异常...");
 
     }
 
@@ -84,16 +82,18 @@ public class AppHttpExceptionHandler extends HttpExceptionHandler {
     @Override
     protected void onServerException(HttpServerException e, HttpServerException.ServerException e1, HttpStatus httpStatus) {
         //服务异常
-        if (CommonUtil.notNull(activity)){
-            show("服务异常...");
-        }else {
-
-        }
+        show("服务异常...");
     }
 
     private void show(String msg){
-        if (CommonUtil.notNull(activity)){
-            Snackbar.make(activity.getCurrentFocus(),msg,Snackbar.LENGTH_SHORT).show();
+        if (CommonUtil.notNull(view)){
+           Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();
+        }else if (CommonUtil.notNull(activity)){
+            try {
+               Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();
+            }catch (Exception e){
+                new Toastor(activity).showSingletonToast(msg);
+            }
         }
 
     }

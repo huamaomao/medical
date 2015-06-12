@@ -112,11 +112,11 @@ public class HomeActivity extends BaseToolbarActivity {
 	protected void initView() {
 		subView = new TextView(this);
 		subView.setText(TimeUtil.currentLocalDateString());
-		subView.setTextColor(getResources().getColor(R.color.public_white));
+		subView.setTextColor(getResources().getColor(R.color.write));
 		subView.setCompoundDrawablePadding(8);
 		subView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_spinner), null);
 		Toolbar.LayoutParams params = new Toolbar.LayoutParams(
-				Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+				Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.LEFT);
 		//params.setMargins(3, 3, 3, 4);//设置外边界
 		subView.setLayoutParams(params);
 		mToolbar.addView(subView);
@@ -127,7 +127,7 @@ public class HomeActivity extends BaseToolbarActivity {
 			}
 		});
 
-		setToolbarTitle("医家");
+		setToolbarTitle("");
 		rgGroup.check(R.id.tab_home);
 		ViewUtil.turnToFragment(getSupportFragmentManager(), TabHomeFragment.class, null, R.id.fl_content);
 		rgGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -137,7 +137,7 @@ public class HomeActivity extends BaseToolbarActivity {
 				switch (checkedId) {
 					case R.id.tab_home:
 						setSpinnerShow();
-						setToolbarTitle("医家");
+						setToolbarTitle("");
 						ViewUtil.turnToFragment(getSupportFragmentManager(), TabHomeFragment.class, null, R.id.fl_content);
 						break;
 					case R.id.tab_message:

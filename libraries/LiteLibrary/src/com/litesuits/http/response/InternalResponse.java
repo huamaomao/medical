@@ -12,6 +12,7 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.listener.HttpInnerListener;
 import com.litesuits.http.parser.*;
 import com.litesuits.http.request.Request;
+import com.litesuits.http.request.content.StringBody;
 
 import java.io.File;
 import java.io.InputStream;
@@ -278,6 +279,10 @@ public class InternalResponse implements Response {
         msg += "\n\t ";
         try {
             msg += "\n\turl = " + request.getUrl();
+            msg+="?";
+            if (request.getHttpBody() instanceof StringBody){
+                msg+=((StringBody) request.getHttpBody()).string;
+            }
 
         } catch (HttpClientException e) {
             e.printStackTrace();

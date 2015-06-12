@@ -15,5 +15,6 @@
         android:layout_height="300dp"
          />
     <View android:layout_width="match_parent" android:layout_height="@dimen/iten_margin_top"
+        android:layout_marginTop="@dimen/iten_margin_top"
         android:background="@color/appbg" />
 </LinearLayout>
