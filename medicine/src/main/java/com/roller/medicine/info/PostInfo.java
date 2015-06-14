@@ -9,6 +9,8 @@ public  class PostInfo {
         public String title;
         public String content;
         public String createTime;
+        public String praiseCount;
+        public String replyCount;
         public String source;
         public List<ImageInfo> images=new ArrayList();
 

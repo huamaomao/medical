@@ -16,7 +16,13 @@ public class LoveInfo extends ResponseMessage{
         public String id;
         public String typeId;
         public String createTime;
+        public String headImage;
+        public String nickname;
+        public String replyId;
+        public String postId;
         public PostInfo post;
+
     }
+
 
 }

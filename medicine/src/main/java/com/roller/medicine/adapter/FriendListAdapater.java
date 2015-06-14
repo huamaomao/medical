@@ -112,14 +112,14 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
             }
 
             @Override
-            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+              public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 if (TYPE_DOCTOR==viewType){
                     return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, parent, false));
                 }
                 else if (TYPE_FRIEND==viewType){
                     return  new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend,parent,false));
                 }
-                return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor,parent,false));
+                return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient,parent,false));
             }
 
             @Override

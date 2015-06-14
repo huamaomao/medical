@@ -53,26 +53,33 @@ public class PatientActivity extends BaseToolbarActivity {
 		});
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_PATIENT);
-		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
-		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
+		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
+		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_PATIENT));
 	}
 	public void doFriendList(){
-		service.requestPatientList(new SimpleResponseListener<FriendResponseInfo>(){
+		service.requestPatientList(new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
-				adapater.addItemAll(info.friendList);
+				adapater.addItemAll(info.list);
 			}
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
 
 			}
+
 			@Override
 			public void requestView() {
 				refresh.setRefreshing(false);
+				adapater.checkEmpty();
 			}
 		});
 
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		adapater.onDestroyReceiver();
 	}
 
 }

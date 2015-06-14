@@ -308,7 +308,7 @@ public class DataModel extends ViewModel{
         execute(request, new SimpleResponseListener<FriendResponseInfo>() {
             @Override
             public void requestSuccess(FriendResponseInfo info, Response response) {
-                saveFriendList(info.friendList);
+                saveFriendList(info.list);
                 responseService.requestSuccess(info, response);
             }
 
@@ -381,7 +381,7 @@ public class DataModel extends ViewModel{
         execute(request, new SimpleResponseListener<FriendResponseInfo>() {
             @Override
             public void requestSuccess(FriendResponseInfo info, Response response) {
-                saveFriendList(info.friendList);
+                saveFriendList(info.list);
                 responseService.requestSuccess(info, response);
             }
 
@@ -406,7 +406,7 @@ public class DataModel extends ViewModel{
         execute(request, new SimpleResponseListener<FriendResponseInfo>() {
             @Override
             public void requestSuccess(FriendResponseInfo info, Response response) {
-                saveFriendList(info.friendList);
+                saveFriendList(info.list);
                 responseService.requestSuccess(info, response);
             }
 
@@ -705,5 +705,18 @@ public class DataModel extends ViewModel{
     }
 
 
+    /******
+     * 意见反馈
+     * @param listener
+     */
+    public void requestSaveFeedback(String content,final SimpleResponseListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/feedback_sp/saveFeedback.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("content", content));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request,listener);
+    }
 
 }

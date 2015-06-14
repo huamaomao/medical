@@ -61,7 +61,7 @@ public class DoctorActivity extends BaseToolbarActivity {
 		service.requestDoctorList(Constants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
-				adapater.addItemAll(info.friendList);
+				adapater.addItemAll(info.list);
 			}
 
 			@Override
@@ -72,10 +72,16 @@ public class DoctorActivity extends BaseToolbarActivity {
 			@Override
 			public void requestView() {
 				refresh.setRefreshing(false);
+				adapater.checkEmpty();
 			}
 		});
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		adapater.onDestroyReceiver();
+	}
 }
 
 

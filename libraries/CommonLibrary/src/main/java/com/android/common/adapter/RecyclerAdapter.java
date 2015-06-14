@@ -333,10 +333,12 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             return  (T)ViewHolder.this.itemView.findViewById(resId);
         }
 
-        public ViewHolder setText(int resId,String title){
+        public ViewHolder setText(int resId,CharSequence title){
             ((TextView)getView(resId)).setText(title);
             return this;
         }
+
+
         public ViewHolder setImageResource(int resId,int imgId){
             ((ImageView)getView(resId)).setImageResource(imgId);
             return this;

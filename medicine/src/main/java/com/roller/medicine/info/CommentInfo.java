@@ -21,6 +21,7 @@ public class CommentInfo extends ResponseMessage {
         public String replyContent;
         public String replyId;
         public String praiseCount;
+        public List<ImageInfo> images;
 
 
     }

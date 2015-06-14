@@ -54,7 +54,7 @@ public class DietitianActivity extends BaseToolbarActivity {
 		});
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
-		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
+		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
 		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
 
 	}
@@ -63,7 +63,7 @@ public class DietitianActivity extends BaseToolbarActivity {
 		service.requestDoctorList(Constants.USER_TYPE_DIETITAN, new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
-
+				adapater.addItemAll(info.list);
 			}
 
 			@Override
@@ -76,6 +76,12 @@ public class DietitianActivity extends BaseToolbarActivity {
 				refresh.setRefreshing(false);
 			}
 		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		adapater.onDestroyReceiver();
 	}
 
 }

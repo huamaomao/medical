@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_column="1"
+    android:paddingBottom="@dimen/iten_margin_top"
+    android:background="@color/write"
+    android:orientation="vertical"
+    android:padding="0px"
+    style="@style/list_item_style" >
+    <RelativeLayout
+        android:id="@id/rl_item_0"
+        style="@style/list_item_style">
+        <TextView
+            android:text="推送设置"
+            android:textSize="@dimen/font_size_18"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+        <ToggleButton
+            android:id="@id/tbtn_swich"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:checked="false"
+            android:textOff=""
+            android:textOn="" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="0.5dp" />
+
+    <RelativeLayout
+        android:id="@id/rl_item_1"
+        style="@style/list_item_style">
+        <TextView
+            android:text="版本"
+            android:textSize="@dimen/font_size_18"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:id="@id/tv_code"
+            android:text="最新版本1.0"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/font_size_18"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_hint"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/appbg"
+        android:layout_height="@dimen/iten_margin_top" />
+</GridLayout>
+

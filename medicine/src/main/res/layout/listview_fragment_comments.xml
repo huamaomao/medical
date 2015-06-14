@@ -3,72 +3,63 @@
    style="@style/list_item_style">
     <ImageView
         android:id="@id/iv_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/photo_height"
+        android:layout_height="@dimen/photo_height" />
 
+    <TextView
+        android:id="@id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_photo"
+        style="@style/TitleDefaultText"
+        android:textColor="@color/black"
+        android:text="姓名" />
+
+    <TextView
+        android:id="@id/tv_date"
+        android:layout_below="@id/tv_name"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        style="@style/timeText"
+        android:text="晚上22:08" />
+
+    <TextView
+        android:id="@id/tv_comment"
+        android:layout_below="@id/tv_date"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/DefaultText"
+        android:textColor="@color/hintText"
+        android:text="糖尿病升高了，平时都怎么注意饮食" />
 
     <LinearLayout
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_below="@id/tv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
         android:orientation="horizontal"
-        android:padding="10dip" >
+        android:background="@color/public_bg" >
 
         <ImageView
-            android:id="@+id/image_item_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/public_default_head" />
+            android:id="@id/iv_pic"
+            android:layout_width="47dip"
+            android:layout_height="47dip"
+            android:src="@drawable/ic_launcher" />
 
-        <LinearLayout
+        <TextView
+            android:id="@id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/text_item_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="姓名" />
-
-            <TextView
-                android:id="@+id/text_item_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:text="晚上22:08" />
-
-            <TextView
-                android:id="@+id/text_item_comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:text="糖尿病升高了，平时都怎么注意饮食" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:orientation="horizontal"
-                android:background="@color/public_bg" >
-
-                <ImageView
-                    android:id="@+id/image_item_picture"
-                    android:layout_width="47dip"
-                    android:layout_height="47dip"
-                    android:src="@drawable/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/image_item_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:layout_marginTop="5dip"
-                    android:lineSpacingExtra="3dip"
-                    android:text="糖尿病升高了，平时都怎么注意饮食,糖尿病升高了，平时都怎么注意饮食" />
-            </LinearLayout>
-        </LinearLayout>
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/hintText"
+            android:layout_marginTop="5dip"
+            android:lineSpacingExtra="3dip"
+            android:text="糖尿病升高了，平时都怎么注意饮食,糖尿病升高了，平时都怎么注意饮食" />
     </LinearLayout>
 
 </RelativeLayout>

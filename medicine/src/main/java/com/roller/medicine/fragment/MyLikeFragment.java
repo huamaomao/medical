@@ -2,12 +2,15 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -18,6 +21,8 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.LoveInfo;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -47,7 +52,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 	}
 
 	@Override
-	protected void initView(View view, LayoutInflater inflater) {
+	protected void initView(final View view, LayoutInflater inflater) {
 		super.initView(view, inflater);
 		mData=new ArrayList<>();
 		dataModel=new DataModel();
@@ -63,6 +68,14 @@ public class MyLikeFragment extends BaseToolbarFragment {
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<LoveInfo.Item>() {
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, LoveInfo.Item item, int position) {
+				viewHolder.setText(R.id.tv_name, item.nickname);
+				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
+				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
+				if (CommonUtil.notNull(item.post)){
+					viewHolder.setText(R.id.tv_name,item.nickname);
+					viewHolder.setText(R.id.tv_content,Html.fromHtml(item.post.content));
+					viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(item.post.praiseCount));
+				}
 
 			}
 

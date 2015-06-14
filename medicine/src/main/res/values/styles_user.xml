@@ -112,9 +112,6 @@
     <style name="DefaultText">
         <item name="android:textSize">13.0sp</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:paddingLeft">5.0dip</item>
-        <item name="android:paddingRight">5.0dip</item>
-        <item name="android:drawablePadding">4.0dip</item>
     </style>
 
     <style name="timeText">

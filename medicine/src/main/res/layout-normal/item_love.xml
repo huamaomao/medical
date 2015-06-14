@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/list_item_style">
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/photo_height"
+        android:layout_height="@dimen/photo_height" />
+    <TextView
+        android:id="@id/tv_name"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:layout_toRightOf="@id/iv_photo"
+        style="@style/TitleDefaultText"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView android:id="@id/tv_date"
+        style="@style/timeText"
+        android:layout_below="@id/tv_name"
+        android:layout_toRightOf="@id/iv_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="60dp"
+        android:background="@color/appbg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView android:id="@id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView android:id="@id/tv_praise"
+            android:drawableLeft="@drawable/icon_zan_sel"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

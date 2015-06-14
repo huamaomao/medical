@@ -11,6 +11,6 @@ import java.util.List;
  */
 public class FriendResponseInfo extends ResponseMessage {
     public int id;
-    public List<UserInfo> friendList;
+    public List<UserInfo> list;
 
 }

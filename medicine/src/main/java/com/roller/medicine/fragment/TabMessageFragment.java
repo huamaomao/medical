@@ -147,7 +147,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
                 return lsData.size();
             }
         });
-        ViewUtil.initRecyclerView(rv_view, getActivity(), recyclerAdapter);
+        ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), recyclerAdapter);
         refresh.setRefreshing(true);
         doMessage();
         //接受消息

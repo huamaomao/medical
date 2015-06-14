@@ -72,10 +72,10 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
         userModel.requestDoctorDetail(user.id + "", new SimpleResponseListener<DoctorDetialInfo>() {
             @Override
             public void requestSuccess(DoctorDetialInfo info, Response response) {
-                if (CommonUtil.notNull(info.user)){
+                if (CommonUtil.notNull(info.user)) {
                     adapater.setUserInfo(info.user);
                 }
-                if (CommonUtil.notNull(info.list)){
+                if (CommonUtil.notNull(info.list)) {
                     data.addAll(info.list);
                 }
                 adapater.notifyDataSetChanged();
@@ -120,4 +120,6 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
             }
         });
     }
+
+
 }

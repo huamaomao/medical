@@ -117,7 +117,11 @@
         <activity  android:name=".ui.MessageActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity  android:name=".ui.NoteActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.MessageSettingActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.FeedbackActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.AboutUsActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.SettingActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.DoctorDetialActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.NoticeActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.CreateBloodActivity" android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity  android:name=".base.BaseToolbarActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>

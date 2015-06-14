@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@id/btn_loginout"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:text="退出登录"
+        android:gravity="center"
+        android:layout_height="40dp"
+        style="@style/btn_style"
+        android:layout_marginRight="@dimen/iten_margin_top"
+        android:layout_marginLeft="@dimen/iten_margin_top"
+        android:background="@drawable/s_btn_login"
+        android:textColor="@color/red"
+        />
+</LinearLayout>

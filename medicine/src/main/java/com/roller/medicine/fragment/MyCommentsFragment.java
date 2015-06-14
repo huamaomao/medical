@@ -2,13 +2,16 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -22,7 +25,10 @@ import com.roller.medicine.customview.pulltorefreshview.PullToRefreshListView;
 import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.MyFocusFansCommentsItemInfo;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -63,6 +69,19 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, CommentInfo.Item item, int position) {
+				viewHolder.setText(R.id.tv_name, item.nickname);
+				//viewHolder.setText(R.id.tv_comment, item.nickname);
+				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
+				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
+				String url=null;
+				if (CommonUtil.notNull(item.images) && item.images.size() > 0) {
+					url=item.images.get(0).url;
+				}
+				Picasso.with(getActivity()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
+						.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_pic));
+
+
+
 
 			}
 

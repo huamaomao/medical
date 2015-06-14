@@ -20,6 +20,8 @@ import com.roller.medicine.ui.FamilyAddActivity;
 import com.roller.medicine.ui.FamilyRemoveActivity;
 import com.roller.medicine.ui.FamilyUpdateActivity;
 import com.roller.medicine.ui.MyHomeActivity;
+import com.roller.medicine.ui.NoticeActivity;
+import com.roller.medicine.ui.SettingActivity;
 import com.roller.medicine.ui.UserInfoActivity;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.viewmodel.DataModel;
@@ -105,10 +107,12 @@ public class TabMyFragment extends BaseToolbarFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.toolbar_next:
-
+				setLastClickTime();
+				ViewUtil.openActivity(NoticeActivity.class,getActivity());
 				return true;
 			case R.id.toolbar_setting:
-
+				setLastClickTime();
+				ViewUtil.openActivity(SettingActivity.class,getActivity());
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

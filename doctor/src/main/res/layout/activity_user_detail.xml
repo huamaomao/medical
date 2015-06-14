@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   style="@style/style_wh_match_v"
-    android:background="@color/appbg"
+style="@style/style_wh_match_v"
+android:background="@color/appbg"
     >
-   <include layout="@layout/toolbar" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/appbg"/>
-    <include layout="@layout/public_wrap_recycler_view" />
+<include layout="@layout/toolbar" />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:background="@color/appbg"/>
+<include layout="@layout/public_wrap_recycler_view" />
 </LinearLayout>
