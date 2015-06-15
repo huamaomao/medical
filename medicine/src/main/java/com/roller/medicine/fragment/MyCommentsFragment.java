@@ -70,7 +70,7 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, CommentInfo.Item item, int position) {
 				viewHolder.setText(R.id.tv_name, item.nickname);
-				//viewHolder.setText(R.id.tv_comment, item.nickname);
+
 				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
 				String url=null;
@@ -79,7 +79,6 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 				}
 				Picasso.with(getActivity()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
 						.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_pic));
-
 
 
 

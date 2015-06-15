@@ -237,5 +237,12 @@
         <item name="android:background">@color/chat_bg</item>
     </style>
 
+    <style name="infoStyle">
+        <item name="android:textSize">13.0sp</item>
+        <item name="android:textColor">#939393</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 
 </resources>

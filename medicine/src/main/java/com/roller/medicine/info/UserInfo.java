@@ -26,7 +26,6 @@ public class UserInfo extends ResponseMessage implements Parcelable {
     public String photoId;
     public String email;
     public String intro;
-    public String address;
     public String regionId;
     public int level;
 
@@ -42,8 +41,9 @@ public class UserInfo extends ResponseMessage implements Parcelable {
     /***所在医院**/
     public String hospitalName;
     public String tel;
-    public String sex;
+    public String sex=Constants.SEX_BOY;
     public String age;
+    public String address;
     public String userName;
     public String minNum;
     public String maxNum;
@@ -174,6 +174,11 @@ public class UserInfo extends ResponseMessage implements Parcelable {
         public String diseaseTypeId;
         public String drugAllergy;
         public String health;
+        public String disease;
+
+        public PatientDetail() {
+            super();
+        }
 
         @Override
         public int describeContents() {
@@ -182,21 +187,25 @@ public class UserInfo extends ResponseMessage implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
             dest.writeString(this.createTime);
             dest.writeString(this.height);
             dest.writeString(this.weight);
             dest.writeString(this.diseaseTypeId);
+            dest.writeString(this.drugAllergy);
+            dest.writeString(this.health);
+            dest.writeString(this.disease);
         }
 
-        public PatientDetail() {
-            super();
-        }
-
-        private PatientDetail(Parcel in) {
+        protected PatientDetail(Parcel in) {
+            this.id = in.readInt();
             this.createTime = in.readString();
             this.height = in.readString();
             this.weight = in.readString();
             this.diseaseTypeId = in.readString();
+            this.drugAllergy = in.readString();
+            this.health = in.readString();
+            this.disease = in.readString();
         }
 
         public static final Creator<PatientDetail> CREATOR = new Creator<PatientDetail>() {

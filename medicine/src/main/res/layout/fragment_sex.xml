@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingRight="@dimen/iten_margin_top"
+   style="@style/appLayoutStyle">
+
+    <CheckedTextView
+        android:id="@id/tv_item_0"
+        android:text="男"
+        android:paddingTop="@dimen/iten_margin_top"
+        android:paddingBottom="@dimen/iten_margin_top"
+        android:layout_marginLeft="30dp"
+        style="@style/TitleDefaultText"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:checkMark="@drawable/s_spinner_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <include layout="@layout/divider" />
+    <CheckedTextView
+        android:id="@id/tv_item_1"
+        android:text="女"
+        android:paddingTop="@dimen/iten_margin_top"
+        android:paddingBottom="@dimen/iten_margin_top"
+        android:layout_marginLeft="30dp"
+        style="@style/TitleDefaultText"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:checkMark="@drawable/s_spinner_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

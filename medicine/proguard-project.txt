@@ -183,3 +183,8 @@
 -keep class * implements android.webkit.WebChromeClient {
     *;
 }
+
+# butterknife
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+-keepnames class * { @butterknife.InjectView *;}

@@ -247,6 +247,13 @@ public final class CommonUtil {
         return str;
     }
 
+    public static String getSex(String  sex){
+        if (isEmpty(sex)) return "无";
+        if ("0".equals(0)) return "男";
+        return "女";
+    }
+
+
     /****
      * 是否可以提现
      * @param money

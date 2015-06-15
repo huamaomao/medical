@@ -138,20 +138,19 @@ public class DataModel extends ViewModel{
     public UserInfo getLoginUser(){
         final UserInfo user=getUser(getToken().userId);
         // 更改用户信息
-      /*  if (CommonUtil.notNull(user)&&user.updateState==User.UPDATE){
-           requestUpdateUser(user, new HttpModelHandler<String>() {
-                @Override
-                protected void onSuccess(String data, Response res) {
-                   // user.setNoUpdateStatus();
-                    saveUser(user);
-                }
+        if (CommonUtil.notNull(user)&&user.updateState==UserInfo.UPDATE){
+           saveDoctor(user, new SimpleResponseListener<ResponseMessage>() {
+               @Override
+               public void requestSuccess(ResponseMessage info, Response response) {
 
-                @Override
-                protected void onFailure(HttpException e, Response res) {
-                    Log.d("更新用户信息失败.......");
-                }
-            });
-        }*/
+               }
+
+               @Override
+               public void requestError(HttpException e, ResponseMessage info) {
+
+               }
+           });
+        }
         return user;
     }
 
@@ -530,10 +529,11 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("intro",user.intro));
         param.add(new NameValuePair("address",user.address));
         param.add(new NameValuePair("regionId",user.regionId));
-        param.add(new NameValuePair("workRegionId",user.doctorDetail.workRegionId));
-        param.add(new NameValuePair("hospitalName",user.doctorDetail.hospitalName));  param.add(new NameValuePair("specialty",user.doctorDetail.speciality));
+        param.add(new NameValuePair("disease",user.patientDetail.disease));
+        param.add(new NameValuePair("height",user.patientDetail.height));
+        param.add(new NameValuePair("weight",user.patientDetail.weight));
+
         param.add(new NameValuePair("userName",user.userName));
-        param.add(new NameValuePair("jobId",user.doctorDetail.jobId));
         param.add(new NameValuePair("token",user.token));
         param.add(new NameValuePair("birthday", user.birthday));
         Request request=new Request(requestUrl("/crm/user_sp/saveDoctor.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));

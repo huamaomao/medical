@@ -2,6 +2,7 @@ package com.roller.medicine.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.ui.UpdateUserActivity;
+import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
@@ -53,8 +56,11 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+
+
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ItemInfo info=data.get(position);
         if (position==0){
             if (CommonUtil.isNull(user)){

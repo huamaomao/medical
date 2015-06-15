@@ -269,10 +269,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         int index= mData.indexOf(item);
         if (index!=-1){
             mData.remove(index);
-            notifyItemRemoved(index);
+           // notifyItemRemoved(index);
         }
         mData.add(0,item);
-        notifyItemInserted(0);
+        notifyDataSetChanged();
     }
 
     public void pushItem(T item) {

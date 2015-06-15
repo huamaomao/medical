@@ -1,58 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/public_bg" >
-
-    <RelativeLayout
-        android:id="@+id/layout_head"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   style="@style/appLayoutStyle"
+    android:background="@color/appbg">
+    <include layout="@layout/toolbar" />
+    <com.android.common.widget.CleanEditText
+        android:id="@id/et_name"
+        android:background="@color/write"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:hint="请填工作地址"
+        android:gravity="start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            layout="@layout/layout_title_head" />
-
-        <ImageView
-            android:id="@+id/image_return"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:src="@drawable/image_return"
-            android:scaleType="centerInside"/>
-        
-        <TextView
-            android:id="@+id/text_ok"
-            android:layout_alignParentRight="true"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:text="保存"
-            android:gravity="center"
-            android:textColor="@color/public_white"
-            android:textSize="16sp"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/layout_head"
-        android:orientation="vertical" >
-
-        <ImageView style="@style/image_line_black_alpha" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/public_white">
-
-            <EditText
-                android:id="@+id/edit_content"
-                android:layout_width="match_parent"
-                android:layout_height="40dip"
-                android:paddingLeft="10dip"
-                android:background="@null" />
-        </RelativeLayout>
-    </LinearLayout>
-
-</RelativeLayout>
+        android:layout_height="wrap_content" />
+</LinearLayout>
