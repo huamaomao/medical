@@ -81,7 +81,6 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 						.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_pic));
 
 
-
 			}
 
 			@Override

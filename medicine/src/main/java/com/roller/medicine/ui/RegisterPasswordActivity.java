@@ -65,8 +65,8 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 			showLongMsg("请填写验证码");
 			return;
 		}
-		if (et_code.getText().toString().length()<6){
-			showLongMsg("请填写6位数字验证码");
+		if (et_code.getText().toString().length()<4){
+			showLongMsg("请填写4位数字验证码");
 			return;
 		}
 		if (CommonUtil.isEmpty(et_pwd.getText().toString())){
