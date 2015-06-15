@@ -148,6 +148,9 @@ public class UserInfoActivity extends BaseToolbarActivity{
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
+					Bundle bundle=new Bundle();
+					bundle.putString(Constants.ITEM, ViewUtil.getRealFilePath(getContext(), uri));
+					ViewUtil.openActivity(ClipActivity.class,bundle,getContext());
 					//photoUrl= ViewUtil.getRealFilePath(getContext(), uri);
 					//uploadPhoto();
 				}

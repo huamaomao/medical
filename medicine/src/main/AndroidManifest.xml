@@ -114,7 +114,8 @@
         <activity  android:name=".ui.CaptureActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.AddFriendActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.HomeBloodActivity" android:screenOrientation="portrait"/>
-        <activity  android:name=".ui.MessageActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity  android:name=".ui.ClipActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.MessageActivity" android:screenOrientation="portrait" />
         <activity  android:name=".ui.NoteActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.MessageSettingActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.FeedbackActivity" android:screenOrientation="portrait"/>
