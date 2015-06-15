@@ -118,8 +118,8 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
             msgShow("手机号格式错误...");
             return;
         }
-        if (CommonUtil.isEmpty(et_code.getText().toString())||et_code.getText().toString().length()<6) {
-            msgShow("验证码错误,必须是6位数");
+        if (CommonUtil.isEmpty(et_code.getText().toString())||et_code.getText().toString().length()<4) {
+            msgShow("验证码错误,必须是4位数");
             return;
         }
         if (!CommonUtil.checkPassword(et_pwd.getText().toString())) {
