@@ -1,6 +1,7 @@
 package com.roller.medicine.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,18 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 	private RecyclerAdapter<FocusInfo.Item> adapter;
 	private List<FocusInfo.Item> mData;
 	private DataModel dataModel;
+	public String userId=null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.refresh_recycler_view);
+	}
+
+	public static Fragment newInstantiate(Bundle bundle){
+		MyFansFragment fragment=new MyFansFragment();
+		fragment.setArguments(bundle);
+		return fragment;
 	}
 
 	@Override
@@ -68,7 +76,7 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 				requestData();
 			}
 		});
-
+		userId=getArguments().getString(Constants.ITEM);
 		adapter=new RecyclerAdapter<>(getActivity(),mData,rv_view);
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<FocusInfo.Item>() {
 			@Override
@@ -134,7 +142,7 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 
 	private void requestData(){
 		refresh.setRefreshing(true);
-		dataModel.getRelationListByMap("2", new SimpleResponseListener<FocusInfo>() {
+		dataModel.getRelationListByMap(userId,"1", new SimpleResponseListener<FocusInfo>() {
 			@Override
 			public void requestSuccess(FocusInfo info, Response response) {
 				adapter.addItemAll(info.list);
@@ -147,14 +155,16 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 
 			@Override
 			public void requestView() {
-				refresh.setRefreshing(false);
-				adapter.checkEmpty();
+				if (CommonUtil.notNull(refresh)){
+					refresh.setRefreshing(false);
+					adapter.checkEmpty();
+				}
 			}
 		});
 	}
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onDestroyView() {
+		super.onDestroyView();
 		adapter.onDestroyReceiver();
 	}
 }

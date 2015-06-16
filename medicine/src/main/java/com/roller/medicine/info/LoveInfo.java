@@ -1,8 +1,6 @@
 package com.roller.medicine.info;
 
 import com.android.common.domain.ResponseMessage;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +19,7 @@ public class LoveInfo extends ResponseMessage{
         public String replyId;
         public String postId;
         public PostInfo post;
-
+        public Reply reply;
     }
 
 

@@ -14,15 +14,20 @@ public class CommentInfo extends ResponseMessage {
     public class Item{
         public String id;
         public String title;
+        public String postId;
         public String content;
+        public String replyUserId;
         public String createTime;
         public String nickname;
         public String headImage;
         public String replyContent;
         public String replyId;
         public String praiseCount;
+        public String replyCount;
+        public String postContent;
+        public String praise;
+        public String imageUrl;
         public List<ImageInfo> images;
-
-
     }
+
 }

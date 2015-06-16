@@ -109,15 +109,15 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-			if (flagClick&&isFastDoubleClick()) {
+		switch (ev.getAction()){
+			case MotionEvent.ACTION_DOWN:
+				if (flagClick&&isFastDoubleClick()) {
+					return true;
+				}
+				break;
+			case KeyEvent.KEYCODE_BACK:
+				onBackActivty();
 				return true;
-			}
-		}
-		if(ev.getAction()== KeyEvent.KEYCODE_BACK)
-		{
-			onBackActivty();
-			return true;
 		}
 		return super.dispatchTouchEvent(ev);
 	}

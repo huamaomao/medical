@@ -213,7 +213,4 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		super.onStop();
 	}
 
-	public static TabHomeFragment newInstance() {
-		return new TabHomeFragment();
-	}
 }

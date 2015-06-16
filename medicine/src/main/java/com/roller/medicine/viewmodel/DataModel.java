@@ -31,6 +31,7 @@ import com.roller.medicine.info.KnowledgeQuizContentInfo;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.info.LoveInfo;
 import com.roller.medicine.info.MessageChatInfo;
+import com.roller.medicine.info.MyHomeInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
@@ -58,6 +59,7 @@ public class DataModel extends ViewModel{
     }
 
     public static String getImageUrl(String path){
+        if (CommonUtil.isEmpty(path)) return null;
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(path);
         Log.d(url.toString());
@@ -490,10 +492,11 @@ public class DataModel extends ViewModel{
      * @param typeId  1 关注我的   2 我的关注
      * @throws Exception
      */
-    public void getRelationListByMap(String typeId,SimpleResponseListener<FocusInfo> responseService){
+    public void getRelationListByMap(String userId,String typeId,SimpleResponseListener<FocusInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("typeId", typeId));
+        param.add(new NameValuePair("userId", userId));
         Request request=new Request(requestUrl("/crm/relation_sp/getRelationListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -503,9 +506,10 @@ public class DataModel extends ViewModel{
      * @param responseService
      * @throws Exception
      */
-    public void getPraiseListByMap(SimpleResponseListener<LoveInfo> responseService){
+    public void getPraiseListByMap(String userId,SimpleResponseListener<LoveInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("userId", userId));
         Request request=new Request(requestUrl("/crm/praise_sp/getPraiseListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -543,12 +547,12 @@ public class DataModel extends ViewModel{
     /**
      * 得到我的模块数据
      * @param responseService
-     * @param token
      * @throws Exception
      */
-    public void getUserHome(SimpleResponseListener<ResponseMessage> responseService, String token){
+    public void requestUserHome(String userId,SimpleResponseListener<MyHomeInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("userId", userId));
         Request request=new Request(requestUrl("/crm/user_sp/getUserHome.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -633,10 +637,11 @@ public class DataModel extends ViewModel{
     /**
      * 我的评论
      */
-    public void getPostReplyListByMap(SimpleResponseListener<CommentInfo> responseService){
+    public void getPostReplyListByMap(String userId,SimpleResponseListener<CommentInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
-        Request request=new Request(requestUrl("/crm/post_sp/getPostReplyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        param.add(new NameValuePair("userId", userId));
+        Request request=new Request(requestUrl("/crm/reply_sp/getReplyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
 

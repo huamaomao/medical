@@ -1,6 +1,7 @@
 package com.roller.medicine.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -11,9 +12,11 @@ import android.widget.ListView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.android.common.widget.AlertDialogFragment;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.android.async.AsyncExecutor;
 import com.litesuits.http.exception.HttpException;
@@ -46,14 +49,26 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 	private List<CommentInfo.Item> mData;
 	private DataModel dataModel;
 
+	protected AlertDialogFragment dialog;
+	private int index=-1;
+
+	public String userId=null;
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.refresh_recycler_view);
 	}
 
+	public static Fragment newInstantiate(Bundle bundle){
+		MyCommentsFragment fragment=new MyCommentsFragment();
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+
 	@Override
-	protected void initView(View view, LayoutInflater inflater) {
+	protected void initView(View view, final LayoutInflater inflater) {
 		super.initView(view, inflater);
 		mData=new ArrayList<>();
 		dataModel=new DataModel();
@@ -64,28 +79,30 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 				requestData();
 			}
 		});
-
+		userId=getArguments().getString(Constants.ITEM);
 		adapter=new RecyclerAdapter<>(getActivity(),mData,rv_view);
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
 			@Override
-			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, CommentInfo.Item item, int position) {
+			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, CommentInfo.Item item, final int position) {
 				viewHolder.setText(R.id.tv_name, item.nickname);
-
+				viewHolder.setText(R.id.tv_content, item.postContent);
+				viewHolder.setText(R.id.tv_comment, item.content);
 				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
-				String url=null;
-				if (CommonUtil.notNull(item.images) && item.images.size() > 0) {
-					url=item.images.get(0).url;
-				}
-				Picasso.with(getActivity()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
+				Picasso.with(getActivity()).load(DataModel.getImageUrl(item.imageUrl)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
 						.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_pic));
-
-
+				viewHolder.setOnClick(R.id.btn_delete, new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						index=position;
+						dialog.show(getFragmentManager(),"delete");
+					}
+				});
 			}
 
 			@Override
 			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.listview_fragment_comments,viewGroup,false));
+				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.listview_fragment_comments, viewGroup, false));
 			}
 
 			@Override
@@ -95,11 +112,46 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 		});
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
 		requestData();
+		dialog=new AlertDialogFragment();
+		dialog.msg="是否删除此评论?";
+		dialog.setClickListener(new AlertDialogFragment.OnClickListener() {
+			@Override
+			public void onCancel() {
+				msgShow("评论已成功删除");
+			}
+
+			@Override
+			public void onConfirm() {
+				//delete
+				deleteComment();
+			}
+		});
+
+	}
+
+	private void deleteComment(){
+		if (index==-1) return;
+		CommentInfo.Item item=mData.get(index);
+		if (CommonUtil.notNull(item)){
+			adapter.removeItem(index);
+			dataModel.deleteReply(item.id, new SimpleResponseListener<ResponseMessage>() {
+				@Override
+				public void requestSuccess(ResponseMessage info, Response response) {
+
+				}
+
+				@Override
+				public void requestError(HttpException e, ResponseMessage info) {
+					new AppHttpExceptionHandler().via(rootView).handleException(e,info);
+				}
+			});
+		}
+
 	}
 
 	private void requestData(){
 		refresh.setRefreshing(true);
-		dataModel.getPostReplyListByMap(new SimpleResponseListener<CommentInfo>() {
+		dataModel.getPostReplyListByMap(userId,new SimpleResponseListener<CommentInfo>() {
 			@Override
 			public void requestSuccess(CommentInfo info, Response response) {
 				adapter.addItemAll(info.list);
@@ -112,9 +164,15 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 
 			@Override
 			public void requestView() {
-				refresh.setRefreshing(false);
+				if (CommonUtil.notNull(refresh))
+					refresh.setRefreshing(false);
 			}
 		});
+	}
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		adapter.onDestroyReceiver();
 	}
 
 

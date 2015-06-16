@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
    style="@style/list_item_style">
+
+    <ImageButton android:id="@id/btn_delete"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/s_btn"
+        android:src="@drawable/icon_more_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <ImageView
         android:id="@id/iv_photo"
+        android:layout_marginRight="@dimen/iten_margin_top"
         android:layout_width="@dimen/photo_height"
         android:layout_height="@dimen/photo_height" />
 
@@ -13,7 +21,7 @@
         android:layout_toRightOf="@id/iv_photo"
         style="@style/TitleDefaultText"
         android:textColor="@color/black"
-        android:text="姓名" />
+        />
 
     <TextView
         android:id="@id/tv_date"
@@ -23,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
         style="@style/timeText"
-        android:text="晚上22:08" />
+       />
 
     <TextView
         android:id="@id/tv_comment"
@@ -33,7 +41,7 @@
         android:layout_height="wrap_content"
         style="@style/DefaultText"
         android:textColor="@color/hintText"
-        android:text="糖尿病升高了，平时都怎么注意饮食" />
+         />
 
     <LinearLayout
         android:layout_toRightOf="@id/iv_photo"
@@ -42,24 +50,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:orientation="horizontal"
-        android:background="@color/public_bg" >
-
+        style="@style/commentStyle"
+       >
         <ImageView
             android:id="@id/iv_pic"
-            android:layout_width="47dip"
-            android:layout_height="47dip"
-            android:src="@drawable/ic_launcher" />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="4"
+            style="@style/DefaultText"
             android:textColor="@color/hintText"
             android:layout_marginTop="5dip"
             android:lineSpacingExtra="3dip"
-            android:text="糖尿病升高了，平时都怎么注意饮食,糖尿病升高了，平时都怎么注意饮食" />
+            />
     </LinearLayout>
 
 </RelativeLayout>

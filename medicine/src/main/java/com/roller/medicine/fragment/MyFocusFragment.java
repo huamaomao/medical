@@ -1,6 +1,7 @@
 package com.roller.medicine.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -41,11 +43,18 @@ public class MyFocusFragment extends BaseToolbarFragment{
 	private RecyclerAdapter<FocusInfo.Item> adapter;
 	private List<FocusInfo.Item> mData;
 	private DataModel dataModel;
+	public String userId=null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.refresh_recycler_view);
+	}
+
+	public static Fragment newInstantiate(Bundle bundle){
+		MyFocusFragment fragment=new MyFocusFragment();
+		fragment.setArguments(bundle);
+		return fragment;
 	}
 
 	@Override
@@ -60,7 +69,7 @@ public class MyFocusFragment extends BaseToolbarFragment{
 				requestData();
 			}
 		});
-
+		userId=getArguments().getString(Constants.ITEM);
 		adapter=new RecyclerAdapter<>(getActivity(),mData,rv_view);
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<FocusInfo.Item>() {
 			@Override
@@ -102,7 +111,7 @@ public class MyFocusFragment extends BaseToolbarFragment{
 
 	private void requestData(){
 		refresh.setRefreshing(true);
-		dataModel.getRelationListByMap("1",new SimpleResponseListener<FocusInfo>() {
+		dataModel.getRelationListByMap(userId,"2",new SimpleResponseListener<FocusInfo>() {
 			@Override
 			public void requestSuccess(FocusInfo info, Response response) {
 				adapter.addItemAll(info.list);
@@ -115,15 +124,17 @@ public class MyFocusFragment extends BaseToolbarFragment{
 
 			@Override
 			public void requestView() {
-				refresh.setRefreshing(false);
-				adapter.checkEmpty();
+				if (CommonUtil.notNull(refresh)){
+					refresh.setRefreshing(false);
+					adapter.checkEmpty();
+				}
 			}
 		});
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onDestroyView() {
+		super.onDestroyView();
 		adapter.onDestroyReceiver();
 	}
 
