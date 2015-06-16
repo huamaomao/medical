@@ -144,7 +144,7 @@
                 <com.roller.medicine.customview.listview.HorizontalListView
                     android:id="@id/lv_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="100dp" >
                 </com.roller.medicine.customview.listview.HorizontalListView>
             </LinearLayout>
 

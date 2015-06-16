@@ -91,7 +91,7 @@ public class TabMyFragment extends BaseToolbarFragment{
 		//lv_list
 		mdata=new ArrayList();
 
-		adapter=new QuickAdapter<HomeInfo.Family>(getActivity(),R.layout.list_item_grid_home,mdata) {
+		adapter=new QuickAdapter<HomeInfo.Family>(getActivity(),R.layout.list_item_grid_family,mdata) {
 			@Override
 			protected void convert(ViewHolderHelp viewHolderHelp, HomeInfo.Family food) {
 				viewHolderHelp.setText(R.id.tv_item_0,food.appellation);
