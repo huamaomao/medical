@@ -279,7 +279,7 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
-        param.add(new NameValuePair("typeId", Constants.USER_TYPE_DOCTOR + ""));
+        param.add(new NameValuePair("typeId", Constants.USER_TYPE_PATIENT + ""));
         Request request=new Request(requestUrl(UrlApi.LOGIN)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
