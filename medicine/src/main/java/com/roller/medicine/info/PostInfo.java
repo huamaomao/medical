@@ -12,6 +12,7 @@ public  class PostInfo {
         public String praiseCount;
         public String replyCount;
         public String source;
+        public String praise;
         public List<ImageInfo> images=new ArrayList();
 
     }

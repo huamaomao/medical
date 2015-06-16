@@ -27,7 +27,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         int getItemCount();
     }
 
-
     /*****是否显示headView  无网络 无数据 item *******/
     public boolean isHeadView=false;
 
@@ -151,10 +150,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             notifyDataSetChanged();
         }
     }
-
-
-
-
 
 
     public interface OnClickEvent<T> {
@@ -338,6 +333,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             return this;
         }
 
+        public void setOnClick(int resId,View.OnClickListener listener){
+            getView(resId).setOnClickListener(listener);
+        }
 
         public ViewHolder setImageResource(int resId,int imgId){
             ((ImageView)getView(resId)).setImageResource(imgId);

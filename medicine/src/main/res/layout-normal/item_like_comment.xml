@@ -4,39 +4,26 @@
    style="@style/list_item_style" >
 
     <ImageView
-        android:id="@id/iv_photo"
-        android:layout_marginTop="@dimen/iten_margin_top"
-        android:layout_marginLeft="@dimen/iten_margin_top"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
-
-    <TextView android:id="@id/tv_title"
-        style="@style/TitleDefaultText"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/iten_margin_top"
-        android:layout_marginRight="@dimen/iten_margin_top"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_toRightOf="@id/iv_photo"
+        android:id="@id/iv_pic"
+        android:paddingTop="@dimen/iten_margin_top"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingRight="@dimen/iten_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView android:id="@id/tv_content"
         style="@style/TitleDefaultText"
         android:textColor="@color/public_636363"
-        android:layout_below="@id/tv_title"
         android:layout_marginTop="5dp"
         android:layout_marginRight="@dimen/iten_margin_top"
-        android:layout_toRightOf="@id/iv_photo"
-        android:maxLines="3"
+        android:layout_toRightOf="@id/iv_pic"
+        android:maxLines="4"
         android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView android:id="@id/tv_date"
-        android:layout_below="@id/iv_photo"
+        android:layout_below="@id/iv_pic"
         style="@style/timeText"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/iten_margin_top"
@@ -46,7 +33,7 @@
         android:layout_height="wrap_content" />
     <TextView android:id="@id/tv_source"
         android:layout_toRightOf="@id/tv_date"
-        android:layout_below="@id/iv_photo"
+        android:layout_below="@id/iv_pic"
         style="@style/timeText"
         android:layout_marginTop="5dp"
         android:textColor="@color/time_cl"
@@ -55,11 +42,12 @@
 
     <LinearLayout
         android:id="@id/ll_item_0"
-        android:background="@color/public_f7f7f7"
+        style="@style/commentStyle"
         android:layout_below="@id/tv_date"
         android:gravity="right"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        android:layout_marginTop="8dp"
         android:paddingRight="@dimen/iten_margin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -84,7 +72,7 @@
                     android:layout_marginLeft="40dip"
                     android:text="0"
                     style="@style/timeText"
-                    android:drawableLeft="@drawable/image_praise_btn_unselect"
+                    android:drawableLeft="@drawable/icon_zan_sel"
                     android:drawablePadding="3dip"/>
     </LinearLayout>
     <View

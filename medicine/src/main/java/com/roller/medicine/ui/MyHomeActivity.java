@@ -9,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.adapter.FragmentPagerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.FragmentViewPagerAdapter;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
@@ -19,8 +23,11 @@ import com.roller.medicine.fragment.MyCommentsFragment;
 import com.roller.medicine.fragment.MyFansFragment;
 import com.roller.medicine.fragment.MyFocusFragment;
 import com.roller.medicine.fragment.MyLikeFragment;
+import com.roller.medicine.info.MyHomeInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -51,10 +58,9 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 	TextView tv_love;
 	TextView tv_focus;
 	TextView tv_fans;
-
 	private DataModel dataModel;
 	private UserInfo userInfo;
-
+	public String userId=null;
 
 	@Override
 	protected  void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,9 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 
 	protected void initView(){
 		super.initView();
+		userId=getIntent().getStringExtra(Constants.ITEM);
+
+
 		setBackActivity("我的主页");
 		dataModel=new DataModel();
 		userInfo=dataModel.getLoginUser();
@@ -84,25 +93,53 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 		((TextView)ButterKnife.findById(view3,R.id.tv_title)).setText("粉丝");
 		tv_fans=ButterKnife.findById(view3,R.id.tv_name);
 		tabLayout.addTab(tabLayout.newTab().setCustomView(view3));
-		fragments.add(new MyCommentsFragment());
-		fragments.add(new MyLikeFragment());
-		fragments.add(new MyFocusFragment());
-		fragments.add(new MyFansFragment());
+
+		Bundle bundle=new Bundle();
+		bundle.putString(Constants.ITEM, userId);
+		fragments.add(MyCommentsFragment.newInstantiate(bundle));
+		fragments.add(MyLikeFragment.newInstantiate( bundle));
+		fragments.add(MyFocusFragment.newInstantiate( bundle));
+		fragments.add(MyFansFragment.newInstantiate(bundle));
 		FragmentPagerAdapter adapter=new FragmentPagerAdapter(fragments,getSupportFragmentManager());
 		mViewPager.setAdapter(adapter);
 	    tabLayout.setupWithViewPager(mViewPager);
-
+		loadHome();
 		//初始化  个人信息
-		tv_name.setText(userInfo.nickname);
-		if (CommonUtil.notEmpty(userInfo.intro))
-			tv_jianjie.setText(userInfo.intro);
-		Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+		if (userId==null){
+			tv_name.setText(userInfo.nickname);
+			if (CommonUtil.notEmpty(userInfo.intro))
+				tv_jianjie.setText(userInfo.intro);
+			Util.loadPhoto(getContext(),DataModel.getImageUrl(userInfo.headImage),iv_photo);
+		}
+
 	}
 
 	@OnClick(R.id.rl_item_0)
 	void  doItemClick(View view) {
 		setLastClickTime();
 		ViewUtil.openActivity(UserInfoActivity.class, getContext());
+	}
+
+	private void loadHome(){
+		dataModel.requestUserHome(userId, new SimpleResponseListener<MyHomeInfo>() {
+			@Override
+			public void requestSuccess(MyHomeInfo info, Response response) {
+
+				tv_name.setText(info.nickname);
+				tv_jianjie.setText(info.intro);
+				Util.loadPhoto(getContext(), DataModel.getImageUrl(info.headImage), iv_photo);
+				tv_comment.setText(CommonUtil.initTextValue(info.replyCount));
+				tv_love.setText(CommonUtil.initTextValue(info.praiseCount));
+				tv_fans.setText(CommonUtil.initTextValue(info.fansCount));
+				tv_focus.setText(CommonUtil.initTextValue(info.attentCount));
+
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+
+			}
+		});
 	}
 	
 }

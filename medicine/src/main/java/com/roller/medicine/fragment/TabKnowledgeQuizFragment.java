@@ -25,6 +25,7 @@ import com.roller.medicine.ui.CommentActivity;
 import com.roller.medicine.ui.KnowledgeQuizContentActivity;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -102,13 +103,10 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 					public void onClick(View v) {
 						setLastClickTime();
 						//评论
-						Intent intent=new Intent(getActivity(),CommentActivity.class);
-						Bundle bundle=new Bundle();
+						setLastClickTime();
+						Bundle bundle = new Bundle();
 						bundle.putString(Constants.ITEM, item.id);
-						bundle.putInt(Constants.TYPE, Constants.TYPE_COMMENT);
-						bundle.putString(Constants.DATA_CODE, item.createUserId);
-						intent.putExtras(bundle);
-						startActivityForResult(intent, Constants.CODE);
+						ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 					}
 				});
 
@@ -190,9 +188,15 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 		});
 	}
 
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		adapter.onDestroyReceiver();
+	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		adapter.onDestroyReceiver();
 	}
 }

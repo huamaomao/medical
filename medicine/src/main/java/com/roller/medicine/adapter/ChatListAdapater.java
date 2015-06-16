@@ -1,6 +1,8 @@
 package com.roller.medicine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
+import com.android.common.util.ViewUtil;
 import com.android.common.widget.AlertDialogFragment;
 import com.gotye.api.GotyeAPI;
 import com.gotye.api.GotyeMessage;
@@ -19,7 +22,9 @@ import com.gotye.api.GotyeMessageType;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.ui.MyHomeActivity;
 import com.roller.medicine.utils.CircleTransform;
+import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
@@ -93,7 +98,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        GotyeMessage message=data.get(position);
+       final   GotyeMessage message=data.get(position);
         if (position == 0) {
             holder.tvTime.setText(TimeUtil.dateToMessageTime(message.getDate() * 1000));
             holder.tvTime.setVisibility(View.VISIBLE);
@@ -110,6 +115,16 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
 
         Picasso.with(mContext).load(DataModel.getImageUrl(friendUser.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(holder.ivPhoto);
+
+        holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                Log.d(message.getReceiver().getName()+"----"+message.getSender().getName());
+                bundle.putString(Constants.ITEM,message.getSender().getName());
+                ViewUtil.openActivity(MyHomeActivity.class,bundle,(Activity)mContext);
+            }
+        });
         switch (holder.type){
             case MESSAGE_LEFT_MESSAGE:
                 holder.tvMeg.setText(message.getText());

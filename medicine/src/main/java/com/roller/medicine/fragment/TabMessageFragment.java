@@ -283,9 +283,16 @@ public class TabMessageFragment extends BaseToolbarFragment {
         return new TabMessageFragment();
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        recyclerAdapter.onDestroyReceiver();
+    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        recyclerAdapter.onDestroyReceiver();
     }
 }

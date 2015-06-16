@@ -177,10 +177,15 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">@color/color_9c</item>
         <item name="android:textSize">16.0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+
     </style>
     <style name="my_value" parent="my_title">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">13.0sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
 
     <!--   message  style -->
@@ -245,4 +250,16 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="commentStyle">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/hintText</item>
+        <item name="android:background">#efefef</item>
+    </style>
+
+    <style name="myHomeTab">
+        <item name="android:background">@drawable/s_btn</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingTop">@dimen/iten_margin_top</item>
+        <item name="android:paddingBottom">@dimen/iten_margin_top</item>
+    </style>
 </resources>
