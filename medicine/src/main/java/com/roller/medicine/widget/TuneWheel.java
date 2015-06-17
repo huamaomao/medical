@@ -140,7 +140,7 @@ public class TuneWheel extends View {
 	 * @return
 	 */
 	public float getValue() {
-		return mValue;
+		return mValue/10f;
 	}
 
 	@Override
@@ -188,7 +188,6 @@ public class TuneWheel extends View {
 			xPosition = (width / 2 - mMove) + i * mLineDivider * mDensity;
 
 			if (xPosition + getPaddingRight() < mWidth) {
-				Log.d("xPosition:"+xPosition+"---"+(mValue + i));
 				if (mValue + i <=mMaxValue){
 					if ((mValue + i) % mModType == 0) {
 						// 画大横线
@@ -213,7 +212,6 @@ public class TuneWheel extends View {
 			}
 			xPosition = (width / 2 - mMove) - i * mLineDivider * mDensity;
 			if (xPosition > getPaddingLeft()) {
-				//Log.d("xPosition:"+xPosition+"---"+(mValue -i));
 				if (mValue - i >=0){
 					if ((mValue - i) % mModType == 0) {
 						canvas.drawLine(xPosition, getPaddingTop(), xPosition, mDensity * ITEM_MAX_HEIGHT, linePaint);
@@ -223,7 +221,6 @@ public class TuneWheel extends View {
 									canvas.drawText(String.valueOf((mValue - i) / 2), countLeftStart(mValue - i, xPosition, textWidth), getHeight() - textWidth, textPaint);
 									break;
 								case MOD_TYPE_ONE:
-									Log.d("drawText:" + (String.valueOf((mValue -i) / 10f))+"---"+countLeftStart(mValue - i, xPosition, textWidth));
 									canvas.drawText(String.valueOf((mValue-i) / 10f), countLeftStart(mValue - i, xPosition, textWidth), getHeight() - textWidth, textPaint);
 									break;
 

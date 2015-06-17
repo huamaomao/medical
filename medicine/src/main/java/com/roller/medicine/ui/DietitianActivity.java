@@ -31,13 +31,11 @@ public class DietitianActivity extends BaseToolbarActivity {
 	private List<UserInfo> data;
 	private DataModel service;
 	private FriendListAdapater adapater;
-	private EmptyView emptyView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_refresh_recycker);
-
 	}
 
 	@Override
@@ -55,8 +53,7 @@ public class DietitianActivity extends BaseToolbarActivity {
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
 		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
-		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
-
+		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DIETITAN));
 	}
 
 	public void doFriendList(){

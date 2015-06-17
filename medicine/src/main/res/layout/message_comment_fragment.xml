@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.roller.medicine.widget.InputMethodLinearLayout
+<com.android.common.widget.InputMethodLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/ll_login"
     android:orientation="vertical"
@@ -38,4 +38,4 @@
             android:layout_width="60dp"
             android:layout_height="28dp" />
     </LinearLayout>
-</com.roller.medicine.widget.InputMethodLinearLayout>
+</com.android.common.widget.InputMethodLinearLayout>

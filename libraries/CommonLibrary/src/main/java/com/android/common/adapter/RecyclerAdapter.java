@@ -277,6 +277,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
         mData.add(0,item);
        notifyDataSetChanged();
+       checkEmpty();
     }
 
 

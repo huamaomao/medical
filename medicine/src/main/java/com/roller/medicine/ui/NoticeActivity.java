@@ -33,15 +33,15 @@ public class NoticeActivity extends BaseToolbarActivity {
     DataModel dataModel;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refresh_recycker);
     }
 
     @Override
     protected void initView() {
         super.initView();
-        setBackActivity("֪ͨ");
+        setBackActivity("通知");
         dataModel=new DataModel();
         refresh.setRefreshStyle(Constants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -70,5 +70,12 @@ public class NoticeActivity extends BaseToolbarActivity {
         });
 
         ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapter);
+        adapter.checkEmpty();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapter.onDestroyReceiver();
     }
 }

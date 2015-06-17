@@ -1,5 +1,6 @@
 package com.roller.medicine.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -12,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.TabHomeAdapater;
@@ -41,6 +42,9 @@ import butterknife.Optional;
 
 public class TabHomeFragment extends BaseToolbarFragment{
 
+	@InjectView(R.id.refresh)
+	PullRefreshLayout refresh;
+
 	@InjectView(R.id.rv_view)
 	RecyclerView rv_view;
 	TabHomeAdapater recyclerAdapter;
@@ -55,6 +59,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	RadioGroup radioGroup;
 	private DataModel model;
 	private String date=null;
+	private String userId=null;
 	private ViewPagerAdapter pagerAdapter;
 
 	@Override
@@ -97,10 +102,42 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		model=new DataModel();
 		data=new ArrayList<>();
+		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				requestData();
+			}
+		});
 		recyclerAdapter=new TabHomeAdapater(getActivity(),data);
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), recyclerAdapter);
 		initAdd();
 		requestData();
+	   HomeActivity homeActivity=(HomeActivity)getActivity();
+		if (CommonUtil.notNull(homeActivity)){
+			homeActivity.setListener(new HomeActivity.OnDateClickListListener() {
+				@Override
+				public void onSelectDate(String date) {
+					TabHomeFragment.this.date=date;
+					requestData();
+				}
+			});
+		}
+		recyclerAdapter.setListener(new TabHomeAdapater.OnFamilyListener() {
+			@Override
+			public void onFamilyUserId(String userId) {
+				TabHomeFragment.this.userId=userId;
+				requestData();
+			}
+		});
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode==100){
+			requestData();
+		}
 
 	}
 
@@ -154,10 +191,13 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 
 	public void requestData(){
+
+		refresh.setRefreshing(true);
 		model.requestHomeData(date, new SimpleResponseListener<HomeInfo>() {
 			@Override
 			public void requestSuccess(HomeInfo info, Response response) {
 				rl_viewpage.setVisibility(View.GONE);
+				data.clear();
 				data.add(null);
 				data.add(null);
 				recyclerAdapter.setHomeInfo(info);
@@ -166,6 +206,11 @@ public class TabHomeFragment extends BaseToolbarFragment{
 			@Override
 			public void requestError(com.litesuits.http.exception.HttpException e, ResponseMessage info) {
 				// new AppHttpExceptionHandler().via(getActivity()).handleException(e,info);
+			}
+
+			@Override
+			public void requestView() {
+				refresh.setRefreshing(false);
 			}
 		});
 
@@ -179,8 +224,6 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 	}
 
-
-
 	public void openCreateBlood(int index){
 		Bundle bundle=new Bundle();
 		if (CommonUtil.notNull(recyclerAdapter.getHomeInfo())){
@@ -191,7 +234,10 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		if (CommonUtil.notNull(activity)){
 			bundle.putString(Constants.DATA_DATE, activity.getTitleDate());
 		}
-		ViewUtil.openActivity(CreateBloodActivity.class,bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
+		Intent intent=new Intent(getActivity(),CreateBloodActivity.class);
+		intent.putExtras(bundle);
+		startActivityForResult(intent, 200);
+		//ViewUtil.openActivity(CreateBloodActivity.class,bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 	}
 
 

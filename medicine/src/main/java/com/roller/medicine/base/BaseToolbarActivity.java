@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 import com.android.common.util.CommonUtil;
 import com.roller.medicine.R;
@@ -107,19 +108,22 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 	protected long lastClickTime;
 	public boolean flagClick=false;
 
+
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		switch (ev.getAction()){
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode){
 			case MotionEvent.ACTION_DOWN:
 				if (flagClick&&isFastDoubleClick()) {
 					return true;
 				}
 				break;
+			case KeyEvent.KEYCODE_MENU:
+				return true;
 			case KeyEvent.KEYCODE_BACK:
 				onBackActivty();
 				return true;
 		}
-		return super.dispatchTouchEvent(ev);
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/****

@@ -10,8 +10,5 @@
         android:layout_width="60dp"
         android:layout_height="60dp" />
     <TextView android:id="@id/tv_item_0"
-        android:textColor="@color/color_home_conent"
-        android:layout_gravity="center_horizontal"
-        android:textSize="14sp"
-        style="@style/FindText" />
+        style="@style/gridTextStyle" />
 </LinearLayout>

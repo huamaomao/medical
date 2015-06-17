@@ -44,13 +44,13 @@ public final class GotyeService{
         gotyeAPI.addListener(new ChatListener() {
             @Override
             public void onSendMessage(int code, GotyeMessage message) {
-                Log.i("onSendMessage:"+message.getText());
-                messageListener.onSendMessage(code,message);
+                Log.i("onSendMessage:" + message.getText());
+                messageListener.onSendMessage(code, message);
             }
 
             @Override
             public void onReceiveMessage(GotyeMessage message) {
-                Log.i("onReceiveMessage:"+gotyeAPI.getUserDetail(message.getSender().getName(),false).getIcon());
+                Log.i("onReceiveMessage:" + gotyeAPI.getUserDetail(message.getSender().getName(), false).getIcon());
                 messageListener.onReceiveMessage(message);
                 gotyeAPI.downloadMediaInMessage(message);
 
@@ -185,6 +185,35 @@ public final class GotyeService{
         GotyeUser gotyeUser=new GotyeUser();
         gotyeUser.setName(id);
         gotyeAPI.reqAddBlocked(gotyeUser);
+        gotyeAPI.reqBlockedList();
+    }
+
+    /*****
+     * 是否在黑名单
+     * @param id
+     * @return
+     */
+    public boolean isFriendBlocked(String id){
+        gotyeAPI.reqBlockedList();
+        List<GotyeUser> blockedList =gotyeAPI.getLocalBlockedList();
+        if (CommonUtil.notNull(blockedList)){
+            GotyeUser gotyeUser=new GotyeUser();
+            gotyeUser.setName(id);
+            Log.d(blockedList.contains(gotyeUser));
+            return blockedList.contains(gotyeUser);
+        }
+        return false;
+    }
+
+    /*****
+     * 移除黑名单
+     * @param id
+     */
+    public void removeFriendBlocked(String id){
+        GotyeUser gotyeUser=new GotyeUser();
+        gotyeUser.setName(id);
+        gotyeAPI.reqRemoveFriend(gotyeUser);
+        gotyeAPI.reqBlockedList();
     }
 
     /*****

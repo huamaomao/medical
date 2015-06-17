@@ -3,18 +3,17 @@ package com.roller.medicine.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
-
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.android.common.widget.InputMethodLinearLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
-import com.roller.medicine.widget.InputMethodLinearLayout;
 import butterknife.InjectView;
 import butterknife.OnClick;
 

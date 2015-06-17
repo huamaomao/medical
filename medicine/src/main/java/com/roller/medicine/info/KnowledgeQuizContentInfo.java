@@ -6,7 +6,7 @@ import java.util.List;
 
 public class KnowledgeQuizContentInfo extends ResponseMessage {
 
-	public String isPraise;
+	public boolean isPraise;
 	public String id;
 	public String title;
 	public String content;

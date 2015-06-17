@@ -23,7 +23,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.LoveInfo;
-import com.roller.medicine.ui.KnowledgeQuizContentActivity;
+import com.roller.medicine.ui.CommentDetailActivity;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
@@ -115,7 +115,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 							setLastClickTime();
 							Bundle bundle = new Bundle();
 							bundle.putString(Constants.ITEM, item.post.id);
-							ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
+							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 						}
 					});
 					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
@@ -126,7 +126,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 							setLastClickTime();
 							Bundle bundle = new Bundle();
 							bundle.putString(Constants.ITEM, item.id);
-							ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
+							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 						}
 					});
 

@@ -43,7 +43,7 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
         user=getIntent().getParcelableExtra(Constants.ITEM);
         if (CommonUtil.notNull(user)){
             et_name.setText(user.noteName);
-            et_name.setSelection(user.noteName.length());
+            et_name.setSelection(et_name.getText().length());
         }
 
     }

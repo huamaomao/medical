@@ -700,7 +700,7 @@ public class UserModel  extends ViewModel {
     }
 
     public Token getToken(){
-        if (token==null){
+        if (token==null||!token.isLogin()){
             token=db.queryById(1,Token.class);
         }
         return token;

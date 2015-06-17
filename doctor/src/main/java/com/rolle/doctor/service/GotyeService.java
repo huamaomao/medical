@@ -46,10 +46,11 @@ public class GotyeService extends Service implements NotifyListener,LoginListene
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-        User token=userModel.getLoginUser();
+       // User token=userModel.getLoginUser();
+		 Token token=userModel.getToken();
 		Log.e(TAG,"开始登陆了......"+token);
-        if (CommonUtil.notNull(token)){
-            int code = api.login(token.id+"");
+        if (CommonUtil.notNull(token)&&token.isLogin()){
+            int code = api.login(token.userId+"");
 			Log.e(TAG,"开始登陆了......"+code+"==getLoginUser=="+api.getLoginUser().getName());
             if (code == GotyeStatusCode.CodeSystemBusy) {
                 // 已经登陆了

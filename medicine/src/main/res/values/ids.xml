@@ -184,6 +184,7 @@
 
     <!-- view-->
     <item name="v_view" type="id" />
+    <item name="web_view" type="id" />
     <item name="seach" type="id" />
     <item name="tbtn_swich" type="id" />
     <item name="progressBar" type="id" />

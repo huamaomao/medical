@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -56,6 +57,12 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     List<Object> data;
     private HomeInfo homeInfo=null;
+    private OnFamilyListener listener;
+
+    public void setListener(OnFamilyListener listener) {
+        this.listener = listener;
+    }
+
     public void setHomeInfo(HomeInfo homeInfo){
         this.homeInfo=homeInfo;
         notifyDataSetChanged();
@@ -89,15 +96,32 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_text,homeInfo.familyList);
             headViewHolder.sp_start.setAdapter(adpater);
+
+            headViewHolder.sp_start.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (CommonUtil.notNull(listener)) {
+                            HomeInfo.Family family = homeInfo.familyList.get(position);
+                            listener.onFamilyUserId(family.userId);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
             headViewHolder.lineChart.setDescription("");
             headViewHolder.lineChart.setNoDataTextDescription("暂无数据");
-            LimitLine ll1 = new LimitLine(11.0f, "高血压 严重");
+            LimitLine ll1 = new LimitLine(11.0f, "高血糖 严重");
             ll1.setLineWidth(1f);
             ll1.enableDashedLine(3f, 3f, 0f);
             ll1.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
             ll1.setTextSize(10f);
 
-            LimitLine ll2 = new LimitLine(5.0f, "低血压 严重");
+            LimitLine ll2 = new LimitLine(5.0f, "低血糖 严重");
             ll2.setLineWidth(1f);
             ll2.enableDashedLine(3f, 3f, 0f);
             ll2.setLabelPosition(LimitLine.LimitLabelPosition.POS_RIGHT);
@@ -207,7 +231,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 protected void convert(ViewHolderHelp viewHolderHelp, HomeAdviceInfo.Food food) {
                     viewHolderHelp.setText(R.id.tv_item_0,food.foodName);
-                    Picasso.with(mContext).load(DataModel.getImageUrl(food.url)).placeholder(R.drawable.icon_default).
+                    Picasso.with(mContext).load(DataModel.getImageUrl(food.url)).placeholder(R.drawable.icon_default_food).
                            into((ImageView) viewHolderHelp.getView(R.id.iv_photo));
                 }
             };
@@ -216,7 +240,6 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 adapter.addAll(homeInfo.advice.foods);
             }
         }
-
     }
 
     @Override
@@ -275,6 +298,11 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.inject(this,itemView);
         }
+    }
+
+
+    public interface  OnFamilyListener{
+        void onFamilyUserId(String userId);
     }
 
 }

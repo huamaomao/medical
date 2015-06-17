@@ -6,12 +6,12 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.android.common.widget.InputMethodLinearLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
@@ -20,7 +20,6 @@ import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.service.MedicineGotyeService;
 import com.roller.medicine.viewmodel.DataModel;
-import com.roller.medicine.widget.InputMethodLinearLayout;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -36,7 +35,6 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 	EditText et_tel;
 	@InjectView(R.id.et_pwd)
 	EditText et_pwd;
-
 	private DataModel service;
 
 	@Override
@@ -109,7 +107,6 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 			public void requestSuccess(TokenInfo info, Response response) {
 				info.tel=et_tel.getText().toString();
 				service.setToken(info);
-				service.getToken();
 				service.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
 					@Override
 					public void requestSuccess(UserResponseInfo info, Response response) {

@@ -48,8 +48,7 @@ public class ClipImageLayout extends RelativeLayout {
 	}
 
 	/**
-	 * 对外公布设置边距的方�?单位为dp
-	 * 
+	 *
 	 * @param mHorizontalPadding
 	 */
 	public void setHorizontalPadding(int mHorizontalPadding) {

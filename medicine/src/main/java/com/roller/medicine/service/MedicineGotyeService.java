@@ -17,14 +17,13 @@ import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.NotifyListener;
+import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MedicineGotyeService extends Service implements NotifyListener,LoginListener {
-	public static final String ACTION_LOGIN = "gotyeim.login";
-	public static final String ACTION_RUN_BACKGROUND = "gotyeim.login";
 	private GotyeAPI api;
     private DataModel userModel;
     private static final String TAG="GotyeService";
@@ -46,7 +45,7 @@ public class MedicineGotyeService extends Service implements NotifyListener,Logi
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-        UserInfo token=userModel.getLoginUser();
+        TokenInfo token=userModel.getToken();
 		Log.e(TAG, "开始登陆了......" + token);
         if (CommonUtil.notNull(token)){
             int code = api.login(token.id+"");

@@ -133,7 +133,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:screenOrientation="portrait" android:theme="@style/AppThemeTransparent" />
         <activity
-            android:name=".ui.KnowledgeQuizContentActivity"
+            android:name=".ui.CommentDetailActivity"
             android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
         <service android:name=".service.MedicineGotyeService" />
     </application>

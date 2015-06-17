@@ -13,7 +13,7 @@ public class TokenInfo extends ResponseMessage {
     public String tel;
     public int userId;
     public String pwd;
-    public int status;
+    public int status=STATUS_LOGINOUT;
     public static final int STATUS_LOGIN=0;
     public static final int STATUS_LOGINOUT=1;
 

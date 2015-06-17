@@ -136,9 +136,9 @@ public class ViewUtil {
                 e.printStackTrace();
             }
         }
-        if(fragment.isAdded()){
+       /* if(fragment.isAdded()){
             return fragment;
-        }
+        }*/
         if( args != null && !args.isEmpty() ) {
             fragment.getArguments().putAll(args);
         }

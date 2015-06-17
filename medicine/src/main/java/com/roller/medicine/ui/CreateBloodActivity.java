@@ -63,6 +63,8 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	private CalendarPickerView dialogView;
 	private AlertDialog theDialog;
 
+	private List<HomeInfo.Family> familyList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,13 +141,13 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	protected void initView(){
 		super.initView();
 		service=new DataModel();
-		List<HomeInfo.Family>  list= getIntent().getParcelableArrayListExtra(Constants.ITEM);
-		if (CommonUtil.isNull(list)){
-			list=new ArrayList<>();
+		familyList= getIntent().getParcelableArrayListExtra(Constants.ITEM);
+		if (CommonUtil.isNull(familyList)){
+			familyList=new ArrayList<>();
 			HomeInfo.Family family=new HomeInfo.Family();
 			family.appellation="本人";
 			family.userId=service.getLoginUser().id+"";
-			list.add(family);
+			familyList.add(family);
 		}
 		int index=getIntent().getIntExtra(Constants.TYPE, 0);
 		String date =getIntent().getStringExtra(Constants.DATA_DATE);
@@ -166,7 +168,7 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 				tv_name.setText(builder.toString());
 			}
 		});
-		finamyAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_g_text,list);
+		finamyAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_g_text,familyList);
 		timeAdpater=new YearSpinnerAdpater(this,R.layout.sp_check_g_text,getResources().getStringArray(R.array.lineTime));
 		sp_finamy.setAdapter(finamyAdpater);
 		sp_time.setAdapter(timeAdpater);
@@ -184,11 +186,19 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	}
 
 	public void saveBlood(){
+
+		HomeInfo.Family family=familyList.get(sp_finamy.getSelectedItemPosition());
 		showLoading();
-		service.requestSaveBlood(tv_date.getText().toString(), "22", "22", new SimpleResponseListener<HomeInfo>() {
+		//sp_time.getSelectedItemPosition()
+		service.requestSaveBlood(tv_date.getText().toString(),getDateType(sp_time.getSelectedItemPosition()),tuneWheel.getValue()+"",
+				family.userId,et_yonogyao.getText().toString(),et_yundong.getText().toString(),et_xinqing.getText().toString(),
+				new SimpleResponseListener<HomeInfo>() {
 			@Override
 			public void requestSuccess(HomeInfo info, Response response) {
+				setResult(100);
 				showLongMsg("保存成功.....");
+				finish();
+
 			}
 
 			@Override
@@ -203,6 +213,9 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 		});
 	}
 
+	public String getDateType(int position){
+		return String.valueOf(36+position);
+	}
 
 }
 

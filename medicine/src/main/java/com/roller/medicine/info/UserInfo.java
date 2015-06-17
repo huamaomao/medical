@@ -338,8 +338,6 @@ public class UserInfo extends ResponseMessage implements Parcelable {
         dest.writeValue(this.createTime);
         dest.writeInt(this.state);
         dest.writeInt(this.updateState);
-        dest.writeParcelable(this.doctorDetail, 0);
-        dest.writeParcelable(this.patientDetail, 0);
         dest.writeString(this.statusCode);
         dest.writeString(this.code);
         dest.writeString(this.message);
@@ -393,8 +391,6 @@ public class UserInfo extends ResponseMessage implements Parcelable {
         this.createTime = in.readString();
         this.state = in.readInt();
         this.updateState = in.readInt();
-        this.doctorDetail = in.readParcelable(DoctorDetail.class.getClassLoader());
-        this.patientDetail = in.readParcelable(PatientDetail.class.getClassLoader());
         this.statusCode = in.readString();
         this.code = in.readString();
         this.message = in.readString();

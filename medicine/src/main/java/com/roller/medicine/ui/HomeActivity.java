@@ -9,10 +9,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.fragment.TabKnowledgeQuizFragment;
+import com.roller.medicine.fragment.TabCommentFragment;
 import com.roller.medicine.fragment.TabMyFragment;
 import com.roller.medicine.fragment.TabHomeFragment;
 import com.roller.medicine.fragment.TabMessageFragment;
@@ -32,6 +34,9 @@ public class HomeActivity extends BaseToolbarActivity {
 	private TextView subView;
 	private CalendarPickerView dialogView;
 	private AlertDialog theDialog;
+
+	private OnDateClickListListener listener;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +79,10 @@ public class HomeActivity extends BaseToolbarActivity {
 		dialogView.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
 			@Override
 			public void onDateSelected(Date date) {
+				//        listener
 				subView.setText(TimeUtil.formmatYmd(date.getTime()));
+				if (CommonUtil.notNull(listener))
+					listener.onSelectDate(subView.getText().toString());
 				theDialog.dismiss();
 			}
 
@@ -93,6 +101,9 @@ public class HomeActivity extends BaseToolbarActivity {
 
 	}
 
+	public void setListener(OnDateClickListListener listener) {
+		this.listener = listener;
+	}
 
 	@Override
 	protected void onResume() {
@@ -145,8 +156,8 @@ public class HomeActivity extends BaseToolbarActivity {
 						ViewUtil.turnToFragment(getSupportFragmentManager(), TabMessageFragment.class, null, R.id.fl_content);
 						break;
 					case R.id.tab_knowledge_quiz:
-						setToolbarTitle("知识问答");
-						ViewUtil.turnToFragment(getSupportFragmentManager(), TabKnowledgeQuizFragment.class, null, R.id.fl_content);
+						setToolbarTitle("健康社区");
+						ViewUtil.turnToFragment(getSupportFragmentManager(), TabCommentFragment.class, null, R.id.fl_content);
 						break;
 					case R.id.tab_my:
 						setToolbarTitle("我的");
@@ -183,7 +194,10 @@ public class HomeActivity extends BaseToolbarActivity {
 			return true;
 		}
 		index=0;
-		return false;
+		return super.onKeyDown(keyCode, event);
 	}
 
+ public interface OnDateClickListListener{
+		void onSelectDate(String date);
+	}
 }

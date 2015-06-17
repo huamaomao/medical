@@ -184,10 +184,10 @@ public class TabMessageFragment extends BaseToolbarFragment {
             lsData.clear();
             recyclerAdapter.notifyDataSetChanged();
         }
+        recyclerAdapter.checkEmpty();
         refresh.setRefreshing(false);
 
        //addall 消息集合
-
 
     }
 

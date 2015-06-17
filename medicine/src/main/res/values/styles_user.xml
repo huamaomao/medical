@@ -262,4 +262,13 @@
         <item name="android:paddingTop">@dimen/iten_margin_top</item>
         <item name="android:paddingBottom">@dimen/iten_margin_top</item>
     </style>
+    <style name="gridTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">13.0sp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/color_home_conent</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
 </resources>

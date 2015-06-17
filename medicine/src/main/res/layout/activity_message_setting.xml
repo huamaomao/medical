@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
     <RelativeLayout
-        style="@style/list_item_style">
+        style="@style/list_item">
         <TextView android:id="@id/tv_item_0"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/font_size_16"
@@ -40,16 +40,14 @@
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
-
-        <ToggleButton
+        <android.support.v7.widget.SwitchCompat
             android:id="@id/tbtn_swich"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
-            android:checked="false"
-            android:textOff="关"
-            android:textOn="开" />
+            />
+
     </RelativeLayout>
     <include layout="@layout/divider" />
     <RelativeLayout
@@ -73,7 +71,7 @@
             android:layout_height="@dimen/more_height" />
     </RelativeLayout>
     <include layout="@layout/divider" />
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:id="@id/rl_item_2"
         style="@style/list_item_style">
 
@@ -92,11 +90,11 @@
             android:layout_centerVertical="true"
             android:layout_width="@dimen/more_height"
             android:layout_height="@dimen/more_height" />
-    </RelativeLayout>
+    </RelativeLayout>-->
     <View
         android:background="@color/appbg"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="40dp" />
 
     <Button
         android:id="@id/btn_del_message"
@@ -107,20 +105,9 @@
         style="@style/btn_style"
         android:layout_marginRight="@dimen/iten_margin_top"
         android:layout_marginLeft="@dimen/iten_margin_top"
-        android:background="@drawable/s_btn_del_message"
-        android:textColor="@color/public_black"
-        />
-    <Button
-        android:id="@id/btn_join_blacklist"
-        android:layout_marginTop="@dimen/iten_margin_top"
-        android:text="加入黑名单"
-        android:gravity="center"
-        android:layout_height="40dp"
-        style="@style/btn_style"
-        android:layout_marginRight="@dimen/iten_margin_top"
-        android:layout_marginLeft="@dimen/iten_margin_top"
         android:background="@drawable/s_btn_del_join"
         android:textColor="@color/write"
         />
+
 
 </LinearLayout>

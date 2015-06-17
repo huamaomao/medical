@@ -87,9 +87,9 @@ public class DataModel extends ViewModel{
     }
 
 
-    public TokenInfo getToken(){
+    public  TokenInfo getToken(){
         /****做处理  查询token***/
-        if (token==null){
+        if (token==null||!token.isLogin()){
             token=liteOrm.queryById(1, TokenInfo.class);
         }
         return token;
@@ -162,7 +162,7 @@ public class DataModel extends ViewModel{
      */
     public List<UserInfo> queryFriendList(String type){
         QueryBuilder builder=new QueryBuilder(UserInfo.class).where(WhereBuilder.create().
-                andEquals("typeId", type).andEquals("friendId", getLoginUser().id));
+                andEquals("typeId", type).andEquals("friendId", type));
         List<UserInfo> ls=liteOrm.query(builder);
         return queryFriend(ls);
     }
@@ -447,16 +447,22 @@ public class DataModel extends ViewModel{
         execute(request, responseService);
     }
 
+
     /**
     * 保存血糖值
     */
-    public void requestSaveBlood(String date,String value,String userId,final SimpleResponseListener<HomeInfo> responseService) {
+    public void requestSaveBlood(String date,String dateType,String value,String userId,String pharmacy,String sport,
+                        String  mood,final SimpleResponseListener<HomeInfo> responseService) {
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("value", value));
-        param.add(new NameValuePair("timeBucket", date));
-        param.add(new NameValuePair("userId", userId));
-        Request request=new Request(requestUrl("/crm/patient_sp/getPatientHistory.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        param.add(new NameValuePair("timeBucket", dateType));
+        param.add(new NameValuePair("time", date));
+        param.add(new NameValuePair("createUserId", userId));
+        param.add(new NameValuePair("pharmacy", pharmacy));
+        param.add(new NameValuePair("sport", sport));
+        param.add(new NameValuePair("mood", mood));
+        Request request=new Request(requestUrl("/crm/glycemic_sp/saveGlycemicRecord.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
 
@@ -578,10 +584,11 @@ public class DataModel extends ViewModel{
      * 取消赞
      * @param responseService
      */
-    public void deletePraise(String id,SimpleResponseListener<ResponseMessage> responseService){
+    public void deletePraise(String id,String typeId,SimpleResponseListener<ResponseMessage> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("id", id));
+        param.add(new NameValuePair("typeId", typeId));
         Request request=new Request(requestUrl("/crm/praise_sp/deletePraise.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }

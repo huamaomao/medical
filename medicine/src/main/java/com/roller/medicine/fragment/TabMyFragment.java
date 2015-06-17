@@ -160,7 +160,6 @@ public class TabMyFragment extends BaseToolbarFragment{
 		}
 	}
 
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){

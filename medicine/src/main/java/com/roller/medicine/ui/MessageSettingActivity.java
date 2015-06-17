@@ -1,12 +1,14 @@
 package com.roller.medicine.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import com.android.common.util.ActivityModel;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
@@ -24,15 +26,9 @@ import butterknife.OnClick;
  */
 public class MessageSettingActivity extends BaseLoadingToolbarActivity{
 
-    @InjectView(R.id.rl_item_0)
-    RelativeLayout rl_item_0;
-    @InjectView(R.id.rl_item_1)
-    RelativeLayout rl_item_1;
-    @InjectView(R.id.rl_item_2)
-    RelativeLayout rl_item_2;
 
     @InjectView(R.id.tbtn_swich)
-    ToggleButton tbtn_swich;
+    SwitchCompat tbtn_swich;
     @InjectView(R.id.iv_photo)
     ImageView iv_photo;
     @InjectView(R.id.tv_name)
@@ -54,16 +50,25 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
         setBackActivity("聊天信息");
         userModel=new DataModel();
         user=getIntent().getParcelableExtra(Constants.ITEM);
+
         tbtn_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                if (isChecked){
+                    gotyeService.removeFriendBlocked(user.id + "");
+                }else {
+                    gotyeService.addFriendBlocked(user.id + "");
+                }
+                Log.d(gotyeService.isFriendBlocked(user.id+""));
+                //tbtn_swich.setChecked(gotyeService.isFriendBlocked(user.id+""));
             }
         });
         Picasso.with(this).load(DataModel.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         tv_name.setText(user.nickname);
         gotyeService=new GotyeService();
+        tbtn_swich.setChecked(gotyeService.isFriendBlocked(user.id+""));
+
     }
 
 
@@ -73,11 +78,8 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
         showLongMsg("记录清除成功");
     }
 
-    @OnClick(R.id.btn_join_blacklist)
-    void  doJoinBlacklist(){
-        gotyeService.addFriendBlocked(user.id+"");
-        showLongMsg("加入成功");
-    }
+
+
     @OnClick(R.id.rl_item_0)
     void doUserDetianl(){
         Bundle bundle=new Bundle();
@@ -91,9 +93,9 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
         bundle.putParcelable(Constants.ITEM,user);
         ViewUtil.openActivity(NoteActivity.class, bundle, this, ActivityModel.ACTIVITY_MODEL_1);
     }
-    @OnClick(R.id.rl_item_2)
+  /*  @OnClick(R.id.rl_item_2)
     void doFindMessage(){
 
-    }
+    }*/
 
 }

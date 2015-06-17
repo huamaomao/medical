@@ -1,13 +1,11 @@
 package com.roller.medicine.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
@@ -21,11 +19,9 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
-import com.roller.medicine.ui.CommentActivity;
-import com.roller.medicine.ui.KnowledgeQuizContentActivity;
+import com.roller.medicine.ui.CommentDetailActivity;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
-import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +30,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 
-public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
+public class TabCommentFragment extends BaseToolbarFragment{
 
 	@InjectView(R.id.refresh)
 	PullRefreshLayout refresh;
@@ -52,7 +48,6 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.refresh_recycler_view);
 	}
-
 
 	@Override
 	protected void initView(View view, LayoutInflater inflater) {
@@ -72,10 +67,11 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder,final KnowledgeQuizItemInfo.Item item, final int position) {
 				viewHolder.setText(R.id.tv_title, item.title);
 				viewHolder.setText(R.id.tv_content, item.content);
-				viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(item.praiseCount));
-				viewHolder.setText(R.id.tv_comment, CommonUtil.initTextValue(item.replyCount));
 				viewHolder.setText(R.id.tv_source, "来源：" + item.source);
 				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
+				/*
+				viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(item.praiseCount));
+				viewHolder.setText(R.id.tv_comment, CommonUtil.initTextValue(item.replyCount));
 				TextView textView = viewHolder.getView(R.id.tv_praise);
 				if ("false".equals(item.praise)) {
 					textView.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
@@ -83,21 +79,12 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 						@Override
 						public void onClick(View v) {
 							setLastClickTime();
-							savePraise(position, item.id, item.replyId, "74", item.createUserId);
+							savePraise(position, item.id, item.createUserId, "74", item.createUserId);
 						}
 					});
 				} else {
 					textView.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
 				}
-				viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						setLastClickTime();
-						Bundle bundle = new Bundle();
-						bundle.putString(Constants.ITEM, item.id);
-						ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
-					}
-				});
 				viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -107,6 +94,18 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 						Bundle bundle = new Bundle();
 						bundle.putString(Constants.ITEM, item.id);
 						ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
+					}
+				});
+
+
+				*/
+				viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						setLastClickTime();
+						Bundle bundle = new Bundle();
+						bundle.putString(Constants.ITEM, item.id);
+						ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 					}
 				});
 
@@ -135,25 +134,6 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 	}
 
 
-	private void savePraise(final int position,String postId,String repiyId,String typeId,String mainUserId){
-		model.savePraise(postId, repiyId, typeId, mainUserId, new SimpleResponseListener<ResponseMessage>() {
-			@Override
-			public void requestSuccess(ResponseMessage info, Response response) {
-				KnowledgeQuizItemInfo.Item item = mDatas.get(position);
-				item.praise = "ture";
-				item.praiseCount = CommonUtil.numberCount(item.praiseCount);
-				adapter.notifyItemUpdate(position);
-				msgShow("点赞成功");
-			}
-
-			@Override
-			public void requestError(HttpException e, ResponseMessage info) {
-				msgShow("点赞失败");
-			}
-		});
-
-	}
-
 	public void  loadData(){
 		model.getPostListByMap(pageNum, new SimpleResponseListener<KnowledgeQuizItemInfo>() {
 			@Override
@@ -174,19 +154,6 @@ public class TabKnowledgeQuizFragment extends BaseToolbarFragment{
 		});
 	}
 
-	private void deletePraise(String id){
-		model.deletePraise(id, new SimpleResponseListener<ResponseMessage>() {
-			@Override
-			public void requestSuccess(ResponseMessage info, Response response) {
-
-			}
-
-			@Override
-			public void requestError(HttpException e, ResponseMessage info) {
-
-			}
-		});
-	}
 
 
 	@Override

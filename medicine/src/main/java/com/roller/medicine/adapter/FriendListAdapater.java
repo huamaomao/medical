@@ -1,5 +1,6 @@
 package com.roller.medicine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.ui.DoctorDetialActivity;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.ui.MyHomeActivity;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
@@ -31,13 +33,13 @@ import java.util.List;
 public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
      int type=TYPE_PATIENT;
     /***患者***/
-    public static  final int TYPE_PATIENT=0;
+    public static  final int TYPE_PATIENT=61;
     /****医生*****/
-    public static final int TYPE_DOCTOR=1;
+    public static final int TYPE_DOCTOR=62;
     /****消息*****/
-    public static final int TYPE_MESSAGE=2;
+    public static final int TYPE_MESSAGE=63;
     /****添加 *****/
-    public static final int TYPE_FRIEND=3;
+    public static final int TYPE_FRIEND=64;
 
     /**** 全部 严重 轻微  ***/
     public boolean flag=false;
@@ -57,6 +59,10 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable(Constants.ITEM, user);
                                 ViewUtil.openActivity(DoctorDetialActivity.class, bundle,(BaseToolbarActivity)mContext, ActivityModel.ACTIVITY_MODEL_1);
+                            }else {
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Constants.ITEM, user.id+"");
+                                ViewUtil.openActivity(MyHomeActivity.class,bundle,(Activity)mContext);
                             }
                         }
                     }
@@ -92,21 +98,9 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
                         }
                         //病类
                         if (CommonUtil.notNull(user.patientDetail)){
-                            patient.tvRemarks.setText(CommonUtil.initTextNull(user.patientDetail.diseaseTypeId));
+                            patient.tvRemarks.setText("病类:"+CommonUtil.initTextNull(user.patientDetail.disease));
                         }
 
-                        break;
-                    case TYPE_FRIEND:
-                        FriendViewHolder friend=(FriendViewHolder)holder;
-                        if (Constants.USER_STATUS_ADD.equals(user.status)){
-                            friend.btnStatus.setText("添加");
-                        }else{
-                            friend.btnStatus.setText("接受");
-                        }
-                        if (com.roller.medicine.utils.Constants.USER_TYPE_DOCTOR.equals(user.typeId)){
-                            friend.ivType.setImageResource(R.drawable.icon_doctor);
-                        }
-                        friend.tvRemarks.setText("主治:血糖");
                         break;
                 }
             }
@@ -116,10 +110,7 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
                 if (TYPE_DOCTOR==viewType){
                     return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor, parent, false));
                 }
-                else if (TYPE_FRIEND==viewType){
-                    return  new FriendViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_friend,parent,false));
-                }
-                return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient,parent,false));
+                return  new DoctorViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_doctor,parent,false));
             }
 
             @Override
@@ -151,17 +142,6 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
         public DoctorViewHolder(View itemView) {
             super(itemView);
             tvRemarks=(TextView)itemView.findViewById(R.id.tv_item_1);
-        }
-
-    }
-
-    public  static class FriendViewHolder extends DoctorViewHolder{
-        Button btnStatus;
-        ImageView ivType;
-        public FriendViewHolder(View itemView) {
-            super(itemView);
-            btnStatus=(Button)itemView.findViewById(R.id.btn_status);
-            ivType=(ImageView)itemView.findViewById(R.id.iv_type);
         }
 
     }
