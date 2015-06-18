@@ -90,28 +90,6 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof  HeadViewHolder){
             HeadViewHolder headViewHolder=(HeadViewHolder)holder;
-           //homeInfo.familyList
-            if (homeInfo.familyList.size()<2){
-                headViewHolder.sp_start.setVisibility(View.GONE);
-            }
-            YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_text,homeInfo.familyList);
-            headViewHolder.sp_start.setAdapter(adpater);
-
-            headViewHolder.sp_start.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (CommonUtil.notNull(listener)) {
-                            HomeInfo.Family family = homeInfo.familyList.get(position);
-                            listener.onFamilyUserId(family.userId);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
 
             headViewHolder.lineChart.setDescription("");
             headViewHolder.lineChart.setNoDataTextDescription("暂无数据");
@@ -262,8 +240,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public   class HeadViewHolder extends RecyclerView.ViewHolder{
-        @InjectView(R.id.sp_start)
-        AppCompatSpinner sp_start;
+
         @InjectView(R.id.lineChart)
         LineChart lineChart;
         public HeadViewHolder(View itemView) {

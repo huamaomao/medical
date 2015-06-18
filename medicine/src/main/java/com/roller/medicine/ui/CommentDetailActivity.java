@@ -5,46 +5,39 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.internal.widget.DrawableUtils;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.customview.listview.HorizontalListView;
-import com.roller.medicine.customview.listview.PublicListView;
-import com.roller.medicine.info.KnowledgeQuizContentInfo;
-import com.roller.medicine.info.KnowledgeQuizItemInfo;
+import com.roller.medicine.info.CommentDetailInfo;
+import com.roller.medicine.info.ReplyInfo;
+import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.TimeUtil;
+import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -66,13 +59,15 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 	private HashMap<String, Drawable> mImageCache = new HashMap();
 
-	private RecyclerAdapter<Object> adapter;
-	private List<Object> mData;
+	private RecyclerAdapter<ReplyInfo> adapter;
+	private List<ReplyInfo> mData;
 
 	private String id=null;
 	private DataModel dataModel;
 
-	private KnowledgeQuizContentInfo contentInfo;
+	private CommentDetailInfo contentInfo;
+	private TokenInfo tokenInfo;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +80,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		setBackActivity("论坛正文");
 		dataModel=new DataModel();
 		mData=new ArrayList();
+		tokenInfo=dataModel.getToken();
 		refresh.setRefreshStyle(Constants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
@@ -101,9 +97,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 				return super.getItemType(position);
 			}
 		};
-		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods() {
+		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<ReplyInfo>() {
 			@Override
-			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, Object o, int position) {
+			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final ReplyInfo item, int position) {
 				if (mData.get(position) == null) {
 					StringBuilder builder = new StringBuilder();
 					builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
@@ -115,23 +111,24 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					viewHolder.setText(R.id.tv_content, Html.fromHtml(contentInfo.content, new Html.ImageGetter() {
 						@Override
 						public Drawable getDrawable(final String source) {
-							final Drawable drawable= mImageCache.get(source);
-							if (CommonUtil.notNull(drawable)){
+							final Drawable drawable = mImageCache.get(source);
+							if (CommonUtil.notNull(drawable)) {
 								return drawable;
 							}
 							Picasso.with(getContext()).load(source).into(new Target() {
 								@Override
 								public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-									Drawable drawable1=new BitmapDrawable(getResources(),bitmap);
-									DisplayMetrics metrics= getResources().getDisplayMetrics();
-									float i=metrics.widthPixels/drawable1.getIntrinsicWidth();
-									float height=drawable1.getIntrinsicHeight()*i;
-									float width=drawable1.getIntrinsicWidth()*i;
-									drawable1.setBounds(0, 0,(int)width,(int)height );
+									Drawable drawable1 = new BitmapDrawable(getResources(), bitmap);
+									DisplayMetrics metrics = getResources().getDisplayMetrics();
+									float i = metrics.widthPixels / drawable1.getIntrinsicWidth();
+									float height = drawable1.getIntrinsicHeight() * i;
+									float width = drawable1.getIntrinsicWidth() * i;
+									drawable1.setBounds(0, 0, (int) width, (int) height);
 									mImageCache.put(source, drawable1);
 									try {
 										adapter.notifyItemUpdate(0);
-									}catch (Exception e){}
+									} catch (Exception e) {
+									}
 								}
 
 								@Override
@@ -146,8 +143,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 							});
 							return getResources().getDrawable(R.drawable.icon_comment_default);
 						}
-					},null));
+					}, null));
 					TextView tv_praise = viewHolder.getView(R.id.tv_praise);
+
 					if (contentInfo.isPraise) {
 						iv_praise.setImageResource(R.drawable.image_praise_btn_select);
 						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
@@ -155,17 +153,11 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					} else {
 						iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
 						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
-						tv_praise.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								deletePraise(contentInfo.id);
-							}
-						});
 					}
 					tv_praise.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							savePraise();
+							savePraise(contentInfo.id,null,contentInfo.isPraise,Constants.PRAISE_COMMENT);
 						}
 					});
 					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
@@ -178,6 +170,28 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					HorizontalListView horizontal_listview;*/
 
 				} else {
+					Util.loadPhoto(getContext(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
+					viewHolder.setText(R.id.tv_name, item.nickname);
+					viewHolder.setText(R.id.tv_comment, item.content);
+					viewHolder.setText(R.id.tv_date,TimeUtil.getFmdLongTime(item.createTime));
+					TextView tv_praise=viewHolder.getView(R.id.tv_praise);
+					tv_praise.setText(CommonUtil.initTextValue(item.praiseCount));
+					if (item.replyUserId.equals(tokenInfo.userId)){
+						tv_praise.setVisibility(View.GONE);
+					}else {
+						if (item.praise) {
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
+						} else {
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+						}
+						tv_praise.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								savePraise(item.id,item.replyId,item.praise,Constants.PRAISE_REEPLY);
+							}
+						});
+					}
+
 
 				}
 			}
@@ -198,7 +212,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 
 		ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
+
 		loadData();
+
 	}
 
 
@@ -209,13 +225,17 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	 */
 	private void loadData() {
 		refresh.setRefreshing(true);
-		dataModel.getPostByMap(id, null, new SimpleResponseListener<KnowledgeQuizContentInfo>() {
+		dataModel.getPostByMap(id, null, new SimpleResponseListener<CommentDetailInfo>() {
 			@Override
-			public void requestSuccess(final KnowledgeQuizContentInfo info, Response response) {
+			public void requestSuccess(final CommentDetailInfo info, Response response) {
 				contentInfo = info;
 				mData.clear();
 				mData.add(null);
-				adapter.notifyItemUpdate(0);
+				if (CommonUtil.notNull(info.replyList) && info.replyList.size() > 0) {
+					mData.addAll(info.replyList);
+				}
+				adapter.notifyDataSetChanged();
+
 			}
 
 			@Override
@@ -225,7 +245,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 			@Override
 			public void requestView() {
-				super.requestView();
 				refresh.setRefreshing(false);
 				adapter.checkEmpty();
 			}
@@ -255,22 +274,31 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		startActivityForResult(intent, Constants.CODE);
 	}
 	@OnClick(R.id.iv_praise)
-	 void savePraise(){
+	void onPraise(){
 		if (CommonUtil.isNull(contentInfo)){
-			showMsg("暂无数据，无法点赞");
+			showMsg("暂无数据，无法操作");
 			return;
 		}
+		savePraise(contentInfo.id,null,contentInfo.isPraise,Constants.PRAISE_COMMENT);
+	}
+
+	 void savePraise(final String id,final String replyId,boolean isPraise,String type){
 		setLastClickTime();
-		if (contentInfo.isPraise){
-			deletePraise(contentInfo.id);
+		if (isPraise){
+			deletePraise(contentInfo.id,replyId,type);
 		}else{
-			dataModel.savePraise(contentInfo.id, contentInfo.replyId, "74", contentInfo.createUserId, new SimpleResponseListener<ResponseMessage>() {
+			dataModel.savePraise(id, replyId, type, contentInfo.createUserId, new SimpleResponseListener<ResponseMessage>() {
 				@Override
 				public void requestSuccess(ResponseMessage info, Response response) {
-					contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
-					contentInfo.isPraise=true;
-					adapter.notifyItemUpdate(0);
-					showMsg("点赞成功");
+					if (CommonUtil.notNull(replyId)){
+						//
+					}else {
+						contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
+						contentInfo.isPraise=true;
+						adapter.notifyItemUpdate(0);
+						showMsg("点赞成功");
+					}
+
 
 				}
 
@@ -283,14 +311,18 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 	}
 
-	private void deletePraise(String id){
-		dataModel.deletePraise(id,"74",new SimpleResponseListener<ResponseMessage>() {
+	private void deletePraise(final String id,final String replyId,String type){
+		dataModel.deletePraise(id,type,replyId,new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
-				contentInfo.praiseCount=CommonUtil.numberCut(contentInfo.praiseCount);
-				contentInfo.isPraise=false;
-				adapter.notifyItemUpdate(0);
-				showMsg("取消赞成功");
+				if (CommonUtil.notNull(replyId)){
+					//
+				}else {
+					contentInfo.praiseCount=CommonUtil.numberCut(contentInfo.praiseCount);
+					contentInfo.isPraise=false;
+					adapter.notifyItemUpdate(0);
+					showMsg("取消赞成功");
+				}
 			}
 
 			@Override

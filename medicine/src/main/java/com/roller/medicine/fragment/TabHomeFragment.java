@@ -3,12 +3,14 @@ package com.roller.medicine.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -17,6 +19,8 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.LiteUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -24,7 +28,9 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.TabHomeAdapater;
 import com.roller.medicine.adapter.ViewPagerAdapter;
+import com.roller.medicine.adapter.YearSpinnerAdpater;
 import com.roller.medicine.base.BaseToolbarFragment;
+import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.ui.CreateBloodActivity;
 import com.roller.medicine.ui.HomeActivity;
@@ -34,6 +40,7 @@ import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,6 +59,9 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	@InjectView(R.id.rl_item_0)
 	RelativeLayout rl_viewpage;
 
+	@InjectView(R.id.sp_start)
+	AppCompatSpinner sp_start;
+
 	@InjectView(R.id.viewpage)
 	ViewPager viewpage;
 
@@ -61,11 +71,17 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	private String date=null;
 	private String userId=null;
 	private ViewPagerAdapter pagerAdapter;
+	private FutureTask<String> futureTask;
+
+	private List<HomeInfo.Family> families;
+	private  YearSpinnerAdpater spinnerAdpater;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.fragment_home_tab);
+		//LiteUtil.getInstance().
+
 	}
 
 
@@ -111,7 +127,6 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		});
 		recyclerAdapter=new TabHomeAdapater(getActivity(),data);
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), recyclerAdapter);
-		initAdd();
 		requestData();
 	   HomeActivity homeActivity=(HomeActivity)getActivity();
 		if (CommonUtil.notNull(homeActivity)){
@@ -123,13 +138,28 @@ public class TabHomeFragment extends BaseToolbarFragment{
 				}
 			});
 		}
-		recyclerAdapter.setListener(new TabHomeAdapater.OnFamilyListener() {
+		//homeInfo.familyList
+		families=new ArrayList<>();
+		sp_start.setVisibility(View.GONE);
+		spinnerAdpater=new YearSpinnerAdpater(getActivity(),R.layout.sp_check_text,families);
+		sp_start.setAdapter(spinnerAdpater);
+		sp_start.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
-			public void onFamilyUserId(String userId) {
-				TabHomeFragment.this.userId=userId;
-				requestData();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				HomeInfo.Family family=families.get(position);
+				if (CommonUtil.notNull(family)){
+					TabHomeFragment.this.userId=family.userId;
+					requestData();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
 			}
 		});
+
+
 	}
 
 	@Override
@@ -142,6 +172,8 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	}
 
 	private void initAdd(){
+		rv_view.setVisibility(View.GONE);
+		sp_start.setVisibility(View.GONE);
 		rl_viewpage.setVisibility(View.VISIBLE);
 		List<View> views=new ArrayList<>();
 		ViewHolder viewHolder=new ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.item_blood_single,null,false));
@@ -193,24 +225,44 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	public void requestData(){
 
 		refresh.setRefreshing(true);
-		model.requestHomeData(date, new SimpleResponseListener<HomeInfo>() {
+		futureTask=model.requestHomeData(date, new SimpleResponseListener<HomeInfo>() {
 			@Override
 			public void requestSuccess(HomeInfo info, Response response) {
-				rl_viewpage.setVisibility(View.GONE);
 				data.clear();
 				data.add(null);
 				data.add(null);
 				recyclerAdapter.setHomeInfo(info);
+				recyclerAdapter.notifyDataSetChanged();
+
+				sp_start.setVisibility(View.GONE);
+				if (CommonUtil.notNull(info.familyList)&&info.familyList.size()>1){
+					sp_start.setVisibility(View.VISIBLE);
+					if (families.size()!=info.familyList.size()){
+						families.clear();
+						families.addAll(info.familyList);
+						sp_start.setVisibility(View.VISIBLE);
+						spinnerAdpater.notifyDataSetChanged();
+					}
+				}
+
+
 			}
 
 			@Override
 			public void requestError(com.litesuits.http.exception.HttpException e, ResponseMessage info) {
 				// new AppHttpExceptionHandler().via(getActivity()).handleException(e,info);
+
 			}
 
 			@Override
 			public void requestView() {
 				refresh.setRefreshing(false);
+				if (CommonUtil.isNull(recyclerAdapter.getHomeInfo())){
+					initAdd();
+				}else{
+					rv_view.setVisibility(View.VISIBLE);
+					rl_viewpage.setVisibility(View.GONE);
+				}
 			}
 		});
 
@@ -240,6 +292,13 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		//ViewUtil.openActivity(CreateBloodActivity.class,bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 	}
 
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (CommonUtil.notNull(futureTask))
+			futureTask.cancel(true);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

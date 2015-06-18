@@ -48,4 +48,11 @@ public interface Constants {
 
     public static final int CODE=200;
 
+    /****73：点赞医生
+     74：点赞帖子
+     78：点赞回复****/
+    public static final String  PRAISE_USER="73";
+    public static final String  PRAISE_COMMENT="74";
+    public static final String  PRAISE_REEPLY="78";
+
 }

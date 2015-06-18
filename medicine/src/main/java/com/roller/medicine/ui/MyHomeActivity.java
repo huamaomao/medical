@@ -62,6 +62,8 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 	private UserInfo userInfo;
 	public String userId=null;
 
+	private boolean flag=false;
+
 	@Override
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,6 +78,9 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 		setBackActivity("我的主页");
 		dataModel=new DataModel();
 		userInfo=dataModel.getLoginUser();
+		if (userId==null||userId.equals(userInfo.id)){
+			flag=true;
+		}
 		// init tabs
 		View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
 		((TextView)ButterKnife.findById(view,R.id.tv_title)).setText("评论");
@@ -116,6 +121,7 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 
 	@OnClick(R.id.rl_item_0)
 	void  doItemClick(View view) {
+		if (!flag)return;
 		setLastClickTime();
 		ViewUtil.openActivity(UserInfoActivity.class, getContext());
 	}

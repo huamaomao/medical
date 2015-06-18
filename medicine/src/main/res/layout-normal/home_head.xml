@@ -2,13 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
    style="@style/appLayoutStyle">
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@id/sp_start"
-        android:background="#3c3c3c"
-        android:popupBackground="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
     <com.github.mikephil.charting.charts.LineChart
         android:id="@id/lineChart"
         android:layout_width="match_parent"

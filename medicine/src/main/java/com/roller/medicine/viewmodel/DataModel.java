@@ -27,7 +27,7 @@ import com.roller.medicine.info.FamilytInfo;
 import com.roller.medicine.info.FocusInfo;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.info.KnowledgeQuizContentInfo;
+import com.roller.medicine.info.CommentDetailInfo;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.info.LoveInfo;
 import com.roller.medicine.info.MessageChatInfo;
@@ -42,6 +42,7 @@ import com.roller.medicine.utils.MD5;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author Hua_
@@ -162,11 +163,10 @@ public class DataModel extends ViewModel{
      */
     public List<UserInfo> queryFriendList(String type){
         QueryBuilder builder=new QueryBuilder(UserInfo.class).where(WhereBuilder.create().
-                andEquals("typeId", type).andEquals("friendId", type));
-        List<UserInfo> ls=liteOrm.query(builder);
-        return queryFriend(ls);
+                andEquals("typeId", type));
+        return liteOrm.query(builder);
     }
-    public  List<UserInfo> queryFriend( List<UserInfo> list){
+   /* public  List<UserInfo> queryFriend( List<UserInfo> list){
         if (CommonUtil.notNull(list)){
             for (UserInfo user:list){
                 UserInfo.DoctorDetail detail= liteOrm.queryById(user.id, UserInfo.DoctorDetail.class);
@@ -181,7 +181,7 @@ public class DataModel extends ViewModel{
             return list;
         }
         return new ArrayList<>();
-    }
+    }*/
 
     public void saveFriendList(List<UserInfo> list){
         if (CommonUtil.isNull(list)) return;
@@ -197,8 +197,8 @@ public class DataModel extends ViewModel{
         QueryBuilder builder=new QueryBuilder(UserInfo.class).where(WhereBuilder.create().
                 where("nickname like ?  or  userName like ?  or noteName like ?",
                         new String[]{stringBuilder.toString(), stringBuilder.toString(), stringBuilder.toString()}));
-        List<UserInfo> ls=liteOrm.query(builder);
-        return queryFriend(ls);
+        return liteOrm.query(builder);
+       // return queryFriend(ls);
     }
 
     /**********************************************http request method*****************************************************************/
@@ -439,12 +439,12 @@ public class DataModel extends ViewModel{
     /**
      * 获取首页数据
      */
-    public void requestHomeData(String date,final SimpleResponseListener<HomeInfo> responseService){
+    public FutureTask<String> requestHomeData(String date,final SimpleResponseListener<HomeInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("datetime", date));
         Request request=new Request(requestUrl("/crm/patient_sp/getPatientHistory.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
-        execute(request, responseService);
+       return execute(request, responseService);
     }
 
 
@@ -584,11 +584,12 @@ public class DataModel extends ViewModel{
      * 取消赞
      * @param responseService
      */
-    public void deletePraise(String id,String typeId,SimpleResponseListener<ResponseMessage> responseService){
+    public void deletePraise(String id,String typeId,String replyId,SimpleResponseListener<ResponseMessage> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("id", id));
         param.add(new NameValuePair("typeId", typeId));
+        param.add(new NameValuePair("replyId", replyId));
         Request request=new Request(requestUrl("/crm/praise_sp/deletePraise.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -596,7 +597,7 @@ public class DataModel extends ViewModel{
     /**
      * 帖子详情
      */
-    public void getPostByMap(String postId,String boardId,SimpleResponseListener<KnowledgeQuizContentInfo> responseService){
+    public void getPostByMap(String postId,String boardId,SimpleResponseListener<CommentDetailInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("postId", postId));

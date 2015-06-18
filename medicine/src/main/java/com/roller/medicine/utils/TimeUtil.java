@@ -286,7 +286,7 @@ public class TimeUtil {
 
 
 	public static String getFmdLongTime(String createTime) {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		Long  date=Long.decode(createTime);
 		try {
 

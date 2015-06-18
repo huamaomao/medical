@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/appLayoutStyle" >
-    <include layout="@layout/refresh_recycler_view" />
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@id/sp_start"
+        android:background="#3c3c3c"
+        android:popupBackground="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@id/refresh"
+        android:layout_below="@id/sp_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@id/rv_view"
+            android:background="@color/public_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:saveEnabled="false"
+            android:clipToPadding="true"
+            android:scrollbars="vertical" />
+    </com.baoyz.widget.PullRefreshLayout>
     <RelativeLayout android:id="@id/rl_item_0"
         android:layout_height="match_parent"
         android:padding="0dp"
-
         style="@style/list_item">
         <android.support.v4.view.ViewPager
             android:id="@id/viewpage"

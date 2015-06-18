@@ -4,7 +4,7 @@ import com.android.common.domain.ResponseMessage;
 
 import java.util.List;
 
-public class KnowledgeQuizContentInfo extends ResponseMessage {
+public class CommentDetailInfo extends ResponseMessage {
 
 	public boolean isPraise;
 	public String id;
@@ -18,9 +18,9 @@ public class KnowledgeQuizContentInfo extends ResponseMessage {
 	public String typeId;
 	public String createUserId;
 	public String boardId;
-	public List<KnowledgeQuizItemInfo> list;
-	public List<KnowledgeQuizContentReplyListItemInfo> replyList;
-	public List<KnowledgeQuizItemImageListInfo> images;
+
+	public List<ReplyInfo> replyList;
+
 
 	
 	

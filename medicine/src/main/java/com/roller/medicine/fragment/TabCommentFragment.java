@@ -69,36 +69,6 @@ public class TabCommentFragment extends BaseToolbarFragment{
 				viewHolder.setText(R.id.tv_content, item.content);
 				viewHolder.setText(R.id.tv_source, "来源：" + item.source);
 				viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
-				/*
-				viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(item.praiseCount));
-				viewHolder.setText(R.id.tv_comment, CommonUtil.initTextValue(item.replyCount));
-				TextView textView = viewHolder.getView(R.id.tv_praise);
-				if ("false".equals(item.praise)) {
-					textView.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
-					textView.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							setLastClickTime();
-							savePraise(position, item.id, item.createUserId, "74", item.createUserId);
-						}
-					});
-				} else {
-					textView.setCompoundDrawablesWithIntrinsicBounds(getActivity().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
-				}
-				viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						setLastClickTime();
-						//评论
-						setLastClickTime();
-						Bundle bundle = new Bundle();
-						bundle.putString(Constants.ITEM, item.id);
-						ViewUtil.openActivity(KnowledgeQuizContentActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
-					}
-				});
-
-
-				*/
 				viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

@@ -16,6 +16,7 @@ import com.litesuits.http.response.handler.HttpModelHandler;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.concurrent.FutureTask;
 
 /**
  *ViewModel 处理数据
@@ -36,8 +37,8 @@ public abstract class ViewModel{
      * @param request
      * @param
      */
-    protected  <T extends ResponseMessage>void  execute(Request request,final SimpleResponseListener<T> responseService){
-        LiteUtil.getInstance().execute(request, new HttpModelHandler<String>() {
+    protected  <T extends ResponseMessage>FutureTask<String>  execute(Request request,final SimpleResponseListener<T> responseService){
+        return LiteUtil.getInstance().execute(request, new HttpModelHandler<String>(){
             @Override
             protected void onSuccess(String data, Response res) {
                 try {

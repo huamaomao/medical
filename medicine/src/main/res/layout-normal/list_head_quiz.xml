@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        style="@style/TitleDefaultText" />
+        style="@style/DefaultText" />
 
     <LinearLayout
         android:id="@id/ll_item_0"
@@ -65,7 +65,7 @@
             android:drawablePadding="3dip"/>
     </LinearLayout>
 
-    <TextView
+  <!--  <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
@@ -80,7 +80,7 @@
         android:id="@+id/horizontal_listview"
         android:layout_width="match_parent"
         android:layout_height="70dip"
-        android:background="@color/public_white" />
+        android:background="@color/public_white" />-->
     <TextView
         android:id="@id/tv_comment"
         android:layout_width="match_parent"
