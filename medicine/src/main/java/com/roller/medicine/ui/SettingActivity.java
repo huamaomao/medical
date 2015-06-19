@@ -2,6 +2,7 @@ package com.roller.medicine.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 
 import com.android.common.adapter.RecyclerItemClickListener;
@@ -21,7 +22,6 @@ import butterknife.InjectView;
  * 设置
  */
 public class SettingActivity extends BaseLoadingToolbarActivity{
-
     private List<ItemInfo> lsData;
     @InjectView(R.id.rv_view)
     RecyclerView recyclerView;

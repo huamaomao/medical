@@ -22,7 +22,7 @@ public class TokenInfo extends ResponseMessage {
      * @return
      */
     public boolean isLogin(){
-        return status==0?true:false;
+        return status==STATUS_LOGIN?true:false;
     }
 
     public void setLogin(){

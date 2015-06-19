@@ -97,15 +97,18 @@ public class DataModel extends ViewModel{
     }
 
     public void setLoginOut(){
-        getToken().setLoginOut();
-        liteOrm.save(getToken());
+        TokenInfo tokenInfo=getToken();
+        tokenInfo.setLoginOut();
+        liteOrm.save(tokenInfo);
+        TokenInfo info=getToken();
+        Log.d(info);
     }
 
     public void setToken(TokenInfo mToken){
         this.token=mToken;
         this.token.setLogin();
         liteOrm.save(this.token);
-    }
+}
 
     public void saveUser(UserInfo user){
         liteOrm.save(user);
@@ -728,6 +731,26 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("content", content));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request,listener);
+    }
+    /******
+     * 获取版本信息
+     * @param listener
+     *  医生版	116
+     *  用户版	117
+     */
+    public void requestVersion(String content,final SimpleResponseListener<ResponseMessage> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/version_sp /getVersionByMap.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("typeId", "117"));
+        param.add(new NameValuePair("wayNo", "117"));
+
+
+
+
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
         execute(request,listener);
     }

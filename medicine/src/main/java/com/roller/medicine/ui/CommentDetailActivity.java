@@ -263,7 +263,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			showMsg("暂无数据，无法评论");
 			return;
 		}
-
 		setLastClickTime();
 		Intent intent=new Intent(getContext(),CommentActivity.class);
 		Bundle bundle=new Bundle();
@@ -552,27 +551,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	}
 	
 
-	*//**
-	 * 底部弹窗
-	 *//*
-	private void initPopupWindow() {
-		View view = getLayoutInflater().inflate(R.layout.layout_pupopwindow_knowledge_item, null);
-		ViewUtils.inject(this, view);
-		mPopupWindow = new PopupWindow(view,WindowManager.LayoutParams.FILL_PARENT,WindowManager.LayoutParams.FILL_PARENT, true);
-		mPopupWindow.setTouchable(true);
-		view.setFocusableInTouchMode(true);
-		view.setFocusable(true);
-		view.setOnKeyListener(new View.OnKeyListener() {
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK && mPopupWindow.isShowing()) {
-					popupWindowDismiss();
-					return false;
-				} else {
-					return true;
-				}
-			}
-		});;
-	}
 	
 	private void popupWindowDismiss(){	
 		if(mPopupWindow != null && mPopupWindow.isShowing()){

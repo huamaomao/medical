@@ -12,6 +12,9 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.info.CommentInfo;
+import com.roller.medicine.info.ReplyInfo;
+import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.viewmodel.DataModel;
 import butterknife.InjectView;
@@ -46,15 +49,7 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 		llLogin.setOnSizeChangedListenner(new InputMethodLinearLayout.OnSizeChangedListenner() {
 			@Override
 			public void onSizeChange(boolean paramBoolean, int w, int h) {
-				/*LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				lp.gravity = Gravity.CENTER_HORIZONTAL;
-				if (paramBoolean) {
-					lp.setMargins(0, ViewUtil.px2dip(CommentActivity.this, 80f), 0, 0);
 
-				} else {
-					lp.setMargins(0, ViewUtil.px2dip(CommentActivity.this, 640f), 0, 0);
-
-				}*/
 			}
 		});
 
@@ -75,7 +70,13 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 				@Override
 				public void requestSuccess(ResponseMessage info, Response response) {
 					showLongMsg("评论成功");
-					setResult(Constants.CODE);
+					Intent intent=new Intent();
+					ReplyInfo replyInfo=new ReplyInfo();
+					UserInfo userInfo=service.getLoginUser();
+					replyInfo.nickname=userInfo.nickname;
+					replyInfo.headImage=userInfo.headImage;
+					intent.putExtra(Constants.ITEM, replyInfo);
+					setResult(Constants.CODE,intent);
 					finish();
 				}
 

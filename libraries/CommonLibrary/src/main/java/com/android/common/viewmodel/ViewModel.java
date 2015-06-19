@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.LiteUtil;
+import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
@@ -37,10 +38,14 @@ public abstract class ViewModel{
      * @param request
      * @param
      */
-    protected  <T extends ResponseMessage>FutureTask<String>  execute(Request request,final SimpleResponseListener<T> responseService){
+    protected  <T extends ResponseMessage>FutureTask<String>  execute(final Request request,final SimpleResponseListener<T> responseService){
         return LiteUtil.getInstance().execute(request, new HttpModelHandler<String>(){
             @Override
             protected void onSuccess(String data, Response res) {
+                Log.d(request.getHttpBody().contentType+"----");
+                 /*  if (){
+
+                }*/
                 try {
                     Type type = ((ParameterizedType) responseService.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                     T t=null;
@@ -58,6 +63,7 @@ public abstract class ViewModel{
                     }
                 }catch (Exception e){
                     e.printStackTrace();
+                    responseService.requestError(null, null);
                 }
                 responseService.requestView();
             }

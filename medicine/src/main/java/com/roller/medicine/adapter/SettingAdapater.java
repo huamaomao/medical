@@ -2,6 +2,7 @@ package com.roller.medicine.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UserInfo;
 
 import java.util.List;
+
+import butterknife.InjectView;
 
 /**
  * Created by Hua on 2015/4/3.
@@ -86,7 +89,7 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public  static class HeadViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tv_code;
-        ToggleButton tbtn_swich;
+        SwitchCompat tbtn_swich;
         RelativeLayout rl_item_0,rl_item_1;
         int  type;
 
@@ -95,7 +98,7 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             this.type=type;
             rl_item_0=(RelativeLayout)itemView.findViewById(R.id.rl_item_0);
             rl_item_1=(RelativeLayout)itemView.findViewById(R.id.rl_item_1);
-            tbtn_swich=(ToggleButton)itemView.findViewById(R.id.tbtn_swich);
+            tbtn_swich=(SwitchCompat)itemView.findViewById(R.id.tbtn_swich);
             tbtn_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -129,9 +132,4 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title=(TextView)itemView.findViewById(R.id.tv_item_0);
         }
     }
-
-  public static interface OnItemClickListener{
-       public void onItemClick();
-  }
-
 }
