@@ -80,8 +80,6 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.fragment_home_tab);
-		//LiteUtil.getInstance().
-
 	}
 
 
@@ -307,7 +305,13 @@ public class TabHomeFragment extends BaseToolbarFragment{
 				openCreateBlood(0);
 				return true;
 			case R.id.toolbar_seach:
-				ViewUtil.openActivity(HomeBloodActivity.class,getActivity());
+				// 血糖历史
+				Bundle bundle=new Bundle();
+				if (families.size()>0){
+					HomeInfo.Family family=families.get(sp_start.getSelectedItemPosition());
+					bundle.putParcelable(Constants.ITEM,family);
+				}
+				ViewUtil.openActivity(HomeBloodActivity.class,bundle,getActivity());
 				return true;
 
 		}

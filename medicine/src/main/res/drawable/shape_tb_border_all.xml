@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <!--<solid android:color="@color/tb_title"/>
+    <stroke android:width="0.5dp"  android:color="@color/tb_title_divider"  />
+    -->
+
+    <item  android:right="0dp" android:drawable="@color/tb_title_divider" />
+    <item android:top="0dp" android:bottom="@dimen/divider"
+        android:left="@dimen/divider" android:right="@dimen/divider"
+        android:drawable="@color/tb_title" />
+</layer-list>

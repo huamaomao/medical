@@ -17,11 +17,11 @@ android {
 }
 
 dependencies {
-    compile 'com.alibaba:fastjson:1.2.+'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.android.support:design:22.2.0@aar'
+    compile 'com.alibaba:fastjson:1.2.+'
     compile project(':libraries:LiteLibrary')
 }
 

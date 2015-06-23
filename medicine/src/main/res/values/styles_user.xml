@@ -142,27 +142,37 @@
 
     <style name="tb_title_text_style">
         <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/font_size_15</item>
-        <item name="android:padding">10dp </item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/shape_tb_border</item>
+        <item name="android:background">@drawable/shape_tb_border_all</item>
     </style>
-    <style name="tb_title_text_weight_style">
+    <style name="tb_title_text_weight_style" parent="tb_title_text_style">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0px</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/font_size_15</item>
-        <item name="android:padding">10dp </item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/shape_tb_border</item>
     </style>
+
+    <style name="tb_title_text_non" parent="tb_title_text_weight_style">
+        <item name="android:background">@null</item>
+    </style>
+
+
+    <style name="tb_title_text_weight_top" parent="tb_title_text_weight_style">
+        <item name="android:background">@drawable/shape_tb_top_border</item>
+    </style>
+
+
     <style name="BloodText" parent="DefaultText">
-        <item name="android:text">- -</item>
+        <item name="android:text"></item>
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0px</item>

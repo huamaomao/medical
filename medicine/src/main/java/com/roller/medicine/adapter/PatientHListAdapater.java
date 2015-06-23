@@ -26,6 +26,7 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.info.BloodInfo;
+import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
@@ -51,6 +52,8 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
     private BloodInfo bloodResponse;
     private  List<String> list;
     private PullRefreshLayout refresh;
+    public HomeInfo.Family family;
+
 
     public PatientHListAdapater(Context mContext, List<BloodInfo.Item> data,PullRefreshLayout refresh) {
         this.refresh=refresh;
@@ -88,14 +91,18 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         if (position==0){
             final  ViewHolder holder=(ViewHolder)viewHolder;
             final List<String> startData=new ArrayList<>();
-            startData.addAll(Util.getPlaintList(user.createTime));
-            YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_write_text,startData.toArray());
+            if (CommonUtil.isNull(family)){
+                startData.addAll(Util.getPlaintList(user.createTime));
+            }else {
+                startData.addAll(Util.getPlaintList(family.createTime));
+            }
+            YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_text,startData.toArray());
             holder.spStart.setAdapter(adpater);
             holder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     selectionItem = holder.spStart.getSelectedItem().toString();
-                    initBloodList(selectionItem);
+                    //initBloodList(selectionItem);
                     requestData(selectionItem);
                 }
 
@@ -129,7 +136,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
 
     private void requestData(String date){
-            initBloodList(date);
+            //initBloodList(date);
             model.requestBloodList(date, new SimpleResponseListener<BloodInfo>() {
                 @Override
                 public void requestSuccess(BloodInfo info, Response response) {
@@ -163,10 +170,10 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private void initBloodList(String date){
+  /*  private void initBloodList(String date){
         if (CommonUtil.notEmpty(date)){
            try {
-               String[] str=date.split("-");
+                    String[] str=date.split("-");
                    int year=Integer.parseInt(str[0]);
                    int month=Integer.parseInt(str[1]);
                    int daySum=0;
@@ -192,8 +199,8 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
                                    break;
                        }
                BloodInfo.Item item=null;
-                    data.clear();
-                    data.add(new BloodInfo.Item());
+               data.clear();
+               data.add(new BloodInfo.Item());
                data.add(new BloodInfo.Item());
                     for (int i=1;i<=daySum;i++){
                         item=new BloodInfo.Item();
@@ -203,7 +210,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
            }catch (Exception e){e.printStackTrace();}
         }
-    }
+    }*/
 
 
     private void initPieChart(PieChart pieChart) {
@@ -224,12 +231,11 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
         //pieChart.setOnChartValueSelectedListener(this);
 
-        pieChart.setCenterText("血糖数");
+        pieChart.setCenterText("血糖");
         pieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.normalSum), 0));
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.highSum), 1));
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.lowSum), 2));
@@ -243,7 +249,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         builder=new StringBuilder();
         builder.append("偏低").append(" ").append(CommonUtil.parseInt(bloodResponse.lowSum)).append("次");
         xVals.add(builder.toString());
-        PieDataSet dataSet = new PieDataSet(yVals1, "血糖数");
+        PieDataSet dataSet = new PieDataSet(yVals1, "血糖");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         // add a lot of colors

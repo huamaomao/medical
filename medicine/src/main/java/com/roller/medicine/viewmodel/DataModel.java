@@ -477,7 +477,7 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("userId", getLoginUser().id + ""));
         param.add(new NameValuePair("startTime", date));
-        Request request=new Request(requestUrl("/crm/patient_sp/getPatientHistory.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        Request request=new Request(requestUrl("/crm/glycemic_sp/getGlycemicDataByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
 

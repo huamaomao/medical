@@ -3,7 +3,7 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="start"
+    android:gravity="start|center_vertical"
     android:padding="10dp"
     android:singleLine="true"
     android:checkMark="@drawable/icon_spinner"

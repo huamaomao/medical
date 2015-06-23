@@ -3,7 +3,7 @@
     style="@style/appLayoutStyle" >
     <android.support.v7.widget.AppCompatSpinner
         android:id="@id/sp_start"
-        android:background="#3c3c3c"
+        android:background="@color/color_3c"
         android:popupBackground="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

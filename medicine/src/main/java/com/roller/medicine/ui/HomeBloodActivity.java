@@ -21,6 +21,7 @@ public class HomeBloodActivity extends BaseToolbarActivity {
 	@InjectView(R.id.rv_view)
 	RecyclerView recyclerView;
 	private List<BloodInfo.Item> data;
+
 	private PatientHListAdapater adapater;
 
 	@Override
@@ -39,6 +40,7 @@ public class HomeBloodActivity extends BaseToolbarActivity {
 		data.add(new BloodInfo.Item());
 		data.add(new BloodInfo.Item());
 		adapater=new PatientHListAdapater(this,data,refresh);
+		adapater.family=getIntent().getParcelableExtra(Constants.ITEM);
 		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
 	}
 

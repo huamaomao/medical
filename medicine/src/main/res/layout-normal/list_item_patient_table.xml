@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TableRow android:layout_width="wrap_content">
+    android:background="@color/tb_title"
+    android:layout_height="70dp">
+    <TableRow android:layout_width="wrap_content"
+        android:padding="0px"
+        android:divider="@null">
         <TextView android:text="日\n期"
             style="@style/tb_title_text_style" />
         <TextView android:text="凌\n晨"
+            android:background="@drawable/shape_tb_border_top_button_right"
             style="@style/tb_title_text_style" />
-        <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
+        <TabWidget android:orientation="vertical"
+            android:padding="0px"
+            android:layout_margin="0px"
+            android:layout_weight="2"
+            android:divider="@null">
             <TextView android:text="早餐"
+                android:background="@drawable/shape_tb_border_top_button_right"
                 style="@style/tb_title_text_style" />
             <LinearLayout
-                style="@style/style_wh_match_h"
-                >
+                android:padding="0px"
+                android:layout_margin="0px"
+                style="@style/style_wh_match_h">
                 <TextView android:text="前"
-                    style="@style/tb_title_text_weight_style" />
+                    android:background="@drawable/shape_tb_border_button_right"
+                    style="@style/tb_title_text_non" />
                 <TextView android:text="后"
-                    style="@style/tb_title_text_weight_style" />
+                    android:background="@drawable/shape_tb_border_button_right"
+                    style="@style/tb_title_text_non" />
             </LinearLayout>
+
         </TabWidget>
-        <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
+        <TabWidget android:orientation="vertical"
+            android:divider="@null"
+            android:layout_weight="2" >
             <TextView android:text="午餐"
+                android:background="@drawable/shape_tb_border_top_button_right"
                 style="@style/tb_title_text_style" />
             <LinearLayout
-                style="@style/style_wh_match_h"
-                >
+                style="@style/style_wh_match_h">
                 <TextView android:text="前"
+                    android:background="@drawable/shape_tb_border_button_right"
                     style="@style/tb_title_text_weight_style" />
                 <TextView android:text="后"
+                    android:background="@drawable/shape_tb_border_button_right"
                     style="@style/tb_title_text_weight_style" />
             </LinearLayout>
         </TabWidget>
-        <TabWidget android:orientation="vertical" android:layout_weight="2" style="tb_wedget_style">
+        <TabWidget android:orientation="vertical"
+            android:divider="@null"
+            android:layout_weight="2" >
             <TextView android:text="晚餐"
+                android:background="@drawable/shape_tb_border_top_button_right"
                 style="@style/tb_title_text_style" />
             <LinearLayout
                 style="@style/style_wh_match_h"
                 >
                 <TextView android:text="前"
+                    android:background="@drawable/shape_tb_border_button_right"
                     style="@style/tb_title_text_weight_style" />
                 <TextView android:text="后"
+                    android:background="@drawable/shape_tb_border_button_right"
                     style="@style/tb_title_text_weight_style" />
             </LinearLayout>
         </TabWidget>
         <TextView android:text="睡\n前"
+            android:background="@drawable/shape_tb_border_top_button_right"
             style="@style/tb_title_text_style" />
-
     </TableRow>
 </TableLayout>

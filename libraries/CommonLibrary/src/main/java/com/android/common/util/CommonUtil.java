@@ -243,7 +243,7 @@ public final class CommonUtil {
         return str;
     }
     public static String initTextBlood(String  str){
-        if (isEmpty(str)) return "- -";
+        if (isEmpty(str)) return "无";
         return str;
     }
 

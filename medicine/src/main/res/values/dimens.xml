@@ -52,4 +52,6 @@
     <dimen name="more_height">10dp</dimen>
     <dimen name="iten_margin_top">10dp</dimen>
     <dimen name="radius">4dp</dimen>
+    <dimen name="divider">0.5dp</dimen>
+
 </resources>
