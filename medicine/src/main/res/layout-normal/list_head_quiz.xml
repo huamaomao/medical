@@ -35,6 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         style="@style/DefaultText" />
+    <TextView
+        android:id="@id/tv_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:background="@color/public_white"
+        android:paddingLeft="10dip"
+        android:paddingTop="10dip"
+        android:text="相关推荐"
+        android:textColor="@color/public_636363"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/rv_view"
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="120dip"  />
 
     <LinearLayout
         android:id="@id/ll_item_0"
@@ -65,22 +82,7 @@
             android:drawablePadding="3dip"/>
     </LinearLayout>
 
-  <!--  <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:background="@color/public_white"
-        android:paddingLeft="10dip"
-        android:paddingTop="10dip"
-        android:text="相关推荐"
-        android:textColor="@color/public_636363"
-        android:textSize="14sp" />
 
-    <com.roller.medicine.customview.listview.HorizontalListView
-        android:id="@+id/horizontal_listview"
-        android:layout_width="match_parent"
-        android:layout_height="70dip"
-        android:background="@color/public_white" />-->
     <TextView
         android:id="@id/tv_comment"
         android:layout_width="match_parent"

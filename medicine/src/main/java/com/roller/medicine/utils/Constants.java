@@ -13,6 +13,7 @@ public interface Constants {
     public static final String DATA_TEL="tel";
     public static final String DATA_DATE="date";
     public static final String DATA_CODE="code";
+    public static final String DATA_BOARD_ID="boardId";
 
     public static final int TYPE_COMMENT=1;
 

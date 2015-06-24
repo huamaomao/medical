@@ -57,6 +57,13 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     private RecyclerAdapter(){}
 
+    public RecyclerAdapter(Context mContext, List<T> data){
+        this.mContext=mContext;
+        this.mData = data;
+    }
+
+
+
 
     public RecyclerAdapter(Context mContext, List<T> data, RecyclerView recyclerView) {
         this.mContext=mContext;
@@ -77,7 +84,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             //网络广播
             IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
             getContext().registerReceiver(broadcastReceiver, filter);
-
         }
     }
 
@@ -340,6 +346,14 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
         public ViewHolder setImageResource(int resId,int imgId){
             ((ImageView)getView(resId)).setImageResource(imgId);
+            return this;
+        }
+        public ViewHolder setViewHide(int resId){
+            getView(resId).setVisibility(View.GONE);
+            return this;
+        }
+        public ViewHolder setViewShow(int resId){
+            getView(resId).setVisibility(View.VISIBLE);
             return this;
         }
 

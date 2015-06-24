@@ -52,7 +52,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 	@Override
 	protected void initView(View view, LayoutInflater inflater) {
 		super.initView(view, inflater);
-		setTitle("论坛");
+		setTitle("健康社区");
 		model=new DataModel();
 		refresh.setRefreshStyle(Constants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -75,6 +75,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 						setLastClickTime();
 						Bundle bundle = new Bundle();
 						bundle.putString(Constants.ITEM, item.id);
+						bundle.putString(Constants.DATA_BOARD_ID, item.boardId);
 						ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 					}
 				});

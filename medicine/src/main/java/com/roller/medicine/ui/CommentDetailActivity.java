@@ -1,10 +1,12 @@
 package com.roller.medicine.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
@@ -27,6 +30,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.CommentDetailInfo;
+import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.ReplyInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.utils.Constants;
@@ -43,7 +47,7 @@ import java.util.List;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-/****8
+/****
  * 帖子详细
  */
 public class CommentDetailActivity extends BaseToolbarActivity{
@@ -52,7 +56,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	PullRefreshLayout refresh;
 	@InjectView(R.id.rv_view)
 	RecyclerView rv_view;
-
 
 	@InjectView(R.id.iv_praise)
 	ImageView iv_praise;
@@ -63,6 +66,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	private List<ReplyInfo> mData;
 
 	private String id=null;
+	private String boardId=null;
 	private DataModel dataModel;
 
 	private CommentDetailInfo contentInfo;
@@ -77,7 +81,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 	protected void initView() {
 		id=getIntent().getExtras().getString(Constants.ITEM);
-		setBackActivity("论坛正文");
+		boardId=getIntent().getExtras().getString(Constants.DATA_BOARD_ID);
+
+		setBackActivity("详情");
 		dataModel=new DataModel();
 		mData=new ArrayList();
 		tokenInfo=dataModel.getToken();
@@ -157,7 +163,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					tv_praise.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							savePraise(contentInfo.id,null,contentInfo.isPraise,Constants.PRAISE_COMMENT);
+							savePraise(contentInfo.id, null, contentInfo.isPraise, Constants.PRAISE_COMMENT);
 						}
 					});
 					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
@@ -166,14 +172,72 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 							doComment();
 						}
 					});
-						/*@InjectView(R.id.horizontal_listview)
-					HorizontalListView horizontal_listview;*/
+					RecyclerView recyclerView =viewHolder.getView(R.id.rv_view);
+					final  List<CommentInfo.Item> data=new ArrayList<>();
+					RecyclerAdapter adapter=new RecyclerAdapter(getContext(),data);
+					adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
+						@Override
+						public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder,final CommentInfo.Item item,final int position) {
+							viewHolder.setText(R.id.tv_title, item.title);
+							viewHolder.setText(R.id.tv_content, item.content);
+							viewHolder.setText(R.id.tv_source, "来源：" + item.source);
+							viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
+							viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									setLastClickTime();
+									Bundle bundle = new Bundle();
+									bundle.putString(Constants.ITEM, item.id);
+									ViewUtil.openActivity(CommentDetailActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_2);
+								}
+							});
+
+							String url=null;
+							if (CommonUtil.notNull(item.images) && item.images.size() > 0) {
+								url=item.images.get(0).url;
+							}
+							Picasso.with(getContext()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
+									.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_photo));
+						}
+
+						@Override
+						public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+							float width= getContext().getResources().getDisplayMetrics().widthPixels;
+							View view=getLayoutInflater().inflate(R.layout.list_item_recommended,viewGroup,false);
+							RecyclerView.LayoutParams params=new RecyclerView.LayoutParams((int)(width/6*5),RecyclerView.LayoutParams.MATCH_PARENT);
+							view.setLayoutParams(params);
+							return new RecyclerAdapter.ViewHolder(view);
+						}
+
+						@Override
+						public int getItemCount() {
+							return data.size();
+						}
+					});
+					LinearLayoutManager manager=new LinearLayoutManager(getContext());
+					manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+					recyclerView.setLayoutManager(manager);
+					recyclerView.setAdapter(adapter);
+					if (CommonUtil.isNull(contentInfo.list)){
+						viewHolder.setViewHide(R.id.tv_recommend);
+						viewHolder.setViewHide(R.id.rv_view);
+					}else {
+						viewHolder.setViewShow(R.id.tv_recommend);
+						viewHolder.setViewShow(R.id.rv_view);
+						data.addAll(contentInfo.list);
+						adapter.notifyDataSetChanged();
+
+					}
+
+
+
+
 
 				} else {
 					Util.loadPhoto(getContext(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 					viewHolder.setText(R.id.tv_name, item.nickname);
 					viewHolder.setText(R.id.tv_comment, item.content);
-					viewHolder.setText(R.id.tv_date,TimeUtil.getFmdLongTime(item.createTime));
+					viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
 					TextView tv_praise=viewHolder.getView(R.id.tv_praise);
 					tv_praise.setText(CommonUtil.initTextValue(item.praiseCount));
 					if (item.replyUserId.equals(tokenInfo.userId)){
@@ -225,7 +289,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	 */
 	private void loadData() {
 		refresh.setRefreshing(true);
-		dataModel.getPostByMap(id, null, new SimpleResponseListener<CommentDetailInfo>() {
+		dataModel.getPostByMap(id, boardId, new SimpleResponseListener<CommentDetailInfo>() {
 			@Override
 			public void requestSuccess(final CommentDetailInfo info, Response response) {
 				contentInfo = info;

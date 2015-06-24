@@ -20,7 +20,7 @@ public class CommentDetailInfo extends ResponseMessage {
 	public String boardId;
 
 	public List<ReplyInfo> replyList;
-
+	public List<CommentInfo.Item> list;
 
 	
 	

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CommentInfo extends ResponseMessage {
     public List<Item> list;
-    public class Item{
+    public static class Item{
         public String id;
         public String title;
         public String postId;
@@ -26,6 +26,7 @@ public class CommentInfo extends ResponseMessage {
         public String replyCount;
         public String postContent;
         public String praise;
+        public String source;
         public String imageUrl;
         public List<ImageInfo> images;
     }

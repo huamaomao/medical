@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
@@ -18,18 +17,13 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseToolbarFragment;
-import com.roller.medicine.customview.pulltorefreshview.PullToRefreshListView;
-import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.FocusInfo;
-import com.roller.medicine.info.MyFocusFansCommentsItemInfo;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
