@@ -98,7 +98,7 @@ public class FamilyRemoveActivity extends BaseLoadingToolbarActivity{
 			public void onConfirm() {
 				//index;  删除
 			 	HomeInfo.Family family=mData.get(index);
-				deleteFamily(family.id,family.groupId);
+				deleteFamily(family.groupId,family.id);
 			}
 		});
 

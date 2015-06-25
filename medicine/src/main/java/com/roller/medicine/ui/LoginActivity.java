@@ -111,7 +111,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 					@Override
 					public void requestSuccess(UserResponseInfo info, Response response) {
 						service.saveUser(info.user);
-						//登陆成功
+						//登录成功
 						doMainActivty();
 						return;
 					}

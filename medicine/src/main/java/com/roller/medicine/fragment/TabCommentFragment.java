@@ -1,6 +1,7 @@
 package com.roller.medicine.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
@@ -40,8 +42,10 @@ public class TabCommentFragment extends BaseToolbarFragment{
 	private List<KnowledgeQuizItemInfo.Item> mDatas = new ArrayList<>();
 	private int pageNum = 1;
 	private RecyclerAdapter<KnowledgeQuizItemInfo.Item> adapter;
-
 	private DataModel model;
+
+	private RecyclerOnScrollListener scrollListener;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,9 @@ public class TabCommentFragment extends BaseToolbarFragment{
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
+				pageNum = 1;
 				loadData();
+				scrollListener.setPageInit();
 			}
 		});
 		adapter=new RecyclerAdapter(getActivity(),mDatas,rv_view);
@@ -99,6 +105,14 @@ public class TabCommentFragment extends BaseToolbarFragment{
 			}
 		});
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				pageNum=current_page;
+				loadData();
+			}
+		};
+		rv_view.addOnScrollListener(scrollListener);
 		refresh.setRefreshing(true);
 		loadData();
 
@@ -109,7 +123,12 @@ public class TabCommentFragment extends BaseToolbarFragment{
 		model.getPostListByMap(pageNum, new SimpleResponseListener<KnowledgeQuizItemInfo>() {
 			@Override
 			public void requestSuccess(KnowledgeQuizItemInfo info, Response response) {
-				adapter.addItemAll(info.list);
+				if (pageNum==1){
+					adapter.addItemAll(info.list);
+				}else {
+					adapter.addMoreItem(info.list);
+				}
+
 			}
 
 			@Override
@@ -121,6 +140,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 			public void requestView() {
 				adapter.checkEmpty();
 				refresh.setRefreshing(false);
+				scrollListener.setLoadMore();
 			}
 		});
 	}

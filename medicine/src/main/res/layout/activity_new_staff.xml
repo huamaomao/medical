@@ -111,6 +111,8 @@
                 style="@style/et_styple"
                 android:hint="输入手机号"
                 android:singleLine="true"
+                android:inputType="phone"
+                android:maxLength="11"
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dip"  />
         </LinearLayout>

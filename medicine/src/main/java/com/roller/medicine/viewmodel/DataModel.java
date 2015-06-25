@@ -695,7 +695,7 @@ public class DataModel extends ViewModel{
     /**
      * 更改户主
      */
-    public void updateFamilyGroup(String token,String groupId, String familyGroupId,SimpleResponseListener<ResponseMessage> responseService){
+    public void updateFamilyGroup(String groupId, String familyGroupId,SimpleResponseListener<ResponseMessage> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("groupId", groupId));

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/list_item_style"
+     >
+    <TextView
+        android:id="@id/tv_name"
+       style="@style/TitleDefaultText"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        />
+	<Button
+        android:id="@id/btn_delete"
+        android:text="提升户主"
+        android:textColor="@color/public_d4d4d4"
+        android:layout_alignParentRight="true"
+        style="@style/DefaultText"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@drawable/s_btn"
+	    />
+</RelativeLayout>

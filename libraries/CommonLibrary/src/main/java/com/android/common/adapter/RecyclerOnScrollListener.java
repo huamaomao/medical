@@ -3,6 +3,8 @@ package com.android.common.adapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.common.util.Log;
+
 public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollListener {
     public static String TAG = RecyclerOnScrollListener.class.getSimpleName();
  
@@ -39,7 +41,7 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
  
             // Do something
             current_page++;
- 
+            Log.d("onLoadMore:"+current_page+"---");
             onLoadMore(current_page);
  
             loading = true;
@@ -47,4 +49,13 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
     }
  
     public abstract void onLoadMore(int current_page);
+
+
+    public void setPageInit(){
+        current_page=1;
+    }
+
+    public void setLoadMore(){
+        loading=false;
+    }
 }

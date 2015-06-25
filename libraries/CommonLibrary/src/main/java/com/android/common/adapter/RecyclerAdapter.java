@@ -248,6 +248,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         notifyItemInserted(isHeadView ? position + 1 : position);
     }
 
+    public void notifyItemCount(int position,int count){
+        notifyItemRangeInserted(isHeadView ? position + 1: position,count);
+    }
+
 
 
     public List<T> getData() {
@@ -293,6 +297,14 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             mData.addAll(data);
         }
         checkEmpty();
+    }
+
+    public void addMoreItem(List<T> data) {
+        int count=getItemCount();
+        if (data!=null){
+            mData.addAll(data);
+            notifyItemCount(count,data.size());
+        }
     }
 
     public void removeItem(T item) {

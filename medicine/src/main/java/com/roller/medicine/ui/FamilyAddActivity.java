@@ -133,11 +133,8 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 		String tel=et_tel.getText().toString();
 		String name=et_name.getText().toString();
 		String date=tv_date.getText().toString();
-		if (CommonUtil.isEmpty(tel)){
-			showMsg("输入手机号");
-			return;
-		}
-		if (!CommonUtil.isMobileNO(tel)){
+
+		if (CommonUtil.notEmpty(tel)&&!CommonUtil.isMobileNO(tel)){
 			showMsg("手机格式错误...");
 			return;
 		}

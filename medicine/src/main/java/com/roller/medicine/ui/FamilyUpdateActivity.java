@@ -1,30 +1,56 @@
 package com.roller.medicine.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
+import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.android.common.widget.AlertDialogFragment;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
+import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.FamilytInfo;
+import com.roller.medicine.info.HomeInfo;
+import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.Util;
+import com.roller.medicine.viewmodel.DataModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.InjectView;
 
-public class FamilyUpdateActivity extends BaseToolbarActivity {
+public class FamilyUpdateActivity extends BaseLoadingToolbarActivity {
 
+	@InjectView(R.id.refresh)
+	PullRefreshLayout refresh;
+	@InjectView(R.id.rv_view)
+	RecyclerView rv_view;
 
-	@InjectView(R.id.listview)
-	 ListView listview;
-	@InjectView(R.id.image_head)
-	 ImageView image_head;
-	@InjectView(R.id.text_name)
-	 TextView text_name;
-	
-	private PublicViewAdapter<FamilytInfo> adapter;
-	private LinkedList<FamilytInfo> mDatas = new LinkedList<FamilytInfo>();
+	@InjectView(R.id.iv_photo)
+	 ImageView iv_photo;
+	@InjectView(R.id.tv_name)
+	 TextView tv_name;
+
+	protected AlertDialogFragment dialog;
+	private List<HomeInfo.Family> mData;
+	private DataModel dataModel;
+	private RecyclerAdapter<HomeInfo.Family> adapter;
+	private int index=0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,82 +59,130 @@ public class FamilyUpdateActivity extends BaseToolbarActivity {
 	}
 
 	protected void initView(){
+		super.initView();
 		setBackActivity("更改户主");
+		dataModel=new DataModel();
+		mData=new ArrayList<>();
+		adapter=new RecyclerAdapter(getContext(),mData,rv_view);
+		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				requesFamilyList();
+			}
+		});
+		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<HomeInfo.Family>() {
+			@Override
+			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final HomeInfo.Family family, final int position) {
+				viewHolder.setText(R.id.tv_name, family.appellation);
+				viewHolder.getView(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						index = position;
+						StringBuilder builder=new StringBuilder("是否提升\"");
+						builder.append(family.appellation).append("\"账号?");
+						dialog.msg = builder.toString();
+						dialog.show((getContext()).getSupportFragmentManager(), "dialog");
+					}
+				});
+			}
+
+			@Override
+			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+				return new RecyclerAdapter.ViewHolder(getLayoutInflater().inflate(R.layout.item_update_account, viewGroup, false));
+			}
+
+			@Override
+			public int getItemCount() {
+				return mData.size();
+			}
+		});
+		ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
+		refresh.setRefreshing(true);
+		requesFamilyList();
+
+		dialog=new AlertDialogFragment();
+
+		dialog.setClickListener(new AlertDialogFragment.OnClickListener() {
+			@Override
+			public void onCancel() {
+				//
+
+			}
+
+			@Override
+			public void onConfirm() {
+				//index; 更改
+				HomeInfo.Family family = mData.get(index);
+				updateFamilyGroup(family.groupId, family.id,index);
+			}
+		});
+
 	}
 
-	/**
-	 * 获取成员列表
+	/***
+	 * 获取家庭列表
 	 */
-	private void getFamilyListByMap(){
-	/*	try {
-			DataService.getInstance().getFamilyListByMap(this, BaseApplication.TOKEN);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+	private void requesFamilyList(){
+		refresh.setRefreshing(true);
+		dataModel.getFamilyListByMap(new SimpleResponseListener<FamilytInfo>() {
+			@Override
+			public void requestSuccess(FamilytInfo info, Response response) {
+				if (CommonUtil.notNull(info.list) && info.list.size() > 0) {
+					HomeInfo.Family family = info.list.get(0);
+					Util.loadPhoto(getContext(), family.headImage, iv_photo);
+					tv_name.setText(family.appellation);
+					info.list.remove(0);
+					adapter.addItemAll(info.list);
+				}
+
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+
+			}
+
+			@Override
+			public void requestView() {
+				super.requestView();
+				refresh.setRefreshing(false);
+				adapter.checkEmpty();
+			}
+		});
 	}
-	
+
+
 	/**
 	 * 更改户主
-	 * @param item
-	 *//*
-	private void updateFamilyGroup(MyAccountListItemInfo item){
-		try {
-			DataService.getInstance().updateFamilyGroup(this, BaseApplication.TOKEN, item.getGroupId(), item.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void onSuccess(String url, String result, int resultCode, Object tag) {
-		super.onSuccess(url, result, resultCode, tag);
-		if(resultCode != 200){
-			PublicOnReturnInfo mInfo = JSON.parseObject(result, PublicOnReturnInfo.class);
-			disPlay(mInfo.message);
-			return;
-		}
-		
-		if(Constants.URL.GETFAMILYLISTBYMAP.equals(url)){
-			MyAccountListInfo mAccountListInfo = JSON.parseObject(result, MyAccountListInfo.class);
-			if(mAccountListInfo.getList() != null){
-				text_name.setText(mAccountListInfo.getList().get(0).getNickname());
-				BitmapUtils mBitmapUtils = XUtilsBitmapHelp.getBitmapUtilsInstance(
-						this,R.drawable.public_default_head, R.drawable.public_default_head);
-				
-				mBitmapUtils.display(image_head, mAccountListInfo.getList().get(0).getHeadImage(),
-						OtherUtils.roundBitmapLoadCallBack);
-				
-				mDatas.clear();
-				mDatas.addAll(mAccountListInfo.getList());
-				mDatas.removeFirst();
-				adapter.notifyDataSetChanged();
+	 * @param
+	 */
+	private void updateFamilyGroup(String groupId,String familyGroupId,int position){
+		showLoading();
+		dataModel.updateFamilyGroup(groupId, familyGroupId, new SimpleResponseListener<ResponseMessage>() {
+			@Override
+			public void requestSuccess(ResponseMessage info, Response response) {
+				showMsg("提升成功");
+				requesFamilyList();
 			}
-		}else if(Constants.URL.UPDATEFAMILYGROUP.equals(url)){
-			onReturn();
-		}
-	}
-	
-	@Override
-	public void commonOnClick(View v) {
-		switch (v.getId()) {
-		case R.id.text_item_house_hold:
-			MyAccountListItemInfo item = (MyAccountListItemInfo) v.getTag();
-			updateFamilyGroup(item);
-			break;
-		}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+			}
+
+			@Override
+			public void requestView() {
+				super.requestView();
+				hideLoading();
+			}
+		});
 	}
 
 	@Override
-	public void commonGetView(PublicViewHolder helper, MyAccountListItemInfo item,
-			OnClickListener onClick, int position, Object tag) {
-		TextView text_item_name = helper.getView(R.id.text_item_name);
-		TextView text_item_house_hold = helper.getView(R.id.text_item_house_hold);
-		
-		text_item_name.setText(item.getAppellation());
-		
-		text_item_house_hold.setTag(item);
-		
-		text_item_house_hold.setOnClickListener(onClick);
-	}*/
+	protected void onDestroy() {
+		super.onDestroy();
+		adapter.onDestroyReceiver();
+	}
 
 }

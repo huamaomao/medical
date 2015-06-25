@@ -38,7 +38,7 @@
             android:maxLength="15"
             android:inputType="textPassword"
             android:imeOptions="actionSend|flagNoExtractUi"
-            android:imeActionLabel="登陆"
+            android:imeActionLabel="登录"
             style="@style/et_styple"
              />
         <View
@@ -52,7 +52,7 @@
 
      <Button
          android:id="@id/btn_login"
-         android:text="登陆"
+         android:text="登录"
          android:layout_marginTop="33dp"
          android:textColor="@color/a7"
          android:background="@drawable/s_btn_login"
