@@ -2,7 +2,9 @@ package com.roller.medicine.viewmodel;
 
 import android.content.Context;
 
+import com.android.common.domain.LogDomain;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.domain.Version;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -58,6 +60,8 @@ public class DataModel extends ViewModel{
         mContext=context;
         liteOrm= LiteOrm.newInstance(context, "medicine_lite.db");
     }
+
+
 
     public static String getImageUrl(String path){
         if (CommonUtil.isEmpty(path)) return null;
@@ -169,22 +173,6 @@ public class DataModel extends ViewModel{
                 andEquals("typeId", type));
         return liteOrm.query(builder);
     }
-   /* public  List<UserInfo> queryFriend( List<UserInfo> list){
-        if (CommonUtil.notNull(list)){
-            for (UserInfo user:list){
-                UserInfo.DoctorDetail detail= liteOrm.queryById(user.id, UserInfo.DoctorDetail.class);
-                if (CommonUtil.notNull(detail)){
-                    user.doctorDetail=detail;
-                }
-                UserInfo.PatientDetail detail1= liteOrm.queryById(user.id, UserInfo.PatientDetail.class);
-                if (CommonUtil.notNull(detail1)){
-                    user.patientDetail=detail1;
-                }
-            }
-            return list;
-        }
-        return new ArrayList<>();
-    }*/
 
     public void saveFriendList(List<UserInfo> list){
         if (CommonUtil.isNull(list)) return;
@@ -202,6 +190,27 @@ public class DataModel extends ViewModel{
                         new String[]{stringBuilder.toString(), stringBuilder.toString(), stringBuilder.toString()}));
         return liteOrm.query(builder);
        // return queryFriend(ls);
+    }
+
+    public Version getVersion(){
+        Version version=new Version();
+        version= liteOrm.queryById(version.id,Version.class);
+        return version;
+    }
+
+
+
+    /*********
+     *log 日志操作
+     *
+     **/
+    public void saveLog(LogDomain log){
+        liteOrm.save(log);
+    }
+
+    public List<LogDomain> queryLogList(){
+        QueryBuilder builder=new QueryBuilder(LogDomain.class);
+        return liteOrm.query(builder);
     }
 
     /**********************************************http request method*****************************************************************/
@@ -740,19 +749,49 @@ public class DataModel extends ViewModel{
      *  医生版	116
      *  用户版	117
      */
-    public void requestVersion(String content,final SimpleResponseListener<ResponseMessage> listener){
+    public void requestVersion(final SimpleResponseListener<Version> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/version_sp/getVersionByMap.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("typeId", "117"));
+        param.add(new NameValuePair("wayNo", "rolle"));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new SimpleResponseListener<Version>() {
+            @Override
+            public void requestSuccess(Version info, Response response) {
+                liteOrm.save(info);
+                listener.requestSuccess(info,response);
+            }
+
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+               Version version =getVersion();
+                if (CommonUtil.notNull(version)){
+                    listener.requestSuccess(version,null);
+                }else {
+                    listener.requestError(e,info);
+                }
+            }
+        });
+    }
+
+    /******
+     * 获取版本信息
+     * @param listener
+     *  医生版	116
+     *  用户版	117
+     */
+    public void requestCommitLog(final SimpleResponseListener<ResponseMessage> listener){
         StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/version_sp /getVersionByMap.json");
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("typeId", "117"));
         param.add(new NameValuePair("wayNo", "117"));
-
-
-
-
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
         execute(request,listener);
     }
+
 
 }

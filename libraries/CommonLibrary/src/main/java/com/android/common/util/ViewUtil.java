@@ -183,10 +183,10 @@ public class ViewUtil {
             Version version=new Version();
             PackageInfo info=packageManager.getPackageInfo(context.getPackageName(),0);
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            version.versionCode=info.versionCode;
+            version.versionNo=info.versionCode;
             version.versionName=info.versionName;
             if (CommonUtil.notNull(applicationInfo)&&CommonUtil.notNull(applicationInfo.metaData)){
-                version.channel=applicationInfo.metaData.getString("UMENG_CHANNEL");
+                version.wayNo=applicationInfo.metaData.getString("UMENG_CHANNEL");
             }
             return version;
         }catch (Exception e){

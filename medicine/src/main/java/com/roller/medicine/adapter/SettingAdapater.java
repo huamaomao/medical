@@ -31,16 +31,12 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int TYPE_C=2;
     private Context mContext;
     List<ItemInfo> data;
-    private UserInfo user;
+
+    private Version version;
 
     public SettingAdapater(Context mContext, List<ItemInfo> data) {
         this.mContext = mContext;
         this.data = data;
-    }
-
-    public void setUserDetail(UserInfo user){
-        this.user=user;
-        this.notifyItemChanged(0);
     }
 
     @Override
@@ -59,9 +55,9 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ItemInfo info=data.get(position);
         if (position==0){
             HeadViewHolder viewHolder=(HeadViewHolder)holder;
-            Version version= ViewUtil.getVersion(mContext);
-            if (CommonUtil.notNull(version)){
-                viewHolder.tv_code.setText("当前版本"+version.versionName);
+            Version ver= ViewUtil.getVersion(mContext);
+            if (CommonUtil.notNull(ver)){
+                viewHolder.tv_code.setText("当前版本"+ver.versionName);
             }
         }else if (position==getItemCount()-1){
 
@@ -92,7 +88,6 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
         SwitchCompat tbtn_swich;
         RelativeLayout rl_item_0,rl_item_1;
         int  type;
-
         public HeadViewHolder(View itemView,int type) {
             super(itemView);
             this.type=type;

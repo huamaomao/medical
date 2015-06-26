@@ -33,7 +33,7 @@ public class CommonExceptionHandler{
     private LogDomain getCrashReport(Context context, Throwable ex) {
         LogDomain logDomain=new LogDomain();
         Version version=ViewUtil.getVersion(context);
-        logDomain.versionCode=version.versionCode;
+        logDomain.versionCode=version.versionNo;
         logDomain.versionName=version.versionName;
         logDomain.model=android.os.Build.MODEL;
         logDomain.release= Build.VERSION.RELEASE;
