@@ -15,4 +15,8 @@ public interface Constants{
     public static final int CODE_PIC=1;
     public static final int CODE_CAPTURE=2;
 
+    public static final String APK_DOWNLOAD_URL = "url";
+    public static final String APK_UPDATE_CONTENT = "updateMessage";
+    public static final String APK_VERSION_CODE = "versionCode";
+
 }

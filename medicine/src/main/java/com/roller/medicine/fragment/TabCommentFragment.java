@@ -43,7 +43,6 @@ public class TabCommentFragment extends BaseToolbarFragment{
 	private int pageNum = 1;
 	private RecyclerAdapter<KnowledgeQuizItemInfo.Item> adapter;
 	private DataModel model;
-
 	private RecyclerOnScrollListener scrollListener;
 
 
@@ -120,15 +119,15 @@ public class TabCommentFragment extends BaseToolbarFragment{
 
 
 	public void  loadData(){
-		model.getPostListByMap(pageNum, new SimpleResponseListener<KnowledgeQuizItemInfo>() {
+		model.getPostListByMap(scrollListener.getCurrentPage(), new SimpleResponseListener<KnowledgeQuizItemInfo>() {
 			@Override
 			public void requestSuccess(KnowledgeQuizItemInfo info, Response response) {
-				if (pageNum==1){
+				if (scrollListener.getCurrentPage()==1){
 					adapter.addItemAll(info.list);
 				}else {
 					adapter.addMoreItem(info.list);
+					scrollListener.setPage(info.pageNum);
 				}
-
 			}
 
 			@Override

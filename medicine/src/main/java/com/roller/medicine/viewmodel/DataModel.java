@@ -67,7 +67,6 @@ public class DataModel extends ViewModel{
         if (CommonUtil.isEmpty(path)) return null;
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(path);
-        Log.d(url.toString());
         return url.toString();
     }
 
@@ -772,6 +771,11 @@ public class DataModel extends ViewModel{
                 }else {
                     listener.requestError(e,info);
                 }
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
             }
         });
     }

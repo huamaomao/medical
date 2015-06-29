@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.ui.UpdateUserActivity;
+import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
@@ -67,7 +69,11 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 return;
             }
             UserViewHolder viewHolder=(UserViewHolder)holder;
-            Util.loadPhoto(mContext,DataModel.getImageUrl(user.headImage),viewHolder.iv_photo);
+            Log.d("url head:" + DataModel.getImageUrl(user.headImage));
+            Picasso.with(mContext).load(DataModel.getImageUrl("http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg")).
+                    transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(viewHolder.iv_photo);
+
+           // Util.loadPhoto(mContext, "http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg",viewHolder.iv_photo);
 
         }else{
             ViewHolder viewHolder=(ViewHolder)holder;

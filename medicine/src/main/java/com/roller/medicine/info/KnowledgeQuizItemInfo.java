@@ -11,7 +11,7 @@ import java.util.ListIterator;
 public class KnowledgeQuizItemInfo extends ResponseMessage {
 
 	public List<Item> list;
-
+   public int  pageNum;
  	public class Item{
 		public String id;
 		public String title;

@@ -50,6 +50,7 @@ public class UpdateUserActivity extends BaseLoadingToolbarActivity{
 	}
 
 	protected void initView(){
+		super.initView();
 		String tilte=null;
 		dataModel=new DataModel();
 		position=getIntent().getIntExtra(Constants.ITEM, 0);
@@ -108,6 +109,7 @@ public class UpdateUserActivity extends BaseLoadingToolbarActivity{
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
 				finish();
+				dataModel.saveUser(userInfo);
 			}
 
 			@Override

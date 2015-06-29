@@ -87,7 +87,8 @@ public class TabMyFragment extends BaseToolbarFragment{
 		if (CommonUtil.notEmpty(userInfo.intro))
 			tv_jianjie.setText(userInfo.intro);
 		loadHome();
-		Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+		Picasso.with(getActivity()).load("http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg").
+				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
 		//lv_list
 		mdata=new ArrayList();
 

@@ -136,6 +136,7 @@
             android:name=".ui.CommentDetailActivity"
             android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
         <service android:name=".service.MedicineGotyeService" />
+        <service android:name="com.android.common.service.DownloadService" />
     </application>
     
 </manifest>

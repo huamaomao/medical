@@ -3,12 +3,16 @@ package com.roller.medicine.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,8 +36,28 @@ public class ImageCropUtils {
 	public final static int IMAGE_FILE = 9997;
 
 
-	private Intent getCropImageIntent(Uri paramUri1, Uri paramUri2)
+	/*public Bitmap getThumbPhoto(String paramString1, String paramString2)
 	{
+		Bitmap bitmap = BitmapFactory.decodeFile(paramString1 + paramString2);
+		float f;
+		if (bitmap.getWidth() > 300.0F)
+			f = bitmap.getWidth() / 300.0F;
+
+		for (this.newBitmap = ImageTools.zoomBitmap(this.bitmap, this.bitmap.getWidth() / f, this.bitmap.getHeight() / f, 0); ; this.newBitmap = this.bitmap)
+		{
+			ImageTools.savePhotoToSDCard(this.newBitmap, paramString1, paramString2, 100);
+			this.attachment = new AttachmentEntity();
+			this.attachment.setName(paramString2);
+			this.attachment.setUrl(paramString1 + paramString2);
+			return this.newBitmap;
+		}
+	}*/
+
+
+	public static Intent getCropImageIntent(Uri paramUri1, Uri paramUri2)
+	{
+			//
+		//Intent.ACTION_GET_CONTENT
 		Intent localIntent = new Intent("com.android.camera.action.CROP");
 		localIntent.setDataAndType(paramUri1, "image/*");
 		localIntent.putExtra("crop", "true");
@@ -41,9 +65,27 @@ public class ImageCropUtils {
 		localIntent.putExtra("aspectY", 1);
 		localIntent.putExtra("outputX", 300);
 		localIntent.putExtra("outputY", 300);
+		localIntent.putExtra("outputFormat", "JPEG");
 		localIntent.putExtra("return-data", false);
-		localIntent.putExtra("output", paramUri2);
+		localIntent.putExtra(MediaStore.EXTRA_OUTPUT, paramUri2);
+		localIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		localIntent.putExtra("noFaceDetection", true);
 		return localIntent;
+	}
+
+	public static Bitmap compressImage(Bitmap image) {
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+		int options = 100;
+		while ( baos.toByteArray().length / 1024>200) {  //循环判断如果压缩后图片是否大于200kb,大于继续压缩
+			baos.reset();//重置baos即清空baos
+			image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+			options -= 10;//每次都减少10
+		}
+		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+		return bitmap;
 	}
 
 	public ImageCropUtils(Activity act, IImageCropFinish iImgCropFinish) {

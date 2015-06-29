@@ -33,7 +33,7 @@
         android:id="@id/rl_item_1"
         style="@style/list_item_style">
         <TextView
-            android:text="版本"
+            android:text="检查版本"
             android:textSize="@dimen/font_size_18"
             android:layout_centerVertical="true"
             android:textColor="@color/black"
@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@id/tv_code"
-            android:text="最新版本1.0"
+            android:text="当前版本1.0"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/font_size_18"
             android:layout_centerVertical="true"

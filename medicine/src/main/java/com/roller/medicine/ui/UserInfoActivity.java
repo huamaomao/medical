@@ -2,8 +2,10 @@ package com.roller.medicine.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
@@ -24,13 +27,18 @@ import com.roller.medicine.adapter.UserDetialAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.fragment.SexDialogFragment;
 import com.roller.medicine.info.ItemInfo;
+import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.ImageCropUtils;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +64,14 @@ public class UserInfoActivity extends BaseToolbarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recycker);
 	}
-	
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		loadData();
+	}
+
 	protected void initView(){
 		setBackActivity("个人信息");
 		dataModel=new DataModel();
@@ -132,14 +147,15 @@ public class UserInfoActivity extends BaseToolbarActivity{
 		lsData.add(new ItemInfo("体重", CommonUtil.initTextNull(user.patientDetail.weight)));
 		lsData.add(new ItemInfo("身高", CommonUtil.initTextNull(user.patientDetail.height)));
 		lsData.add(new ItemInfo("病类", CommonUtil.initTextNull(user.patientDetail.disease)));
-		adapater.setUserDetail(user);
 		adapater.notifyDataSetChanged();
+		adapater.setUserDetail(user);
 
 	}
 
 
 
 
+	private Uri uri_;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -148,33 +164,98 @@ public class UserInfoActivity extends BaseToolbarActivity{
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
-					Bundle bundle=new Bundle();
-					bundle.putString(Constants.ITEM, ViewUtil.getRealFilePath(getContext(), uri));
-					ViewUtil.openActivity(ClipActivity.class,bundle,getContext());
+					/*Bundle bundle=new Bundle();
+					bundle.putString(Constants.ITEM, ViewUtil.getRealFilePath(getContext(), uri));*/
+					//ViewUtil.openActivity(ClipActivity.class,bundle,getContext());
 					//photoUrl= ViewUtil.getRealFilePath(getContext(), uri);
 					//uploadPhoto();
+					Bitmap bitmap = null;
+					try {
+						bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					//这里做了判断  如果图片大于 512KB 就进行压缩
+					if(bitmap.getRowBytes()*bitmap.getHeight() > 20*1024){
+						bitmap = ImageCropUtils.compressImage(bitmap);
+						uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+					}
+
+					File file=new File(Constants.PATH + "picture/thumb_"+System.currentTimeMillis() + ".jpg");
+					if (!file.getParentFile().exists())
+						file.getParentFile().mkdirs();
+					uri_=Uri.fromFile(file);
+					startActivityForResult(ImageCropUtils.getCropImageIntent(uri,uri_),3);
 				}
 			}
+		}else if (requestCode==3){
+			if (CommonUtil.notNull(uri_)){
+				Log.d("uri"+uri_.getPath());
+				//Uri uri = data.getData();
+				photoUrl= ViewUtil.getRealFilePath(getContext(), uri_);
+				uploadPhoto(photoUrl);
+			}
+
 		}
 	}
 
 
 
 
-	private void uploadPhoto(){
-		/*Picasso.with(getContext()).load(new File(photoUrl)).placeholder(R.drawable.icon_default).
-				transform(new CircleTransform()).into(iv_photo);
-		userModel.uploadPicture("71", user.headImage, new SimpleResponseListener<UploadPicture>() {
+
+
+	private void uploadPhoto(String photoUrl){
+
+		dataModel.uploadPicture("71",photoUrl, new SimpleResponseListener<UploadPicture>() {
 			@Override
 			public void requestSuccess(UploadPicture info, Response response) {
-				user.photoId=info.id;
+				Log.d(""+info.id);
+				UserInfo userInfo=new UserInfo();
+				userInfo.photoId=info.id;
+				dataModel.saveDoctor(userInfo, new SimpleResponseListener<ResponseMessage>() {
+					@Override
+					public void requestSuccess(ResponseMessage info, Response response) {
+						dataModel.saveUser(user);
+						dataModel.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
+							@Override
+							public void requestSuccess(UserResponseInfo info, Response response) {
+								dataModel.saveUser(info.user);
+								adapater.setUserDetail(info.user);
+							}
+
+							@Override
+							public void requestError(HttpException e, ResponseMessage info) {
+
+							}
+						});
+
+					}
+
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+
+					}
+
+					@Override
+					public void requestView() {
+						super.requestView();
+					}
+				});
+
 			}
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				msgShow("图片上传失败...");
+				showMsg("图片上传失败...");
 			}
-		});*/
+
+			@Override
+			public void requestView() {
+				super.requestView();
+			}
+		});
 
 	}
 

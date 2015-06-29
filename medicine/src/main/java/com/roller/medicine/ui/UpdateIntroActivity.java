@@ -68,6 +68,7 @@ public class UpdateIntroActivity extends BaseLoadingToolbarActivity{
                     @Override
                     public void requestSuccess(ResponseMessage info, Response response) {
                         showMsg("保存成功");
+                        userModel.saveUser(user);
                         finish();
                     }
 

@@ -34,6 +34,8 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Version version;
 
+    private OnUpdateVersionListener versionListener;
+
     public SettingAdapater(Context mContext, List<ItemInfo> data) {
         this.mContext = mContext;
         this.data = data;
@@ -83,7 +85,7 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public  static class HeadViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public   class HeadViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tv_code;
         SwitchCompat tbtn_swich;
         RelativeLayout rl_item_0,rl_item_1;
@@ -102,6 +104,8 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             tv_code=(TextView)itemView.findViewById(R.id.tv_code);
             rl_item_0.setOnClickListener(this);
+            rl_item_1.setOnClickListener(this);
+
 
         }
 
@@ -112,7 +116,9 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     tbtn_swich.setChecked(!tbtn_swich.isChecked());
                     break;
                 case R.id.rl_item_1:
-
+                    if (CommonUtil.notNull(versionListener)){
+                        versionListener.onUpdate();
+                    }
                     break;
             }
         }
@@ -127,4 +133,13 @@ public class SettingAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title=(TextView)itemView.findViewById(R.id.tv_item_0);
         }
     }
+
+    public void setVersionListener(OnUpdateVersionListener versionListener) {
+        this.versionListener = versionListener;
+    }
+
+    public interface OnUpdateVersionListener{
+        void onUpdate();
+    }
+
 }

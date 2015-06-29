@@ -43,7 +43,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
             current_page++;
             Log.d("onLoadMore:"+current_page+"---");
             onLoadMore(current_page);
- 
             loading = true;
         }
     }
@@ -53,6 +52,14 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
 
     public void setPageInit(){
         current_page=1;
+    }
+
+    public void setPage(int page){
+        current_page=page;
+    }
+
+    public int getCurrentPage(){
+        return current_page;
     }
 
     public void setLoadMore(){

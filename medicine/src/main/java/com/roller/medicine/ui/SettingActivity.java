@@ -8,9 +8,11 @@ import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.domain.Version;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
+import com.android.common.widget.UpdateDialog;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
@@ -33,27 +35,43 @@ public class SettingActivity extends BaseLoadingToolbarActivity{
     RecyclerView recyclerView;
     private SettingAdapater settingAdapater;
     private DataModel userModel;
-
+    private UpdateDialog updateDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         userModel=new DataModel();
-        requestVersion();
-
+        updateDialog=new UpdateDialog();
     }
 
     public void requestVersion(){
-
+        showLoading();
+        loadingFragment.setRequestMessage();
         userModel.requestVersion(new SimpleResponseListener<Version>() {
             @Override
             public void requestSuccess(Version info, Response response) {
-
+                Version version=ViewUtil.getVersion(getContext());
+                if (CommonUtil.notNull(version)){
+                    if (version.versionNo<info.versionNo){
+                        ///ViewUtil.showNotification(getContext(),info.versionsPeculiarity,info.downloadLink);
+                        updateDialog.show(getSupportFragmentManager(),"version");
+                    }else {
+                        showMsg("已是最新版本");
+                    }
+                }else {
+                    showMsg("获取版本信息失败");
+                }
             }
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
+                showMsg("获取版本信息失败");
+            }
 
+            @Override
+            public void requestView() {
+                super.requestView();
+                hideLoading();
             }
         });
     }
@@ -80,12 +98,12 @@ public class SettingActivity extends BaseLoadingToolbarActivity{
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                switch (position){
+                switch (position) {
                     case 1:
-                        ViewUtil.openActivity(FeedbackActivity.class,getContext());
+                        ViewUtil.openActivity(FeedbackActivity.class, getContext());
                         break;
                     case 2:
-                        ViewUtil.openActivity(AboutUsActivity.class,getContext());
+                        ViewUtil.openActivity(AboutUsActivity.class, getContext());
                         break;
                     case 3:
                         onLoginOut();
@@ -93,5 +111,12 @@ public class SettingActivity extends BaseLoadingToolbarActivity{
                 }
             }
         }));
+
+        settingAdapater.setVersionListener(new SettingAdapater.OnUpdateVersionListener() {
+            @Override
+            public void onUpdate() {
+                requestVersion();
+            }
+        });
     }
 }

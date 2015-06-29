@@ -1,9 +1,15 @@
 
 package com.roller.medicine.utils;
 
+import android.os.Environment;
+
 import com.baoyz.widget.PullRefreshLayout;
 
-public interface Constants {
+public abstract class Constants {
+
+    public static final String ROOT;
+    public static final String PATH;
+
     /***add**/
     public static final String USER_STATUS_ADD="0";
     /***接受**/
@@ -55,5 +61,10 @@ public interface Constants {
     public static final String  PRAISE_USER="73";
     public static final String  PRAISE_COMMENT="74";
     public static final String  PRAISE_REEPLY="78";
+
+    static {
+        ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
+        PATH = ROOT + "/com.roller.medicine/";
+    }
 
 }

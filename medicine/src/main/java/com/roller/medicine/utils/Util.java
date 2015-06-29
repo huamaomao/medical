@@ -50,7 +50,7 @@ public final class Util {
         return list;
     }
 
-    public static void loadPhoto(Context context,String url,ImageView imageView){
+    public synchronized static void loadPhoto(Context context,String url,ImageView imageView){
         Picasso.with(context).load(DataModel.getImageUrl(url)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(imageView);
 
     }

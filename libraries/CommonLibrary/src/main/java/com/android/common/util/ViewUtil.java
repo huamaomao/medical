@@ -1,6 +1,8 @@
 package com.android.common.util;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +25,7 @@ import android.view.WindowManager;
 
 import com.android.common.R;
 import com.android.common.domain.Version;
+import com.android.common.service.DownloadService;
 import com.android.common.view.IView;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.exception.HttpNetException;
@@ -305,6 +309,21 @@ public class ViewUtil {
         } else if (e instanceof HttpServerException) {
             view.msgShow(e.getMessage());
         }
+    }
+    public static void  showNotification(Context context,String content,String apkUrl){
+        android.app.Notification noti=null;
+        Intent myIntent = new Intent(context, DownloadService.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        myIntent.putExtra(Constants.APK_DOWNLOAD_URL, apkUrl);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        int smallIcon = context.getApplicationInfo().icon;
+        noti = new NotificationCompat.Builder(context).setTicker(context.getString(R.string.newUpdateAvailable))
+                .setContentTitle(context.getString(R.string.newUpdateAvailable)).setContentText(content).setSmallIcon(smallIcon)
+                .setContentIntent(pendingIntent).build();
+        noti.flags = android.app.Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, noti);
     }
 
 }

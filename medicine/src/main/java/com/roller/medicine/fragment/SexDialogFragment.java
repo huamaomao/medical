@@ -60,6 +60,11 @@ public class SexDialogFragment extends DialogFragment {
         return builder.setView(view).create();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @OnClick({R.id.tv_item_0,R.id.tv_item_1})
     void doSelection(View view){
         if (view.getId()==R.id.tv_item_0){
