@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.adapter.YearSpinnerAdpater;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.widget.TuneWheel;
@@ -141,7 +140,7 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	protected void initView(){
 		super.initView();
 		service=new DataModel();
-		familyList= getIntent().getParcelableArrayListExtra(Constants.ITEM);
+		familyList= getIntent().getParcelableArrayListExtra(AppConstants.ITEM);
 		if (CommonUtil.isNull(familyList)){
 			familyList=new ArrayList<>();
 			HomeInfo.Family family=new HomeInfo.Family();
@@ -149,8 +148,8 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 			family.userId=service.getLoginUser().id+"";
 			familyList.add(family);
 		}
-		int index=getIntent().getIntExtra(Constants.TYPE, 0);
-		String date =getIntent().getStringExtra(Constants.DATA_DATE);
+		int index=getIntent().getIntExtra(AppConstants.TYPE, 0);
+		String date =getIntent().getStringExtra(AppConstants.DATA_DATE);
 		if (CommonUtil.isEmpty(date)){
 			date=TimeUtil.currentLocalDateString();
 		}

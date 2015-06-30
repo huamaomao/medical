@@ -39,6 +39,7 @@
     <!-- textView id -->
 
     <item name="tv_name" type="id" />
+    <item name="tv_weixin" type="id" />
     <item name="tv_recommend" type="id" />
     <item name="tv_title" type="id" />
     <item name="tv_amount" type="id" />

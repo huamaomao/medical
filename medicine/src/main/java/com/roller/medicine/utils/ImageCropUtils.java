@@ -68,7 +68,7 @@ public class ImageCropUtils {
 		localIntent.putExtra("outputFormat", "JPEG");
 		localIntent.putExtra("return-data", false);
 		localIntent.putExtra(MediaStore.EXTRA_OUTPUT, paramUri2);
-		localIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		localIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
 		localIntent.putExtra("noFaceDetection", true);
 		return localIntent;
 	}

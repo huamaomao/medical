@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
@@ -19,17 +18,14 @@ import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.FamilytInfo;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -64,7 +60,7 @@ public class FamilyUpdateActivity extends BaseLoadingToolbarActivity {
 		dataModel=new DataModel();
 		mData=new ArrayList<>();
 		adapter=new RecyclerAdapter(getContext(),mData,rv_view);
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {

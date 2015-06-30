@@ -19,7 +19,7 @@ import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.DoctorDetialInfo;
 import com.roller.medicine.info.RecommendedInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
         super.initView();
         setBackActivity("详细资料");
         userModel=new DataModel();
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.isNull(user)){
             finish();
         }
@@ -63,7 +63,7 @@ public class DoctorDetialActivity extends BaseLoadingToolbarActivity{
     @OnClick(R.id.iv_send)
     void toMessageActivity(){
         Bundle bundle=new Bundle();
-        bundle.putParcelable(Constants.ITEM, user);
+        bundle.putParcelable(AppConstants.ITEM, user);
         ViewUtil.openActivity(MessageActivity.class, bundle, this, ActivityModel.ACTIVITY_MODEL_1);
     }
 

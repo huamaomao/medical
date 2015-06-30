@@ -1,6 +1,5 @@
 package com.roller.medicine.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,11 +7,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
 import com.android.common.util.Log;
@@ -24,17 +21,15 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.UserDetialAdapater;
-import com.roller.medicine.base.BaseToolbarActivity;
+import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.fragment.SexDialogFragment;
 import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.ImageCropUtils;
 import com.roller.medicine.viewmodel.DataModel;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,9 +39,8 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
-public class UserInfoActivity extends BaseToolbarActivity{
+public class UserInfoActivity extends BaseLoadingToolbarActivity{
 
 	@InjectView(R.id.rv_view)
 	RecyclerView rvView;
@@ -73,6 +67,7 @@ public class UserInfoActivity extends BaseToolbarActivity{
 	}
 
 	protected void initView(){
+		super.initView();
 		setBackActivity("个人信息");
 		dataModel=new DataModel();
 		lsData=new ArrayList();
@@ -121,7 +116,7 @@ public class UserInfoActivity extends BaseToolbarActivity{
 					case 8:
 					case 9:
 						Bundle bundle = new Bundle();
-						bundle.putInt(Constants.ITEM, position);
+						bundle.putInt(AppConstants.ITEM, position);
 						ViewUtil.openActivity(UpdateUserActivity.class, bundle, getContext());
 						break;
 					case 5:
@@ -156,6 +151,7 @@ public class UserInfoActivity extends BaseToolbarActivity{
 
 
 	private Uri uri_;
+	private boolean flag;
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -164,26 +160,23 @@ public class UserInfoActivity extends BaseToolbarActivity{
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
-					/*Bundle bundle=new Bundle();
-					bundle.putString(Constants.ITEM, ViewUtil.getRealFilePath(getContext(), uri));*/
-					//ViewUtil.openActivity(ClipActivity.class,bundle,getContext());
-					//photoUrl= ViewUtil.getRealFilePath(getContext(), uri);
-					//uploadPhoto();
+
+					flag=false;
 					Bitmap bitmap = null;
 					try {
 						bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+						if(bitmap.getRowBytes()*bitmap.getHeight() > 50*1024){
+							bitmap = ImageCropUtils.compressImage(bitmap);
+							uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+						}
 					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+						return;
 					} catch (IOException e) {
-						e.printStackTrace();
+						return;
 					}
 					//这里做了判断  如果图片大于 512KB 就进行压缩
-					if(bitmap.getRowBytes()*bitmap.getHeight() > 20*1024){
-						bitmap = ImageCropUtils.compressImage(bitmap);
-						uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
-					}
-
-					File file=new File(Constants.PATH + "picture/thumb_"+System.currentTimeMillis() + ".jpg");
+					flag=true;
+					File file=new File(AppConstants.PATH + "picture/thumb_"+System.currentTimeMillis() + ".png");
 					if (!file.getParentFile().exists())
 						file.getParentFile().mkdirs();
 					uri_=Uri.fromFile(file);
@@ -207,7 +200,7 @@ public class UserInfoActivity extends BaseToolbarActivity{
 
 
 	private void uploadPhoto(String photoUrl){
-
+		showLoading();
 		dataModel.uploadPicture("71",photoUrl, new SimpleResponseListener<UploadPicture>() {
 			@Override
 			public void requestSuccess(UploadPicture info, Response response) {
@@ -227,7 +220,13 @@ public class UserInfoActivity extends BaseToolbarActivity{
 
 							@Override
 							public void requestError(HttpException e, ResponseMessage info) {
+								showMsg("图片上传失败...");
+								hideLoading();
+							}
 
+							@Override
+							public void requestView() {
+								hideLoading();
 							}
 						});
 
@@ -235,13 +234,10 @@ public class UserInfoActivity extends BaseToolbarActivity{
 
 					@Override
 					public void requestError(HttpException e, ResponseMessage info) {
-
+						showMsg("图片上传失败...");
+						hideLoading();
 					}
 
-					@Override
-					public void requestView() {
-						super.requestView();
-					}
 				});
 
 			}
@@ -249,6 +245,7 @@ public class UserInfoActivity extends BaseToolbarActivity{
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
 				showMsg("图片上传失败...");
+				hideLoading();
 			}
 
 			@Override

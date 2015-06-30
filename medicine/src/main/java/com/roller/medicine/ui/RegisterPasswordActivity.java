@@ -19,7 +19,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
@@ -124,7 +124,7 @@ public class RegisterPasswordActivity extends BaseLoadingToolbarActivity{
 	/****
 	 * 计时器
 	 */
-	private CountDownTimer downTimer=new CountDownTimer(Constants.SMS_SEBD_TIME,1000) {
+	private CountDownTimer downTimer=new CountDownTimer(AppConstants.SMS_SEBD_TIME,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			btn_send.setEnabled(false);

@@ -14,7 +14,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
@@ -40,7 +40,7 @@ public class NoteActivity extends BaseLoadingToolbarActivity{
         super.initView();
         setBackActivity("备注信息");
         userModel=new DataModel();
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.notNull(user)){
             et_name.setText(user.noteName);
             et_name.setSelection(et_name.getText().length());

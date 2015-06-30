@@ -24,7 +24,7 @@ import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.ui.MyHomeActivity;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
@@ -46,13 +46,17 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
     private  final static int MESSAGE_RIGHT_PIC=2;
     private final static int MESSAGE_LEFT_PIC=3;
     private String name= GotyeAPI.getInstance().getLoginUser().getName();
+
     private UserInfo friendUser;
+    private UserInfo userInfo;
     protected AlertDialogFragment dialog;
     private int select=-1;
 
-    public ChatListAdapater(final LinkedList<GotyeMessage> data, Context mContext, UserInfo friendUser, final OnSendListener listener) {
+
+    public ChatListAdapater(final LinkedList<GotyeMessage> data, Context mContext,UserInfo userInfo,UserInfo friendUser, final OnSendListener listener) {
         this.data = data;
         this.mContext = mContext;
+        this.userInfo = userInfo;
         this.friendUser = friendUser;
         dialog=new AlertDialogFragment();
         dialog.setClickListener(new AlertDialogFragment.OnClickListener() {
@@ -97,7 +101,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
        final   GotyeMessage message=data.get(position);
         if (position == 0) {
             holder.tvTime.setText(TimeUtil.dateToMessageTime(message.getDate() * 1000));
@@ -113,16 +117,25 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             }
         }
 
-        Picasso.with(mContext).load(DataModel.getImageUrl(friendUser.headImage)).placeholder(R.drawable.icon_default).
-                transform(new CircleTransform()).into(holder.ivPhoto);
+        if (holder.type==MESSAGE_LEFT_MESSAGE||MESSAGE_LEFT_PIC==holder.type) {
+            Picasso.with(mContext).load(DataModel.getImageUrl(friendUser.headImage)).placeholder(R.drawable.icon_default).
+                    transform(new CircleTransform()).into(holder.ivPhoto);
+        }else {
+            Picasso.with(mContext).load(DataModel.getImageUrl(userInfo.headImage)).placeholder(R.drawable.icon_default).
+                    transform(new CircleTransform()).into(holder.ivPhoto);
+        }
+
 
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
-                Log.d(message.getReceiver().getName()+"----"+message.getSender().getName());
-                bundle.putString(Constants.ITEM,message.getSender().getName());
-                ViewUtil.openActivity(MyHomeActivity.class,bundle,(Activity)mContext);
+                //  wenti....
+                Bundle bundle = new Bundle();
+                if (holder.type == MESSAGE_LEFT_MESSAGE || MESSAGE_LEFT_PIC == holder.type) {
+                    bundle.putString(AppConstants.ITEM, friendUser.id+"");
+                }
+                //Log.d(message.getReceiver().getName() + "----" + message.getSender().getName());
+                ViewUtil.openActivity(MyHomeActivity.class, bundle, (Activity) mContext);
             }
         });
         switch (holder.type){

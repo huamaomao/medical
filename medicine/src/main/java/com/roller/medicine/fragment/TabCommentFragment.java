@@ -22,7 +22,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.KnowledgeQuizItemInfo;
 import com.roller.medicine.ui.CommentDetailActivity;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
@@ -57,7 +57,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		setTitle("健康社区");
 		model=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -79,8 +79,8 @@ public class TabCommentFragment extends BaseToolbarFragment{
 					public void onClick(View v) {
 						setLastClickTime();
 						Bundle bundle = new Bundle();
-						bundle.putString(Constants.ITEM, item.id);
-						bundle.putString(Constants.DATA_BOARD_ID, item.boardId);
+						bundle.putString(AppConstants.ITEM, item.id);
+						bundle.putString(AppConstants.DATA_BOARD_ID, item.boardId);
 						ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 					}
 				});

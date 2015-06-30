@@ -27,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
+        android:textStyle="bold"
         style="@style/TitleDefaultText" />
     <include layout="@layout/divider" />
     <TextView

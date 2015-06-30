@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+
 import com.android.common.util.ActivityModel;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
@@ -14,7 +13,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.viewmodel.GotyeService;
 import com.squareup.picasso.Picasso;
@@ -49,7 +48,7 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
         super.initView();
         setBackActivity("聊天信息");
         userModel=new DataModel();
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
 
         tbtn_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -83,14 +82,14 @@ public class MessageSettingActivity extends BaseLoadingToolbarActivity{
     @OnClick(R.id.rl_item_0)
     void doUserDetianl(){
         Bundle bundle=new Bundle();
-        bundle.putParcelable(Constants.ITEM,user);
+        bundle.putParcelable(AppConstants.ITEM,user);
         ViewUtil.openActivity(DoctorDetialActivity.class, bundle, this, ActivityModel.ACTIVITY_MODEL_1);
     }
 
     @OnClick(R.id.rl_item_1)
     void doNote(){
         Bundle bundle=new Bundle();
-        bundle.putParcelable(Constants.ITEM,user);
+        bundle.putParcelable(AppConstants.ITEM,user);
         ViewUtil.openActivity(NoteActivity.class, bundle, this, ActivityModel.ACTIVITY_MODEL_1);
     }
   /*  @OnClick(R.id.rl_item_2)

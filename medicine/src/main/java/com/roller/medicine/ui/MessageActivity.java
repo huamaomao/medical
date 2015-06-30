@@ -26,7 +26,7 @@ import com.roller.medicine.fragment.CommentDialogFragment;
 import com.roller.medicine.info.MessageChatInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.service.MedicineGotyeService;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.viewmodel.GotyeService;
@@ -137,7 +137,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
     @Override
     protected void initView() {
         super.initView();
-        userFriend=getIntent().getParcelableExtra(Constants.ITEM);
+        userFriend=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.isNull(userFriend)){
             finish();
         }
@@ -175,8 +175,8 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
             public void onComment() {
                 //评论
                 Intent intent=new Intent(MessageActivity.this,CommentActivity.class);
-                intent.putExtra(Constants.ITEM, userFriend.id);
-                startActivityForResult(intent, Constants.CODE);
+                intent.putExtra(AppConstants.ITEM, userFriend.id);
+                startActivityForResult(intent, AppConstants.CODE);
 
             }
         });
@@ -185,7 +185,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
         model=new GotyeService();
         userModel=new DataModel();
         data=new LinkedList<>();
-        adapater=new ChatListAdapater(data, this, userFriend, new ChatListAdapater.OnSendListener() {
+        adapater=new ChatListAdapater(data, this, userModel.getLoginUser(),userFriend, new ChatListAdapater.OnSendListener() {
             @Override
             public void onSend(GotyeMessage message) {
                model.gotyeAPI.sendMessage(message);
@@ -194,7 +194,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
         ViewUtil.initRecyclerViewDecoration(lvView,this, adapater);
         setBackActivity(userFriend.nickname);
         loadMessage();
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -213,7 +213,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
        switch (item.getItemId()){
            case R.id.toolbar_setting:
                Bundle bundle=new Bundle();
-               bundle.putParcelable(Constants.ITEM, userFriend);
+               bundle.putParcelable(AppConstants.ITEM, userFriend);
                ViewUtil.openActivity(MessageSettingActivity.class, bundle, this, ActivityModel.ACTIVITY_MODEL_1);
                return true;
        }
@@ -263,7 +263,7 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
                     lvView.scrollToPosition(adapater.getItemCount()-1);
                 }
             }
-        }else if (resultCode==Constants.CODE){
+        }else if (resultCode== AppConstants.CODE){
             finish();
         }
 

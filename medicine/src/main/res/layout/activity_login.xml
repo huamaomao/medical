@@ -4,6 +4,7 @@
     android:id="@id/ll_login"
     style="@style/appLayoutStyle"
   >
+
     <ImageView
         android:id="@id/iv_photo"
         android:layout_marginTop="60dp"
@@ -87,4 +88,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
           </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/bit_3rd"
+            android:layout_marginTop="20dp"
+
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="第三方登陆"
+                style="@style/DefaultText"
+                android:background="@color/write"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="@color/hintText"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:drawableTop="@drawable/s_btn"
+            android:id="@id/tv_weixin"
+            style="@style/DefaultText"
+            android:padding="10px"
+            android:drawablePadding="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textColor="@color/hintText"
+            android:text="微信"
+            android:background="@drawable/s_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 </com.android.common.widget.InputMethodLinearLayout>

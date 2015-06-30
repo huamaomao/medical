@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,7 +33,7 @@ import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.ui.MessageActivity;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -184,7 +182,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     user.nickname=homeInfo.nickname;
                     user.headImage=homeInfo.headImage;
                     Bundle bundle=new Bundle();
-                    bundle.putParcelable(Constants.ITEM,user);
+                    bundle.putParcelable(AppConstants.ITEM,user);
                     ViewUtil.openActivity(MessageActivity.class, bundle, (Activity)mContext, ActivityModel.ACTIVITY_MODEL_1);
                 }
             });

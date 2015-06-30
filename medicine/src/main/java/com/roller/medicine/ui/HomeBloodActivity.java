@@ -8,7 +8,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.adapter.PatientHListAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.BloodInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +35,12 @@ public class HomeBloodActivity extends BaseToolbarActivity {
 	protected void initView() {
 		super.initView();
 		setBackActivity("血糖历史");
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		data=new ArrayList<>();
 		data.add(new BloodInfo.Item());
 		data.add(new BloodInfo.Item());
 		adapater=new PatientHListAdapater(this,data,refresh);
-		adapater.family=getIntent().getParcelableExtra(Constants.ITEM);
+		adapater.family=getIntent().getParcelableExtra(AppConstants.ITEM);
 		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
 	}
 

@@ -3,17 +3,15 @@ package com.roller.medicine.ui;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.widget.ClipImageLayout;
 import com.roller.medicine.R;
-import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.base.BaseToolbarActivity;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.InjectView;
-import butterknife.Optional;
 
 /**
  * Created by Administrator on 2015/6/15 0015.
@@ -40,7 +37,7 @@ public class ClipActivity extends BaseToolbarActivity {
     protected void initView() {
         super.initView();
         setBackActivity("上传头像");
-        String url=getIntent().getStringExtra(Constants.ITEM);
+        String url=getIntent().getStringExtra(AppConstants.ITEM);
         if (CommonUtil.notEmpty(url)){
             // 有的系统返回的图片是旋转了，有的没有旋转，所以处理
             int degreee = readBitmapDegree(url);

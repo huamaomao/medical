@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.common.adapter.QuickAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -35,6 +36,7 @@ import com.roller.medicine.ui.UserInfoActivity;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,7 +65,6 @@ public class TabMyFragment extends BaseToolbarFragment{
 	@InjectView(R.id.lv_list)
 	HorizontalListView lv_list;
 
-	private View view;
 	private DataModel dataModel;
 	private UserInfo userInfo;
 	private MyHomeInfo homeInfo;
@@ -87,19 +88,21 @@ public class TabMyFragment extends BaseToolbarFragment{
 		if (CommonUtil.notEmpty(userInfo.intro))
 			tv_jianjie.setText(userInfo.intro);
 		loadHome();
-		Picasso.with(getActivity()).load("http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg").
-				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
-		//lv_list
 		mdata=new ArrayList();
 
 		adapter=new QuickAdapter<HomeInfo.Family>(getActivity(),R.layout.list_item_grid_family,mdata) {
 			@Override
 			protected void convert(ViewHolderHelp viewHolderHelp, HomeInfo.Family food) {
 				viewHolderHelp.setText(R.id.tv_item_0,food.appellation);
-				Util.loadPhoto(getActivity(),DataModel.getImageUrl(food.headImage),(ImageView) viewHolderHelp.getView(R.id.iv_photo));
+				Picasso.with(getActivity()).load(DataModel.getImageUrl(food.headImage)).
+						transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+
 			}
 		};
 		lv_list.setAdapter(adapter);
+
+		Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).
+				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
 	}
 
 
@@ -116,7 +119,6 @@ public class TabMyFragment extends BaseToolbarFragment{
 				homeInfo=info;
 				tv_name.setText(info.nickname);
 				tv_jianjie.setText(info.intro);
-				Util.loadPhoto(getActivity(), DataModel.getImageUrl(info.headImage), iv_photo);
 				tv_comment.setText(CommonUtil.initTextValue(info.replyCount));
 				tv_love.setText(CommonUtil.initTextValue(info.praiseCount));
 				tv_fans.setText(CommonUtil.initTextValue(info.fansCount));

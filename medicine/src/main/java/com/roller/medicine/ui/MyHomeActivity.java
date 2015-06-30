@@ -16,9 +16,7 @@ import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
-import com.roller.medicine.adapter.FragmentViewPagerAdapter;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.fragment.MyCommentsFragment;
 import com.roller.medicine.fragment.MyFansFragment;
 import com.roller.medicine.fragment.MyFocusFragment;
@@ -26,8 +24,7 @@ import com.roller.medicine.fragment.MyLikeFragment;
 import com.roller.medicine.info.MyHomeInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
-import com.roller.medicine.utils.Util;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -72,8 +69,7 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 
 	protected void initView(){
 		super.initView();
-		userId=getIntent().getStringExtra(Constants.ITEM);
-
+		userId=getIntent().getStringExtra(AppConstants.ITEM);
 
 		setBackActivity("我的主页");
 		dataModel=new DataModel();
@@ -100,7 +96,7 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 		tabLayout.addTab(tabLayout.newTab().setCustomView(view3));
 
 		Bundle bundle=new Bundle();
-		bundle.putString(Constants.ITEM, userId);
+		bundle.putString(AppConstants.ITEM, userId);
 		fragments.add(MyCommentsFragment.newInstantiate(bundle));
 		fragments.add(MyLikeFragment.newInstantiate( bundle));
 		fragments.add(MyFocusFragment.newInstantiate( bundle));
@@ -114,8 +110,10 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 			tv_name.setText(userInfo.nickname);
 			if (CommonUtil.notEmpty(userInfo.intro))
 				tv_jianjie.setText(userInfo.intro);
-			Util.loadPhoto(getContext(),DataModel.getImageUrl(userInfo.headImage),iv_photo);
+			//Util.loadPhoto(getContext(),DataModel.getImageUrl(userInfo.headImage),iv_photo);
 		}
+		/*Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).
+				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);*/
 
 	}
 
@@ -130,10 +128,11 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 		dataModel.requestUserHome(userId, new SimpleResponseListener<MyHomeInfo>() {
 			@Override
 			public void requestSuccess(MyHomeInfo info, Response response) {
-
 				tv_name.setText(info.nickname);
 				tv_jianjie.setText(info.intro);
-				Util.loadPhoto(getContext(), DataModel.getImageUrl(info.headImage), iv_photo);
+				Picasso.with(getContext()).load(DataModel.getImageUrl(info.headImage)).
+						transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+				//Util.loadPhoto(getContext(), DataModel.getImageUrl(info.headImage), iv_photo);
 				tv_comment.setText(CommonUtil.initTextValue(info.replyCount));
 				tv_love.setText(CommonUtil.initTextValue(info.praiseCount));
 				tv_fans.setText(CommonUtil.initTextValue(info.fansCount));

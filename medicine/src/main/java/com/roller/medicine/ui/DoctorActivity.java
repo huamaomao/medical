@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.widget.EmptyView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -15,7 +14,7 @@ import com.roller.medicine.adapter.FriendListAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class DoctorActivity extends BaseToolbarActivity {
 		super.initView();
 		setBackActivity("医生");
 		service=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -54,11 +53,11 @@ public class DoctorActivity extends BaseToolbarActivity {
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
 		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
-		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DOCTOR));
+		adapater.addItemAll(service.queryFriendList(AppConstants.USER_TYPE_DOCTOR));
 	}
 
 	public void doFriendList(){
-		service.requestDoctorList(Constants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
+		service.requestDoctorList(AppConstants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
 				adapater.addItemAll(info.list);

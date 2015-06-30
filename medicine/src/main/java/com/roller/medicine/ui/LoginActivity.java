@@ -59,7 +59,6 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 				}
 			}
 		});
-
 		service=new DataModel();
 		loadingFragment.setLoginMessage();
 		TokenInfo tokenInfo=service.getToken();
@@ -82,6 +81,12 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 	void onRetrievePassword(){
 		ViewUtil.openActivity(RegisterPasswordActivity.class,this);
 	}
+
+	@OnClick(R.id.tv_weixin)
+	void onWeixin(){
+		ViewUtil.openActivity(DemoActivity.class,this);
+	}
+
 
 	@OnClick(R.id.btn_login)
 	void onLogin(){

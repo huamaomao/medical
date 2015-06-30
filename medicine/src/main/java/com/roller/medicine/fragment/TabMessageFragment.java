@@ -1,6 +1,5 @@
 package com.roller.medicine.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
-import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
@@ -38,7 +35,7 @@ import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.viewmodel.DataModel;
 import com.roller.medicine.viewmodel.GotyeService;
@@ -78,7 +75,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
     protected void initView(View view, LayoutInflater inflater) {
         super.initView(view, inflater);
         lsData=new LinkedList<>();
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -91,7 +88,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
             @Override
             public void onClick(View v, UserInfo userInfo, int position) {
                 Bundle bundle=new Bundle();
-                bundle.putParcelable(Constants.ITEM,userInfo);
+                bundle.putParcelable(AppConstants.ITEM,userInfo);
                 ViewUtil.openActivity(MessageActivity.class, bundle,getActivity(), ActivityModel.ACTIVITY_MODEL_1);
 
             }
@@ -114,7 +111,7 @@ public class TabMessageFragment extends BaseToolbarFragment {
                 }
                 //是否是医生
                 viewHolder.setImageResource(R.id.iv_type, 0);
-                if (Constants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || Constants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
+                if (AppConstants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || AppConstants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
                     viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
                 }
                 TextView textView = viewHolder.getView(R.id.tv_item_2);
@@ -169,13 +166,14 @@ public class TabMessageFragment extends BaseToolbarFragment {
      * 处理消息
      */
     public void doMessage(){
+         int id=medicineDataService.getLoginUser().id;
         List<GotyeChatTarget> ls =gotyeService.getFriendSession();
         if (CommonUtil.notNull(ls)){
             List<UserInfo> userList=new ArrayList<>();
             UserInfo user=null;
             for (GotyeChatTarget target:ls){
                 user=getUser(target.getName());
-                if (CommonUtil.notNull(user)){
+                if (CommonUtil.notNull(user)&&user.id!=id){
                     userList.add(user);
                 }
             }

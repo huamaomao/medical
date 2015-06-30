@@ -123,6 +123,7 @@
         <activity  android:name=".ui.SettingActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.DoctorDetialActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait"/>
+        <activity  android:name=".ui.DemoActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.NoticeActivity" android:screenOrientation="portrait"/>
         <activity  android:name=".ui.CreateBloodActivity" android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>

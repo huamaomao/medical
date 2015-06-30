@@ -15,7 +15,7 @@ import com.roller.medicine.adapter.FriendListAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class PatientActivity extends BaseToolbarActivity {
 		super.initView();
 		setBackActivity("患者");
 		service=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -54,7 +54,7 @@ public class PatientActivity extends BaseToolbarActivity {
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_PATIENT);
 		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
-		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_PATIENT));
+		adapater.addItemAll(service.queryFriendList(AppConstants.USER_TYPE_PATIENT));
 	}
 	public void doFriendList(){
 		service.requestPatientList(new SimpleResponseListener<FriendResponseInfo>() {

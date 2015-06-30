@@ -15,7 +15,7 @@ import com.roller.medicine.adapter.FriendListAdapater;
 import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class DietitianActivity extends BaseToolbarActivity {
 		super.initView();
 		setBackActivity("营养师");
 		service=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -53,11 +53,11 @@ public class DietitianActivity extends BaseToolbarActivity {
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
 		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
-		adapater.addItemAll(service.queryFriendList(Constants.USER_TYPE_DIETITAN));
+		adapater.addItemAll(service.queryFriendList(AppConstants.USER_TYPE_DIETITAN));
 	}
 
 	public void doFriendList(){
-		service.requestDoctorList(Constants.USER_TYPE_DIETITAN, new SimpleResponseListener<FriendResponseInfo>() {
+		service.requestDoctorList(AppConstants.USER_TYPE_DIETITAN, new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
 				adapater.addItemAll(info.list);

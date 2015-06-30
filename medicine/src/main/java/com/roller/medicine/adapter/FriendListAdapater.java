@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ import com.roller.medicine.base.BaseToolbarActivity;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.ui.MyHomeActivity;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -55,13 +54,13 @@ public class FriendListAdapater extends RecyclerAdapter<UserInfo> {
                     @Override
                     public void onClick(View v) {
                         if (CommonUtil.notNull(user)) {
-                            if (Constants.USER_TYPE_DOCTOR.equals(user.typeId)||Constants.USER_TYPE_DIETITAN.equals(user.typeId)){
+                            if (AppConstants.USER_TYPE_DOCTOR.equals(user.typeId)|| AppConstants.USER_TYPE_DIETITAN.equals(user.typeId)){
                                 Bundle bundle = new Bundle();
-                                bundle.putParcelable(Constants.ITEM, user);
+                                bundle.putParcelable(AppConstants.ITEM, user);
                                 ViewUtil.openActivity(DoctorDetialActivity.class, bundle,(BaseToolbarActivity)mContext, ActivityModel.ACTIVITY_MODEL_1);
                             }else {
                                 Bundle bundle = new Bundle();
-                                bundle.putString(Constants.ITEM, user.id+"");
+                                bundle.putString(AppConstants.ITEM, user.id+"");
                                 ViewUtil.openActivity(MyHomeActivity.class,bundle,(Activity)mContext);
                             }
                         }

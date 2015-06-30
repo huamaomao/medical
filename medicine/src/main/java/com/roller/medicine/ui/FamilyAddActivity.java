@@ -25,7 +25,7 @@ import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +50,7 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 	@InjectView(R.id.tv_date)
 	TextView tv_date;
 	private DataModel dataModel;
-	private String sex=Constants.SEX_BOY;
+	private String sex= AppConstants.SEX_BOY;
 	private SlideDateTimePicker timePicker;
 	private UserInfo user;
 

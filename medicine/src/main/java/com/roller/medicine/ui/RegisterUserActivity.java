@@ -17,7 +17,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
@@ -54,8 +54,8 @@ public class RegisterUserActivity extends BaseLoadingToolbarActivity{
 		setBackActivity("基本信息");
 		service=new DataModel();
 		Intent intent=getIntent();
-		tel=getIntent().getStringExtra(Constants.DATA_TEL);
-		code=getIntent().getStringExtra(Constants.DATA_CODE);
+		tel=getIntent().getStringExtra(AppConstants.DATA_TEL);
+		code=getIntent().getStringExtra(AppConstants.DATA_CODE);
 
 	}
 

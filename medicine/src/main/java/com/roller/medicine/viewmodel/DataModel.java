@@ -38,7 +38,7 @@ import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.info.UserResponseInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.MD5;
 
 import java.io.File;
@@ -63,7 +63,7 @@ public class DataModel extends ViewModel{
 
 
 
-    public static String getImageUrl(String path){
+    public synchronized static String getImageUrl(String path){
         if (CommonUtil.isEmpty(path)) return null;
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append(path);
@@ -256,7 +256,7 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("nickname", nickName));
         param.add(new NameValuePair("inviteCode", inviteCode));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
-        param.add(new NameValuePair("typeId", com.roller.medicine.utils.Constants.USER_TYPE_PATIENT + ""));
+        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_PATIENT + ""));
         param.add(new NameValuePair("verifycode", code));
         Request request=new Request(requestUrl(UrlApi.SAVE_USER_INFO)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
@@ -290,7 +290,7 @@ public class DataModel extends ViewModel{
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
-        param.add(new NameValuePair("typeId", Constants.USER_TYPE_PATIENT + ""));
+        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_PATIENT + ""));
         Request request=new Request(requestUrl(UrlApi.LOGIN)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -303,7 +303,7 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("verifycode", verifycode));
         param.add(new NameValuePair("password", MD5.compute(pwd)));
-        param.add(new NameValuePair("typeId", com.roller.medicine.utils.Constants.USER_TYPE_PATIENT + ""));
+        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_PATIENT + ""));
         Request request=new Request(requestUrl(UrlApi.PASSWORD)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }

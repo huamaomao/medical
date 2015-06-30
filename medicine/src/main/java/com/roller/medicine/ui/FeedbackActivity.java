@@ -14,7 +14,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
@@ -71,7 +71,7 @@ public class FeedbackActivity extends BaseLoadingToolbarActivity{
         loadingFragment.setMessage("正在提交数据");
         setBackActivity("意见反馈");
         userModel=new DataModel();
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.notNull(user)){
             et_content.setText(user.noteName);
         }

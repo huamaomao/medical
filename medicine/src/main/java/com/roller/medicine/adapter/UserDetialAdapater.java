@@ -1,25 +1,18 @@
 package com.roller.medicine.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
-import com.android.common.util.ViewUtil;
 import com.roller.medicine.R;
 import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.ui.UpdateUserActivity;
 import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
-import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 
@@ -70,7 +63,7 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             UserViewHolder viewHolder=(UserViewHolder)holder;
             Log.d("url head:" + DataModel.getImageUrl(user.headImage));
-            Picasso.with(mContext).load(DataModel.getImageUrl("http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg")).
+            Picasso.with(mContext).load(DataModel.getImageUrl(user.headImage)).
                     transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(viewHolder.iv_photo);
 
            // Util.loadPhoto(mContext, "http://rolle.cn:8080/rolle/upload/20150629/20150629164322033.jpg",viewHolder.iv_photo);

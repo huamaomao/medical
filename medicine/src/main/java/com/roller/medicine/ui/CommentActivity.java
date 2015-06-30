@@ -12,10 +12,9 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.ReplyInfo;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -42,9 +41,9 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 	}
 	protected void initView(){
 		Intent intent =getIntent();
-		userId=getIntent().getExtras().getString(Constants.ITEM, "0");
-		type=getIntent().getExtras().getInt(Constants.TYPE, 0);
-		id=getIntent().getExtras().getString(Constants.DATA_CODE);
+		userId=getIntent().getExtras().getString(AppConstants.ITEM, "0");
+		type=getIntent().getExtras().getInt(AppConstants.TYPE, 0);
+		id=getIntent().getExtras().getString(AppConstants.DATA_CODE);
 		super.initView();
 		llLogin.setOnSizeChangedListenner(new InputMethodLinearLayout.OnSizeChangedListenner() {
 			@Override
@@ -75,8 +74,8 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 					UserInfo userInfo=service.getLoginUser();
 					replyInfo.nickname=userInfo.nickname;
 					replyInfo.headImage=userInfo.headImage;
-					intent.putExtra(Constants.ITEM, replyInfo);
-					setResult(Constants.CODE,intent);
+					intent.putExtra(AppConstants.ITEM, replyInfo);
+					setResult(AppConstants.CODE,intent);
 					finish();
 				}
 
@@ -94,7 +93,7 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 				@Override
 				public void requestSuccess(ResponseMessage info, Response response) {
 					showLongMsg("评论成功");
-					setResult(Constants.CODE);
+					setResult(AppConstants.CODE);
 					finish();
 				}
 

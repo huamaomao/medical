@@ -17,7 +17,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.FamilytInfo;
 import com.roller.medicine.info.HomeInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class FamilyRemoveActivity extends BaseLoadingToolbarActivity{
 		dataModel=new DataModel();
 		mData=new ArrayList<>();
 		adapter=new RecyclerAdapter(getContext(),mData,rv_view);
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {

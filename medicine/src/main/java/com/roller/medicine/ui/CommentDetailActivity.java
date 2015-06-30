@@ -1,6 +1,5 @@
 package com.roller.medicine.ui;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,7 +19,6 @@ import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -33,7 +30,7 @@ import com.roller.medicine.info.CommentDetailInfo;
 import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.ReplyInfo;
 import com.roller.medicine.info.TokenInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
@@ -80,14 +77,14 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	}
 
 	protected void initView() {
-		id=getIntent().getExtras().getString(Constants.ITEM);
-		boardId=getIntent().getExtras().getString(Constants.DATA_BOARD_ID);
+		id=getIntent().getExtras().getString(AppConstants.ITEM);
+		boardId=getIntent().getExtras().getString(AppConstants.DATA_BOARD_ID);
 
 		setBackActivity("详情");
 		dataModel=new DataModel();
 		mData=new ArrayList();
 		tokenInfo=dataModel.getToken();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -163,7 +160,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					tv_praise.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							savePraise(contentInfo.id, null, contentInfo.isPraise, Constants.PRAISE_COMMENT);
+							savePraise(contentInfo.id, null, contentInfo.isPraise, AppConstants.PRAISE_COMMENT);
 						}
 					});
 					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +184,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 								public void onClick(View v) {
 									setLastClickTime();
 									Bundle bundle = new Bundle();
-									bundle.putString(Constants.ITEM, item.id);
+									bundle.putString(AppConstants.ITEM, item.id);
 									ViewUtil.openActivity(CommentDetailActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_2);
 								}
 							});
@@ -229,10 +226,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 					}
 
-
-
-
-
 				} else {
 					Util.loadPhoto(getContext(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 					viewHolder.setText(R.id.tv_name, item.nickname);
@@ -251,7 +244,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 						tv_praise.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								savePraise(item.id,item.replyId,item.praise,Constants.PRAISE_REEPLY);
+								savePraise(item.id,item.replyId,item.praise, AppConstants.PRAISE_REEPLY);
 							}
 						});
 					}
@@ -330,11 +323,11 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		setLastClickTime();
 		Intent intent=new Intent(getContext(),CommentActivity.class);
 		Bundle bundle=new Bundle();
-		bundle.putString(Constants.ITEM, contentInfo.id);
-		bundle.putInt(Constants.TYPE, Constants.TYPE_COMMENT);
-		bundle.putString(Constants.DATA_CODE, contentInfo.createUserId);
+		bundle.putString(AppConstants.ITEM, contentInfo.id);
+		bundle.putInt(AppConstants.TYPE, AppConstants.TYPE_COMMENT);
+		bundle.putString(AppConstants.DATA_CODE, contentInfo.createUserId);
 		intent.putExtras(bundle);
-		startActivityForResult(intent, Constants.CODE);
+		startActivityForResult(intent, AppConstants.CODE);
 	}
 	@OnClick(R.id.iv_praise)
 	void onPraise(){
@@ -342,7 +335,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			showMsg("暂无数据，无法操作");
 			return;
 		}
-		savePraise(contentInfo.id,null,contentInfo.isPraise,Constants.PRAISE_COMMENT);
+		savePraise(contentInfo.id,null,contentInfo.isPraise, AppConstants.PRAISE_COMMENT);
 	}
 
 	 void savePraise(final String id,final String replyId,boolean isPraise,String type){

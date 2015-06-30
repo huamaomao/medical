@@ -18,8 +18,7 @@ import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.NotifyListener;
 import com.roller.medicine.info.TokenInfo;
-import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -37,7 +36,7 @@ public class MedicineGotyeService extends Service implements NotifyListener,Logi
 	public void onCreate() {
 		super.onCreate();
 		api = GotyeAPI.getInstance();
-		api.init(getBaseContext(), Constants.QINJIA_KEY);
+		api.init(getBaseContext(), AppConstants.QINJIA_KEY);
 		api.beginReceiveOfflineMessage();
 		api.addListener(this);
         userModel=new DataModel();
@@ -46,8 +45,8 @@ public class MedicineGotyeService extends Service implements NotifyListener,Logi
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
         TokenInfo token=userModel.getToken();
-		Log.e(TAG, "开始登陆了......" + token);
-        if (CommonUtil.notNull(token)){
+		//Log.e(TAG, "开始登陆了......" + token+api.isOnLine()==GotyeUser.LOGIN_STATE_ONLINE);
+        if (CommonUtil.notNull(token)&&api.isOnLine()==GotyeUser.LOGIN_STATE_ONLINE){
             int code = api.login(token.id+"");
 			Log.e(TAG, "开始登陆了......" + code + "==getLoginUser==" + api.getLoginUser().getName());
             if (code == GotyeStatusCode.CodeSystemBusy) {

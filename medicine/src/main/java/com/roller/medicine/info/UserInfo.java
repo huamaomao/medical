@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.android.common.domain.ResponseMessage;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 
 /**
  * 用户
@@ -41,7 +41,7 @@ public class UserInfo extends ResponseMessage implements Parcelable {
     /***所在医院**/
     public String hospitalName;
     public String tel;
-    public String sex=Constants.SEX_BOY;
+    public String sex= AppConstants.SEX_BOY;
     public String age;
     public String address;
     public String userName;

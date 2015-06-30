@@ -21,7 +21,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.CommentInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
@@ -65,14 +65,14 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		mData=new ArrayList<>();
 		dataModel=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				requestData();
 			}
 		});
-		userId=getArguments().getString(Constants.ITEM);
+		userId=getArguments().getString(AppConstants.ITEM);
 		adapter=new RecyclerAdapter<>(getActivity(),mData,rv_view);
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
 			@Override

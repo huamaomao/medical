@@ -5,7 +5,7 @@ import android.os.Environment;
 
 import com.baoyz.widget.PullRefreshLayout;
 
-public abstract class Constants {
+public abstract class AppConstants {
 
     public static final String ROOT;
     public static final String PATH;
@@ -61,6 +61,8 @@ public abstract class Constants {
     public static final String  PRAISE_USER="73";
     public static final String  PRAISE_COMMENT="74";
     public static final String  PRAISE_REEPLY="78";
+
+    public static final String APPID_WEIXIN="wxfe217123b08e4316";
 
     static {
         ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();

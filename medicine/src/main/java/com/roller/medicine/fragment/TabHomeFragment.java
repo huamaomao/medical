@@ -16,11 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
-import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.LiteUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -30,12 +26,11 @@ import com.roller.medicine.adapter.TabHomeAdapater;
 import com.roller.medicine.adapter.ViewPagerAdapter;
 import com.roller.medicine.adapter.YearSpinnerAdpater;
 import com.roller.medicine.base.BaseToolbarFragment;
-import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.ui.CreateBloodActivity;
 import com.roller.medicine.ui.HomeActivity;
 import com.roller.medicine.ui.HomeBloodActivity;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import java.util.ArrayList;
@@ -116,7 +111,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		model=new DataModel();
 		data=new ArrayList<>();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -277,12 +272,12 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	public void openCreateBlood(int index){
 		Bundle bundle=new Bundle();
 		if (CommonUtil.notNull(recyclerAdapter.getHomeInfo())){
-			bundle.putParcelableArrayList(Constants.ITEM,recyclerAdapter.getHomeInfo().familyList);
+			bundle.putParcelableArrayList(AppConstants.ITEM,recyclerAdapter.getHomeInfo().familyList);
 		}
-		bundle.putInt(Constants.TYPE, index);
+		bundle.putInt(AppConstants.TYPE, index);
 		HomeActivity activity =(HomeActivity)getActivity();
 		if (CommonUtil.notNull(activity)){
-			bundle.putString(Constants.DATA_DATE, activity.getTitleDate());
+			bundle.putString(AppConstants.DATA_DATE, activity.getTitleDate());
 		}
 		Intent intent=new Intent(getActivity(),CreateBloodActivity.class);
 		intent.putExtras(bundle);
@@ -309,7 +304,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 				Bundle bundle=new Bundle();
 				if (families.size()>0){
 					HomeInfo.Family family=families.get(sp_start.getSelectedItemPosition());
-					bundle.putParcelable(Constants.ITEM,family);
+					bundle.putParcelable(AppConstants.ITEM,family);
 				}
 				ViewUtil.openActivity(HomeBloodActivity.class,bundle,getActivity());
 				return true;

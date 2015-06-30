@@ -6,11 +6,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 import com.android.common.util.CommonUtil;
 import com.roller.medicine.R;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
@@ -41,7 +40,7 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 
 
 	protected  void initView(){
-		if (Constants.ACTIVITY_ACTION.equals(getIntent().getAction())){
+		if (AppConstants.ACTIVITY_ACTION.equals(getIntent().getAction())){
 			finish();
 			android.os.Process.killProcess(android.os.Process.myPid()); //获取PID
 			System.exit(0);   //常规java、c#的标准退出法，返回值为0代表正常退出

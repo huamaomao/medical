@@ -19,7 +19,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.FocusInfo;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 
@@ -56,26 +56,26 @@ public class MyFocusFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		mData=new ArrayList<>();
 		dataModel=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				requestData();
 			}
 		});
-		userId=getArguments().getString(Constants.ITEM);
+		userId=getArguments().getString(AppConstants.ITEM);
 		adapter=new RecyclerAdapter<>(getActivity(),mData,rv_view);
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<FocusInfo.Item>() {
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, FocusInfo.Item item, int position) {
 				viewHolder.setText(R.id.tv_name, item.nickname);
 				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
-				if (Constants.USER_TYPE_DIETITAN.equals(item.typeId)||Constants.USER_TYPE_DOCTOR==item.typeId){
+				if (AppConstants.USER_TYPE_DIETITAN.equals(item.typeId)|| AppConstants.USER_TYPE_DOCTOR==item.typeId){
 					viewHolder.getView(R.id.iv_pic).setVisibility(View.VISIBLE);
 				}else {
 					viewHolder.getView(R.id.iv_pic).setVisibility(View.GONE);
 				}
-				if (Constants.USER_ADD.equals(item.statusId)){
+				if (AppConstants.USER_ADD.equals(item.statusId)){
 					viewHolder.setText(R.id.iv_more,"已关注");
 				}else{
 					viewHolder.setText(R.id.iv_more, "+ 关注");

@@ -24,7 +24,7 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.info.LoveInfo;
 import com.roller.medicine.ui.CommentDetailActivity;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
@@ -67,14 +67,14 @@ public class MyLikeFragment extends BaseToolbarFragment {
 		super.initView(view, inflater);
 		mData=new ArrayList();
 		dataModel=new DataModel();
-		refresh.setRefreshStyle(Constants.PULL_STYLE);
+		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
 				requestData();
 			}
 		});
-		userId=getArguments().getString(Constants.ITEM);
+		userId=getArguments().getString(AppConstants.ITEM);
 		adapter=new RecyclerAdapter(getActivity(),mData,rv_view){
 			@Override
 			public int getItemType(int position) {
@@ -114,7 +114,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 						public void onClick(View v) {
 							setLastClickTime();
 							Bundle bundle = new Bundle();
-							bundle.putString(Constants.ITEM, item.post.id);
+							bundle.putString(AppConstants.ITEM, item.post.id);
 							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 						}
 					});
@@ -125,7 +125,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 							//评论
 							setLastClickTime();
 							Bundle bundle = new Bundle();
-							bundle.putString(Constants.ITEM, item.id);
+							bundle.putString(AppConstants.ITEM, item.id);
 							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 						}
 					});

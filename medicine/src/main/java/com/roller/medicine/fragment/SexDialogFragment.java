@@ -1,15 +1,12 @@
 package com.roller.medicine.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckedTextView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -18,14 +15,11 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.info.UserInfo;
-import com.roller.medicine.utils.CircleTransform;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
-import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -77,7 +71,7 @@ public class SexDialogFragment extends DialogFragment {
     }
 
     private void checkSex(){
-        if (Constants.SEX_GIRL.equals(userInfo.sex)){
+        if (AppConstants.SEX_GIRL.equals(userInfo.sex)){
             tv_boy.setChecked(false);
             tv_girl.setChecked(true);
         }else {

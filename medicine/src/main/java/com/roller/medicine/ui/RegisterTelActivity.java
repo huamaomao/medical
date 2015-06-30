@@ -14,12 +14,11 @@ import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.litesuits.android.log.Log;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
-import com.roller.medicine.utils.Constants;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
@@ -73,8 +72,8 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
 				Bundle bundle=new Bundle();
-				bundle.putString(Constants.DATA_TEL,et_tel.getText().toString());
-				bundle.putString(Constants.DATA_CODE, et_code.getText().toString());
+				bundle.putString(AppConstants.DATA_TEL,et_tel.getText().toString());
+				bundle.putString(AppConstants.DATA_CODE, et_code.getText().toString());
 				ViewUtil.openActivity(RegisterUserActivity.class, bundle, RegisterTelActivity.this, ActivityModel.ACTIVITY_MODEL_1);
 			}
 
@@ -101,7 +100,7 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 	/****
 	 * 计时器
 	 */
-	private CountDownTimer downTimer=new CountDownTimer(Constants.SMS_SEBD_TIME,1000) {
+	private CountDownTimer downTimer=new CountDownTimer(AppConstants.SMS_SEBD_TIME,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			btn_send.setEnabled(false);
