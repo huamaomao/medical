@@ -41,6 +41,7 @@ public class HomeBloodActivity extends BaseToolbarActivity {
 		data.add(new BloodInfo.Item());
 		adapater=new PatientHListAdapater(this,data,refresh);
 		adapater.family=getIntent().getParcelableExtra(AppConstants.ITEM);
+		recyclerView.setBackgroundResource(R.color.color_f2);
 		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
 	}
 

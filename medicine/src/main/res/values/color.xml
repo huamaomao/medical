@@ -69,4 +69,7 @@
     <color name="color_into">#f9fafb</color>
     <color name="color_63">#636363</color>
     <color name="color_3c">#3c3c3c</color>
+    <color name="color_f2">#f2f2f2</color>
+
+    <color name="refresh_bg">#f2f2f2</color>
 </resources>

@@ -19,7 +19,10 @@ import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.service.MedicineGotyeService;
+import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -36,7 +39,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.et_pwd)
 	EditText et_pwd;
 	private DataModel service;
-
+	private IWXAPI iwxipi;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,9 +85,13 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 		ViewUtil.openActivity(RegisterPasswordActivity.class,this);
 	}
 
-	@OnClick(R.id.tv_weixin)
+	@OnClick(R.id.ll_item_1)
 	void onWeixin(){
-		ViewUtil.openActivity(DemoActivity.class,this);
+		if(CommonUtil.isNull(iwxipi)){
+			iwxipi= WXAPIFactory.createWXAPI(getContext(), AppConstants.APPID_WEIXIN,true);
+			iwxipi.registerApp(AppConstants.APPID_WEIXIN);
+		}
+		//ViewUtil.openActivity(DemoActivity.class,this);
 	}
 
 

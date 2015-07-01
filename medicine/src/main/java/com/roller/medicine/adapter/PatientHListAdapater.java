@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.common.adapter.QuickAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -48,12 +47,11 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
     private DataModel model;
     private UserInfo user;
     private String selectionItem;
-    private QuickAdapter<BloodInfo.Item> quickAdapter;
     private BloodInfo bloodResponse;
     private  List<String> list;
     private PullRefreshLayout refresh;
     public HomeInfo.Family family;
-
+    int index=-1;
 
     public PatientHListAdapater(Context mContext, List<BloodInfo.Item> data,PullRefreshLayout refresh) {
         this.refresh=refresh;
@@ -98,12 +96,16 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
             }
             YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_text,startData.toArray());
             holder.spStart.setAdapter(adpater);
+          if (index!=-1)
+              holder.spStart.setSelection(index);
             holder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     selectionItem = holder.spStart.getSelectedItem().toString();
                     //initBloodList(selectionItem);
+                    if (index==holder.spStart.getSelectedItemPosition())return;
                     requestData(selectionItem);
+                    index=holder.spStart.getSelectedItemPosition();
                 }
 
                 @Override
@@ -140,8 +142,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
             model.requestBloodList(date, new SimpleResponseListener<BloodInfo>() {
                 @Override
                 public void requestSuccess(BloodInfo info, Response response) {
-                    bloodResponse=info;
-                    notifyItemChanged(1);
+                    bloodResponse = info;
                     changeBloodListData(info.list);
                 }
 
@@ -149,6 +150,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
                 public void requestError(HttpException e, ResponseMessage info) {
 
                 }
+
                 @Override
                 public void requestView() {
                     refresh.setRefreshing(false);
@@ -161,57 +163,22 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
     private void changeBloodListData(List<BloodInfo.Item> list){
         if (CommonUtil.notNull(list)){
+           int length= data.size();
+            if (length>=2){
+                data.clear();
+                data.add(new BloodInfo.Item());
+                data.add(new BloodInfo.Item());
+            }
             for (BloodInfo.Item item1:list){
                 int m = TimeUtil.getMonthOfDay(item1.createTime);
                 item1.day=m+"";
-                data.set(m+2,item1);
-                notifyItemChanged(m+2);
+                data.add(item1);
+
             }
+            notifyDataSetChanged();
+
         }
     }
-
-  /*  private void initBloodList(String date){
-        if (CommonUtil.notEmpty(date)){
-           try {
-                    String[] str=date.split("-");
-                   int year=Integer.parseInt(str[0]);
-                   int month=Integer.parseInt(str[1]);
-                   int daySum=0;
-                   switch (month){
-                           case 2:
-                               if (year%4==0) {
-                                    daySum=29;
-                               }else {
-                                   daySum=28;
-                               }
-                               break;
-                           case 1:
-                           case 3:
-                           case 5:
-                           case 7:
-                           case 8:
-                           case 10:
-                           case 12:
-                               daySum=31;
-                               break;
-                            default:
-                                   daySum=30;
-                                   break;
-                       }
-               BloodInfo.Item item=null;
-               data.clear();
-               data.add(new BloodInfo.Item());
-               data.add(new BloodInfo.Item());
-                    for (int i=1;i<=daySum;i++){
-                        item=new BloodInfo.Item();
-                        item.day=i+"";
-                        data.add(i + 1, item);
-                    }
-
-           }catch (Exception e){e.printStackTrace();}
-        }
-    }*/
-
 
     private void initPieChart(PieChart pieChart) {
 
@@ -221,13 +188,14 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColorTransparent(true);
         pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setHoleRadius(58f);
+        pieChart.setUsePercentValues(true);
         pieChart.setTransparentCircleRadius(61f);
-        pieChart.setDrawCenterText(true);
-
-        pieChart.setRotationAngle(0);
+        //实心圆
+        pieChart.setHoleRadius(0);
+        // 初始角度
+        pieChart.setRotationAngle(90);
         // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(true);
+        pieChart.setRotationEnabled(false);
 
         //pieChart.setOnChartValueSelectedListener(this);
 

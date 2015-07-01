@@ -5,6 +5,7 @@
     <include layout="@layout/toolbar" />
     <com.baoyz.widget.PullRefreshLayout
         android:id="@id/refresh"
+        android:background="@color/refresh_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include

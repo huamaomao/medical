@@ -105,18 +105,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
+    <LinearLayout
+        android:id="@id/ll_item_1"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:background="@drawable/s_btn"
+            android:src="@drawable/ic_weixin"
+            android:padding="@dimen/iten_margin_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
-            android:drawableTop="@drawable/s_btn"
-            android:id="@id/tv_weixin"
             style="@style/DefaultText"
-            android:padding="10px"
-            android:drawablePadding="10dp"
-            android:layout_marginTop="25dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:textColor="@color/hintText"
             android:text="微信"
-            android:background="@drawable/s_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </com.android.common.widget.InputMethodLinearLayout>

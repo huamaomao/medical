@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_column="3"
-    android:background="#f2f2f2"
+    android:background="@color/write"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -23,7 +23,8 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@id/pieChart"
         android:layout_width="match_parent"
-        android:minHeight="160dp"
+        android:minHeight="100dp"
+        android:padding="@dimen/iten_margin_top"
         android:layout_height="wrap_content" />
      <View
          android:layout_width="match_parent"

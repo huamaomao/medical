@@ -41,6 +41,7 @@ android {
     packagingOptions {
         // exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
     buildTypes {
         release {
@@ -105,5 +106,6 @@ dependencies {
     compile project(':libraries:CommonLibrary')
     compile project(':libraries:GotyeLibrary')
     compile project(':libraries:slideDateTimePicker')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
