@@ -248,7 +248,7 @@ public class TabHomeAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolde
             lineChart.setDragEnabled(false);
             lineChart.setScaleEnabled(false);
             lineChart.setPinchZoom(false);
-            lineChart.setHighlightIndicatorEnabled(false);
+           // lineChart.setHighlightIndicatorEnabled(false);
 
         }
     }

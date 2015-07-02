@@ -23,7 +23,7 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@id/pieChart"
         android:layout_width="match_parent"
-        android:minHeight="100dp"
+        android:minHeight="130dp"
         android:padding="@dimen/iten_margin_top"
         android:layout_height="wrap_content" />
      <View

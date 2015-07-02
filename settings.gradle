@@ -1,8 +1,8 @@
-include ':doctor'
+include ':doctor', ':MPChartLib'
 include ':medicine'
 include ':libraries:LiteLibrary'
 include ':libraries:CommonLibrary'
 include ':libraries:GotyeLibrary'
 include ':libraries:pagerslidingtabstrip'
 include ':libraries:slideDateTimePicker'
-
+include ':libraries:MPChartLib'

@@ -95,7 +95,7 @@ public class TabMyFragment extends BaseToolbarFragment{
 			protected void convert(ViewHolderHelp viewHolderHelp, HomeInfo.Family food) {
 				viewHolderHelp.setText(R.id.tv_item_0,food.appellation);
 				Picasso.with(getActivity()).load(DataModel.getImageUrl(food.headImage)).
-						transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+						transform(new CircleTransform()).placeholder(R.drawable.icon_default).into((ImageView)viewHolderHelp.getView(R.id.iv_photo));
 
 			}
 		};

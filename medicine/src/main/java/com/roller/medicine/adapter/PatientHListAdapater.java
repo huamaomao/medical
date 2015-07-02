@@ -184,29 +184,34 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
         pieChart.setUsePercentValues(true);
         pieChart.setDescription("");
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
+        pieChart.setDragDecelerationFrictionCoef(0);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColorTransparent(true);
         pieChart.setTransparentCircleColor(Color.WHITE);
         pieChart.setUsePercentValues(true);
-        pieChart.setTransparentCircleRadius(61f);
+        //透明圈
+        pieChart.setTransparentCircleRadius(0);
+        pieChart.setDrawCenterText(false);
         //实心圆
         pieChart.setHoleRadius(0);
+        pieChart.setDrawSliceText(false);
         // 初始角度
         pieChart.setRotationAngle(90);
         // enable rotation of the chart by touch
         pieChart.setRotationEnabled(false);
 
         //pieChart.setOnChartValueSelectedListener(this);
+        pieChart.setCenterText("");
 
-        pieChart.setCenterText("血糖");
         pieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.normalSum), 0));
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.highSum), 1));
         yVals1.add(new Entry(CommonUtil.parseInt(bloodResponse.lowSum), 2));
+
         ArrayList<String> xVals = new ArrayList<String>();
         StringBuilder builder=new StringBuilder();
         builder.append("正常").append(" ").append(CommonUtil.parseInt(bloodResponse.normalSum)).append("次");
@@ -217,13 +222,13 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         builder=new StringBuilder();
         builder.append("偏低").append(" ").append(CommonUtil.parseInt(bloodResponse.lowSum)).append("次");
         xVals.add(builder.toString());
-        PieDataSet dataSet = new PieDataSet(yVals1, "血糖");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
+        PieDataSet dataSet = new PieDataSet(yVals1, "");
+        dataSet.setSliceSpace(0);
+        dataSet.setSelectionShift(0);
         // add a lot of colors
         ArrayList<Integer> colors = new ArrayList();
-       // colors.add(ColorTemplate.getHoloBlue());
-        colors.add( Color.parseColor("#c1fa15"));
+        // colors.add(ColorTemplate.getHoloBlue());
+        colors.add(Color.parseColor("#c1fa15"));
         colors.add(Color.parseColor("#fe5f00"));
         colors.add(Color.parseColor("#8ac5f7"));
         dataSet.setColors(colors);
@@ -239,9 +244,11 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         pieChart.invalidate();
         pieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
         Legend l = pieChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        l.setXEntrySpace(7f);
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+        l.setXEntrySpace(3f);
         l.setYEntrySpace(5f);
+        l.setFormSize(20f);
+        //l.setStackSpace();
     }
 
 

@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.widget.EmptyView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -17,7 +16,6 @@ import com.roller.medicine.info.FriendResponseInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
-
 import java.util.ArrayList;
 import java.util.List;
 

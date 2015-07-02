@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.widget.EmptyView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;

@@ -13,6 +13,7 @@ import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -40,7 +41,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 	RecyclerView rv_view;
 
 	private List<KnowledgeQuizItemInfo.Item> mDatas = new ArrayList<>();
-	private int pageNum = 1;
+
 	private RecyclerAdapter<KnowledgeQuizItemInfo.Item> adapter;
 	private DataModel model;
 	private RecyclerOnScrollListener scrollListener;
@@ -61,8 +62,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				pageNum = 1;
-				loadData();
+				loadData(1);
 				scrollListener.setPageInit();
 			}
 		});
@@ -107,39 +107,37 @@ public class TabCommentFragment extends BaseToolbarFragment{
 		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
 			@Override
 			public void onLoadMore(int current_page) {
-				pageNum=current_page;
-				loadData();
+				loadData(current_page);
 			}
 		};
 		rv_view.addOnScrollListener(scrollListener);
 		refresh.setRefreshing(true);
-		loadData();
+		loadData(1);
 
 	}
 
 
-	public void  loadData(){
-		model.getPostListByMap(scrollListener.getCurrentPage(), new SimpleResponseListener<KnowledgeQuizItemInfo>() {
+	public void  loadData(final  int page){
+		model.getPostListByMap(page, new SimpleResponseListener<KnowledgeQuizItemInfo>() {
 			@Override
 			public void requestSuccess(KnowledgeQuizItemInfo info, Response response) {
-				if (scrollListener.getCurrentPage()==1){
+				if (page==1){
 					adapter.addItemAll(info.list);
 				}else {
 					adapter.addMoreItem(info.list);
-					scrollListener.setPage(info.pageNum);
+					scrollListener.nextPage(info.list);
 				}
 			}
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-
+				scrollListener.setLoadMore();
 			}
 
 			@Override
 			public void requestView() {
 				adapter.checkEmpty();
 				refresh.setRefreshing(false);
-				scrollListener.setLoadMore();
 			}
 		});
 	}
