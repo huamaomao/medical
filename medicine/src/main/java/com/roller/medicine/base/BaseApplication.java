@@ -2,6 +2,7 @@ package com.roller.medicine.base;
 
 import android.app.Application;
 
+import com.android.common.util.CommonExceptionHandler;
 import com.android.common.util.LiteUtil;
 import com.android.common.util.Log;
 import com.gotye.api.GotyeAPI;
@@ -11,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 public class BaseApplication extends Application {
 
+	private CommonExceptionHandler exceptionHandler;
 
 	@Override
 	public void onCreate() {
@@ -21,18 +23,20 @@ public class BaseApplication extends Application {
 		gotyeApi.init(getApplicationContext(), AppConstants.QINJIA_KEY);
 
 		Picasso.with(getBaseContext()).setLoggingEnabled(true);
-
+		exceptionHandle();
 	}
 
 
 	private void exceptionHandle(){
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+		exceptionHandler=new CommonExceptionHandler();
+		/*Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable ex) {
 				Log.e("AppError", ex.getMessage());
-				ex.printStackTrace();
+				//ex.printStackTrace();
+				 Log.e("app",exceptionHandler.handleException(ex,getApplicationContext()).toString());
 			}
-		});
+		});*/
 	}
 
 	@Override

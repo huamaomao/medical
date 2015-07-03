@@ -2,6 +2,7 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
@@ -47,6 +49,7 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 
 	public String userId=null;
 
+	private RecyclerOnScrollListener scrollListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,8 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				requestData();
+				requestData(1);
+				scrollListener.setPageInit();
 			}
 		});
 		userId=getArguments().getString(AppConstants.ITEM);
@@ -103,14 +107,25 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 				return mData.size();
 			}
 		});
+
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				requestData(current_page);
+			}
+		};
+
+		rv_view.addOnScrollListener(scrollListener);
+
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
-		requestData();
+		requestData(1);
+		refresh.setRefreshing(true);
 		dialog=new AlertDialogFragment();
 		dialog.msg="是否删除此评论?";
 		dialog.setClickListener(new AlertDialogFragment.OnClickListener() {
 			@Override
 			public void onCancel() {
-				msgShow("评论已成功删除");
+
 			}
 
 			@Override
@@ -126,11 +141,11 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 		if (index==-1) return;
 		CommentInfo.Item item=mData.get(index);
 		if (CommonUtil.notNull(item)){
-			adapter.removeItem(index);
 			dataModel.deleteReply(item.id, new SimpleResponseListener<ResponseMessage>() {
 				@Override
 				public void requestSuccess(ResponseMessage info, Response response) {
-
+					msgShow("评论已成功删除");
+					adapter.removeItem(index);
 				}
 
 				@Override
@@ -142,12 +157,17 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 
 	}
 
-	private void requestData(){
-		refresh.setRefreshing(true);
-		dataModel.getPostReplyListByMap(userId,new SimpleResponseListener<CommentInfo>() {
+	 void requestData(final int page){
+
+		dataModel.getPostReplyListByMap(page,userId,new SimpleResponseListener<CommentInfo>() {
 			@Override
 			public void requestSuccess(CommentInfo info, Response response) {
-				adapter.addItemAll(info.list);
+				if (page==1){
+					adapter.addItemAll(info.list);
+				}else {
+					adapter.addMoreItem(info.list);
+					scrollListener.nextPage(info.list);
+				}
 			}
 
 			@Override

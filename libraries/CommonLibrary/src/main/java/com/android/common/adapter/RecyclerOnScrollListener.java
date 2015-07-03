@@ -40,7 +40,7 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
                 previousTotal = totalItemCount;
             }
         }*/
-        Log.d("onLoadMore:"+isMore+"----"+loading);
+        //Log.d("onLoadMore:"+isMore+"----"+loading+"---"+ (totalItemCount - visibleItemCount)+"---"+(firstVisibleItem + visibleThreshold));
         if (isMore&&!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)) {
             // End has been reached
@@ -69,11 +69,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
 
     }
 
-
-
-    public int getCurrentPage(){
-        return current_page;
-    }
 
     public void setLoadMore(){
         loading=false;

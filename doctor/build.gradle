@@ -49,11 +49,13 @@ android {
             shrinkResources true
             proguardFiles 'proguard-project.txt'
             signingConfig signingConfigs.myConfig
+            debuggable true
         }
         debug {
             proguardFiles 'proguard-project.txt'
             //minifyEnabled true
             signingConfig signingConfigs.myConfig
+            debuggable true
         }
     }
     productFlavors {

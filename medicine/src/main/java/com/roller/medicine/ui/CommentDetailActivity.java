@@ -57,6 +57,8 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	@InjectView(R.id.iv_praise)
 	ImageView iv_praise;
 
+
+
 	private HashMap<String, Drawable> mImageCache = new HashMap();
 
 	private RecyclerAdapter<ReplyInfo> adapter;
@@ -68,6 +70,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 	private CommentDetailInfo contentInfo;
 	private TokenInfo tokenInfo;
+
+
+	private boolean updateStatus=false;
 
 
 	@Override
@@ -104,128 +109,146 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final ReplyInfo item, int position) {
 				if (mData.get(position) == null) {
-					StringBuilder builder = new StringBuilder();
-					builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
-					viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(contentInfo.createTime));
-					viewHolder.setText(R.id.tv_source, "来源：" + contentInfo.source);
-					viewHolder.setText(R.id.tv_title, contentInfo.title);
-					viewHolder.setText(R.id.tv_comment, CommonUtil.initTextValue(contentInfo.replyCount));
-					viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
-					viewHolder.setText(R.id.tv_content, Html.fromHtml(contentInfo.content, new Html.ImageGetter() {
-						@Override
-						public Drawable getDrawable(final String source) {
-							final Drawable drawable = mImageCache.get(source);
-							if (CommonUtil.notNull(drawable)) {
-								return drawable;
-							}
-							Picasso.with(getContext()).load(source).into(new Target() {
-								@Override
-								public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-									Drawable drawable1 = new BitmapDrawable(getResources(), bitmap);
-									DisplayMetrics metrics = getResources().getDisplayMetrics();
-									float i = metrics.widthPixels / drawable1.getIntrinsicWidth();
-									float height = drawable1.getIntrinsicHeight() * i;
-									float width = drawable1.getIntrinsicWidth() * i;
-									drawable1.setBounds(0, 0, (int) width, (int) height);
-									mImageCache.put(source, drawable1);
-									try {
-										adapter.notifyItemUpdate(0);
-									} catch (Exception e) {
-									}
-								}
+					if (updateStatus){
+						/*StringBuilder builder = new StringBuilder();
+						builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
+						viewHolder.setText(R.id.tv_comment, builder.toString());
+						viewHolder.setText(R.id.tv_comment_count, builder.toString());
+						viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
+						TextView tv_praise = viewHolder.getView(R.id.tv_praise);
+						if (contentInfo.isPraise) {
+							iv_praise.setImageResource(R.drawable.image_praise_btn_select);
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
 
-								@Override
-								public void onBitmapFailed(Drawable errorDrawable) {
-
-								}
-
-								@Override
-								public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-								}
-							});
-							return getResources().getDrawable(R.drawable.icon_comment_default);
-						}
-					}, null));
-					TextView tv_praise = viewHolder.getView(R.id.tv_praise);
-
-					if (contentInfo.isPraise) {
-						iv_praise.setImageResource(R.drawable.image_praise_btn_select);
-						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
-
-					} else {
-						iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
-						tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
-					}
-					tv_praise.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							savePraise(contentInfo.id, null, contentInfo.isPraise, AppConstants.PRAISE_COMMENT);
-						}
-					});
-					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							doComment();
-						}
-					});
-					RecyclerView recyclerView =viewHolder.getView(R.id.rv_view);
-					final  List<CommentInfo.Item> data=new ArrayList<>();
-					RecyclerAdapter adapter=new RecyclerAdapter(getContext(),data);
-					adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
-						@Override
-						public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder,final CommentInfo.Item item,final int position) {
-							viewHolder.setText(R.id.tv_title, item.title);
-							viewHolder.setText(R.id.tv_content, item.content);
-							viewHolder.setText(R.id.tv_source, "来源：" + item.source);
-							viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
-							viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									setLastClickTime();
-									Bundle bundle = new Bundle();
-									bundle.putString(AppConstants.ITEM, item.id);
-									ViewUtil.openActivity(CommentDetailActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_2);
-								}
-							});
-
-							String url=null;
-							if (CommonUtil.notNull(item.images) && item.images.size() > 0) {
-								url=item.images.get(0).url;
-							}
-							Picasso.with(getContext()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
-									.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_photo));
-						}
-
-						@Override
-						public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-							float width= getContext().getResources().getDisplayMetrics().widthPixels;
-							View view=getLayoutInflater().inflate(R.layout.list_item_recommended,viewGroup,false);
-							RecyclerView.LayoutParams params=new RecyclerView.LayoutParams((int)(width/6*5),RecyclerView.LayoutParams.MATCH_PARENT);
-							view.setLayoutParams(params);
-							return new RecyclerAdapter.ViewHolder(view);
-						}
-
-						@Override
-						public int getItemCount() {
-							return data.size();
-						}
-					});
-					LinearLayoutManager manager=new LinearLayoutManager(getContext());
-					manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-					recyclerView.setLayoutManager(manager);
-					recyclerView.setAdapter(adapter);
-					if (CommonUtil.isNull(contentInfo.list)){
-						viewHolder.setViewHide(R.id.tv_recommend);
-						viewHolder.setViewHide(R.id.rv_view);
+						} else {
+							iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+						}*/
 					}else {
-						viewHolder.setViewShow(R.id.tv_recommend);
-						viewHolder.setViewShow(R.id.rv_view);
-						data.addAll(contentInfo.list);
-						adapter.notifyDataSetChanged();
+						StringBuilder builder = new StringBuilder();
+						builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
+						viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(contentInfo.createTime));
+						viewHolder.setText(R.id.tv_source, "来源：" + contentInfo.source);
+						viewHolder.setText(R.id.tv_title, contentInfo.title);
+						viewHolder.setText(R.id.tv_comment,builder.toString() );
+						viewHolder.setText(R.id.tv_comment_count,builder.toString() );
+						viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
+						viewHolder.setText(R.id.tv_content, Html.fromHtml(contentInfo.content, new Html.ImageGetter() {
+							@Override
+							public Drawable getDrawable(final String source) {
+								final Drawable drawable = mImageCache.get(source);
+								if (CommonUtil.notNull(drawable)) {
+									return drawable;
+								}
+								Picasso.with(getContext()).load(source).into(new Target() {
+									@Override
+									public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+										Drawable drawable1 = new BitmapDrawable(getResources(), bitmap);
+										DisplayMetrics metrics = getResources().getDisplayMetrics();
+										float i = metrics.widthPixels / drawable1.getIntrinsicWidth();
+										float height = drawable1.getIntrinsicHeight() * i;
+										float width = drawable1.getIntrinsicWidth() * i;
+										drawable1.setBounds(0, 0, (int) width, (int) height);
+										mImageCache.put(source, drawable1);
+										try {
+											adapter.notifyItemUpdate(0);
+										} catch (Exception e) {
+										}
+									}
+
+									@Override
+									public void onBitmapFailed(Drawable errorDrawable) {
+
+									}
+
+									@Override
+									public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+									}
+								});
+								return getResources().getDrawable(R.drawable.icon_comment_default);
+							}
+						}, null));
+						TextView tv_praise = viewHolder.getView(R.id.tv_praise);
+
+						if (contentInfo.isPraise) {
+							iv_praise.setImageResource(R.drawable.image_praise_btn_select);
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
+
+						} else {
+							iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
+							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+						}
+						tv_praise.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								savePraise(contentInfo.id, null, contentInfo.isPraise, AppConstants.PRAISE_COMMENT);
+							}
+						});
+						viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								doComment();
+							}
+						});
+						RecyclerView recyclerView =viewHolder.getView(R.id.rv_view);
+						final  List<CommentInfo.Item> data=new ArrayList<>();
+						RecyclerAdapter adapter=new RecyclerAdapter(getContext(),data);
+						adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CommentInfo.Item>() {
+							@Override
+							public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder,final CommentInfo.Item item,final int position) {
+								viewHolder.setText(R.id.tv_title, item.title);
+								viewHolder.setText(R.id.tv_content, item.content);
+								viewHolder.setText(R.id.tv_source, "来源：" + item.source);
+								viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
+								viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										setLastClickTime();
+										Bundle bundle = new Bundle();
+										bundle.putString(AppConstants.ITEM, item.id);
+										ViewUtil.openActivity(CommentDetailActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_2);
+									}
+								});
+
+								String url=null;
+								if (CommonUtil.notNull(item.images) && item.images.size() > 0) {
+									url=item.images.get(0).url;
+								}
+								Picasso.with(getContext()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
+										.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_photo));
+							}
+
+							@Override
+							public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+								float width= getContext().getResources().getDisplayMetrics().widthPixels;
+								View view=getLayoutInflater().inflate(R.layout.list_item_recommended,viewGroup,false);
+								RecyclerView.LayoutParams params=new RecyclerView.LayoutParams((int)(width/6*5),RecyclerView.LayoutParams.MATCH_PARENT);
+								view.setLayoutParams(params);
+								return new RecyclerAdapter.ViewHolder(view);
+							}
+
+							@Override
+							public int getItemCount() {
+								return data.size();
+							}
+						});
+						LinearLayoutManager manager=new LinearLayoutManager(getContext());
+						manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+						recyclerView.setLayoutManager(manager);
+						recyclerView.setAdapter(adapter);
+						if (CommonUtil.isNull(contentInfo.list)){
+							viewHolder.setViewHide(R.id.tv_recommend);
+							viewHolder.setViewHide(R.id.rv_view);
+						}else {
+							viewHolder.setViewShow(R.id.tv_recommend);
+							viewHolder.setViewShow(R.id.rv_view);
+							data.addAll(contentInfo.list);
+							adapter.notifyDataSetChanged();
+
+						}
 
 					}
-
 				} else {
 					Util.loadPhoto(getContext(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 					viewHolder.setText(R.id.tv_name, item.nickname);
@@ -249,7 +272,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 						});
 					}
 
-
 				}
 			}
 
@@ -269,7 +291,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 
 		ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
-
 		loadData();
 
 	}
@@ -282,6 +303,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	 */
 	private void loadData() {
 		refresh.setRefreshing(true);
+		updateStatus=false;
 		dataModel.getPostByMap(id, boardId, new SimpleResponseListener<CommentDetailInfo>() {
 			@Override
 			public void requestSuccess(final CommentDetailInfo info, Response response) {
@@ -349,6 +371,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					if (CommonUtil.notNull(replyId)){
 						//
 					}else {
+						updateStatus=true;
 						contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
 						contentInfo.isPraise=true;
 						adapter.notifyItemUpdate(0);
@@ -368,14 +391,15 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	}
 
 	private void deletePraise(final String id,final String replyId,String type){
-		dataModel.deletePraise(id,type,replyId,new SimpleResponseListener<ResponseMessage>() {
+		dataModel.deletePraise(id, type, replyId, new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
-				if (CommonUtil.notNull(replyId)){
+				if (CommonUtil.notNull(replyId)) {
 					//
-				}else {
-					contentInfo.praiseCount=CommonUtil.numberCut(contentInfo.praiseCount);
-					contentInfo.isPraise=false;
+				} else {
+					updateStatus=true;
+					contentInfo.praiseCount = CommonUtil.numberCut(contentInfo.praiseCount);
+					contentInfo.isPraise = false;
 					adapter.notifyItemUpdate(0);
 					showMsg("取消赞成功");
 				}
@@ -393,21 +417,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	protected void onDestroy() {
 		super.onDestroy();
 		adapter.onDestroyReceiver();
-	}
-
-	/**
-	 * 发表评论
-	 * @param id
-	 * @param boardId
-	 * @param content
-	 * @param byReplyUserId 评论帖子时为createUserId  评论个人时为replyId
-	 */
-	private void saveReply(String id,String boardId,String content,String byReplyUserId){
-		/*try {
-			DataService.getInstance().saveReply(this, BaseApplication.TOKEN, id, boardId, content, byReplyUserId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	/**
@@ -433,223 +442,4 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			e.printStackTrace();
 		}*/
 	}
-	
-/*	@Override
-	public void onSuccess(String url, String result, int resultCode, Object tag) {
-		super.onSuccess(url, result, resultCode, tag);
-		if (resultCode != 200) {
-			return;
-		}
-		
-		KnowledgeQuizContentInfo mInfo = JSON.parseObject(result,KnowledgeQuizContentInfo.class);
-		text_from.setText("晚上22:30  来源：" + mInfo.getSource());
-		text_content_title.setText(mInfo.getTitle());
-		text_content.setText(Html.fromHtml(mInfo.getContent()));
-		text_of_taste.setText(mInfo.getReplyCount());
-		text_praidse_count.setText(mInfo.getPraiseCount());
-		linearlayout_praise.setTag(mInfo);
-		linearlayout_praise.setTag(R.id.is_top_praise, mInfo.getIsPraise());
-		image_praise_buttom.setTag(mInfo);
-		image_praise_buttom.setTag(R.id.is_buttom_praise, mInfo.getIsPraise());
-		button_release.setTag(mInfo.getCreateUserId());
-		if (mInfo.getIsPraise().equals("true")){
-			image_praidse.setBackgroundResource(R.drawable.image_praise_btn_select);
-			image_praise_buttom.setImageDrawable(getResources().getDrawable(R.drawable.image_praise_btn_select));
-		}
-		
-		mListDatas.addAll(mInfo.getList());
-		listAdapter.notifyDataSetChanged();
-		
-		if(mInfo.getReplyList() != null && mInfo.getReplyList().size() > 0){
-			text_comments_count.setVisibility(View.VISIBLE);
-			text_comments_count.setText("评论"+mInfo.getReplyCount());
-			mReplyListDatas.addAll(mInfo.getReplyList());
-			replyListAdapter.notifyDataSetChanged();
-		}
-		
-		scrollview.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				scrollview.scrollTo(0, 0);
-			}
-		});
-		
-	}
-
-	@OnClick({R.id.image_comments,R.id.linearlayout_praise,R.id.image_praise_buttom
-		,R.id.text_pupopwindow_cancel,R.id.text_of_taste,R.id.button_release
-		,R.id.text_pupopwindow_inform_reply,R.id.text_pupopwindow_delete,R.id.text_pupopwindow_reply})
-	public void onViewOnClick(View view){
-		switch (view.getId()) {
-		case R.id.image_comments:
-		case R.id.text_of_taste:
-		case R.id.text_pupopwindow_reply:
-			popupWindowDismiss();
-			commentsIsContent = true;
-			edit_comments_content.requestFocus();
-			OtherUtils.showEditTextInput(edit_comments_content);
-			include_comments_popuwindow.setVisibility(View.VISIBLE);
-			break;
-			
-		case R.id.button_release:
-			include_comments_popuwindow.setVisibility(View.GONE);
-			String Id = null;
-			if(commentsIsContent){
-				Id = view.getTag().toString();
-			}else{
-				Id = view.getTag(R.id.id).toString();
-			}
-			if(Id != null)saveReply(bundle.getString(Constants.ID),bundle.getString("boardId"),edit_comments_content.getText().toString(),Id);
-			break;
-			
-		case R.id.linearlayout_praise:
-			buttomPraise = false;
-		case R.id.image_praise_buttom:
-			String isPraise = null;
-			if(buttomPraise){
-				isPraise = view.getTag(R.id.is_buttom_praise).toString();
-			}else{
-				isPraise = view.getTag(R.id.is_top_praise).toString();
-				buttomPraise = true;
-			}
-			
-			KnowledgeQuizContentInfo item = (KnowledgeQuizContentInfo) view.getTag();
-			int count = Integer.valueOf(text_praidse_count.getText().toString());
-			if(isPraise.equals("false")){
-				image_praise_buttom.setTag(R.id.is_buttom_praise, "true");
-				linearlayout_praise.setTag(R.id.is_top_praise, "true");
-				text_praidse_count.setText((count + 1) + "");
-				image_praidse.setImageDrawable(getResources().getDrawable(R.drawable.image_praise_btn_select));
-				image_praise_buttom.setImageDrawable(getResources().getDrawable(R.drawable.image_praise_btn_select));
-				savePraise(item.id, item.getReplyId(), "74", item.getCreateUserId());
-			}else{
-				image_praise_buttom.setTag(R.id.is_buttom_praise, "false");
-				linearlayout_praise.setTag(R.id.is_top_praise, "false");
-				text_praidse_count.setText((count - 1) + "");
-				image_praidse.setImageDrawable(getResources().getDrawable(R.drawable.image_praise_btn_unselect));
-				image_praise_buttom.setImageDrawable(getResources().getDrawable(R.drawable.image_praise_btn_unselect));
-				deletePraise(item.id);
-			}
-			break;
-		
-		case R.id.text_pupopwindow_cancel:
-			popupWindowDismiss();
-			break;
-			
-		case R.id.text_pupopwindow_inform_reply:
-			popupWindowDismiss();
-			informReply(text_pupopwindow_inform_reply.getTag().toString());
-			break;
-			
-		case R.id.text_pupopwindow_delete:
-			popupWindowDismiss();
-			deleteReply(text_pupopwindow_delete.getTag().toString());
-			break;
-		}
-	}
-	
-
-	
-	@Override
-	public void commonOnClick(View v) {
-
-	}
-
-	@Override
-	public void commonGetView(PublicViewHolder helper, Object item,
-			OnClickListener onClick, int position, Object tag) {
-		int from = Integer.valueOf(tag.toString());
-		switch (from) {
-		case Constants.TAG.TAG_RECOMMENDED_LIST:
-			mBitmapUtils = XUtilsBitmapHelp.getBitmapUtilsInstance(
-					this,R.drawable.public_image_loading, R.drawable.public_image_failure);
-			
-			KnowledgeQuizItemInfo mItemInfo = (KnowledgeQuizItemInfo) item;
-			LinearLayout linearlayout_item_recommend = helper.getView(R.id.linearlayout_item_recommend);
-			ImageView image_item_rPicture = helper.getView(R.id.image_item_picture);
-			TextView text_item_content = helper.getView(R.id.text_item_content);
-			TextView text_item_from = helper.getView(R.id.text_item_from);
-			
-			LinearLayout.LayoutParams lParams = (LinearLayout.LayoutParams) linearlayout_item_recommend.getLayoutParams();
-			int width = (int) (dm.widthPixels * 0.8);
-			lParams.width = width;
-			linearlayout_item_recommend.setLayoutParams(lParams);
-			if(mItemInfo.getImages().size() > 0)mBitmapUtils.display(image_item_rPicture, mItemInfo.getImages().get(0).getUrl());
-			text_item_content.setText(mItemInfo.getContent());
-			text_item_from.setText("来源：椰子 2015-01-11 14:14");
-			break;
-
-		case Constants.TAG.TAG_COMMENTS_LIST:
-			mHeadBitmapUtils = XUtilsBitmapHelp.getBitmapUtilsInstance(
-					this,R.drawable.public_default_head, R.drawable.public_default_head);
-			
-			KnowledgeQuizContentReplyListItemInfo mReplyListItemInfo = (KnowledgeQuizContentReplyListItemInfo) item;
-			ImageView image_item_head = helper.getView(R.id.image_item_head);
-			TextView text_item_name = helper.getView(R.id.text_item_name);
-			TextView text_item_time = helper.getView(R.id.text_item_time);
-			TextView text_item_Ccontent = helper.getView(R.id.text_item_content);
-			LinearLayout linearlayout_item_praise = helper.getView(R.id.linearlayout_item_praise);
-			ImageView image_item_praidse = helper.getView(R.id.image_item_praidse);
-			TextView text_item_praidse_count = helper.getView(R.id.text_item_praidse_count);
-			
-			linearlayout_item_praise.setTag(mReplyListItemInfo);
-			
-			linearlayout_item_praise.setOnClickListener(onClick);
-			
-			if (mReplyListItemInfo.getPraise().equals("true")){
-				image_item_praidse.setBackgroundResource(R.drawable.image_praise_btn_select);
-			}
-			
-			mHeadBitmapUtils.display(image_item_head, mReplyListItemInfo.getHeadImage(), OtherUtils.roundBitmapLoadCallBack);
-			break;
-			
-		}
-	}
-	
-
-	
-	private void popupWindowDismiss(){	
-		if(mPopupWindow != null && mPopupWindow.isShowing()){
-			mPopupWindow.dismiss();
-		}
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-		KnowledgeQuizContentReplyListItemInfo mReplyListItemInfo = (KnowledgeQuizContentReplyListItemInfo) mReplyListDatas.get(position);
-		commentsIsContent = false;
-		button_release.setTag(R.id.id, mReplyListItemInfo.getReplyId());
-		if(BaseApplication.USERID.equals(mReplyListItemInfo.getReplyUserId())){
-			text_pupopwindow_delete.setVisibility(View.VISIBLE);
-			text_pupopwindow_inform_reply.setVisibility(View.GONE);
-			text_pupopwindow_delete.setTag(mReplyListItemInfo.getId());
-		}else{
-			text_pupopwindow_delete.setVisibility(View.GONE);
-			text_pupopwindow_inform_reply.setVisibility(View.VISIBLE);
-			text_pupopwindow_inform_reply.setTag(mReplyListItemInfo.getId());
-		}
-		mPopupWindow.showAtLocation(getWindow().getDecorView(), 0, 0, 0);
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if(mPopupWindow != null && mPopupWindow.isShowing()){
-				mPopupWindow.dismiss();
-				return false;
-			}
-			
-			if(include_comments_popuwindow.getVisibility() == View.VISIBLE){
-				include_comments_popuwindow.setVisibility(View.GONE);
-				return false;
-			}
-			
-			return super.onKeyDown(keyCode, event);
-		}
-		
-		return super.onKeyDown(keyCode, event);
-	}
-	*/
 }

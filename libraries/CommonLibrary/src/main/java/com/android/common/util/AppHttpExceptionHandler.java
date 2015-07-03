@@ -68,7 +68,6 @@ public final class AppHttpExceptionHandler extends HttpExceptionHandler {
     protected void onClientException(HttpClientException e, HttpClientException.ClientException e1) {
         // 客户端异常
         show("客户端异常...");
-
     }
 
     @Override
@@ -87,7 +86,7 @@ public final class AppHttpExceptionHandler extends HttpExceptionHandler {
 
     private void show(String msg){
         if (CommonUtil.notNull(view)){
-           Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();
+           Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
         }else if (CommonUtil.notNull(activity)){
             try {
                Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();

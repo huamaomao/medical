@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/iten_margin_top"
-    android:paddingRight="@dimen/iten_margin_top"
    style="@style/appLayoutStyle">
+    <TextView
+        android:id="@id/tv_title"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingRight="@dimen/iten_margin_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="@dimen/iten_margin_top"
+        android:textStyle="bold"
+        style="@style/TitleDefaultText" />
     <LinearLayout
         android:orientation="horizontal"
-        android:paddingTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="@dimen/iten_margin_top"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingRight="@dimen/iten_margin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView android:id="@id/tv_date"
             style="@style/timeText"
-            android:layout_marginLeft="@dimen/iten_margin_top"
             android:layout_marginRight="5dp"
             android:textColor="@color/time_cl"
             android:layout_width="wrap_content"
@@ -22,41 +31,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <TextView
-        android:id="@id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:textStyle="bold"
-        style="@style/TitleDefaultText" />
+
     <include layout="@layout/divider" />
     <TextView
         android:id="@id/tv_content"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingRight="@dimen/iten_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         style="@style/DefaultText" />
-    <TextView
-        android:id="@id/tv_recommend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:background="@color/public_white"
-        android:paddingLeft="10dip"
-        android:paddingTop="10dip"
-        android:text="相关推荐"
-        android:textColor="@color/public_636363"
-        android:textSize="14sp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/rv_view"
-        android:background="@color/write"
-        android:layout_width="match_parent"
-        android:layout_height="120dip"  />
-
     <LinearLayout
         android:id="@id/ll_item_0"
-        android:background="@color/public_f7f7f7"
         android:gravity="right"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
@@ -82,24 +68,71 @@
             android:drawableLeft="@drawable/image_praise_btn_unselect"
             android:drawablePadding="3dip"/>
     </LinearLayout>
-
-
+    <View
+        android:id="@id/v_view"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_below="@id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
+    <View
+        android:layout_below="@id/v_view"
+        android:background="#e5e5e5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <View
+        android:id="@id/v_view"
+        android:layout_below="@id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
     <TextView
-        android:id="@id/tv_comment"
+        android:id="@id/tv_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:background="@color/public_white"
         android:paddingLeft="10dip"
         android:paddingTop="10dip"
-        android:visibility="gone"
+        android:text="相关推荐"
         android:textColor="@color/public_636363"
         android:textSize="14sp" />
-   <!-- <com.roller.medicine.customview.listview.PublicListView
-        android:id="@+id/public_of_taste_listview"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/rv_view"
+        android:background="@color/write"
+        android:layout_width="match_parent"
+        android:layout_height="120dip"  />
+    <View
+        android:id="@id/v_view"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_below="@id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
+    <View
+        android:layout_below="@id/v_view"
+        android:background="#e5e5e5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <View
+        android:id="@id/v_view"
+        android:layout_below="@id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
+    <TextView
+        android:id="@id/tv_comment_count"
+        android:text="评论0"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:paddingRight="@dimen/iten_margin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="@dimen/iten_margin_top"
         android:background="@color/public_white"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dip" />-->
+        android:textSize="14sp"
+        style="@style/timeText"
+        />
+
 </LinearLayout>

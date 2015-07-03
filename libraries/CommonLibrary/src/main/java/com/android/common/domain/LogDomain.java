@@ -19,23 +19,24 @@ public class LogDomain {
     public String versionName;
     public String channel;
     public String  stackTrace;
-
+    /*****级别****/
+    public int level;
 
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("LogDomain{");
-        sb.append("id=").append(id);
-        sb.append(", model='").append(model).append('\'');
-        sb.append(", sdk='").append(sdk).append('\'');
-        sb.append(", release='").append(release).append('\'');
-        sb.append(", date='").append(date).append('\'');
-        sb.append(", excetion='").append(excetion).append('\'');
-        sb.append(", versionCode=").append(versionCode);
-        sb.append(", versionName='").append(versionName).append('\'');
-        sb.append(", channel='").append(channel).append('\'');
-        sb.append(", stackTrace='").append(stackTrace).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "LogDomain{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", sdk='" + sdk + '\'' +
+                ", release='" + release + '\'' +
+                ", date='" + date + '\'' +
+                ", excetion='" + excetion + '\'' +
+                ", versionCode=" + versionCode +
+                ", versionName='" + versionName + '\'' +
+                ", channel='" + channel + '\'' +
+                ", stackTrace='" + stackTrace + '\'' +
+                ", level=" + level +
+                '}';
     }
 }

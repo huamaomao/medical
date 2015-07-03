@@ -51,6 +51,7 @@ public class TabCommentFragment extends BaseToolbarFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.refresh_recycler_view);
+
 	}
 
 	@Override

@@ -65,6 +65,7 @@
     <item name="tv_status" type="id" />
     <item name="tv_source" type="id" />
     <item name="tv_comment" type="id" />
+    <item name="tv_comment_count" type="id" />
     <item name="tv_praise" type="id" />
 
     <item name="tv_item_0" type="id" />

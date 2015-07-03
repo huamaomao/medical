@@ -12,15 +12,15 @@ import java.util.Date;
 /**
  * Created by Hua_ on 2015/4/16.
  */
-public class CommonExceptionHandler{
-        private LiteOrm liteOrm;
+public  final class CommonExceptionHandler{
+    private LiteOrm liteOrm;
 
     /**
      * 自定义异常处理:收集错误信息&发送错误报告
      * @param ex
-     * @return true:处理了该异常信息;否则返回false
+     * @return
      */
-    private LogDomain handleException(Throwable ex,Context context) {
+    public LogDomain handleException(Throwable ex,Context context) {
          return getCrashReport(context, ex);
     }
 

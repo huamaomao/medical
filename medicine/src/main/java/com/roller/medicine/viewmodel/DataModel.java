@@ -656,10 +656,11 @@ public class DataModel extends ViewModel{
     /**
      * 我的评论
      */
-    public void getPostReplyListByMap(String userId,SimpleResponseListener<CommentInfo> responseService){
+    public void getPostReplyListByMap(int page,String userId,SimpleResponseListener<CommentInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("userId", userId));
+        param.add(new NameValuePair("pageNum", page+""));
         Request request=new Request(requestUrl("/crm/reply_sp/getReplyListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
