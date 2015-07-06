@@ -19,6 +19,7 @@ import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -30,6 +31,7 @@ import com.roller.medicine.info.CommentDetailInfo;
 import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.ReplyInfo;
 import com.roller.medicine.info.TokenInfo;
+import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -71,8 +74,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	private CommentDetailInfo contentInfo;
 	private TokenInfo tokenInfo;
 
+	private UserInfo userInfo;
 
-	private boolean updateStatus=false;
+
 
 
 	@Override
@@ -89,6 +93,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		dataModel=new DataModel();
 		mData=new ArrayList();
 		tokenInfo=dataModel.getToken();
+		userInfo=dataModel.getLoginUser();
 		refresh.setRefreshStyle(AppConstants.PULL_STYLE);
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
@@ -109,22 +114,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			@Override
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final ReplyInfo item, int position) {
 				if (mData.get(position) == null) {
-					if (updateStatus){
-						/*StringBuilder builder = new StringBuilder();
-						builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
-						viewHolder.setText(R.id.tv_comment, builder.toString());
-						viewHolder.setText(R.id.tv_comment_count, builder.toString());
-						viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(contentInfo.praiseCount));
-						TextView tv_praise = viewHolder.getView(R.id.tv_praise);
-						if (contentInfo.isPraise) {
-							iv_praise.setImageResource(R.drawable.image_praise_btn_select);
-							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
-
-						} else {
-							iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
-							tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
-						}*/
-					}else {
 						StringBuilder builder = new StringBuilder();
 						builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
 						viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(contentInfo.createTime));
@@ -248,7 +237,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 						}
 
-					}
 				} else {
 					Util.loadPhoto(getContext(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 					viewHolder.setText(R.id.tv_name, item.nickname);
@@ -256,7 +244,8 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.createTime));
 					TextView tv_praise=viewHolder.getView(R.id.tv_praise);
 					tv_praise.setText(CommonUtil.initTextValue(item.praiseCount));
-					if (item.replyUserId.equals(tokenInfo.userId)){
+
+					if (item.replyUserId.equals(tokenInfo.userId+"")){
 						tv_praise.setVisibility(View.GONE);
 					}else {
 						if (item.praise) {
@@ -303,7 +292,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	 */
 	private void loadData() {
 		refresh.setRefreshing(true);
-		updateStatus=false;
 		dataModel.getPostByMap(id, boardId, new SimpleResponseListener<CommentDetailInfo>() {
 			@Override
 			public void requestSuccess(final CommentDetailInfo info, Response response) {
@@ -351,6 +339,26 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		intent.putExtras(bundle);
 		startActivityForResult(intent, AppConstants.CODE);
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode==AppConstants.CODE){
+			if (CommonUtil.notNull(data)){
+				ReplyInfo info=new ReplyInfo();
+				info.content=data.getStringExtra(AppConstants.DATA);
+				info.nickname=userInfo.nickname;
+				info.headImage=userInfo.headImage;
+				info.createTime=System.currentTimeMillis()+"";
+				info.replyUserId=userInfo.id+"";
+				mData.add(1,info);
+				adapter.notifyItemAdd(1);
+			}
+			Log.d("resultCode:.......");
+
+		}
+	}
+
 	@OnClick(R.id.iv_praise)
 	void onPraise(){
 		if (CommonUtil.isNull(contentInfo)){
@@ -371,11 +379,12 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					if (CommonUtil.notNull(replyId)){
 						//
 					}else {
-						updateStatus=true;
 						contentInfo.praiseCount=CommonUtil.numberCount(contentInfo.praiseCount);
 						contentInfo.isPraise=true;
-						adapter.notifyItemUpdate(0);
+						//adapter.notifyItemUpdate(0);
+						updateStatus();
 						showMsg("点赞成功");
+
 					}
 
 
@@ -390,6 +399,29 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 
 	}
 
+	public void updateStatus(){
+	   View view=rv_view.getLayoutManager().findViewByPosition(0);
+		StringBuilder builder = new StringBuilder();
+		builder.append("评论").append(CommonUtil.initTextValue(contentInfo.replyCount));
+		((TextView)ButterKnife.findById(view,R.id.tv_comment_count)).setText(builder.toString());
+		((TextView)ButterKnife.findById(view,R.id.tv_praise)).setText(CommonUtil.initTextValue(contentInfo.praiseCount));
+		TextView tv_praise = ButterKnife.findById(view,R.id.tv_praise);
+		if (contentInfo.isPraise) {
+			iv_praise.setImageResource(R.drawable.image_praise_btn_select);
+			tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_select), null, null, null);
+
+		} else {
+			iv_praise.setImageResource(R.drawable.image_praise_btn_unselect);
+			tv_praise.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.image_praise_btn_unselect), null, null, null);
+		}
+
+
+
+
+	}
+
+
+
 	private void deletePraise(final String id,final String replyId,String type){
 		dataModel.deletePraise(id, type, replyId, new SimpleResponseListener<ResponseMessage>() {
 			@Override
@@ -397,10 +429,11 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 				if (CommonUtil.notNull(replyId)) {
 					//
 				} else {
-					updateStatus=true;
+
 					contentInfo.praiseCount = CommonUtil.numberCut(contentInfo.praiseCount);
 					contentInfo.isPraise = false;
-					adapter.notifyItemUpdate(0);
+					//adapter.notifyItemUpdate(0);
+					updateStatus();
 					showMsg("取消赞成功");
 				}
 			}

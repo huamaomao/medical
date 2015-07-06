@@ -9,6 +9,7 @@ public abstract class AppConstants {
 
     public static final String ROOT;
     public static final String PATH;
+    public static final String VERSION="version";
 
     /***add**/
     public static final String USER_STATUS_ADD="0";
@@ -19,6 +20,7 @@ public abstract class AppConstants {
     public static final String DATA_TEL="tel";
     public static final String DATA_DATE="date";
     public static final String DATA_CODE="code";
+    public static final String DATA="code";
     public static final String DATA_BOARD_ID="boardId";
 
     public static final int TYPE_COMMENT=1;

@@ -59,9 +59,9 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 	@InjectView(R.id.viewpage)
 	ViewPager viewpage;
-
 	@InjectView(R.id.rg_group)
 	RadioGroup radioGroup;
+
 	private DataModel model;
 	private String date=null;
 	private String userId=null;
@@ -194,7 +194,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 		views.add(viewHolder4.itemView);
 		pagerAdapter=new ViewPagerAdapter(views);
 		viewpage.setAdapter(pagerAdapter);
-		viewpage.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		viewpage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

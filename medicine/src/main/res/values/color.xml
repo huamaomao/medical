@@ -72,4 +72,7 @@
     <color name="color_f2">#f2f2f2</color>
 
     <color name="refresh_bg">#f2f2f2</color>
+    <color name="welcome_one_bg">#72bbf4</color>
+    <color name="welcome_two_bg">#ecd2a5</color>
+    <color name="welcome_three_bg">#26cfb3</color>
 </resources>

@@ -40,7 +40,7 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 		setContentView(R.layout.message_comment_fragment);
 	}
 	protected void initView(){
-		Intent intent =getIntent();
+
 		userId=getIntent().getExtras().getString(AppConstants.ITEM, "0");
 		type=getIntent().getExtras().getInt(AppConstants.TYPE, 0);
 		id=getIntent().getExtras().getString(AppConstants.DATA_CODE);
@@ -93,7 +93,9 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 				@Override
 				public void requestSuccess(ResponseMessage info, Response response) {
 					showLongMsg("评论成功");
-					setResult(AppConstants.CODE);
+					Intent intent=new Intent();
+					intent.putExtra(AppConstants.DATA,et_content.getText().toString());
+					setResult(AppConstants.CODE,intent);
 					finish();
 				}
 

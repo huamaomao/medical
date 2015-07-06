@@ -5,32 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     
-    
-    <!-- pulllistview -->
-<string name="pushmsg_center_no_more_msg">已经到底啦</string>
-    <string name="pushmsg_center_pull_up_text">松开加载更多</string>
-    <string name="pushmsg_center_pull_down_text">下拉可以刷新</string>
-    <string name="pushmsg_center_pull_release_text">松开获取更多</string>
-    <string name="pushmsg_center_pull_down_update_time">最后更新时间 : </string>
-    <string name="pushmsg_center_load_more_ongoing_text">正在加载中</string>
-    <string name="xsearch_loading">正在加载中…</string>
 
-    <!-- 加载图片失败时的提示文本 -->
-    <string name="picture_load_image_failed">点击屏幕，重新加载</string>
-    <!-- 加载中提示 -->
-    <string name="picture_image_loading">正在加载…</string>
-    
-    <!-- 下拉刷新和上拉加载更多的文本 -->
-    <string name="pull_to_refresh_header_hint_normal">@string/pushmsg_center_pull_down_text</string>
-    <string name="pull_to_refresh_header_hint_normal2">上拉可以刷新</string>
-    <string name="pull_to_refresh_header_hint_ready">松开后刷新</string>
-    <string name="pull_to_refresh_header_hint_loading">@string/pushmsg_center_load_more_ongoing_text</string>
-    <string name="pull_to_refresh_header_last_time">@string/pushmsg_center_pull_down_update_time</string>
-    <string name="pull_to_refresh_footer_hint_ready">松开载入更多</string>
-    <string name="pull_to_refresh_refreshing_label">@string/pull_to_refresh_header_hint_loading</string>
-    <string name="pull_to_refresh_no_more_data">@string/pushmsg_center_no_more_msg</string>
-    <string name="pull_to_refresh_network_error">网络不给力，请检查网络</string>
-    
+
     <!-- 图片保存的文字 -->
     <string name="picture_save_succeed">图片已保存到相册</string>
     <string name="picture_save_fail">保存图片失败</string>
@@ -38,4 +14,8 @@
     <string name="picture_previous_album">上一组：</string>
 
     <string name="blood_normal">正常：4.4-10.0mmol/L</string>
+
+    <string name="welcome_msg">提供一对一实时咨询，帮您完成康复诊疗，提供康复咨询，报告解读，用药等方面建议</string>
+    <string name="welcome_msg_food">权威营养师运用营养学知识，帮您设计专属的饮食方案，达到合理营养与平衡膳食的要求</string>
+    <string name="welcome_msg_family">在线建立专属健康档案，家庭成员相互监督，关爱家人健康</string>
 </resources>

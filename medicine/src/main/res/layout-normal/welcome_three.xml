@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:background="@color/welcome_three_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_marginTop="110dp"
+            android:background="@drawable/ic_welcome_3"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="健康档案"
+            android:layout_marginTop="142dp"
+            android:textStyle="bold"
+            style="@style/TitleDefaultText"
+            android:textColor="@color/write"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="21dp"
+            android:lineSpacingExtra="9dp"
+            android:text="@string/welcome_msg_family"
+            style="@style/DefaultText"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:textColor="@color/write"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@id/btn_next"
+        android:text="立即体验"
+        android:padding="14dp"
+        android:textSize="16.0sp"
+        android:gravity="center"
+        android:background="@drawable/s_btn"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/welcome_three_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

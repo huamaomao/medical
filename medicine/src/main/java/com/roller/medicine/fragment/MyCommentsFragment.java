@@ -115,9 +115,8 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 			}
 		};
 
-		rv_view.addOnScrollListener(scrollListener);
-
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
+		rv_view.addOnScrollListener(scrollListener);
 		requestData(1);
 		refresh.setRefreshing(true);
 		dialog=new AlertDialogFragment();

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@id/viewpage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <RadioGroup
+        android:id="@id/rg_group"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="230dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+        <RadioButton
+            android:id="@id/rb_tab_1"
+            style="@style/home_round"
+            android:checked="true" />
+        <RadioButton
+            android:id="@id/rb_tab_2"
+            android:textColor="@color/write"
+            style="@style/home_round"
+            android:checked="false" />
+        <RadioButton
+            android:id="@id/rb_tab_3"
+            android:textColor="@color/write"
+            style="@style/home_round"
+            android:checked="false" />
+
+    </RadioGroup>
+</RelativeLayout>
