@@ -24,30 +24,24 @@ public  class BaseFragment extends Fragment implements IView {
     protected View rootView=null;
     protected int layoutId;
     protected boolean flag=false;
-    protected QuickAdapter quickAdapter;
-    BaseActivity baseActivity;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
 
-    /****
-     *  设置最后触发时间
-     */
-    protected void setLastClickTime(){
-        ((BaseActivity)getActivity()).setLastClickTime();
-    }
 
 
     public void setTitle(String title){
-        baseActivity.setTitle(title);
+        ((BaseActivity)getActivity()).setTitle(title);
     }
 
     public ActionBar getSupperActionBar(){
-        return baseActivity.getSupportActionBar();
+        return ((BaseActivity)getActivity()).getSupportActionBar();
     }
 
     protected  void setLayoutId(int layoutId){
@@ -79,9 +73,6 @@ public  class BaseFragment extends Fragment implements IView {
     }
 
 
-   public boolean onMenuItemSelected(MenuItem menuItem){
-        return  false;
-    }
 
 
     @Override

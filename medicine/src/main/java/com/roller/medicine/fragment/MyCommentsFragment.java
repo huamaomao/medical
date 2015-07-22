@@ -107,15 +107,13 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 				return mData.size();
 			}
 		});
-
+		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
 		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
 			@Override
 			public void onLoadMore(int current_page) {
 				requestData(current_page);
 			}
 		};
-
-		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
 		rv_view.addOnScrollListener(scrollListener);
 		requestData(1);
 		refresh.setRefreshing(true);
@@ -165,8 +163,8 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 					adapter.addItemAll(info.list);
 				}else {
 					adapter.addMoreItem(info.list);
-					scrollListener.nextPage(info.list);
 				}
+				scrollListener.nextPage(info.list);
 			}
 
 			@Override
@@ -177,9 +175,14 @@ public class MyCommentsFragment extends BaseToolbarFragment{
 			@Override
 			public void requestView() {
 				if (CommonUtil.notNull(refresh)){
-					refresh.setRefreshing(false);
+					if (page==1) {
+						refresh.setRefreshing(false);
+					}else{
+						scrollListener.setLoadMore();
+					}
 					adapter.checkEmpty();
 				}
+
 			}
 		});
 	}

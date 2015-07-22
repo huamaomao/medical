@@ -13,9 +13,11 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * 专长
@@ -68,6 +70,7 @@ public class UpdateSpecialityActivity extends BaseLoadingActivity{
                 userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
                     @Override
                     public void requestSuccess(ResponseMessage info, Response response) {
+                        EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_USER_INFO));
                         msgShow("保存成功");
                         finish();
                     }

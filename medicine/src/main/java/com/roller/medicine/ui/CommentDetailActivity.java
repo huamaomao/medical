@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -33,16 +31,18 @@ import com.roller.medicine.info.ReplyInfo;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.AppConstants;
+import com.roller.medicine.utils.ShareUtils;
 import com.roller.medicine.utils.TimeUtil;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.sso.UMSsoHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -60,13 +60,9 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	@InjectView(R.id.iv_praise)
 	ImageView iv_praise;
 
-
-
 	private HashMap<String, Drawable> mImageCache = new HashMap();
-
 	private RecyclerAdapter<ReplyInfo> adapter;
 	private List<ReplyInfo> mData;
-
 	private String id=null;
 	private String boardId=null;
 	private DataModel dataModel;
@@ -75,9 +71,8 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	private TokenInfo tokenInfo;
 
 	private UserInfo userInfo;
-
-
-
+	//umeng
+	private UMSocialService socialService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +83,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	protected void initView() {
 		id=getIntent().getExtras().getString(AppConstants.ITEM);
 		boardId=getIntent().getExtras().getString(AppConstants.DATA_BOARD_ID);
-
 		setBackActivity("详情");
 		dataModel=new DataModel();
 		mData=new ArrayList();
@@ -193,7 +187,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 								viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
 									@Override
 									public void onClick(View v) {
-										setLastClickTime();
+										if (CommonUtil.isFastClick())return ;
 										Bundle bundle = new Bundle();
 										bundle.putString(AppConstants.ITEM, item.id);
 										ViewUtil.openActivity(CommentDetailActivity.class, bundle, getContext(), ActivityModel.ACTIVITY_MODEL_2);
@@ -234,7 +228,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 							viewHolder.setViewShow(R.id.rv_view);
 							data.addAll(contentInfo.list);
 							adapter.notifyDataSetChanged();
-
 						}
 
 				} else {
@@ -277,14 +270,10 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 				return mData.size();
 			}
 		});
-
-
 		ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
 		loadData();
 
 	}
-
-
 
 	/**
 	 * 加载论坛数据
@@ -302,7 +291,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 					mData.addAll(info.replyList);
 				}
 				adapter.notifyDataSetChanged();
-
+				socialService=ShareUtils.initShare(getContext(),info.title,info.content,DataModel.getShareUrl(info.id));
 			}
 
 			@Override
@@ -321,6 +310,8 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	@OnClick(R.id.iv_shared)
 	void doShared(){
 		//分享
+		if (CommonUtil.isNull(socialService))return;
+		socialService.openShare(this,false);
 	}
 
 
@@ -330,7 +321,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 			showMsg("暂无数据，无法评论");
 			return;
 		}
-		setLastClickTime();
+		if (CommonUtil.isFastClick())return;
 		Intent intent=new Intent(getContext(),CommentActivity.class);
 		Bundle bundle=new Bundle();
 		bundle.putString(AppConstants.ITEM, contentInfo.id);
@@ -339,6 +330,12 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 		intent.putExtras(bundle);
 		startActivityForResult(intent, AppConstants.CODE);
 	}
+
+
+
+
+
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -354,8 +351,14 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 				mData.add(1,info);
 				adapter.notifyItemAdd(1);
 			}
-			Log.d("resultCode:.......");
 
+		}else{
+			if (CommonUtil.notNull(socialService)){
+				UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+				if (ssoHandler != null) {
+					ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+				}
+			}
 		}
 	}
 
@@ -369,7 +372,7 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 	}
 
 	 void savePraise(final String id,final String replyId,boolean isPraise,String type){
-		setLastClickTime();
+		 if (CommonUtil.isFastClick())return;
 		if (isPraise){
 			deletePraise(contentInfo.id,replyId,type);
 		}else{
@@ -429,7 +432,6 @@ public class CommentDetailActivity extends BaseToolbarActivity{
 				if (CommonUtil.notNull(replyId)) {
 					//
 				} else {
-
 					contentInfo.praiseCount = CommonUtil.numberCut(contentInfo.praiseCount);
 					contentInfo.isPraise = false;
 					//adapter.notifyItemUpdate(0);

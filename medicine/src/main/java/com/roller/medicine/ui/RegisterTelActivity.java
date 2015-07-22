@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -46,6 +47,12 @@ public class RegisterTelActivity extends BaseLoadingToolbarActivity{
 		super.initView();
 		setBackActivity("注册");
 		service=new DataModel();
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+		return super.onTouchEvent(event);
 	}
 
 	@OnClick(R.id.btn_send)

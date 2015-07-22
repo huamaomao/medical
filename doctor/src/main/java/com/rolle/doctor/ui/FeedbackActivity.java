@@ -3,20 +3,19 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import butterknife.InjectView;
@@ -38,6 +37,12 @@ public class FeedbackActivity extends BaseLoadingActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+        return super.onTouchEvent(event);
     }
 
     private void saveData(){
@@ -73,7 +78,7 @@ public class FeedbackActivity extends BaseLoadingActivity{
         loadingFragment.setMessage("正在提交数据");
         setBackActivity("意见反馈");
         userModel=new UserModel(getContext());
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.notNull(user)){
             et_content.setText(user.noteName);
         }

@@ -19,6 +19,20 @@ import java.util.regex.Pattern;
  * Created by Hua on 2014/7/31.
  */
 public final class CommonUtil {
+    private static long lastClickTime;
+
+    /*****
+     * 防止重复点击
+     * @return
+     */
+    public synchronized static boolean isFastClick() {
+        long time = System.currentTimeMillis();
+        if ( time - lastClickTime < 500) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 
     /************************************************数据 method ******************************************************************/
 
@@ -218,11 +232,6 @@ public final class CommonUtil {
             }
         }
         return valueLength;
-    }
-
-
-    public static  void main(String s[]){
-        System.out.println(checkName("打发打发"));
     }
 
 

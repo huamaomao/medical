@@ -1,7 +1,5 @@
 package com.rolle.doctor.fragment;
 
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,23 +12,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
+import com.gotye.api.GotyeChatTarget;
+import com.gotye.api.GotyeMessage;
+import com.gotye.api.GotyeUser;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.presenter.MessageListPresenter;
+import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.ui.AddFriendActivity;
 import com.rolle.doctor.ui.MessageActivity;
 import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.RequestApi;
+import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +47,7 @@ import butterknife.InjectView;
 /**
  * 消息
  */
-public class MessageFragment extends BaseFragment implements MessageListPresenter.IMessageView{
+public class MessageFragment extends BaseFragment{
 
     @InjectView(R.id.refresh)
     PullRefreshLayout refresh;
@@ -47,8 +55,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     RecyclerView rv_view;
     private LinkedList<User> lsData;
     private RecyclerAdapter<User> recyclerAdapter;
-    private MessageListPresenter presenter;
-    private GotyeModel model;
+    private GotyeModel gotyeModel;
     private UserModel userModel;
 
 
@@ -57,8 +64,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_message);
-        presenter=new MessageListPresenter(this);
-        model=new GotyeModel();
+        gotyeModel=new GotyeModel();
         userModel=new UserModel(getContext());
     }
 
@@ -73,12 +79,11 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
     protected void initView(final View view, LayoutInflater inflater) {
         super.initView(view, inflater);
         lsData=new LinkedList<>();
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.doMessage();
-                refresh.setRefreshing(false);
+                doMessage();
             }
         });
         refresh.setRefreshing(false);
@@ -89,7 +94,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             public void onClick(View v,User messageUser , int position) {
                 if (CommonUtil.notNull(messageUser)){
                     Bundle bundle=new Bundle();
-                    bundle.putParcelable(Constants.ITEM,messageUser);
+                    bundle.putParcelable(AppConstants.ITEM,messageUser);
                     ViewUtil.openActivity(MessageActivity.class,bundle,getActivity(), ActivityModel.ACTIVITY_MODEL_1);
                 }
             }
@@ -111,7 +116,7 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                 }
                 //是否是医生
                 viewHolder.setImageResource(R.id.iv_type, 0);
-                if (Constants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || Constants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
+                if (AppConstants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || AppConstants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
                     viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
                 }
                 TextView textView = viewHolder.getView(R.id.tv_item_2);
@@ -144,12 +149,90 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
             }
         });
         ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), recyclerAdapter);
-        presenter.doMessage();
-        presenter.initReceive();
+        doMessage();
+        //接受消息
+        gotyeModel.initReceive(new GotyeModel.ReceiveMessageListener() {
+            @Override
+            public void onReceiveMessage(GotyeMessage message) {
+                if (CommonUtil.notNull(message) && message.getReceiver().getName().equals(userModel.getLoginUser().id)) {
+                    User user = getUser(message.getSender().getName());
+                    if (CommonUtil.notNull(user))
+                        recyclerAdapter.pushItem(user);
+                }
+
+            }
+        });
+    }
 
 
+
+    /****
+     * 处理消息
+     */
+    public void doMessage(){
+        int id=userModel.getLoginUser().id;
+        List<GotyeChatTarget> ls =gotyeModel.getFriendSession();
+        if (CommonUtil.notNull(ls)){
+            List<User> userList=new ArrayList<>();
+            User user=null;
+            for (GotyeChatTarget target:ls){
+                user=getUser(target.getName());
+                if (CommonUtil.notNull(user)&&user.id!=id){
+                    userList.add(user);
+                }
+            }
+            recyclerAdapter.addItemAll(userList);
+        }else {
+            lsData.clear();
+            recyclerAdapter.notifyDataSetChanged();
+        }
+        recyclerAdapter.checkEmpty();
+        refresh.setRefreshing(false);
+    }
+
+    public  User getUser(String id){
+        User user1=null;
+        GotyeUser userTarget=null;
+        GotyeMessage message=null;
+        //     可能获取不到用户  需从服务器拉取  不在好友列表中
+        user1= userModel.getUser(CommonUtil.parseInt(id));
+        if (CommonUtil.notNull(user1)){
+            userTarget=new GotyeUser();
+            userTarget.setName(user1.id + "");
+            user1.messageNum=gotyeModel.getMessageCount(userTarget);
+            message=gotyeModel.getLastMessage(userTarget);
+            if (CommonUtil.notNull(message)){
+                user1.message=message.getText();
+                user1.date= TimeUtil.getDiffTime(message.getDate() * 1000);
+            }
+        }else {
+            userModel.requestUserInfo(id, new SimpleResponseListener<UserResponse>() {
+                @Override
+                public void requestSuccess(UserResponse info, Response response) {
+                    if (info.user==null)return;
+                    GotyeUser userTarget = new GotyeUser();
+                    userTarget.setName(info.user.id + "");
+                    info.user.messageNum = gotyeModel.getMessageCount(userTarget);
+                    GotyeMessage gotyeMessage = gotyeModel.getLastMessage(userTarget);
+                    if (CommonUtil.notNull(gotyeMessage)) {
+                        info.user.message = gotyeMessage.getText();
+                        info.user.date = TimeUtil.getDiffTime(gotyeMessage.getDate() * 1000);
+                    }
+                    userModel.saveUser(info.user);
+                    recyclerAdapter.pushItem(info.user);
+                }
+
+                @Override
+                public void requestError(HttpException e, ResponseMessage info) {
+                    Log.d(info);
+
+                }
+            });
+        }
+        return user1;
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -161,24 +244,13 @@ public class MessageFragment extends BaseFragment implements MessageListPresente
                ViewUtil.openActivity(SeachActivity.class,getActivity());
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
-    public void addMessagelist(List<User> ls) {
-        recyclerAdapter.addItemAll(ls);
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
     }
-
-    @Override
-    public void addMessageItem(User item) {
-        recyclerAdapter.addItem(item);
-    }
-
-    @Override
-    public void setEmpty() {
-        recyclerAdapter.checkEmpty();
-    }
-
 
     @Override
     public void onDestroy() {

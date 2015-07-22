@@ -39,8 +39,6 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
         loadingFragment.setMessage("正在提交数据...");
-
-
     }
 
 

@@ -7,6 +7,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     style="@style/AppTheme"
+    android:descendantFocusability="beforeDescendants"
     android:background="@drawable/toolbar_title"
     android:minHeight="?attr/actionBarSize" >
     <!--android:background="?attr/colorPrimary"-->

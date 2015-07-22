@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
@@ -58,6 +59,12 @@ public class MessageActivity extends BaseLoadingToolbarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+        return super.onTouchEvent(event);
     }
 
     @Override

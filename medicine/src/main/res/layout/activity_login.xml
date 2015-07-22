@@ -113,6 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
+            android:id="@id/btn_next"
             android:background="@drawable/s_btn"
             android:src="@drawable/ic_weixin"
             android:padding="@dimen/iten_margin_top"

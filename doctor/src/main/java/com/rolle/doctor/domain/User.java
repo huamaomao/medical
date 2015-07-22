@@ -5,11 +5,9 @@ import android.os.Parcelable;
 
 import com.android.common.domain.ResponseMessage;
 import com.litesuits.orm.db.annotation.Table;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * 用户
@@ -48,7 +46,7 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     /***所在医院**/
     public String hospitalName;
     public String tel;
-    public String sex= Constants.SEX_BOY;
+    public String sex= AppConstants.SEX_BOY;
     public String age;
     public String userName;
     public String minNum;

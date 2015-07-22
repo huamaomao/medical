@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -36,7 +38,8 @@ import java.util.List;
 import butterknife.InjectView;
 
 /****
- *  内容
+ *  创建血糖记录
+ *
  */
 public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	@InjectView(R.id.sp_start)
@@ -55,6 +58,11 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	EditText et_yonogyao;
 	@InjectView(R.id.et_xinqing)
 	EditText et_xinqing;
+  	/****血压  收缩   舒张*****/
+	@InjectView(R.id.et_blood_shrinkage)
+	EditText et_blood_shrinkage;
+	@InjectView(R.id.et_blood_diastole)
+	EditText et_blood_diastole;
 
 	private DataModel service;
 	private YearSpinnerAdpater finamyAdpater;
@@ -120,11 +128,17 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 	}
 
 	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this, getCurrentFocus(), event);
+		return super.onTouchEvent(event);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.toolbar_save:
+				if (CommonUtil.isFastClick())return true;
 				saveBlood();
-				setLastClickTime();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -188,28 +202,31 @@ public class CreateBloodActivity extends BaseLoadingToolbarActivity{
 
 		HomeInfo.Family family=familyList.get(sp_finamy.getSelectedItemPosition());
 		showLoading();
+		String sbp=et_blood_shrinkage.getText().toString();
+		String dbp=et_blood_diastole.getText().toString();
 		//sp_time.getSelectedItemPosition()
-		service.requestSaveBlood(tv_date.getText().toString(),getDateType(sp_time.getSelectedItemPosition()),tuneWheel.getValue()+"",
-				family.userId,et_yonogyao.getText().toString(),et_yundong.getText().toString(),et_xinqing.getText().toString(),
+		service.requestSaveBlood(dbp,sbp, tv_date.getText().toString(), getDateType(sp_time.getSelectedItemPosition()), tuneWheel.getValue() + "",
+				family.userId, et_yonogyao.getText().toString(), et_yundong.getText().toString(), et_xinqing.getText().toString(),
 				new SimpleResponseListener<HomeInfo>() {
-			@Override
-			public void requestSuccess(HomeInfo info, Response response) {
-				setResult(100);
-				showLongMsg("保存成功.....");
-				finish();
+					@Override
+					public void requestSuccess(HomeInfo info, Response response) {
+						setResult(100);
+						showLongMsg("保存成功.....");
+						finish();
 
-			}
+					}
 
-			@Override
-			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
-			}
-			@Override
-			public void requestView() {
-				super.requestView();
-				hideLoading();
-			}
-		});
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+					}
+
+					@Override
+					public void requestView() {
+						super.requestView();
+						hideLoading();
+					}
+				});
 	}
 
 	public String getDateType(int position){

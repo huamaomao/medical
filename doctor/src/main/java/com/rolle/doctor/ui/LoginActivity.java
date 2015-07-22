@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -40,7 +41,7 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         presenter=new LoginPresenter(this);
-        presenter.doIsLogin();
+
     }
 
     @OnClick(R.id.btn_login)
@@ -55,12 +56,20 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     @OnClick(R.id.tv_forgot_pwd)
     void doRetrievePwd(){
         finish();
-        ViewUtil.openActivity(RetrievePwdSettingActivity.class,this,true);
+        //RetrievePwdSettingActivity
+        ViewUtil.openActivity(ChooseListActivity.class,this,true);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+        return super.onTouchEvent(event);
     }
 
     @Override
     protected void initView() {
         super.initView();
+        presenter.doIsLogin();
         etPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -71,6 +80,7 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
                 return false;
             }
         });
+
 
         llLogin.setOnSizeChangedListenner(new InputMethodLinearLayout.OnSizeChangedListenner() {
             @Override
@@ -87,7 +97,6 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
             }
         });
 
-        presenter.initUser();
     }
 
     @Override
@@ -102,9 +111,9 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
 
     @Override
     public void setTel(String tel) {
-        etTel.setText(tel);
         if (CommonUtil.notEmpty(tel)){
-            etTel.setSelection(tel.length());
+            etTel.setText(tel);
+            etPwd.requestFocus();
         }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_wh_match_v"
+    android:background="@color/appbg">
+    <include layout="@layout/toolbar" />
+    <ImageView
+        android:id="@id/iv_photo"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

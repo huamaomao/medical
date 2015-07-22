@@ -18,7 +18,7 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
     //是否有值可以再加载数据
     private boolean isMore=true;
 
-    private int current_page = 2;
+    private int current_page = 1;
  
     private LinearLayoutManager mLinearLayoutManager;
  
@@ -29,23 +29,13 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
- 
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
- 
-       /* if (loading) {
-            if (totalItemCount > previousTotal) {
-                loading = false;
-                previousTotal = totalItemCount;
-            }
-        }*/
-        //Log.d("onLoadMore:"+isMore+"----"+loading+"---"+ (totalItemCount - visibleItemCount)+"---"+(firstVisibleItem + visibleThreshold));
+        if (current_page==1)return;
         if (isMore&&!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)) {
-            // End has been reached
-            // Do something
-            Log.d("onLoadMore:"+current_page);
+            loading=true;
             onLoadMore(current_page);
         }
     }
@@ -55,14 +45,15 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
 
     public void setPageInit(){
         current_page=1;
-        loading=true;
-        isMore=true;
+        loading=false;
+        isMore=false;
     }
 
     public void nextPage(List data){
-        if (CommonUtil.isNull(data)||data.size()==0)
+        if (CommonUtil.isNull(data)||data.size()<10)
             isMore=false;
         else{
+            isMore=true;
             current_page++;
             loading=false;
         }

@@ -5,8 +5,8 @@
 
     <item android:id="@+id/action_add"
         android:title=""
+        app:showAsAction="always"
         android:orderInCategory="0"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/icon_add"
         android:menuCategory="secondary"/>
 

@@ -12,13 +12,13 @@ import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.request.Request;
+import com.litesuits.http.request.content.JsonBody;
 import com.litesuits.http.request.content.MultipartBody;
 import com.litesuits.http.request.content.UrlEncodedFormBody;
 import com.litesuits.http.request.content.multi.FilePart;
 import com.litesuits.http.request.content.multi.StringPart;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
@@ -34,6 +34,8 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.domain.WalletBill;
+import com.rolle.doctor.event.BaseEvent;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.util.UrlApi;
@@ -43,16 +45,32 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/4/21 0021.
  */
 public class UserModel  extends ViewModel {
     private static Token token;
-    public  DataBase db;
+    public static DataBase db;
     private  Context mContext;
     public UserModel(Context context){
-        this.db=LiteOrm.newCascadeInstance(context, com.rolle.doctor.util.Constants.DB_NAME);
         this.mContext=context;
+        instanceDataBase(context);
+    }
+
+    public static synchronized void instanceDataBase(Context context){
+        if (CommonUtil.isNull(db)){
+            db=LiteOrm.newCascadeInstance(context, AppConstants.DB_NAME);
+        }
+    }
+
+
+    @Override
+    protected  void loginOut() {
+        if (!token.isLogin()) return;
+        setLoginOut();
+        EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_TOKEN_OUT));
     }
 
     public void saveUser(User user){
@@ -101,7 +119,7 @@ public class UserModel  extends ViewModel {
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
-                listener.requestError(e,info);
+                listener.requestError(e, info);
                 listener.requestView();
             }
 
@@ -149,11 +167,12 @@ public class UserModel  extends ViewModel {
      * @param tel
      * @param listener
      */
-    public void  requestLogin(String tel,String pwd,final SimpleResponseListener<User> listener){
+    public void  requestLogin(final String tel,String pwd,final SimpleResponseListener<User> listener){
         execute(RequestApi.requestLogin(tel, MD5.compute(pwd)), new SimpleResponseListener<Token>() {
             @Override
             public void requestSuccess(Token info, Response response) {
-                setToken(token);
+                info.tel=tel;
+                setToken(info);
                 requestUserInfo(listener);
             }
 
@@ -172,7 +191,7 @@ public class UserModel  extends ViewModel {
      */
     public long requestModelNum(){
         QueryBuilder builder=new QueryBuilder(User.class).where(WhereBuilder.create().
-                andIn("typeId", new String[]{com.rolle.doctor.util.Constants.USER_TYPE_PATIENT}).andEquals("friendId",getLoginUser().id));
+                andIn("typeId", new String[]{AppConstants.USER_TYPE_PATIENT}).andEquals("friendId",getLoginUser().id));
         return db.queryCount(builder);
     }
 
@@ -192,6 +211,7 @@ public class UserModel  extends ViewModel {
     }
 
     public void saveFriendList(List<User> list){
+        if (CommonUtil.isNull(list))return;
         for (User user:list){
             user.friendId=getLoginUser().id;
             saveUser(user);
@@ -227,7 +247,7 @@ public class UserModel  extends ViewModel {
      */
     public List<User>  queryPatientList(){
         QueryBuilder builder=new QueryBuilder(User.class).where(WhereBuilder.create().
-                equals("typeId", com.rolle.doctor.util.Constants.USER_TYPE_PATIENT).andEquals("friendId",getLoginUser().id));
+                equals("typeId", AppConstants.USER_TYPE_PATIENT).andEquals("friendId",getLoginUser().id));
         List<User> ls=db.query(builder);
         return ls==null?new ArrayList<User>():ls;
     }
@@ -255,8 +275,8 @@ public class UserModel  extends ViewModel {
      */
     public List<User>  queryFriendList(){
         QueryBuilder builder=new QueryBuilder(User.class).where(WhereBuilder.create().
-                andIn("typeId", new String[]{com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR,
-                        com.rolle.doctor.util.Constants.USER_TYPE_DIETITAN}).andEquals("friendId", getLoginUser().id));
+                andIn("typeId", new String[]{AppConstants.USER_TYPE_DOCTOR,
+                        AppConstants.USER_TYPE_DIETITAN}).andEquals("friendId", getLoginUser().id));
         List<User> ls=db.query(builder);
         return queryFriend(ls);
     }
@@ -340,7 +360,7 @@ public class UserModel  extends ViewModel {
     /******
      * 获取用户信息
      */
-    public void requestUserInfo(String userId,final SimpleResponseListener<User> listener){
+    public void requestUserInfo(String userId,final SimpleResponseListener<UserResponse> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/getUserByMap.json");
         List<NameValuePair> param=new ArrayList<>();
@@ -433,20 +453,32 @@ public class UserModel  extends ViewModel {
         url.append("/crm/user_sp/getNewFriendList.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
+
+        StringBuilder builder=new StringBuilder("{");
+        builder.append("token:'").append(getToken().token)
+                .append("',list:");
         if (CommonUtil.notNull(list)){
             for (ContactBean bean:list){
                  bean.setNickname(URLEncoder.encode(bean.getNickname()));
             }
 
-            param.add(new NameValuePair("list",JSON.toJSONString(list)));
-            Log.d(param.get(1));
-            Log.d(JSON.toJSONString(list));
         }
-        Request request=new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        param.add(new NameValuePair("list",JSON.toJSONString(list)));
+
+        builder.append(JSON.toJSONString(list));
+        builder.append("}");
+        Request request=new Request(url.toString());
+        request.setMethod(HttpMethod.Post);
+        MultipartBody body = new MultipartBody();
+        body.addPart(new StringPart("token",getToken().token));
+        body.addPart(new StringPart("list",JSON.toJSONString(list)));
+       // request.addHeader("Content-Type", "application/json");
+        //request.setHttpBody(new JsonBody(builder.toString()));
+        request.setHttpBody(body);
         execute(request, new SimpleResponseListener<Recommended>() {
             @Override
             public void requestSuccess(Recommended info, Response response) {
-                listener.requestSuccess(info.list,response);
+                listener.requestSuccess(info.list, response);
             }
 
             @Override
@@ -699,11 +731,14 @@ public class UserModel  extends ViewModel {
         execute(request,listener);
     }
 
-    public Token getToken(){
-        if (token==null||!token.isLogin()){
-            token=db.queryById(1,Token.class);
+    public  Token getToken(){
+        synchronized (this){
+            /****做处理  查询token***/
+            if (token==null||!token.isLogin()){
+                token=db.queryById(1, Token.class);
+            }
+            return token;
         }
-        return token;
     }
     public void setToken(Token token){
         this.token=token;
@@ -711,8 +746,8 @@ public class UserModel  extends ViewModel {
         db.save(this.token);
     }
     public void setLoginOut(){
-        getToken().setLoginOut();
-        db.save(getToken());
+        token.setLoginOut();
+        db.save(token);
     }
 
 

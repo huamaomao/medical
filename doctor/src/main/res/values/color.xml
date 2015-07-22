@@ -27,7 +27,9 @@
 
     <color name="login_et_bg">#4c000000</color>
     <color name="login_btn">#33000000</color>
+    <color name="btn_code">#d5d1d1</color>
     <color name="color_hint">#d0d0d0</color>
     <color name="bg_selection">#2b83d9</color>
+    <color name="color_submit">#288ff4</color>
 
 </resources>

@@ -97,11 +97,7 @@ public final class GotyeModel extends Presenter {
      * @param chatUser
      * @param message
      */
-    public GotyeMessage sendMessage(final GotyeUser chatUser,final String message,final  OnValidationListener listener){
-        if (CommonUtil.isEmpty(message)){
-            listener.errorMessage();
-            return null;
-        }
+    public GotyeMessage sendMessage(final GotyeUser chatUser,final String message){
         GotyeMessage toSendMsg =GotyeMessage.createTextMessage(gotyeAPI.getLoginUser(), chatUser, message);
         Log.d(TAG, "发送消息code:" + gotyeAPI.sendMessage(toSendMsg));
         return toSendMsg;

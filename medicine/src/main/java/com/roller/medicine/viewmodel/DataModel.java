@@ -22,6 +22,7 @@ import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
+import com.roller.medicine.event.BaseEvent;
 import com.roller.medicine.info.BloodInfo;
 import com.roller.medicine.info.CommentInfo;
 import com.roller.medicine.info.DoctorDetialInfo;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * @author Hua_
  * @Description:
@@ -61,7 +64,12 @@ public class DataModel extends ViewModel{
         liteOrm= LiteOrm.newInstance(context, "medicine_lite.db");
     }
 
-
+    public synchronized static String getShareUrl(String id){
+        if (CommonUtil.isEmpty(id)) return null;
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/post/getPostInfo.htm?id=").append(id);
+        return url.toString();
+    }
 
     public synchronized static String getImageUrl(String path){
         if (CommonUtil.isEmpty(path)) return null;
@@ -71,6 +79,35 @@ public class DataModel extends ViewModel{
     }
 
     /*****************************数据库  method***********************************************/
+    /*****
+     *
+     * @param familyList
+     */
+    public void ormSaveFamily(List<HomeInfo.Family> familyList){
+        if (CommonUtil.notNull(familyList)){
+            UserInfo userInfo=getLoginUser();
+            for (HomeInfo.Family family:familyList){
+                family.loginId=userInfo.id;
+                liteOrm.save(family);
+            }
+        }
+    }
+    public void ormRemoveFamily(HomeInfo.Family family){
+        liteOrm.delete(family);
+        EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_FAMILY));
+    }
+
+    public List<HomeInfo.Family> ormFamilyList(){
+        QueryBuilder builder=new QueryBuilder(HomeInfo.Family.class).
+                where(WhereBuilder.create().equals("loginId", getLoginUser().id));
+       List<HomeInfo.Family> temp = liteOrm.query(builder);
+        if (CommonUtil.isNull(temp)){
+            temp=new ArrayList<>();
+
+        }
+        return temp;
+    }
+
 
     public void saveMessageChat(MessageChatInfo info){
         info.friendId=getLoginUser().id;
@@ -92,19 +129,19 @@ public class DataModel extends ViewModel{
 
 
     public  TokenInfo getToken(){
-        /****做处理  查询token***/
-        if (token==null||!token.isLogin()){
-            token=liteOrm.queryById(1, TokenInfo.class);
+        synchronized (this){
+            /****做处理  查询token***/
+            if (token==null||!token.isLogin()){
+                token=liteOrm.queryById(1, TokenInfo.class);
+            }
+            return token;
         }
-        return token;
     }
 
     public void setLoginOut(){
         TokenInfo tokenInfo=getToken();
         tokenInfo.setLoginOut();
         liteOrm.save(tokenInfo);
-        TokenInfo info=getToken();
-        Log.d(info);
     }
 
     public void setToken(TokenInfo mToken){
@@ -233,11 +270,11 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("mobile", tel));
         param.add(new NameValuePair("typeId", type));
         Request request=new Request(requestUrl(UrlApi.TEL_CODE)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
-        execute(request,responseService);
+        execute(request, responseService);
     }
 
     /**
-     * 发送短信
+     *
      */
     public void requestCheckTelCode(String tel,String code,SimpleResponseListener responseService){
         List<NameValuePair> param=new ArrayList<>();
@@ -294,6 +331,18 @@ public class DataModel extends ViewModel{
         Request request=new Request(requestUrl(UrlApi.LOGIN)).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
+
+    /**
+     * login
+     */
+    public void requestLogin(String code,SimpleResponseListener<TokenInfo> responseService){
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("code", code));
+        Request request=new Request(requestUrl("/crm/weixin_sp/login.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+        execute(request, responseService);
+    }
+
+
 
     /**
      * 重置密码
@@ -385,10 +434,11 @@ public class DataModel extends ViewModel{
     /**
      * 获取医生  3  营养师  4
      */
-    public void requestDoctorList(String type,final SimpleResponseListener<FriendResponseInfo> responseService){
+    public void requestDoctorList(String type,int page,final SimpleResponseListener<FriendResponseInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("typeId", type));
+        param.add(new NameValuePair("pageNum", page+""));
         Request request=new Request(requestUrl("/crm/doctor_sp/getDoctorList.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, new SimpleResponseListener<FriendResponseInfo>() {
             @Override
@@ -411,9 +461,10 @@ public class DataModel extends ViewModel{
     /**
      * 获取医生
      */
-    public void requestPatientList(final SimpleResponseListener<FriendResponseInfo> responseService){
+    public void requestPatientList(int page ,final SimpleResponseListener<FriendResponseInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("pageNum", Integer.toString(page)));
         Request request=new Request(requestUrl("/crm/patient_sp/getPatientList.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, new SimpleResponseListener<FriendResponseInfo>() {
             @Override
@@ -462,7 +513,7 @@ public class DataModel extends ViewModel{
     /**
     * 保存血糖值
     */
-    public void requestSaveBlood(String date,String dateType,String value,String userId,String pharmacy,String sport,
+    public void requestSaveBlood(String dbp,String sbp,String date,String dateType,String value,String userId,String pharmacy,String sport,
                         String  mood,final SimpleResponseListener<HomeInfo> responseService) {
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
@@ -473,6 +524,8 @@ public class DataModel extends ViewModel{
         param.add(new NameValuePair("pharmacy", pharmacy));
         param.add(new NameValuePair("sport", sport));
         param.add(new NameValuePair("mood", mood));
+        param.add(new NameValuePair("sbp", sbp));
+        param.add(new NameValuePair("dbp", dbp));
         Request request=new Request(requestUrl("/crm/glycemic_sp/saveGlycemicRecord.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -492,13 +545,14 @@ public class DataModel extends ViewModel{
     /************************ no zuo no die **********************************************/
 
     /**
-     * 论坛
+     * 帖子
      * @param responseService
      */
-    public void getPostListByMap(int pageNum,SimpleResponseListener<KnowledgeQuizItemInfo> responseService){
+    public void getPostListByMap(String boardId,int pageNum,SimpleResponseListener<KnowledgeQuizItemInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
-        param.add(new NameValuePair("pageNum", pageNum + ""));
+        param.add(new NameValuePair("pageNum",String.valueOf(pageNum)));
+        param.add(new NameValuePair("boardId",boardId));
         Request request=new Request(requestUrl("/crm/post_sp/getPostListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -509,11 +563,12 @@ public class DataModel extends ViewModel{
      * @param typeId  1 关注我的   2 我的关注
      * @throws Exception
      */
-    public void getRelationListByMap(String userId,String typeId,SimpleResponseListener<FocusInfo> responseService){
+    public void getRelationListByMap(String userId,String typeId,int page,SimpleResponseListener<FocusInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("typeId", typeId));
         param.add(new NameValuePair("userId", userId));
+        param.add(new NameValuePair("pageNum", String.valueOf(page)));
         Request request=new Request(requestUrl("/crm/relation_sp/getRelationListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -523,10 +578,11 @@ public class DataModel extends ViewModel{
      * @param responseService
      * @throws Exception
      */
-    public void getPraiseListByMap(String userId,SimpleResponseListener<LoveInfo> responseService){
+    public void getPraiseListByMap(String userId,int page,SimpleResponseListener<LoveInfo> responseService){
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("userId", userId));
+        param.add(new NameValuePair("pageNum", String.valueOf(page)));
         Request request=new Request(requestUrl("/crm/praise_sp/getPraiseListByMap.json")).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request, responseService);
     }
@@ -799,4 +855,10 @@ public class DataModel extends ViewModel{
     }
 
 
+    /************************ wei xin *********************************/
+    public void requestWeixinToken(){
+        StringBuilder builder=new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token?");
+        builder.append("appid=").append(AppConstants.APPID_WEIXIN).append("&secret=SECRET&code=CODE&grant_type=authorization_code");
+
+    }
 }

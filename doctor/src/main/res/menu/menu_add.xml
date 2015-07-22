@@ -6,7 +6,7 @@
     <item android:id="@id/toolbar_add"
         android:title=""
         android:icon="@drawable/icon_add"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:orderInCategory="2"
         android:menuCategory="secondary"/>
 

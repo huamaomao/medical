@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.rolle.doctor.R;
 import com.rolle.doctor.presenter.RegisterTwoPresenter;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -30,13 +30,13 @@ public class RegisterTwoActivity extends BaseLoadingActivity implements Register
     /****
      * 计时器
      */
-    private CountDownTimer downTimer=new CountDownTimer(Constants.SMS_SEBD_TIME,1000) {
+    private CountDownTimer downTimer=new CountDownTimer(AppConstants.SMS_SEBD_TIME,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             btn_send.setEnabled(false);
             StringBuilder builder=new StringBuilder();
             builder.append(millisUntilFinished/1000);
-            builder.append("秒重新获取");
+            builder.append("秒");
             btn_send.setText(builder.toString());
         }
 

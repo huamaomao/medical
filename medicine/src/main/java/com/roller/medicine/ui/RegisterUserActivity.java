@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
@@ -41,6 +42,12 @@ public class RegisterUserActivity extends BaseLoadingToolbarActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_user);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+		return super.onTouchEvent(event);
 	}
 
 	@Override

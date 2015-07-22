@@ -1,7 +1,6 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,11 +8,8 @@ import android.view.View;
 import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Constants;
-import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -22,6 +18,7 @@ import com.rolle.doctor.adapter.DoctorListAdpater;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.presenter.RegisterTitlePresenter;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -65,7 +62,7 @@ public class RegisterTitleActivity extends BaseActivity implements RegisterTitle
                 adpater.setIndex(position);
             }
         }));
-        refresh.setRefreshStyle(com.rolle.doctor.util.Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

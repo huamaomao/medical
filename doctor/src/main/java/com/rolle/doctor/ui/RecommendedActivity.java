@@ -9,14 +9,13 @@ import com.android.common.adapter.BaseRecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
@@ -50,7 +49,7 @@ public class RecommendedActivity extends BaseActivity{
     protected void initView() {
         super.initView();
         setBackActivity("收到的赞");
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -18,7 +18,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -66,6 +66,9 @@ public class PatientActivity extends BaseActivity{
         adapaterAll.addItemAll(userModel.queryPatientList());
         adapaterMax.addItemAll(userModel.queryPatientList());
         adapaterMin.addItemAll(userModel.queryPatientList());
+        adapaterAll.checkEmpty();
+        adapaterMax.checkEmpty();
+        adapaterMin.checkEmpty();
     }
 
 
@@ -94,7 +97,7 @@ public class PatientActivity extends BaseActivity{
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -4,8 +4,6 @@ package com.rolle.doctor.util;
 import com.android.common.util.Log;
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.request.Request;
-import com.litesuits.http.request.content.HttpBody;
-import com.litesuits.http.request.content.StringBody;
 import com.litesuits.http.request.content.UrlEncodedFormBody;
 import com.litesuits.http.request.param.HttpMethod;
 import com.rolle.doctor.domain.User;
@@ -57,7 +55,7 @@ public final class RequestApi {
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
         param.add(new NameValuePair("verifycode",verifycode));
-        param.add(new NameValuePair("typeId",Constants.USER_TYPE_DOCTOR));
+        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
@@ -74,7 +72,7 @@ public final class RequestApi {
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
-        param.add(new NameValuePair("typeId",Constants.USER_TYPE_DOCTOR));
+        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 

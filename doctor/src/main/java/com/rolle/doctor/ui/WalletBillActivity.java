@@ -7,14 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.WalletDatialListAdapater;
 import com.rolle.doctor.domain.WalletBill;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import java.util.ArrayList;
@@ -47,14 +46,13 @@ public class WalletBillActivity extends BaseActivity {
         super.initView();
         setBackActivity("账单详细");
         userModel=new UserModel(getContext());
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadData();
             }
         });
-        flagClick=false;
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         rvView.setLayoutManager(layoutManager);
         lsData=new ArrayList<>();

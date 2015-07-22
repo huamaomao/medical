@@ -42,7 +42,9 @@ public class SettingActivity extends BaseActivity{
     void onLoginOut(){
         userModel.setLoginOut();
         ViewUtil.startTopActivity(LoginActivity.class,getContext());
+        android.os.Process.killProcess(android.os.Process.myPid()); //获取PID
         finish();
+
     }
 
     @Override

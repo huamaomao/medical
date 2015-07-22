@@ -2,6 +2,7 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
@@ -50,6 +52,8 @@ public class MyLikeFragment extends BaseToolbarFragment {
 	private DataModel dataModel;
 	public String userId=null;
 
+	private RecyclerOnScrollListener scrollListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,7 +75,8 @@ public class MyLikeFragment extends BaseToolbarFragment {
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				requestData();
+				requestData(1);
+				scrollListener.setPageInit();
 			}
 		});
 		userId=getArguments().getString(AppConstants.ITEM);
@@ -88,8 +93,8 @@ public class MyLikeFragment extends BaseToolbarFragment {
 		};
 		adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<LoveInfo.Item>() {
 			@Override
-			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder,final LoveInfo.Item item, int position) {
-				if (CommonUtil.notNull(item.post)){
+			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final LoveInfo.Item item, int position) {
+				if (CommonUtil.notNull(item.post)) {
 
 					viewHolder.setText(R.id.tv_content, item.post.content);
 					viewHolder.setText(R.id.tv_praise, CommonUtil.initTextValue(item.post.praiseCount));
@@ -102,7 +107,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 						textView.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								setLastClickTime();
+								if (CommonUtil.isFastClick())return;
 								///savePraise(position, item.id, item.replyId, "74", item.createUserId);
 							}
 						});
@@ -112,7 +117,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 					viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							setLastClickTime();
+							if (CommonUtil.isFastClick())return;
 							Bundle bundle = new Bundle();
 							bundle.putString(AppConstants.ITEM, item.post.id);
 							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
@@ -121,22 +126,21 @@ public class MyLikeFragment extends BaseToolbarFragment {
 					viewHolder.getView(R.id.tv_comment).setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							setLastClickTime();
+							if (CommonUtil.isFastClick())return;
 							//评论
-							setLastClickTime();
 							Bundle bundle = new Bundle();
 							bundle.putString(AppConstants.ITEM, item.id);
 							ViewUtil.openActivity(CommentDetailActivity.class, bundle, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
 						}
 					});
 
-					String url=null;
+					String url = null;
 					if (CommonUtil.notNull(item.post.images) && item.post.images.size() > 0) {
-						url=item.post.images.get(0).url;
+						url = item.post.images.get(0).url;
 					}
 					Picasso.with(getActivity()).load(DataModel.getImageUrl(url)).placeholder(R.drawable.icon_comment_default).error(R.drawable.icon_comment_error)
 							.resize(160, 160).into((ImageView) viewHolder.getView(R.id.iv_pic));
-				}else {
+				} else {
 					if (CommonUtil.notNull(item.reply)) {
 						Util.loadPhoto(getActivity(), item.reply.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
 						viewHolder.setText(R.id.tv_date, TimeUtil.getFmdLongTime(item.reply.createTime));
@@ -151,7 +155,7 @@ public class MyLikeFragment extends BaseToolbarFragment {
 
 			@Override
 			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-				if (viewType==22)
+				if (viewType == 22)
 					return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.item_like_comment, viewGroup, false));
 				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.listview_like, viewGroup, false));
 			}
@@ -162,15 +166,28 @@ public class MyLikeFragment extends BaseToolbarFragment {
 			}
 		});
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
-		requestData();
-	}
-	private void requestData(){
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				requestData(current_page);
+			}
+		};
+		rv_view.addOnScrollListener(scrollListener);
+		requestData(1);
 		refresh.setRefreshing(true);
-		dataModel.getPraiseListByMap(userId,new SimpleResponseListener<LoveInfo>() {
+
+	}
+	private void requestData(final int page){
+		refresh.setRefreshing(true);
+		dataModel.getPraiseListByMap(userId,page,new SimpleResponseListener<LoveInfo>() {
 			@Override
 			public void requestSuccess(LoveInfo info, Response response) {
-				Log.d(info);
-				adapter.addItemAll(info.list);
+				if (page==1){
+					adapter.addItemAll(info.list);
+				}else {
+					adapter.addMoreItem(info.list);
+				}
+				scrollListener.nextPage(info.list);
 			}
 
 			@Override
@@ -180,8 +197,12 @@ public class MyLikeFragment extends BaseToolbarFragment {
 
 			@Override
 			public void requestView() {
-				if (CommonUtil.notNull(refresh)) {
-					refresh.setRefreshing(false);
+				if (CommonUtil.notNull(refresh)){
+					if (page==1) {
+						refresh.setRefreshing(false);
+					}else{
+						scrollListener.setLoadMore();
+					}
 					adapter.checkEmpty();
 				}
 			}

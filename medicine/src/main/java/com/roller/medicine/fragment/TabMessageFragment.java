@@ -149,15 +149,15 @@ public class TabMessageFragment extends BaseToolbarFragment {
         doMessage();
         //接受消息
         gotyeService.initReceive(new GotyeService.ReceiveMessageListener() {
-            @Override
-            public void onReceiveMessage(GotyeMessage message) {
-                if (CommonUtil.notNull(message)&&message.getReceiver().getName().equals(medicineDataService.getLoginUser().id)){
-                    UserInfo user=getUser(message.getSender().getName());
-                    if (CommonUtil.notNull(user))
-                        recyclerAdapter.pushItem(user);
-                }
+                    @Override
+                    public void onReceiveMessage(GotyeMessage message) {
+                        if (CommonUtil.notNull(message)&&message.getReceiver().getName().equals(medicineDataService.getLoginUser().id)){
+                            UserInfo user=getUser(message.getSender().getName());
+                            if (CommonUtil.notNull(user))
+                                recyclerAdapter.pushItem(user);
+                      }
 
-            }
+                }
         });
     }
 
@@ -237,24 +237,26 @@ public class TabMessageFragment extends BaseToolbarFragment {
      */
     @OnClick(R.id.ll_item_0)
     void onSeachDoctor(){
-        ViewUtil.openActivity(DoctorActivity.class,getActivity());
-        setLastClickTime();
+        if (CommonUtil.isFastClick())return;
+        ViewUtil.openActivity(DoctorActivity.class, getActivity());
+
 }
     /*****
      * 找营养师
      */
     @OnClick(R.id.ll_item_1)
     void onSeachDietitian(){
-        ViewUtil.openActivity(DietitianActivity.class,getActivity());
-        setLastClickTime();
+        if (CommonUtil.isFastClick())return;
+        ViewUtil.openActivity(DietitianActivity.class, getActivity());
+
     }
     /*****
      * 找患者
      */
     @OnClick(R.id.ll_item_2)
     void onSeachPatient(){
+        if (CommonUtil.isFastClick())return;
         ViewUtil.openActivity(PatientActivity.class,getActivity());
-        setLastClickTime();
     }
 
     @Override
@@ -267,9 +269,11 @@ public class TabMessageFragment extends BaseToolbarFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_add:
+                if (CommonUtil.isFastClick())return true;
                 ViewUtil.openActivity(AddFriendActivity.class, getActivity(), ActivityModel.ACTIVITY_MODEL_2);
                 break;
             case R.id.toolbar_seach:
+                if (CommonUtil.isFastClick())return true;
                 ViewUtil.openActivity(SeachActivity.class,getActivity());
                 break;
         }

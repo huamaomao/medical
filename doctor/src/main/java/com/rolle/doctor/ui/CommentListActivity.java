@@ -15,7 +15,7 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.TimeUtil;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
@@ -49,7 +49,7 @@ public class CommentListActivity extends BaseActivity{
     protected void initView() {
         super.initView();
         setBackActivity("收到的评论");
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

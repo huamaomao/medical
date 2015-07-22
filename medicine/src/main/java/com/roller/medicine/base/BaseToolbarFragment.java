@@ -30,12 +30,6 @@ public  class BaseToolbarFragment extends Fragment{
     public Toolbar getToolbar(){
         return baseActivity.mToolbar;
     }
-    /****
-     *  设置最后触发时间
-     */
-    protected void setLastClickTime(){
-        ((BaseToolbarActivity)getActivity()).setLastClickTime();
-    }
 
 
     public void setTitle(String title){

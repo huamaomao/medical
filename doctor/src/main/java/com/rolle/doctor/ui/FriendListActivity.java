@@ -11,6 +11,7 @@ import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
+import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
@@ -32,6 +33,7 @@ import butterknife.InjectView;
  */
 public class FriendListActivity extends BaseActivity{
      @InjectView(R.id.rv_view) RecyclerView lvView;
+    @InjectView(R.id.refresh) PullRefreshLayout refresh;
     private List<User> data;
     private FriendListAdapater adapater;
     private UserModel userModel;
@@ -49,7 +51,6 @@ public class FriendListActivity extends BaseActivity{
                     requestData();
                 }
         });
-        handler.queryList();
     }
 
     /****
@@ -66,6 +67,12 @@ public class FriendListActivity extends BaseActivity{
             public void requestError(HttpException e, ResponseMessage info) {
 
             }
+
+            @Override
+            public void requestView() {
+                refresh.setRefreshing(false);
+                adapater.checkEmpty();
+            }
         });
 
     }
@@ -76,7 +83,22 @@ public class FriendListActivity extends BaseActivity{
         setBackActivity("通讯录好友");
         data=new ArrayList<>();
         adapater=new FriendListAdapater(this,data,lvView,FriendListAdapater.TYPE_FRIEND);
-        requestData();
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.queryList();
+            }
+        });
+        refresh.setRefreshing(true);
+        handler.queryList();
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            adapater.onDestroyReceiver();
+        }catch (Exception e){}
+    }
 }

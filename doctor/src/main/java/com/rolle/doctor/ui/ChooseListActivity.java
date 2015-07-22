@@ -6,19 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -28,14 +27,14 @@ import java.util.List;
 import butterknife.InjectView;
 
 /**
- * Created by Hua_ on 2015/3/27.
+ *   城市   医科   职称
  */
 public class ChooseListActivity extends BaseActivity{
 
     @InjectView(R.id.rv_view)RecyclerView rv_view;
     @InjectView(R.id.refresh)
     PullRefreshLayout refresh;
-    private BaseRecyclerAdapter adapter;
+    private RecyclerAdapter<CityResponse.Item> adapter;
     private ArrayList<CityResponse.Item> items;
     private UserModel userModel;
     private ListModel listModel;
@@ -64,7 +63,6 @@ public class ChooseListActivity extends BaseActivity{
             case 2:
                 setBackActivity("选择科室");
                 doSectionList();
-                //doTitleList
                 break;
             case 3:
                 doTitleList();
@@ -84,7 +82,8 @@ public class ChooseListActivity extends BaseActivity{
         listModel.requestCity("1", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
             public void requestSuccess(List<CityResponse.Item> info, Response response) {
-                adapter.addItemAll(items);
+                adapter.addItemAll(info);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -107,7 +106,7 @@ public class ChooseListActivity extends BaseActivity{
         listModel.requestTitle("44", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
             public void requestSuccess(List<CityResponse.Item> info, Response response) {
-                adapter.addItemAll(items);
+                adapter.addItemAll(info);
             }
 
             @Override
@@ -129,7 +128,8 @@ public class ChooseListActivity extends BaseActivity{
         listModel.requestTitle("65", new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
             public void requestSuccess(List<CityResponse.Item> info, Response response) {
-                adapter.addItemAll(items);
+                adapter.addItemAll(info);
+
             }
 
             @Override
@@ -150,12 +150,12 @@ public class ChooseListActivity extends BaseActivity{
     public void doCityList(){
         String cityId=VItem.id;
         if (type==4){
-               cityId=QItem.id;
+            cityId=QItem.id;
         }
         listModel.requestCity(cityId, new SimpleResponseListener<List<CityResponse.Item>>() {
             @Override
             public void requestSuccess(List<CityResponse.Item> info, Response response) {
-                adapter.addItemAll(items);
+                adapter.addItemAll(info);
             }
 
             @Override
@@ -179,34 +179,38 @@ public class ChooseListActivity extends BaseActivity{
         userModel=new UserModel((BaseActivity)getContext());
         listModel=new ListModel(getContext());
         user=userModel.getLoginUser();
-        type=getIntent().getIntExtra(Constants.TYPE,0);
-        adapter=new BaseRecyclerAdapter(items);
-        adapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
+        type=getIntent().getIntExtra(AppConstants.TYPE, 0);
+
+        adapter=new RecyclerAdapter(getContext(),items,rv_view);
+
+        adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<CityResponse.Item>() {
             @Override
-            public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
-                viewHolder.setText(R.id.tv_name, items.get(i).name);
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, CityResponse.Item item, int position) {
+                viewHolder.setText(R.id.tv_name, item.name);
             }
 
             @Override
-            public BaseRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                final BaseRecyclerAdapter.ViewHolder holder = new BaseRecyclerAdapter.ViewHolder(getLayoutInflater().inflate(R.layout.item_list_spinner, viewGroup, false)) {
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+                final RecyclerAdapter.ViewHolder holder = new RecyclerAdapter.ViewHolder(
+                        getLayoutInflater().inflate(R.layout.item_list_spinner, viewGroup, false)) {
                 };
                 return holder;
             }
 
             @Override
-            public int getItemCount() {
+               public int getItemCount() {
                 return items.size();
             }
+
         });
-        ViewUtil.initRecyclerView(rv_view, this, adapter);
+        ViewUtil.initRecyclerViewDecoration(rv_view, this, adapter);
         requestData();
-        adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {
+        rv_view.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onClick(View v, int position) {
+            public void onItemClick(View view, int position) {
                 Intent intent = new Intent();
-                intent.putExtra(Constants.TYPE, type);
-                intent.putExtra(Constants.POSITION, position);
+                intent.putExtra(AppConstants.TYPE, type);
+                intent.putExtra(AppConstants.POSITION, position);
                 setResult(200, intent);
                 User user = userModel.getLoginUser();
                 switch (type) {
@@ -227,7 +231,8 @@ public class ChooseListActivity extends BaseActivity{
                         CityResponse.Item item1 = items.get(position);
                         ///填写详细地址  UpdateAddressActivity
                         StringBuilder builder = new StringBuilder();
-                        builder.append(VItem.name).append(QItem.name).
+                        builder.append(VItem.name.equals("上海")?"":VItem.name).
+                                append(QItem.name).
                                 append(item1.name);
                         user.workRegion = builder.toString();
                         user.regionId = item1.id;
@@ -248,15 +253,19 @@ public class ChooseListActivity extends BaseActivity{
                 userModel.saveUser(user);
                 finish();
             }
-        });
+        }));
 
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
-        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestData();
-            }
-        });
+
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
+        refresh.setOnRefreshListener(
+                new PullRefreshLayout.OnRefreshListener() {
+                                         @Override
+                                         public void onRefresh () {
+                                             requestData();
+                                         }
+                                     }
+
+        );
     }
 
     @Override
@@ -267,5 +276,11 @@ public class ChooseListActivity extends BaseActivity{
             return;
         }
         super.onBackActivty();
+    }
+
+    @Override
+    protected void onDestroy() {
+        adapter.onDestroyReceiver();
+        super.onDestroy();
     }
 }

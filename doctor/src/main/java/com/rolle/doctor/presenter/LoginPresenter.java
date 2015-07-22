@@ -33,12 +33,7 @@ public class LoginPresenter extends Presenter {
         model=new UserModel(view.getContext());
     }
 
-    public void initUser(){
-       Token token =model.getToken();
-        if (token!=null){
-            view.setTel(token.tel);
-        }
-    }
+
 
    public void doLogin(){
        if (!CommonUtil.isMobileNO(view.getTel())){
@@ -50,10 +45,12 @@ public class LoginPresenter extends Presenter {
             return;
         }
        view.showLoading();
+       
        model.requestLogin(view.getTel(), view.getPwd(), new SimpleResponseListener<User>() {
            @Override
            public void requestSuccess(User info, Response response) {
                if (info.typeId == null) {
+                   doLoginService();
                    ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2, true);
                } else {
                    doLoginService();
@@ -64,7 +61,9 @@ public class LoginPresenter extends Presenter {
            @Override
            public void requestError(HttpException e, ResponseMessage info) {
                 new AppHttpExceptionHandler().via((Activity)view).handleException(e, info);
+                view.hideLoading();
            }
+
        });
     }
 
@@ -72,13 +71,16 @@ public class LoginPresenter extends Presenter {
     public void doIsLogin(){
        Token token= model.getToken();
         User user=model.getLoginUser();
-       if (CommonUtil.notNull(token)&&token.isLogin()&&CommonUtil.notNull(user)){
-           doLoginService();
-           if (CommonUtil.isEmpty(user.doctorDetail.hospitalName)){
-               ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
-               return;
+       if (CommonUtil.notNull(token)&&CommonUtil.notNull(user)){
+           view.setTel(token.tel);
+           if (token.isLogin()){
+               ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
+               if (CommonUtil.isEmpty(user.doctorDetail.hospitalName)){
+                   doLoginService();
+                   ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
+                   return;
+               }
            }
-           ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
        }
     }
 

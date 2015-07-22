@@ -29,8 +29,6 @@ public final class GotyeService{
         return gotyeAPI.getMessageList(chatUser,flag);
     }
 
-
-
     /*****
      * 聊天监听初始化
      * @param chatUser

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -18,8 +17,7 @@ import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.NotifyListener;
 import com.rolle.doctor.domain.Token;
-import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.UserModel;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GotyeService extends Service implements NotifyListener,LoginListener {
@@ -38,7 +36,7 @@ public class GotyeService extends Service implements NotifyListener,LoginListene
 	public void onCreate() {
 		super.onCreate();
 		api = GotyeAPI.getInstance();
-		api.init(getBaseContext(), Constants.QINJIA_KEY);
+		api.init(getBaseContext(), AppConstants.QINJIA_KEY);
 		api.beginReceiveOfflineMessage();
 		api.addListener(this);
         userModel=new UserModel(getApplicationContext());

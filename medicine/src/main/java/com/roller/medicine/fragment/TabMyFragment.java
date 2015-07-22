@@ -1,5 +1,6 @@
 package com.roller.medicine.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,10 +23,13 @@ import com.roller.medicine.R;
 import com.roller.medicine.adapter.PublicViewAdapter;
 import com.roller.medicine.base.BaseToolbarFragment;
 import com.roller.medicine.customview.listview.HorizontalListView;
+import com.roller.medicine.event.BaseEvent;
+import com.roller.medicine.event.UserInfoEvent;
 import com.roller.medicine.info.HomeInfo;
 import com.roller.medicine.info.MyHomeInfo;
 import com.roller.medicine.info.MyItemInfo;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.service.RequestService;
 import com.roller.medicine.ui.FamilyAddActivity;
 import com.roller.medicine.ui.FamilyRemoveActivity;
 import com.roller.medicine.ui.FamilyUpdateActivity;
@@ -36,6 +40,7 @@ import com.roller.medicine.ui.UserInfoActivity;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.Util;
 import com.roller.medicine.viewmodel.DataModel;
+import com.roller.medicine.viewmodel.RequestTag;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +50,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class TabMyFragment extends BaseToolbarFragment{
 
@@ -76,6 +82,7 @@ public class TabMyFragment extends BaseToolbarFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setLayoutId(R.layout.fragment_my_tab);
+		EventBus.getDefault().register(this);
 	}
 
 	@Override
@@ -83,13 +90,9 @@ public class TabMyFragment extends BaseToolbarFragment{
 		super.initView(view, inflater);
 		setTitle("我的");
 		dataModel=new DataModel();
-		userInfo=dataModel.getLoginUser();
-		tv_name.setText(userInfo.nickname);
-		if (CommonUtil.notEmpty(userInfo.intro))
-			tv_jianjie.setText(userInfo.intro);
 		loadHome();
 		mdata=new ArrayList();
-
+		initUserData();
 		adapter=new QuickAdapter<HomeInfo.Family>(getActivity(),R.layout.list_item_grid_family,mdata) {
 			@Override
 			protected void convert(ViewHolderHelp viewHolderHelp, HomeInfo.Family food) {
@@ -99,10 +102,45 @@ public class TabMyFragment extends BaseToolbarFragment{
 
 			}
 		};
+		mdata.addAll(dataModel.ormFamilyList());
+		if (mdata.size()==0){
+			lv_list.setVisibility(View.GONE);
+			Intent intent=new Intent(getActivity(), RequestService.class);
+			intent.putExtra(RequestTag.TAG,RequestTag.R_FAMILY);
+			getActivity().startService(intent);
+		}
 		lv_list.setAdapter(adapter);
+	}
 
+	public void initUserData(){
+		userInfo=dataModel.getLoginUser();
+		tv_name.setText(userInfo.nickname);
+		if (CommonUtil.notEmpty(userInfo.intro))
+			tv_jianjie.setText(userInfo.intro);
 		Picasso.with(getActivity()).load(DataModel.getImageUrl(userInfo.headImage)).
 				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
+	}
+
+	public void onEvent(BaseEvent event)
+	{
+		if (event instanceof UserInfoEvent){
+			initUserData();
+		}else if (CommonUtil.notNull(event)){
+			switch (event.type){
+				//家庭组有更改
+				case BaseEvent.EV_FAMILY:
+					mdata.clear();
+					mdata.addAll(dataModel.ormFamilyList());
+					if (mdata.size()==0){
+						lv_list.setVisibility(View.GONE);
+					}else {
+						lv_list.setVisibility(View.VISIBLE);
+					}
+					adapter.notifyDataSetChanged();
+					break;
+			}
+		}
+
 	}
 
 
@@ -123,9 +161,10 @@ public class TabMyFragment extends BaseToolbarFragment{
 				tv_love.setText(CommonUtil.initTextValue(info.praiseCount));
 				tv_fans.setText(CommonUtil.initTextValue(info.fansCount));
 				tv_concern.setText(CommonUtil.initTextValue(info.attentCount));
-				mdata.clear();
 				if (CommonUtil.notNull(info.list)){
+					mdata.clear();
 					adapter.addAll(info.list);
+					lv_list.setVisibility(View.VISIBLE);
 				}
 			}
 
@@ -145,19 +184,19 @@ public class TabMyFragment extends BaseToolbarFragment{
 			case R.id.ll_item_1:
 			case R.id.ll_item_2:
 			case R.id.ll_item_3:
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return;
 				ViewUtil.openActivity(MyHomeActivity.class,getActivity());
 				break;
 			case R.id.rl_item_1://新建
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return;
 				ViewUtil.openActivity(FamilyAddActivity.class,getActivity());
 				break;
 			case R.id.rl_item_2://移除
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return;
 				ViewUtil.openActivity(FamilyRemoveActivity.class,getActivity());
 				break;
 			case R.id.rl_item_3://更改
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return;
 				ViewUtil.openActivity(FamilyUpdateActivity.class,getActivity());
 				break;
 		}
@@ -167,15 +206,20 @@ public class TabMyFragment extends BaseToolbarFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.toolbar_next:
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return true;
 				ViewUtil.openActivity(NoticeActivity.class,getActivity());
 				return true;
 			case R.id.toolbar_setting:
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return true;
 				ViewUtil.openActivity(SettingActivity.class,getActivity());
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
 }

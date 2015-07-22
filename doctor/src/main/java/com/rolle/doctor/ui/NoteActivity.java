@@ -8,12 +8,11 @@ import android.widget.EditText;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import butterknife.InjectView;
@@ -40,7 +39,7 @@ public class NoteActivity extends BaseActivity{
         super.initView();
         setBackActivity("备注信息");
         userModel=new UserModel(getContext());
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.notNull(user)){
             et_name.setText(user.noteName);
         }

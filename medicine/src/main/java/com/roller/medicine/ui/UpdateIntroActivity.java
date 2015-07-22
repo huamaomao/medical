@@ -3,10 +3,12 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -45,6 +47,12 @@ public class UpdateIntroActivity extends BaseLoadingToolbarActivity{
         loadingFragment.setMessage("正在提交数据...");
 
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this, getCurrentFocus(), event);
+        return super.onTouchEvent(event);
     }
 
 

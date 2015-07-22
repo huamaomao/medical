@@ -1,34 +1,26 @@
 package com.rolle.doctor.ui;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.common.util.Log;
 import com.android.common.view.IView;
 import com.rolle.doctor.R;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 
 
-public class BaseActivity extends ActionBarActivity implements IView{
+public class BaseActivity extends AppCompatActivity implements IView{
     protected DoctorApplication application;
     @Optional @InjectView(R.id.toolbar) Toolbar mToolbar;
 
@@ -46,10 +38,9 @@ public class BaseActivity extends ActionBarActivity implements IView{
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (Constants.ACTIVITY_ACTION.equals(getIntent().getAction())){
+        if (AppConstants.ACTIVITY_ACTION.equals(getIntent().getAction())){
             finish();
             android.os.Process.killProcess(android.os.Process.myPid()); //获取PID
-            System.exit(0);   //常规java、c#的标准退出法，返回值为0代表正常退出
             return;
         }
         ButterKnife.inject(this);
@@ -58,12 +49,17 @@ public class BaseActivity extends ActionBarActivity implements IView{
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         }
         initView();
 
     }
 
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     public void setBackActivity(String title){
        ActionBar actionBar=getSupportActionBar();
@@ -86,14 +82,12 @@ public class BaseActivity extends ActionBarActivity implements IView{
 
     protected void onBackActivty(){
         finish();
-        BaseActivity.this.onBackPressed();
     }
-
 
 
     public void exitApp(){
         Intent intent = new Intent(getContext(),BaseActivity.class);
-        intent.setAction(Constants.ACTIVITY_ACTION);
+        intent.setAction(AppConstants.ACTIVITY_ACTION);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         this.startActivity(intent);
     }
@@ -141,12 +135,21 @@ public class BaseActivity extends ActionBarActivity implements IView{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if(keyCode==KeyEvent.KEYCODE_BACK)
-        {
-            onBackActivty();
-            return true;
+        switch (keyCode){
+            case KeyEvent.KEYCODE_MENU:
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                onBackActivty();
+                return true;
+
         }
-        return false;
+        return super.onKeyDown(keyCode,event);
+    }
+
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        return super.onKeyLongPress(keyCode, event);
     }
 
     @Override
@@ -154,35 +157,5 @@ public class BaseActivity extends ActionBarActivity implements IView{
         super.onDestroy();
     }
 
-    protected long lastClickTime;
-    public boolean flagClick=false;
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            if (flagClick&&isFastDoubleClick()) {
-                return true;
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 
-    /****
-     *  设置最后触发时间
-     */
-    public void setLastClickTime(){
-        flagClick=true;
-        lastClickTime=System.currentTimeMillis();
-    }
-
-    public boolean isFastDoubleClick() {
-        long time = System.currentTimeMillis();
-        long timeD = time - lastClickTime;
-        flagClick=false;
-        if (timeD >= 0 && timeD <= 500) {
-            return true;
-        } else {
-            lastClickTime = time;
-            return false;
-        }
-    }
 }

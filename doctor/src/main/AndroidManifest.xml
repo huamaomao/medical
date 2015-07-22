@@ -21,56 +21,88 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".ui.MainActivity"   android:screenOrientation="portrait"   android:windowSoftInputMode="stateAlwaysHidden"/>
-    <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-    <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
-    <activity android:name=".ui.MyInviteCodeActivity"   android:screenOrientation="portrait" />
-    <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />
-    <activity android:name=".ui.PatientActivity"  android:screenOrientation="portrait" />
-    <activity android:name=".ui.PatientHActivity"  android:screenOrientation="portrait" />
-    <activity android:name=".ui.TheDoctorActivity"  android:screenOrientation="portrait" />
-    <activity android:name=".ui.DoctorDetialActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterOneActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterTwoActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.NoteActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.RetrievePwdSettingActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UserInfoActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletBillActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletDetialActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.AddBlankActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdatePhotoActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterChooseActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterTitleActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-    <activity android:name=".ui.WriteInviteCodeActivity" android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-    <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.SettingActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.AboutUsActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdateSpecialityActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdateHospitalActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.CommentListActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletCashoutPwdActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletChooseActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletSetPwdActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletCashoutActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.WalletResetPwdActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.FriendListActivity" android:screenOrientation="portrait" />
-    <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.MainActivity"   android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MyInviteCodeActivity"   android:screenOrientation="portrait" />
+        <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.PatientActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.PatientHActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.TheDoctorActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".ui.DoctorDetialActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RegisterOneActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RegisterTwoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.NoteActivity" android:screenOrientation="portrait" />
+            <activity android:name=".ui.RetrievePwdSettingActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UserInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletBillActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletDetialActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddBlankActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdatePhotoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RegisterChooseActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RegisterTitleActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity android:name=".ui.WriteInviteCodeActivity" android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.SettingActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.AboutUsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdateSpecialityActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdateHospitalActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.CommentListActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletCashoutPwdActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletChooseActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletSetPwdActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletCashoutActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.WalletResetPwdActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.FriendListActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.CodeImageActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity"
             android:screenOrientation="portrait" android:theme="@style/AppThemeTransparent" />
+        <!-- service -->
         <service android:name=".service.GotyeService" />
-    <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
+        <service android:name=".service.RequestService" />
+
+        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID-->
+                <data android:scheme="tencent1104705689" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55aefc2b67e58ebef4002b4e" >
+        </meta-data>
+        <!-- weixin  -->
+        <activity android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" />
+
 </application>
+
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

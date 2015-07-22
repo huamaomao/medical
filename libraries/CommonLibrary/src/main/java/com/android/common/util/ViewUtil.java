@@ -21,7 +21,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.android.common.R;
 import com.android.common.domain.Version;
@@ -325,5 +329,35 @@ public class ViewUtil {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, noti);
     }
+
+    /******
+     * 隐藏键盘
+     * @param view
+     * @param event
+     */
+    public static void onHideSoftInput(final Activity activity,final View view,final MotionEvent event){
+        if (CommonUtil.isNull(activity))return;
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (CommonUtil.notNull(imm)&&CommonUtil.notNull(view)) {
+            if (view instanceof EditText){
+                int[] leftTop = { 0, 0 };
+                //获取输入框当前的location位置
+                view.getLocationInWindow(leftTop);
+                int left = leftTop[0];
+                int top = leftTop[1];
+                int bottom = top + view.getHeight();
+                int right = left + view.getWidth();
+                if (event.getX() > left && event.getX() < right
+                        && event.getY() > top && event.getY() < bottom) {
+                    // 点击的是输入框区域，保留点击EditText的事件
+                } else {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }else {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+    }
+
 
 }

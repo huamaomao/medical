@@ -31,12 +31,7 @@ public  class BaseLoadingToolbarFragment extends Fragment{
     public Toolbar getToolbar(){
         return baseActivity.mToolbar;
     }
-    /****
-     *  设置最后触发时间
-     */
-    protected void setLastClickTime(){
-        ((BaseToolbarActivity)getActivity()).setLastClickTime();
-    }
+
 
     protected void showLoading() {
         if (CommonUtil.notNull(baseActivity))

@@ -7,13 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.common.adapter.RecyclerItemClickListener;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
-import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.astuetz.PagerSlidingTabStrip;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -22,7 +18,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -66,7 +62,7 @@ public class TheDoctorActivity extends BaseActivity{
     @Override
     protected void initView() {
         super.initView();
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -107,6 +103,9 @@ public class TheDoctorActivity extends BaseActivity{
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
+
+
+
     }
 
     @Override

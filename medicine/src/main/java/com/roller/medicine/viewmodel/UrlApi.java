@@ -5,13 +5,13 @@ package com.roller.medicine.viewmodel;
  */
 public interface UrlApi {
     static enum RequestUrl{
-        S("http://rolle.cn:8080"),T("http://192.168.1.88:8080");
+        S("http://rolle.cn:8080"),T("http://192.168.1.88"),D("http://192.168.1.88:8080");
         String url;
         RequestUrl(String url){
             this.url=url;
         }
     }
-    public static final String SERVER_NAME= RequestUrl.S.url;
+    public static final String SERVER_NAME= RequestUrl.T.url;
     /***验证码**/
     public static final String TEL_CODE="/crm/send_sp/sendVerifycode.json";
     /***验证手机号与验证码是否匹配**/

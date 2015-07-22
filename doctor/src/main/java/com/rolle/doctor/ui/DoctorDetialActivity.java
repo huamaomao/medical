@@ -1,8 +1,6 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -10,18 +8,12 @@ import android.widget.TextView;
 
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
-import com.rolle.doctor.adapter.FriendListAdapater;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -56,7 +48,7 @@ public class DoctorDetialActivity extends BaseActivity{
     protected void initView() {
         super.initView();
         setBackActivity("详细资料");
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         if (CommonUtil.isNull(user)){
             finish();
         }
@@ -80,7 +72,7 @@ public class DoctorDetialActivity extends BaseActivity{
     @OnClick(R.id.iv_send)
     void toMessageActivity(){
         Bundle bundle=new Bundle();
-        bundle.putParcelable(Constants.ITEM,user);
+        bundle.putParcelable(AppConstants.ITEM,user);
         ViewUtil.openActivity(MessageActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
     }
 
@@ -95,7 +87,7 @@ public class DoctorDetialActivity extends BaseActivity{
         switch (item.getItemId()){
             case R.id.toolbar_set:
                 Bundle bundle=new Bundle();
-                bundle.putParcelable(Constants.ITEM,user);
+                bundle.putParcelable(AppConstants.ITEM,user);
                 ViewUtil.openActivity(NoteActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
                 break;
         }

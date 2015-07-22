@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.Log;
 import com.roller.medicine.R;
 import com.roller.medicine.utils.AppConstants;
 import butterknife.ButterKnife;
@@ -104,18 +105,10 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 		Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
 	}
 
-	protected long lastClickTime;
-	public boolean flagClick=false;
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode){
-			case MotionEvent.ACTION_DOWN:
-				if (flagClick&&isFastDoubleClick()) {
-					return true;
-				}
-				break;
 			case KeyEvent.KEYCODE_MENU:
 				return true;
 			case KeyEvent.KEYCODE_BACK:
@@ -125,25 +118,6 @@ public  class BaseToolbarActivity extends AppCompatActivity{
 		return super.onKeyDown(keyCode, event);
 	}
 
-	/****
-	 *  设置最后触发时间
-	 */
-	public void setLastClickTime(){
-		flagClick=true;
-		lastClickTime=System.currentTimeMillis();
-	}
-
-	public boolean isFastDoubleClick() {
-		long time = System.currentTimeMillis();
-		long timeD = time - lastClickTime;
-		flagClick=false;
-		if (timeD >= 0 && timeD <= 500) {
-			return true;
-		} else {
-			lastClickTime = time;
-			return false;
-		}
-	}
 
 	public BaseToolbarActivity getContext(){
 		return this;

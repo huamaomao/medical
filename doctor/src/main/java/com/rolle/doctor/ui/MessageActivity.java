@@ -12,18 +12,14 @@ import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.baoyz.widget.PullRefreshLayout;
-import com.gotye.api.GotyeChatTargetType;
 import com.gotye.api.GotyeMessage;
 import com.gotye.api.GotyeUser;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -86,6 +82,9 @@ public class MessageActivity extends BaseActivity{
             @Override
             public void onSendMessage(int code, GotyeMessage message) {
                 Log.d(code+"==onSendMessage="+message);
+                if (code==805){
+                    msgLongShow("已被加入黑名单...");
+                }
                 adapater.updateItem(message);
             }
         });
@@ -95,7 +94,7 @@ public class MessageActivity extends BaseActivity{
     @Override
     protected void initView() {
         super.initView();
-        userFriend=getIntent().getParcelableExtra(Constants.ITEM);
+        userFriend=getIntent().getParcelableExtra(AppConstants.ITEM);
         Log.d(userFriend);
         if (CommonUtil.isNull(userFriend)){
             finish();
@@ -112,7 +111,7 @@ public class MessageActivity extends BaseActivity{
         ViewUtil.initRecyclerViewDecoration(lvView, getContext(), adapater);
         setBackActivity(userFriend.nickname);
         loadMessage();
-        refresh.setRefreshStyle(Constants.PULL_STYLE);
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -130,7 +129,7 @@ public class MessageActivity extends BaseActivity{
        switch (item.getItemId()){
            case R.id.toolbar_patient:
                Bundle bundle=new Bundle();
-               bundle.putParcelable(Constants.ITEM, userFriend);
+               bundle.putParcelable(AppConstants.ITEM, userFriend);
                ViewUtil.openActivity(PatientHActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
                return true;
        }
@@ -139,7 +138,7 @@ public class MessageActivity extends BaseActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Constants.USER_TYPE_PATIENT.equals(userFriend.typeId)){
+        if (AppConstants.USER_TYPE_PATIENT.equals(userFriend.typeId)){
             getMenuInflater().inflate(R.menu.menu_patient,menu);
         }
         return super.onCreateOptionsMenu(menu);
@@ -150,12 +149,7 @@ public class MessageActivity extends BaseActivity{
     void sendMessage(){
         if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
 
-        GotyeMessage message=model.sendMessage(otherUser, etMessage.getText().toString(), new GotyeModel.OnValidationListener() {
-            @Override
-            public void errorMessage() {
-
-            }
-        });
+        GotyeMessage message=model.sendMessage(otherUser, etMessage.getText().toString());
         if (CommonUtil.notNull(message)){
             etMessage.getText().clear();
             adapater.addItem(message);

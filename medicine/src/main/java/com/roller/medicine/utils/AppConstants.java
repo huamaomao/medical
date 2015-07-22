@@ -65,6 +65,11 @@ public abstract class AppConstants {
     public static final String  PRAISE_REEPLY="78";
 
     public static final String APPID_WEIXIN="wxfe217123b08e4316";
+    public static final String APPID_WEIXIN_KEY="b1448233ce7ee12d59f23f016178d396";
+
+    public static final String APPID_QQ="1104566371";
+    public static final String APPID_QQ_KEY="4y1xEtUfwPhCEjHq";
+
 
     static {
         ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();

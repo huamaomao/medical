@@ -295,6 +295,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         if (data!=null){
             mData.clear();
             mData.addAll(data);
+            notifyDataSetChanged();
         }
         checkEmpty();
     }
@@ -313,7 +314,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             return;
         mData.remove(item);
         notifyItemRemoved(position);
-
     }
 
     public void removeItem(int position) {

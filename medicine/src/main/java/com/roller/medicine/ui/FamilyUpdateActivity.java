@@ -110,7 +110,7 @@ public class FamilyUpdateActivity extends BaseLoadingToolbarActivity {
 			public void onConfirm() {
 				//index; 更改
 				HomeInfo.Family family = mData.get(index);
-				updateFamilyGroup(family.groupId, family.id,index);
+				updateFamilyGroup(family.groupId, family.id+"",index);
 			}
 		});
 

@@ -12,7 +12,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.UserDetialAdapater;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.ListModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -99,7 +99,7 @@ public class UserInfoActivity extends BaseActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==200){
-            int position=data.getIntExtra(Constants.POSITION,-1);
+           // int position=data.getIntExtra(AppConstants.POSITION,-1);
         }
 
     }

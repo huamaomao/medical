@@ -11,13 +11,11 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
-import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
 import com.rolle.doctor.R;
-import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.RegisterModel;
 import com.rolle.doctor.viewmodel.UserModel;
 
@@ -37,6 +35,7 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
     EditText et_pwd;
     @InjectView(R.id.btn_send)
     Button btn_send;
+
     private RegisterModel registerModel;
     private UserModel userModel;
 
@@ -45,6 +44,12 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrieve_password);
 
+    }
+
+    @Override
+    protected void onBackActivty() {
+        super.onBackActivty();
+        ViewUtil.openActivity(LoginActivity.class,getContext());
     }
 
     @Override
@@ -84,7 +89,7 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
     /****
      * 计时器
      */
-    private CountDownTimer downTimer=new CountDownTimer(com.rolle.doctor.util.Constants.SMS_SEBD_TIME,1000) {
+    private CountDownTimer downTimer=new CountDownTimer(AppConstants.SMS_SEBD_TIME,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             btn_send.setEnabled(false);
@@ -112,7 +117,7 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
+    @OnClick(R.id.btn_next)
     void doCommit(){
         if (!CommonUtil.isMobileNO(et_tel.getText().toString())) {
             msgShow("手机号格式错误...");
@@ -126,7 +131,6 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
             msgShow("密码必须是6-15位...");
             return;
         }
-
 
         showLoading();
         userModel.requestUpdatePassword(et_tel.getText().toString(), et_code.getText().toString(), et_pwd.getText().toString(), new SimpleResponseListener<User>() {
@@ -153,7 +157,7 @@ public class RetrievePwdSettingActivity extends BaseLoadingActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_next,menu);
+        getMenuInflater().inflate(R.menu.menu_submit,menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

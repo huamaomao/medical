@@ -3,6 +3,7 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
@@ -30,7 +31,6 @@ public class AddFriendActivity extends BaseToolbarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
-
     }
 
     @Override
@@ -50,6 +50,12 @@ public class AddFriendActivity extends BaseToolbarActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+        return super.onTouchEvent(event);
     }
 
     @Override

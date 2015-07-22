@@ -5,13 +5,13 @@ package com.rolle.doctor.util;
  */
 public interface UrlApi{
     static enum RequestUrl{
-        S("http://rolle.cn:8080"),T("http://192.168.1.88:8080");
+        S("http://rolle.cn:8080"),T("http://192.168.1.88"),D("http://192.168.1.88:8080");
         String url;
-        private RequestUrl(String url){
+        RequestUrl(String url){
             this.url=url;
         }
     }
-    public static final String SERVER_NAME=RequestUrl.S.url;
+    public static final String SERVER_NAME=RequestUrl.D.url;
     /***验证码**/
     public static final String TEL_CODE="/crm/send_sp/sendVerifycode.json";
 
@@ -38,7 +38,7 @@ public interface UrlApi{
     /***修改医生****/
     public static final String  UPD_DOCTOR_INFO="/crm/user_sp/saveDoctor.json";
     /***添加好友***/
-    public static final String  ADD_FRIEND="user_sp/addFriendRelation.json";
+    public static final String  ADD_FRIEND="/crm/user_sp/addFriendRelation.json";
     public static final String FRIEND_ADD_ID="/crm/relation_sp/saveRelationByUserId.json";
 
 

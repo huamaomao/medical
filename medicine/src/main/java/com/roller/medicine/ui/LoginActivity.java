@@ -1,8 +1,12 @@
 package com.roller.medicine.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,16 +20,20 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.event.BaseEvent;
+import com.roller.medicine.event.WeixinEvent;
 import com.roller.medicine.info.TokenInfo;
 import com.roller.medicine.info.UserResponseInfo;
 import com.roller.medicine.service.MedicineGotyeService;
 import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 
 public class LoginActivity extends BaseLoadingToolbarActivity{
@@ -44,6 +52,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		EventBus.getDefault().register(this);
 	}
 
 	protected void initView(){
@@ -66,14 +75,25 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 		loadingFragment.setLoginMessage();
 		TokenInfo tokenInfo=service.getToken();
 		if (CommonUtil.notNull(tokenInfo)){
-			et_tel.setText(tokenInfo.tel);
-			et_tel.setSelection(tokenInfo.tel.length());
-			et_pwd.requestFocus();
 			if (tokenInfo.isLogin()){
 				doMainActivty();
 			}
+			if (CommonUtil.notEmpty(tokenInfo.tel)){
+				et_tel.setText(tokenInfo.tel);
+				et_tel.setSelection(tokenInfo.tel.length());
+				et_pwd.requestFocus();
+			}
+
 		}
 	}
+
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+		return super.onTouchEvent(event);
+	}
+
 
 	@OnClick(R.id.tv_create_account)
 	void onRegister(){
@@ -82,16 +102,26 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 
 	@OnClick(R.id.tv_forgot_pwd)
 	void onRetrievePassword(){
-		ViewUtil.openActivity(RegisterPasswordActivity.class,this);
+		ViewUtil.openActivity(RegisterPasswordActivity.class, this);
 	}
 
-	@OnClick(R.id.ll_item_1)
+
+	@OnClick({R.id.ll_item_1,R.id.btn_next})
 	void onWeixin(){
 		if(CommonUtil.isNull(iwxipi)){
 			iwxipi= WXAPIFactory.createWXAPI(getContext(), AppConstants.APPID_WEIXIN,true);
 			iwxipi.registerApp(AppConstants.APPID_WEIXIN);
 		}
-		//ViewUtil.openActivity(DemoActivity.class,this);
+		if (!iwxipi.isWXAppInstalled()) {
+			showMsg("无法授权登陆，请先安装微信");
+			return;
+		}
+		if (CommonUtil.isFastClick())return;
+		final SendAuth.Req req = new SendAuth.Req();
+		req.scope = "snsapi_userinfo";
+		req.state = "rolle";
+		iwxipi.sendReq(req);
+
 	}
 
 
@@ -117,7 +147,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 		service.requestLogin(et_tel.getText().toString(), et_pwd.getText().toString(), new SimpleResponseListener<TokenInfo>() {
 			@Override
 			public void requestSuccess(TokenInfo info, Response response) {
-				info.tel=et_tel.getText().toString();
+				info.tel = et_tel.getText().toString();
 				service.setToken(info);
 				service.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
 					@Override
@@ -130,7 +160,7 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 
 					@Override
 					public void requestError(HttpException e, ResponseMessage info) {
-						new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
+						new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
 					}
 
 					@Override
@@ -143,22 +173,85 @@ public class LoginActivity extends BaseLoadingToolbarActivity{
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
-				new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
+				new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+				hideLoading();
 			}
 
 			@Override
 			public void requestView() {
 				super.requestView();
-				hideLoading();
 			}
 		});
 	}
 
 	public void doMainActivty(){
-		finish();
 		startService(new Intent(this, MedicineGotyeService.class));
 		ViewUtil.startTopActivity(HomeActivity.class, LoginActivity.this);
+		finish();
 	}
+
+	/*****
+	 * 收到Event 事件
+	 * @param event
+	 */
+	public void onEvent(BaseEvent event){
+		if (event instanceof WeixinEvent){
+			WeixinEvent weixinEvent=(WeixinEvent)event;
+			if (CommonUtil.notNull(weixinEvent)){
+				doLogin3rd(weixinEvent.getCode());
+			}
+		}
+	}
+
+
+
+	private void doLogin3rd(String code){
+		showLoading();
+		service.requestLogin(code, new SimpleResponseListener<TokenInfo>() {
+			@Override
+			public void requestSuccess(TokenInfo info, Response response) {
+				service.setToken(info);
+				service.requestUserInfo(new SimpleResponseListener<UserResponseInfo>() {
+					@Override
+					public void requestSuccess(UserResponseInfo info, Response response) {
+						service.saveUser(info.user);
+						//登录成功
+						doMainActivty();
+						return;
+					}
+
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+					}
+
+					@Override
+					public void requestView() {
+						hideLoading();
+					}
+				});
+
+			}
+
+			@Override
+			public void requestError(HttpException e, ResponseMessage info) {
+				new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+				hideLoading();
+			}
+		});
+	}
+
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
+
+
+
+
 }
 
 

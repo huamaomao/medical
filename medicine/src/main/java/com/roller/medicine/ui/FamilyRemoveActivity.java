@@ -29,7 +29,6 @@ public class FamilyRemoveActivity extends BaseLoadingToolbarActivity{
 	PullRefreshLayout refresh;
 	@InjectView(R.id.rv_view)
 	RecyclerView rv_view;
-
 	protected AlertDialogFragment dialog;
 	private List<HomeInfo.Family> mData;
 	private DataModel dataModel;
@@ -98,7 +97,7 @@ public class FamilyRemoveActivity extends BaseLoadingToolbarActivity{
 			public void onConfirm() {
 				//index;  删除
 			 	HomeInfo.Family family=mData.get(index);
-				deleteFamily(family.groupId,family.id);
+				deleteFamily(family.groupId,family.id+"");
 			}
 		});
 
@@ -136,7 +135,9 @@ public class FamilyRemoveActivity extends BaseLoadingToolbarActivity{
 		dataModel.deleteFamilyGroup(familId, groupId, new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
+				dataModel.ormRemoveFamily(mData.get(adapter.isHeadView?index-1:index));
 				adapter.removeItem(index);
+
 			}
 
 			@Override

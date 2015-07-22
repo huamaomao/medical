@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,14 +41,14 @@ public class RegisterOneActivity extends BaseLoadingActivity implements Register
 
     @Override
     protected void onBackActivty() {
-        ViewUtil.openActivity(LoginActivity.class,null,this, ActivityModel.ACTIVITY_MODEL_2,true);
+        ViewUtil.openActivity(LoginActivity.class, null, this, ActivityModel.ACTIVITY_MODEL_2, true);
     }
 
     @Override
     protected void initView() {
         super.initView();
         setBackActivity("注册");
-        loadingFragment.setMessage("正在提交...");
+        loadingFragment.setCommitMessage();
         presenter=new RegisterPresenter(this);
     }
 
@@ -62,6 +63,12 @@ public class RegisterOneActivity extends BaseLoadingActivity implements Register
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+        return super.onTouchEvent(event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

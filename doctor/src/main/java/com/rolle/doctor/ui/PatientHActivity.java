@@ -1,38 +1,30 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 
-import com.android.common.adapter.QuickAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
-import com.android.common.util.ViewHolderHelp;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.PatientHInfoListAdapater;
 import com.rolle.doctor.adapter.PatientHListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
-import com.rolle.doctor.adapter.YearSpinnerAdpater;
 import com.rolle.doctor.domain.BloodResponse;
-import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.ButterKnife;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -67,7 +59,7 @@ public class PatientHActivity extends BaseActivity{
         viewpages=new ArrayList<View>();
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
-        user=getIntent().getParcelableExtra(Constants.ITEM);
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
         StringBuilder builder=new StringBuilder();
         builder.append(user.nickname);
         setBackActivity(builder.toString());
@@ -146,7 +138,7 @@ public class PatientHActivity extends BaseActivity{
         switch (item.getItemId()){
             case R.id.toolbar_set:
                 Bundle bundle=new Bundle();
-                bundle.putParcelable(Constants.ITEM, user);
+                bundle.putParcelable(AppConstants.ITEM, user);
                 ViewUtil.openActivity(NoteActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
                 break;
         }
@@ -156,7 +148,7 @@ public class PatientHActivity extends BaseActivity{
     @OnClick(R.id.iv_send)
     void toMessageActivity(){
         Bundle bundle=new Bundle();
-        bundle.putParcelable(Constants.ITEM,user);
+        bundle.putParcelable(AppConstants.ITEM,user);
         ViewUtil.openActivity(MessageActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
     }
 }

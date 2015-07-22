@@ -2,6 +2,7 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
@@ -39,6 +41,10 @@ public class MyFocusFragment extends BaseToolbarFragment{
 	private DataModel dataModel;
 	public String userId=null;
 
+	private RecyclerOnScrollListener scrollListener;
+
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +66,8 @@ public class MyFocusFragment extends BaseToolbarFragment{
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				requestData();
+				requestData(1);
+				scrollListener.setPageInit();
 			}
 		});
 		userId=getArguments().getString(AppConstants.ITEM);
@@ -70,14 +77,14 @@ public class MyFocusFragment extends BaseToolbarFragment{
 			public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, FocusInfo.Item item, int position) {
 				viewHolder.setText(R.id.tv_name, item.nickname);
 				Util.loadPhoto(getActivity(), item.headImage, (ImageView) viewHolder.getView(R.id.iv_photo));
-				if (AppConstants.USER_TYPE_DIETITAN.equals(item.typeId)|| AppConstants.USER_TYPE_DOCTOR==item.typeId){
+				if (AppConstants.USER_TYPE_DIETITAN.equals(item.typeId) || AppConstants.USER_TYPE_DOCTOR == item.typeId) {
 					viewHolder.getView(R.id.iv_pic).setVisibility(View.VISIBLE);
-				}else {
+				} else {
 					viewHolder.getView(R.id.iv_pic).setVisibility(View.GONE);
 				}
-				if (AppConstants.USER_ADD.equals(item.statusId)){
-					viewHolder.setText(R.id.iv_more,"已关注");
-				}else{
+				if (AppConstants.USER_ADD.equals(item.statusId)) {
+					viewHolder.setText(R.id.iv_more, "已关注");
+				} else {
 					viewHolder.setText(R.id.iv_more, "+ 关注");
 					viewHolder.getView(R.id.iv_more).setOnClickListener(new View.OnClickListener() {
 						@Override
@@ -91,7 +98,7 @@ public class MyFocusFragment extends BaseToolbarFragment{
 
 			@Override
 			public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.listview_onfans,viewGroup,false));
+				return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.listview_onfans, viewGroup, false));
 			}
 
 			@Override
@@ -100,15 +107,27 @@ public class MyFocusFragment extends BaseToolbarFragment{
 			}
 		});
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
-		requestData();
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				requestData(current_page);
+			}
+		};
+		rv_view.addOnScrollListener(scrollListener);
+		requestData(1);
+		refresh.setRefreshing(true);
 	}
 
-	private void requestData(){
-		refresh.setRefreshing(true);
-		dataModel.getRelationListByMap(userId,"2",new SimpleResponseListener<FocusInfo>() {
+	private void requestData(final  int page){
+		dataModel.getRelationListByMap(userId,"2",page,new SimpleResponseListener<FocusInfo>() {
 			@Override
 			public void requestSuccess(FocusInfo info, Response response) {
-				adapter.addItemAll(info.list);
+				if (page==1){
+					adapter.addItemAll(info.list);
+				}else {
+					adapter.addMoreItem(info.list);
+				}
+				scrollListener.nextPage(info.list);
 			}
 
 			@Override
@@ -119,7 +138,11 @@ public class MyFocusFragment extends BaseToolbarFragment{
 			@Override
 			public void requestView() {
 				if (CommonUtil.notNull(refresh)){
-					refresh.setRefreshing(false);
+					if (page==1) {
+						refresh.setRefreshing(false);
+					}else{
+						scrollListener.setLoadMore();
+					}
 					adapter.checkEmpty();
 				}
 			}

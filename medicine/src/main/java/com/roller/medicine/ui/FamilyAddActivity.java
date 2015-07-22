@@ -1,10 +1,13 @@
 package com.roller.medicine.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -14,6 +17,7 @@ import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
@@ -24,13 +28,20 @@ import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
 import com.roller.medicine.info.UploadPicture;
 import com.roller.medicine.info.UserInfo;
+import com.roller.medicine.service.RequestService;
 import com.roller.medicine.utils.CircleTransform;
 import com.roller.medicine.utils.AppConstants;
+import com.roller.medicine.utils.ImageCropUtils;
 import com.roller.medicine.viewmodel.DataModel;
+import com.roller.medicine.viewmodel.RequestTag;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -73,9 +84,8 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 						tv_date.setText(DateUtil.formatYMD(date));
 						user.birthday=tv_date.getText().toString();
 					}
-				}).setInitialDate(new Date())
+				}).setInitialDate(DateUtil.getBirthDate())
 				.build();
-		//Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
 
 	}
 
@@ -91,6 +101,8 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 		timePicker.show();
 	}
 
+	private Uri uri_;
+	private boolean flag;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -100,19 +112,45 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
-					user.headImage=ViewUtil.getRealFilePath(getContext(), uri);
-					uploadPhoto();
+					flag=false;
+					Bitmap bitmap = null;
+					try {
+						bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+						if(bitmap.getRowBytes()*bitmap.getHeight() > 50*1024){
+							bitmap = ImageCropUtils.compressImage(bitmap);
+							uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+						}
+					} catch (FileNotFoundException e) {
+						return;
+					} catch (IOException e) {
+						return;
+					}
+					//这里做了判断  如果图片大于 512KB 就进行压缩
+					flag=true;
+					File file=new File(AppConstants.PATH + "picture/thumb_"+System.currentTimeMillis() + ".png");
+					if (!file.getParentFile().exists())
+						file.getParentFile().mkdirs();
+					uri_=Uri.fromFile(file);
+					startActivityForResult(ImageCropUtils.getCropImageIntent(uri,uri_),3);
 				}
 			}
+		}else if (requestCode==3){
+			if (CommonUtil.notNull(uri_)){
+				Log.d("uri" + uri_.getPath());
+				//Uri uri = data.getData();
+				String photoUrl= ViewUtil.getRealFilePath(getContext(), uri_);
+				uploadPhoto(photoUrl);
+			}
+
 		}
 
 	}
 
 
-	private void uploadPhoto() {
-		Picasso.with(getContext()).load(new File(user.headImage)).placeholder(R.drawable.icon_default).
+	private void uploadPhoto(String url) {
+		Picasso.with(getContext()).load(new File(url)).placeholder(R.drawable.icon_default).
 				transform(new CircleTransform()).into(iv_photo);
-		dataModel.uploadPicture("71", user.headImage, new SimpleResponseListener<UploadPicture>() {
+		dataModel.uploadPicture("71", url, new SimpleResponseListener<UploadPicture>() {
 			@Override
 			public void requestSuccess(UploadPicture info, Response response) {
 				user.photoId = info.id;
@@ -151,6 +189,9 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
 				showLongMsg("添加成功");
+				Intent intent=new Intent(getContext(), RequestService.class);
+				intent.putExtra(RequestTag.TAG,RequestTag.R_FAMILY);
+				getContext().startService(intent);
 				finish();
 			}
 
@@ -190,7 +231,7 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.toolbar_save:
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return true;
 				saveFamilyGroup();
 				return true;
 		}
@@ -203,4 +244,9 @@ public class FamilyAddActivity extends BaseLoadingToolbarActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this,getCurrentFocus(),event);
+		return super.onTouchEvent(event);
+	}
 }

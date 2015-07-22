@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
+
+    <item android:id="@id/toolbar_next"
+        android:title="确认"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom"
+        android:menuCategory="secondary"/>
+
+</menu>

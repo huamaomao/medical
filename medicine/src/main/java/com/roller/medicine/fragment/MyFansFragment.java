@@ -2,6 +2,7 @@ package com.roller.medicine.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.common.adapter.RecyclerAdapter;
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
@@ -41,6 +43,8 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 	private DataModel dataModel;
 	public String userId=null;
 
+	private RecyclerOnScrollListener scrollListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,7 +66,8 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				requestData();
+				requestData(1);
+				scrollListener.setPageInit();
 			}
 		});
 		userId=getArguments().getString(AppConstants.ITEM);
@@ -102,7 +107,15 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 			}
 		});
 		ViewUtil.initRecyclerViewDecoration(rv_view, getActivity(), adapter);
-		requestData();
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)rv_view.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				requestData(current_page);
+			}
+		};
+		rv_view.addOnScrollListener(scrollListener);
+		refresh.setRefreshing(true);
+		requestData(1);
 	}
 
 	public void doAddFriend(String id,final int position) {
@@ -129,12 +142,17 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 	}
 
 
-	private void requestData(){
-		refresh.setRefreshing(true);
-		dataModel.getRelationListByMap(userId,"1", new SimpleResponseListener<FocusInfo>() {
+	private void requestData(final int page){
+
+		dataModel.getRelationListByMap(userId,"1",page, new SimpleResponseListener<FocusInfo>() {
 			@Override
 			public void requestSuccess(FocusInfo info, Response response) {
-				adapter.addItemAll(info.list);
+				if (page==1){
+					adapter.addItemAll(info.list);
+				}else {
+					adapter.addMoreItem(info.list);
+				}
+				scrollListener.nextPage(info.list);
 			}
 
 			@Override
@@ -145,7 +163,11 @@ public class MyFansFragment extends BaseLoadingToolbarFragment{
 			@Override
 			public void requestView() {
 				if (CommonUtil.notNull(refresh)){
-					refresh.setRefreshing(false);
+					if (page==1) {
+						refresh.setRefreshing(false);
+					}else{
+						scrollListener.setLoadMore();
+					}
 					adapter.checkEmpty();
 				}
 			}

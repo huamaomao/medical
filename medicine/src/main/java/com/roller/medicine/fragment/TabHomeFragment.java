@@ -216,7 +216,6 @@ public class TabHomeFragment extends BaseToolbarFragment{
 
 
 	public void requestData(){
-
 		refresh.setRefreshing(true);
 		futureTask=model.requestHomeData(date, new SimpleResponseListener<HomeInfo>() {
 			@Override
@@ -226,7 +225,6 @@ public class TabHomeFragment extends BaseToolbarFragment{
 				data.add(null);
 				recyclerAdapter.setHomeInfo(info);
 				recyclerAdapter.notifyDataSetChanged();
-
 				sp_start.setVisibility(View.GONE);
 				if (CommonUtil.notNull(info.familyList)&&info.familyList.size()>1){
 					sp_start.setVisibility(View.VISIBLE);
@@ -235,10 +233,9 @@ public class TabHomeFragment extends BaseToolbarFragment{
 						families.addAll(info.familyList);
 						sp_start.setVisibility(View.VISIBLE);
 						spinnerAdpater.notifyDataSetChanged();
+
 					}
 				}
-
-
 			}
 
 			@Override
@@ -270,6 +267,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 	}
 
 	public void openCreateBlood(int index){
+		if (CommonUtil.isFastClick())return;
 		Bundle bundle=new Bundle();
 		if (CommonUtil.notNull(recyclerAdapter.getHomeInfo())){
 			bundle.putParcelableArrayList(AppConstants.ITEM,recyclerAdapter.getHomeInfo().familyList);
@@ -301,6 +299,7 @@ public class TabHomeFragment extends BaseToolbarFragment{
 				return true;
 			case R.id.toolbar_seach:
 				// 血糖历史
+				if (CommonUtil.isFastClick())return true;
 				Bundle bundle=new Bundle();
 				if (families.size()>0){
 					HomeInfo.Family family=families.get(sp_start.getSelectedItemPosition());

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/appLayoutStyle">
+    <com.android.common.widget.TabLayout
+        android:id="@id/tabs"
+        android:layout_width="match_parent"
+        app:tabSelectedTextColor="@color/title"
+        android:background="@color/color_into"
+        app:tabIndicatorHeight="@dimen/tab_indicator_height"
+        
+        android:layout_height="@dimen/tab_height" />
+    <include layout="@layout/divider" />
+    <android.support.v4.view.ViewPager
+        android:id="@id/viewpage"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+

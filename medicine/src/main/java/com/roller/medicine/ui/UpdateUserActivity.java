@@ -3,26 +3,30 @@ package com.roller.medicine.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.event.UserInfoEvent;
 import com.roller.medicine.info.UserInfo;
 import com.roller.medicine.utils.AppConstants;
 import com.roller.medicine.viewmodel.DataModel;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class UpdateUserActivity extends BaseLoadingToolbarActivity{
 
 	@InjectView(R.id.et_name)
-	 EditText et_name;
+	EditText et_name;
 
 	private DataModel dataModel;
 	private int position;
@@ -72,6 +76,12 @@ public class UpdateUserActivity extends BaseLoadingToolbarActivity{
 		setBackActivity(tilte);
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this, getCurrentFocus(), event);
+		return super.onTouchEvent(event);
+	}
+
 	private void doSave(){
 		String value=et_name.getText().toString();
 		if (CommonUtil.isEmpty(value)){
@@ -95,8 +105,9 @@ public class UpdateUserActivity extends BaseLoadingToolbarActivity{
 		dataModel.saveDoctor(userInfo, new SimpleResponseListener<ResponseMessage>() {
 			@Override
 			public void requestSuccess(ResponseMessage info, Response response) {
-				finish();
 				dataModel.saveUser(userInfo);
+				EventBus.getDefault().post(new UserInfoEvent());
+				finish();
 			}
 
 			@Override

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
   style="@style/appLayoutStyle" >
     <include layout="@layout/toolbar" />
    <ScrollView
@@ -86,6 +87,16 @@
            <include layout="@layout/divider" />
            <EditText android:id="@id/et_xinqing"
                android:hint="心情情况 (如：郁闷、一般般、极佳)"
+               style="@style/et_styple" />
+           <include layout="@layout/divider" />
+           <EditText android:id="@id/et_blood_shrinkage"
+               android:hint="血压收缩压(mmHg)"
+               android:inputType="number"
+               style="@style/et_styple" />
+           <include layout="@layout/divider" />
+           <EditText android:id="@id/et_blood_diastole"
+               android:hint="血压舒张压(mmHg)"
+               android:inputType="number"
                style="@style/et_styple" />
            <include layout="@layout/divider" />
        </LinearLayout>

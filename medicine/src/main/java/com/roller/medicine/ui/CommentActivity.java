@@ -2,10 +2,12 @@ package com.roller.medicine.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.widget.InputMethodLinearLayout;
 import com.litesuits.http.exception.HttpException;
@@ -55,6 +57,12 @@ public class CommentActivity extends BaseLoadingToolbarActivity{
 		service=new DataModel();
 
 
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		ViewUtil.onHideSoftInput(this, getCurrentFocus(), event);
+		return super.onTouchEvent(event);
 	}
 
 	@OnClick(R.id.btn_send)

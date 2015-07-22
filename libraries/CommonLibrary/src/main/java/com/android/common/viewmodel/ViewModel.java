@@ -33,6 +33,9 @@ public abstract class ViewModel{
          LiteUtil.getInstance().execute(request,listener);
    }
 
+    protected void loginOut(){
+
+    }
     /*****
      *异步访问
      * @param request
@@ -58,7 +61,10 @@ public abstract class ViewModel{
                         responseService.requestError(null,null);
                     }else if ("200".equals(t.statusCode)){
                         responseService.requestSuccess(t,res);
-                    }else{
+                    } else{
+                        if ("310".equals(t.statusCode)){
+                            loginOut();
+                        }
                         responseService.requestError(null, t);
                     }
                 }catch (Exception e){

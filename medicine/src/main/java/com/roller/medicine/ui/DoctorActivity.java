@@ -1,9 +1,12 @@
 package com.roller.medicine.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
@@ -30,6 +33,8 @@ public class DoctorActivity extends BaseToolbarActivity {
 	private List<UserInfo> data;
 	private DataModel service;
 	private FriendListAdapater adapater;
+	private RecyclerOnScrollListener scrollListener;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,34 +52,60 @@ public class DoctorActivity extends BaseToolbarActivity {
 		refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				doFriendList();
+				scrollListener.setPageInit();
+				doFriendList(1);
+
 			}
 		});
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_DOCTOR);
 		ViewUtil.initRecyclerViewDecoration(recyclerView,this,adapater);
-		adapater.addItemAll(service.queryFriendList(AppConstants.USER_TYPE_DOCTOR));
+		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)recyclerView.getLayoutManager()) {
+			@Override
+			public void onLoadMore(int current_page) {
+				doFriendList(current_page);
+			}
+		};
+		recyclerView.addOnScrollListener(scrollListener);
+		refresh.setRefreshing(true);
+		doFriendList(1);
+
 	}
 
-	public void doFriendList(){
-		service.requestDoctorList(AppConstants.USER_TYPE_DOCTOR, new SimpleResponseListener<FriendResponseInfo>() {
+	public void doFriendList(final int page){
+
+		service.requestDoctorList(AppConstants.USER_TYPE_DOCTOR,page, new SimpleResponseListener<FriendResponseInfo>() {
 			@Override
 			public void requestSuccess(FriendResponseInfo info, Response response) {
-				adapater.addItemAll(info.list);
+				Log.d("doFriendList:" + page);
+				if (page==1){
+					adapater.addItemAll(info.list);
+				}else
+					adapater.addMoreItem(info.list);
+				scrollListener.nextPage(info.list);
 			}
 
 			@Override
 			public void requestError(HttpException e, ResponseMessage info) {
+				if (page!=1){
+					scrollListener.setLoadMore();
+				}
 
 			}
 
 			@Override
 			public void requestView() {
-				refresh.setRefreshing(false);
+				if (page==1) {
+					refresh.setRefreshing(false);
+				}else{
+					scrollListener.setLoadMore();
+				}
 				adapater.checkEmpty();
 			}
 		});
 	}
+
+
 
 	@Override
 	protected void onDestroy() {

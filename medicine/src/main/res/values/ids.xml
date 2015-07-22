@@ -151,6 +151,8 @@
     <item name="et_yundong" type="id" />
     <item name="et_yonogyao" type="id" />
     <item name="et_xinqing" type="id" />
+    <item name="et_blood_shrinkage" type="id" />
+    <item name="et_blood_diastole" type="id" />
 
 
     <item name="et_content" type="id" />

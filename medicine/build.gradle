@@ -9,18 +9,23 @@ idea {
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    /* versionCode  1
+    versionName "1.0"*/
     defaultConfig {
         applicationId "com.roller.medicine"
         compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
         buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
+    /*dexOptions {
+        javaMaxHeapSize "2200"
+    }*/
     signingConfigs{
         myConfig {
             storeFile file("../signed/patient.jks")
@@ -46,12 +51,14 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            zipAlignEnabled true
             shrinkResources true
+            zipAlignEnabled true
             proguardFiles 'proguard-project.txt'
             signingConfig signingConfigs.myConfig
+            applicationIdSuffix ".release"
         }
         debug {
+            applicationIdSuffix ".dev"
             proguardFiles 'proguard-project.txt'
             //minifyEnabled true
             signingConfig signingConfigs.myConfig
@@ -84,6 +91,8 @@ def channels() {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
     /********jar***********/
     compile 'com.alibaba:fastjson:1.2.+'
     compile 'com.jakewharton:butterknife:6.1.0'
@@ -108,6 +117,14 @@ dependencies {
     compile project(':libraries:GotyeLibrary')
     compile project(':libraries:slideDateTimePicker')
     compile project(':libraries:MPChartLib')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    /******test****/
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.1'
+    //androidTestCompile  files("$project.buildDir/classes/debug")
+    androidTestCompile  'junit:junit:4.+'
+    androidTestCompile  'org.robolectric:robolectric:2.1.+'
+    //compile 'some.package.that:requires_commons_logging:1.2.3'
+    // androidTestCompile  'com.google.android:android:4.0.1.+'
 }
 

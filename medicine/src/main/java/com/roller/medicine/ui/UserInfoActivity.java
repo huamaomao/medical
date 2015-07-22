@@ -22,6 +22,7 @@ import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.adapter.UserDetialAdapater;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.event.UserInfoEvent;
 import com.roller.medicine.fragment.SexDialogFragment;
 import com.roller.medicine.info.ItemInfo;
 import com.roller.medicine.info.UploadPicture;
@@ -36,9 +37,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class UserInfoActivity extends BaseLoadingToolbarActivity{
 
@@ -90,7 +93,7 @@ public class UserInfoActivity extends BaseLoadingToolbarActivity{
 						});
 						loadData();
 					}
-				}).setInitialDate(new Date())
+				}).setInitialDate(DateUtil.getBirthDate())
 				.build();
 		timePicker.setTheme(R.style.AppToolbarTheme);
 
@@ -100,7 +103,7 @@ public class UserInfoActivity extends BaseLoadingToolbarActivity{
 		rvView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
 			@Override
 			public void onItemClick(View view, int position) {
-				setLastClickTime();
+				if (CommonUtil.isFastClick())return;
 				switch (position) {
 					case 0:
 						ViewUtil.startPictureActivity(getContext());
@@ -144,7 +147,6 @@ public class UserInfoActivity extends BaseLoadingToolbarActivity{
 		lsData.add(new ItemInfo("病类", CommonUtil.initTextNull(user.patientDetail.disease)));
 		adapater.notifyDataSetChanged();
 		adapater.setUserDetail(user);
-
 	}
 
 
@@ -160,7 +162,6 @@ public class UserInfoActivity extends BaseLoadingToolbarActivity{
 			if (data != null) {
 				Uri uri = data.getData();
 				if (uri != null) {
-
 					flag=false;
 					Bitmap bitmap = null;
 					try {
@@ -216,6 +217,7 @@ public class UserInfoActivity extends BaseLoadingToolbarActivity{
 							public void requestSuccess(UserResponseInfo info, Response response) {
 								dataModel.saveUser(info.user);
 								adapater.setUserDetail(info.user);
+								EventBus.getDefault().post(new UserInfoEvent());
 							}
 
 							@Override

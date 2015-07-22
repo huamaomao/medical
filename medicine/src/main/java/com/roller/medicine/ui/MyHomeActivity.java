@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.common.adapter.FragmentPagerAdapter;
+import com.android.common.adapter.CommonFragmentAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
@@ -17,6 +17,8 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.roller.medicine.R;
 import com.roller.medicine.base.BaseLoadingToolbarActivity;
+import com.roller.medicine.event.BaseEvent;
+import com.roller.medicine.event.UserInfoEvent;
 import com.roller.medicine.fragment.MyCommentsFragment;
 import com.roller.medicine.fragment.MyFansFragment;
 import com.roller.medicine.fragment.MyFocusFragment;
@@ -34,6 +36,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class MyHomeActivity extends BaseLoadingToolbarActivity{
 
@@ -58,13 +61,13 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 	private DataModel dataModel;
 	private UserInfo userInfo;
 	public String userId=null;
-
 	private boolean flag=false;
 
 	@Override
 	protected  void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_home);
+		EventBus.getDefault().register(this);
 	}
 
 	protected void initView(){
@@ -73,10 +76,6 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 
 		setBackActivity("我的主页");
 		dataModel=new DataModel();
-		userInfo=dataModel.getLoginUser();
-		if (userId==null||userId.equals(userInfo.id)){
-			flag=true;
-		}
 		// init tabs
 		View view=getLayoutInflater().inflate(R.layout.tab_my_home,null);
 		((TextView)ButterKnife.findById(view,R.id.tv_title)).setText("评论");
@@ -101,26 +100,40 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 		fragments.add(MyLikeFragment.newInstantiate( bundle));
 		fragments.add(MyFocusFragment.newInstantiate( bundle));
 		fragments.add(MyFansFragment.newInstantiate(bundle));
-		FragmentPagerAdapter adapter=new FragmentPagerAdapter(fragments,getSupportFragmentManager());
+		CommonFragmentAdapter adapter=new CommonFragmentAdapter(getSupportFragmentManager(),fragments);
 		mViewPager.setAdapter(adapter);
 	    tabLayout.setupWithViewPager(mViewPager);
+		if (userId==null||userId.equals(userInfo.id)){
+			userInfo=dataModel.getLoginUser();
+			flag=true;
+			initUserData();
+
+		}
 		loadHome();
-		//初始化  个人信息
-		if (userId==null){
+	}
+
+	private void initUserData(){
+		if (CommonUtil.notNull(userInfo)) {
 			tv_name.setText(userInfo.nickname);
 			if (CommonUtil.notEmpty(userInfo.intro))
 				tv_jianjie.setText(userInfo.intro);
-			//Util.loadPhoto(getContext(),DataModel.getImageUrl(userInfo.headImage),iv_photo);
+			Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).
+					transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);
 		}
-		/*Picasso.with(getContext()).load(DataModel.getImageUrl(userInfo.headImage)).
-				transform(new CircleTransform()).placeholder(R.drawable.icon_default).into(iv_photo);*/
-
 	}
+	public void onEvent(BaseEvent event)
+	{
+		if (event instanceof UserInfoEvent){
+			initUserData();
+		}
+	}
+
+
 
 	@OnClick(R.id.rl_item_0)
 	void  doItemClick(View view) {
 		if (!flag)return;
-		setLastClickTime();
+		if (CommonUtil.isFastClick())return;
 		ViewUtil.openActivity(UserInfoActivity.class, getContext());
 	}
 
@@ -146,5 +159,11 @@ public class MyHomeActivity extends BaseLoadingToolbarActivity{
 			}
 		});
 	}
-	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
+
 }

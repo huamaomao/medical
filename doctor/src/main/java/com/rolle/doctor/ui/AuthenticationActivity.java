@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -113,7 +114,8 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     /*****
      *      24  身份证     26  执照
      */
-    private void uploadPhoto(){
+    @OnClick(R.id.btn_next)
+     void uploadPhoto(){
         if (CommonUtil.isEmpty(iv_add_doctor.getTag().toString())){
             msgShow("请上传从医证件照...");
             return;
@@ -210,7 +212,7 @@ public class AuthenticationActivity extends BaseLoadingActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
+        //getMenuInflater().inflate(R.menu.menu_save, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -218,10 +220,7 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.toolbar_save:
-                uploadPhoto();
-                menuItem=item;
-                break;
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -3,16 +3,14 @@ package com.rolle.doctor.viewmodel;
 import android.content.Context;
 
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.response.handler.HttpModelHandler;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.rolle.doctor.domain.CityResponse;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.RequestApi;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class ListModel extends ViewModel {
     public static DataBase db;
 
     public ListModel(Context context){
-        db= LiteOrm.newCascadeInstance(context, Constants.DB_NAME);
+        db= LiteOrm.newCascadeInstance(context, AppConstants.DB_NAME);
     }
     /***
      *@Description 获取省会城市

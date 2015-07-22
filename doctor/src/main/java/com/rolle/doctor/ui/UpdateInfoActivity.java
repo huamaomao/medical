@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DateUtil;
 import com.android.common.util.ViewUtil;
@@ -22,8 +23,10 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.UploadPicture;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.event.BaseEvent;
+import com.rolle.doctor.service.RequestService;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Constants;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
@@ -32,6 +35,7 @@ import java.util.Date;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  *
@@ -58,13 +62,26 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
 
     @OnClick(R.id.ll_item_0)
     void onUploadPhoto(){
+        if (CommonUtil.isFastClick())return;
         ViewUtil.startPictureActivity(getContext());
     }
 
     @OnClick(R.id.ll_item_1)
     void onDate(){
+        if (CommonUtil.isFastClick())return;
         timePicker.show();
     }
+
+     void onEvent(BaseEvent event)
+    {
+        if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_TOKEN_OUT){
+            userModel.setLoginOut();
+
+        }
+
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -117,7 +134,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         setBackActivity("个人信息");
         et_name.setText(user.nickname);
         et_name.setSelection(user.nickname.length());
-        if (Constants.SEX_GIRL.equals(user.sex)){
+        if (AppConstants.SEX_GIRL.equals(user.sex)){
             radioGroup.check(R.id.rb_tab_2);
         }else {
             radioGroup.check(R.id.rb_tab_1);
@@ -129,10 +146,10 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
                 switch (checkedId) {
                     case R.id.rb_tab_1:
                     default:
-                        user.sex = Constants.SEX_BOY;
+                        user.sex = AppConstants.SEX_BOY;
                         break;
                     case R.id.rb_tab_2:
-                        user.sex = Constants.SEX_GIRL;
+                        user.sex = AppConstants.SEX_GIRL;
                         break;
                 }
             }
@@ -140,7 +157,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         tv_date.setText(CommonUtil.initTextNull(user.birthday));
         Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
-        loadingFragment.setMessage("正在提交数据...");
+        loadingFragment.setCommitMessage();
     }
 
 
@@ -161,12 +178,17 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
+                msgShow("修改成功");
+                Intent intent=new Intent(getContext(), RequestService.class);
+                startService(intent);
+                EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_USER_INFO));
+                finish();
 
             }
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
-
+                new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
             }
 
             @Override
@@ -181,8 +203,9 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.toolbar_save:
+                if (CommonUtil.isFastClick())return true;
                 updateUser();
-                break;
+               return true;
         }
         return super.onOptionsItemSelected(item);
     }

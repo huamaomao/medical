@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,6 +22,16 @@ public final class DateUtil {
     private static SimpleDateFormat sdf_datec_format = new SimpleDateFormat(DATEC_FORMAT);
     public static SimpleDateFormat sdf_time = new SimpleDateFormat("HH:mm:ss");
 
+
+   public static   Date getBirthDate(){
+       lock.lock();
+       try {
+           GregorianCalendar gregorianCalendar=new GregorianCalendar(1970,10,01);
+           return gregorianCalendar.getTime();
+       }finally {
+           lock.unlock();
+       }
+   }
 
 
     public static  String formatChatMessage(String date){

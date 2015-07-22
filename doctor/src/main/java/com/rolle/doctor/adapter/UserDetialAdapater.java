@@ -16,6 +16,7 @@ import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.ui.CodeImageActivity;
 import com.rolle.doctor.ui.UpdateInfoActivity;
 import com.rolle.doctor.ui.UpdateIntroActivity;
 import com.rolle.doctor.util.CircleTransform;
@@ -67,6 +68,17 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             UserViewHolder viewHolder=(UserViewHolder)holder;
             Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(viewHolder.iv_photo);
+
+            Picasso.with(mContext).load(RequestApi.getImageUrl(user.qrCode)).placeholder(R.drawable.icon_default).
+                   into(viewHolder.iv_qd_code);
+
+            viewHolder.iv_qd_code.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (CommonUtil.isFastClick())return;
+                    ViewUtil.openActivity(CodeImageActivity.class,(Activity)mContext);
+                }
+            });
             viewHolder.tv_name.setText(user.nickname);
             viewHolder.tv_jianjie.setText(CommonUtil.isEmpty(user.intro)?"无":user.intro);
             if (CommonUtil.notEmpty(user.age)){
@@ -75,6 +87,7 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 builder.append("岁");
                 viewHolder.tv_sex.setText(builder.toString());
             }
+
             if ("0".equals(user.sex)) {
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_boy);
                 viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
@@ -86,12 +99,14 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.rl_item_0.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (CommonUtil.isFastClick())return;
                     ViewUtil.openActivity(UpdateInfoActivity.class, (Activity) mContext);
                 }
             });
             viewHolder.rl_item_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (CommonUtil.isFastClick())return;
                     ViewUtil.openActivity(UpdateIntroActivity.class,(Activity)mContext);
                 }
             });

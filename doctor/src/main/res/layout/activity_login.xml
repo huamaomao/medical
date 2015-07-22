@@ -8,12 +8,13 @@
         android:id="@id/iv_photo"
         android:layout_marginTop="120dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_doctor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_marginTop="20dp"
         style="@style/item_from_style"
         android:background="@drawable/round_bg_login"
       >
@@ -22,7 +23,7 @@
             style="@style/et_styple"
             android:hint="手机号"
             android:imeOptions="actionNext"
-            android:inputType="phone"
+            android:inputType="number"
             android:maxLength="11"
             android:drawablePadding="17px"
             android:drawableLeft="@drawable/icon_user"

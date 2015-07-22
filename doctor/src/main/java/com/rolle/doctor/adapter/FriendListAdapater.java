@@ -19,6 +19,7 @@ import com.rolle.doctor.domain.User;
 import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.DoctorDetialActivity;
 import com.rolle.doctor.ui.PatientHActivity;
+import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.RequestApi;
 import com.squareup.picasso.Picasso;
@@ -110,7 +111,7 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                         } else {
                             friend.btnStatus.setText("接受");
                         }
-                        if (com.rolle.doctor.util.Constants.USER_TYPE_DOCTOR.equals(user.typeId)) {
+                        if (AppConstants.USER_TYPE_DOCTOR.equals(user.typeId)) {
                             friend.ivType.setImageResource(R.drawable.icon_doctor);
                         }
                         friend.tvRemarks.setText("主治:血糖");
@@ -138,8 +139,8 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
             @Override
             public void onClick(View v, User user, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(com.rolle.doctor.util.Constants.ITEM, user);
-                if (com.rolle.doctor.util.Constants.USER_TYPE_PATIENT.equals(user.typeId)){
+                bundle.putParcelable(AppConstants.ITEM, user);
+                if (AppConstants.USER_TYPE_PATIENT.equals(user.typeId)){
                     ViewUtil.openActivity(PatientHActivity.class, bundle,(BaseActivity)mContext, ActivityModel.ACTIVITY_MODEL_1);
                 }else {
                     ViewUtil.openActivity(DoctorDetialActivity.class, bundle,(BaseActivity)mContext, ActivityModel.ACTIVITY_MODEL_1);

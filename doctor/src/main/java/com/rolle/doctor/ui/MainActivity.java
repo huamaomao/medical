@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity implements FriendListPresenter.IF
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
         if (keyCode == KeyEvent.KEYCODE_BACK){
             index++;
             if (index==1){
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity implements FriendListPresenter.IF
             return true;
         }
         index=0;
-        return false;
+        return super.onKeyDown(keyCode,event);
     }
 
     @Override

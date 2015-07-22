@@ -39,7 +39,8 @@ public class HomeInfo extends ResponseMessage {
 	}
 
 	public static class Family implements Parcelable {
-		public String id;
+		public int id;
+		public  int loginId;
 		public String groupId;
 		public String userId;
 		public String appellation;
@@ -48,6 +49,10 @@ public class HomeInfo extends ResponseMessage {
 		public String isImportance;
 		public String headImage;
 		public String nickname;
+
+		public Family() {
+		}
+
 		@Override
 		public int describeContents() {
 			return 0;
@@ -55,7 +60,8 @@ public class HomeInfo extends ResponseMessage {
 
 		@Override
 		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeString(this.id);
+			dest.writeInt(this.id);
+			dest.writeInt(this.loginId);
 			dest.writeString(this.groupId);
 			dest.writeString(this.userId);
 			dest.writeString(this.appellation);
@@ -66,11 +72,9 @@ public class HomeInfo extends ResponseMessage {
 			dest.writeString(this.nickname);
 		}
 
-		public Family() {
-		}
-
-		private Family(Parcel in) {
-			this.id = in.readString();
+		protected Family(Parcel in) {
+			this.id = in.readInt();
+			this.loginId = in.readInt();
 			this.groupId = in.readString();
 			this.userId = in.readString();
 			this.appellation = in.readString();
@@ -81,7 +85,7 @@ public class HomeInfo extends ResponseMessage {
 			this.nickname = in.readString();
 		}
 
-		public static final Parcelable.Creator<Family> CREATOR = new Parcelable.Creator<Family>() {
+		public static final Creator<Family> CREATOR = new Creator<Family>() {
 			public Family createFromParcel(Parcel source) {
 				return new Family(source);
 			}
