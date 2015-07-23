@@ -19,4 +19,11 @@
         <attr name="errorLayout" format="reference"/>
         <attr name="loadingLayout" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="AppSeachView">
+        <attr name="seachTextColor" format="color"/>
+        <attr name="seachHint" format="string"/>
+        <attr name="seachButton" format="string"/>
+        <attr name="seachButtonBackgroud" format="string"/>
+        <attr name="seachTextSize" format="dimension"/>
+    </declare-styleable>
 </resources>

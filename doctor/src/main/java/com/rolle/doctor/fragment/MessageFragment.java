@@ -87,7 +87,7 @@ public class MessageFragment extends BaseFragment{
             }
         });
         refresh.setRefreshing(false);
-        recyclerAdapter=new RecyclerAdapter<>(getContext(),lsData,rv_view);
+        recyclerAdapter=new RecyclerAdapter(getContext(),lsData,rv_view);
         recyclerAdapter.empty="暂时没有消息哦,快去\n\"通讯录\"找人聊天吧";
         recyclerAdapter.setOnClickEvent(new RecyclerAdapter.OnClickEvent<User>() {
             @Override
@@ -95,7 +95,7 @@ public class MessageFragment extends BaseFragment{
                 if (CommonUtil.notNull(messageUser)){
                     Bundle bundle=new Bundle();
                     bundle.putParcelable(AppConstants.ITEM,messageUser);
-                    ViewUtil.openActivity(MessageActivity.class,bundle,getActivity(), ActivityModel.ACTIVITY_MODEL_1);
+                    ViewUtil.openActivity(MessageActivity.class,bundle,getActivity());
                 }
             }
         });
@@ -171,6 +171,7 @@ public class MessageFragment extends BaseFragment{
      */
     public void doMessage(){
         int id=userModel.getLoginUser().id;
+        
         List<GotyeChatTarget> ls =gotyeModel.getFriendSession();
         if (CommonUtil.notNull(ls)){
             List<User> userList=new ArrayList<>();

@@ -14,12 +14,11 @@
         <item name="colorControlNormal">?android:attr/textColorPrimaryDisableOnly</item>
         <!-- 状态栏颜色 -->
         <item name="colorPrimaryDark">@color/write</item>
-
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
     </style>
     <style name="AppThemeTransparent" parent="AppDoctorTheme">
         <item name="android:windowBackground">@color/transparent</item>
@@ -39,6 +38,8 @@
     </style>
 
 
+
+
     <style name="myDialogTheme" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -49,6 +50,19 @@
         <item name="android:windowBackground">@null</item><!--除去背景色-->
         <item name="android:background">@color/write</item>
     </style>
+
+    <style name="MySearchViewStyle"  parent="Widget.AppCompat.SearchView">
+        <item name="android:subtitle">查询</item>
+        <item name="commitIcon">@drawable/icon_seach</item>
+       <!-- <item name="queryBackground">...</item>
+        <item name="submitBackground">...</item>
+        <item name="closeIcon">...</item>
+        <item name="goIcon">...</item>
+        <item name="voiceIcon">...</item>
+        <item name="commitIcon">...</item>-->
+    </style>
+
+
 
 <!--
     <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

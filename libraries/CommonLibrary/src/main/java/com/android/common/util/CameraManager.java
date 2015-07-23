@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rolle.doctor.util;
-
-import java.io.IOException;
+package com.android.common.util;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.util.Log;
+
+import java.io.IOException;
 
 /**
  *
@@ -29,7 +29,7 @@ import android.util.Log;
  * 作者: 陈涛
  *
  * 日期: 2014年8月20日
- * 
+ *
  * 描述: 该类主要负责对相机的操作
  *
  */
@@ -48,10 +48,10 @@ public final class CameraManager {
 
 	/**
 	 * Opens the camera driver and initializes the hardware parameters.
-	 * 
-	 * @param
 	 *
-	 *            .
+	 * @param holder
+	 *            The surface object which the camera will draw preview frames
+	 *            into.
 	 * @throws IOException
 	 *             Indicates the camera driver failed to open.
 	 */
@@ -103,7 +103,7 @@ public final class CameraManager {
 	public Camera getCamera(){
 		return camera;
 	}
-	
+
 	/**
 	 * Closes the camera driver if still in use.
 	 */
@@ -116,7 +116,7 @@ public final class CameraManager {
 
 	/**
 	 * 获取相机分辨率
-	 * 
+	 *
 	 * @return
 	 */
 	public Point getCameraResolution() {

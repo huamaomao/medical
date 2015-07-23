@@ -148,6 +148,7 @@ public class GotyeService extends Service implements NotifyListener,LoginListene
 	@Override
 	public void onLogin(int code, GotyeUser currentLoginUser) {
 		Log.e(TAG,"onLogin......"+code+".currentLoginUser..."+currentLoginUser.getName());
+
 	}
 
 	@Override

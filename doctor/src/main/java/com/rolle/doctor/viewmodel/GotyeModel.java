@@ -175,6 +175,8 @@ public final class GotyeModel extends Presenter {
      * 会话列表
      */
     public List<GotyeChatTarget> getFriendSession(){
+        GotyeUser user=gotyeAPI.getLoginUser();
+
         return gotyeAPI.getSessionList();
     }
 

@@ -40,7 +40,7 @@ public class CaptureActivity extends BaseLoadingToolbarActivity {
 	private Handler autoFocusHandler;
 	private CameraManager mCameraManager;
 
-	private TextView scanResult;
+
 	private FrameLayout scanPreview;
 	private Button scanRestart;
 	private RelativeLayout scanContainer;
@@ -67,7 +67,7 @@ public class CaptureActivity extends BaseLoadingToolbarActivity {
 
 	private void findViewById() {
 		scanPreview = (FrameLayout) findViewById(R.id.capture_preview);
-		scanResult = (TextView) findViewById(R.id.capture_scan_result);
+
 		scanRestart = (Button) findViewById(R.id.capture_restart_scan);
 		scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
 		scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
@@ -79,7 +79,6 @@ public class CaptureActivity extends BaseLoadingToolbarActivity {
 			public void onClick(View v) {
 				if (barcodeScanned) {
 					barcodeScanned = false;
-					scanResult.setText("Scanning...");
 					mCamera.setPreviewCallback(previewCb);
 					mCamera.startPreview();
 					previewing = true;
@@ -159,7 +158,6 @@ public class CaptureActivity extends BaseLoadingToolbarActivity {
 				mCamera.setPreviewCallback(null);
 				mCamera.stopPreview();
 				Log.d("result:"+result);
-				scanResult.setText("扫描成功");
 				barcodeScanned = true;
 			}
 		}

@@ -69,9 +69,6 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
                     transform(new CircleTransform()).into(viewHolder.iv_photo);
 
-            Picasso.with(mContext).load(RequestApi.getImageUrl(user.qrCode)).placeholder(R.drawable.icon_default).
-                   into(viewHolder.iv_qd_code);
-
             viewHolder.iv_qd_code.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -83,11 +80,10 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.tv_jianjie.setText(CommonUtil.isEmpty(user.intro)?"无":user.intro);
             if (CommonUtil.notEmpty(user.age)){
                 StringBuilder builder = new StringBuilder();
-                builder.append(user.age);
+                builder.append(CommonUtil.isEmpty(user.age)?0:user.age);
                 builder.append("岁");
                 viewHolder.tv_sex.setText(builder.toString());
             }
-
             if ("0".equals(user.sex)) {
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_boy);
                 viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);

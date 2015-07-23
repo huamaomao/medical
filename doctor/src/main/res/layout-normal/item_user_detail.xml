@@ -35,27 +35,17 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true" />
+       <ImageView  android:id="@id/iv_qd_code"
+
+           android:src="@drawable/icon_erweima"
+           android:layout_centerVertical="true"
+           android:layout_alignParentRight="true"
+           android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+           />
 </RelativeLayout>
  <include layout="@layout/divider" />
- <RelativeLayout
-        android:id="@id/rl_item_1"
-     style="@style/list_item_c_style">
-     <TextView
-         style="@style/text_label_style"
-         android:layout_centerVertical="true"
-         android:layout_height="wrap_content"
-         android:textSize="@dimen/font_size_14"
-         android:layout_width="wrap_content"
-         android:text="二维码名片" />
-     <ImageView  android:id="@id/iv_qd_code"
-         android:src="@drawable/icon_erweima"
-         android:layout_centerVertical="true"
-         android:layout_alignParentRight="true"
-         android:layout_height="wrap_content"
-         android:layout_width="wrap_content"
-        />
-    </RelativeLayout>
-    <include layout="@layout/divider" />
+
     <RelativeLayout
         android:id="@id/rl_item_2"
         style="@style/list_item_c_style">

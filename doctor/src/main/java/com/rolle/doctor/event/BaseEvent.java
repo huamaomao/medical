@@ -18,5 +18,9 @@ public  class BaseEvent {
    public static  final int EV_USER_INFO=0X0001;
     //token 过时
    public static  final int EV_TOKEN_OUT=0X00f1;
+    //  好友  ...
+   public static  final int EV_USER_FRIEND=0X0002;
+
+
 
 }

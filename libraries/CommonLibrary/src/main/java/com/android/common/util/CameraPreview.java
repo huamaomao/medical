@@ -3,9 +3,7 @@
  * 
  * Created by lisah0 on 2012-02-24
  */
-package com.rolle.doctor.util;
-
-import java.io.IOException;
+package com.android.common.util;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -14,6 +12,8 @@ import android.hardware.Camera.PreviewCallback;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.io.IOException;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {

@@ -9,12 +9,14 @@
     style="@style/AppTheme"
     android:background="@drawable/toolbar_title"
     android:minHeight="?attr/actionBarSize" >
-    <android.support.v7.widget.SearchView android:id="@id/seach"
+    <android.support.v7.widget.SearchView
+        android:id="@id/seach"
         android:background="@color/write"
         android:minHeight="45dp"
+        style="@style/MySearchViewStyle"
         android:iconifiedByDefault="true"
         android:imeOptions="actionSearch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 

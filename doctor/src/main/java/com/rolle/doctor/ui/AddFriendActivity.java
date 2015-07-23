@@ -1,11 +1,7 @@
 package com.rolle.doctor.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.widget.EditText;
-
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
@@ -14,10 +10,8 @@ import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
-import com.rolle.doctor.presenter.AddFriendPresenter;
 import com.rolle.doctor.viewmodel.UserModel;
 
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -26,8 +20,6 @@ import butterknife.OnClick;
 public class AddFriendActivity extends BaseLoadingActivity {
 
 
-    @InjectView(R.id.et_tel)
-    EditText et_tel;
 
     private UserModel model;
 
@@ -46,6 +38,11 @@ public class AddFriendActivity extends BaseLoadingActivity {
         return super.onTouchEvent(event);
     }
 
+    @OnClick(R.id.tv_code)
+    void doSeachUser(){
+        if (CommonUtil.isFastClick())return;
+        ViewUtil.openActivity(SeachUserActivity.class,getContext());
+    }
 
     @Override
     protected void initView() {
@@ -56,26 +53,19 @@ public class AddFriendActivity extends BaseLoadingActivity {
 
     @OnClick(R.id.ll_invite)
     void doInvite(){
+        if (CommonUtil.isFastClick())return;
         ViewUtil.openActivity(MyInviteCodeActivity.class, this);
     }
 
     @OnClick(R.id.ll_scanning)
     void doScanning(){
+        if (CommonUtil.isFastClick())return;
        ViewUtil.openActivity(CaptureActivity.class, this);
     }
 
     public void doAdd(){
-        String tel=et_tel.getText().toString();
-        if (CommonUtil.isEmpty(tel)){
-            msgShow("请填写手机号...");
-            return;
-        }
-        if (!CommonUtil.isMobileNO(tel)){
-            msgShow("手机格式错误...");
-            return;
-        }
         showLoading();
-        model.requestAddFriend(tel,null, new SimpleResponseListener<ResponseMessage>() {
+        model.requestAddFriend(null,null, new SimpleResponseListener<ResponseMessage>() {
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
                 msgShow("添加成功...");
@@ -93,21 +83,6 @@ public class AddFriendActivity extends BaseLoadingActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.toolbar_add:
-                doAdd();
-                break;
-        }
-
-        return true;
-    }
 
 }

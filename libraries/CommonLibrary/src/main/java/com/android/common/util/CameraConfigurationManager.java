@@ -13,13 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rolle.doctor.util;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+package com.android.common.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,6 +23,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  *
  * 邮箱: 1076559197@qq.com | tauchen1990@gmail.com
@@ -36,7 +36,7 @@ import android.view.WindowManager;
  * 作者: 陈涛
  *
  * 日期: 2014年8月20日
- * 
+ *
  * 描述: 该类主要负责设置相机的参数信息，获取最佳的预览界面
  *
  */
@@ -135,7 +135,7 @@ public final class CameraConfigurationManager {
 
 	/**
 	 * 从相机支持的分辨率中计算出最适合的预览界面尺寸
-	 * 
+	 *
 	 * @param parameters
 	 * @param screenResolution
 	 * @return

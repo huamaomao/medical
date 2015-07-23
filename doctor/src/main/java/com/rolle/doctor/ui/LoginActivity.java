@@ -69,7 +69,6 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     @Override
     protected void initView() {
         super.initView();
-        presenter.doIsLogin();
         etPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -97,6 +96,12 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.doIsLogin();
     }
 
     @Override

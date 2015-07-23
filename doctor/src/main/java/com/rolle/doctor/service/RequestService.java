@@ -42,6 +42,10 @@ public class RequestService extends IntentService{
 				});
 
 				break;
+
+			case RequestTag.R_USER_FRIEND:
+				userModel.requestFriendList();
+				break;
 		}
 
 	}

@@ -41,13 +41,11 @@ public interface UrlApi{
     public static final String  ADD_FRIEND="/crm/user_sp/addFriendRelation.json";
     public static final String FRIEND_ADD_ID="/crm/relation_sp/saveRelationByUserId.json";
 
-
     /***推荐投诉**/
     public static final String USER_RECOMMEND_REVIEW_COMPLAINTS_CODE="/crm/message_sp/getMessageListByMap.json";
     /***赞**/
     public static final String USER_PRAISE_CODE="/crm/praise_sp/getPraiseListByMap.json";
     /******血糖记录*********/
     public static final String BLOOD_LIST="/crm/glycemic_sp/getGlycemicDataByMap.json";
-
 
 }

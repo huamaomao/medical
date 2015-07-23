@@ -3,6 +3,7 @@ package com.rolle.doctor.ui;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.presenter.YaoqingPresenter;
@@ -40,11 +41,13 @@ public class MyInviteCodeActivity extends BaseActivity implements YaoqingPresent
 
     @OnClick(R.id.btn_write)
     void  doWrite(){
+        if (CommonUtil.isFastClick())return;
         ViewUtil.openActivity(WriteInviteCodeActivity.class,getContext(), false);
     }
     @OnClick(R.id.btn_invite)
     void  doInvite(){
-
+        if (CommonUtil.isFastClick())return;
+        ViewUtil.openActivity(FriendActivity.class,getContext(), false);
     }
 
 

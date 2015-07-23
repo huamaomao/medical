@@ -68,8 +68,10 @@
         <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CodeImageActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.SeachActivity"
-            android:screenOrientation="portrait" android:theme="@style/AppThemeTransparent" />
+        <activity android:name=".ui.SeachActivity" android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTransparent" />
+        <activity android:name=".ui.SeachUserActivity" android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTransparent" />
         <!-- service -->
         <service android:name=".service.GotyeService" />
         <service android:name=".service.RequestService" />

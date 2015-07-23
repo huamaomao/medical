@@ -1,8 +1,5 @@
 package com.rolle.doctor.ui;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
@@ -22,24 +19,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.android.common.util.Toastor;
+import com.android.common.util.CameraManager;
+import com.android.common.util.CameraPreview;
+import com.android.common.util.Log;
 import com.dtr.zbar.build.ZBarDecoder;
 import com.rolle.doctor.R;
-import com.rolle.doctor.util.CameraManager;
-import com.rolle.doctor.util.CameraPreview;
+import com.rolle.doctor.ui.BaseLoadingActivity;
+import java.io.IOException;
+import java.lang.reflect.Field;
 
 /*****
  * 扫描二维码
  */
-public class CaptureActivity extends Activity {
+public class CaptureActivity extends BaseLoadingActivity {
 
 	private Camera mCamera;
 	private CameraPreview mPreview;
 	private Handler autoFocusHandler;
 	private CameraManager mCameraManager;
 
-	private TextView scanResult;
 	private FrameLayout scanPreview;
 	private Button scanRestart;
 	private RelativeLayout scanContainer;
@@ -54,6 +52,11 @@ public class CaptureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_capture);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	@Override
+	protected void initView() {
+		super.initView();
 		findViewById();
 		addEvents();
 		initViews();
@@ -61,7 +64,6 @@ public class CaptureActivity extends Activity {
 
 	private void findViewById() {
 		scanPreview = (FrameLayout) findViewById(R.id.capture_preview);
-		scanResult = (TextView) findViewById(R.id.capture_scan_result);
 		scanRestart = (Button) findViewById(R.id.capture_restart_scan);
 		scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
 		scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
@@ -73,7 +75,6 @@ public class CaptureActivity extends Activity {
 			public void onClick(View v) {
 				if (barcodeScanned) {
 					barcodeScanned = false;
-					scanResult.setText("Scanning...");
 					mCamera.setPreviewCallback(previewCb);
 					mCamera.startPreview();
 					previewing = true;
@@ -84,23 +85,25 @@ public class CaptureActivity extends Activity {
 	}
 
 	private void initViews() {
+		setBackActivity("扫描");
 		autoFocusHandler = new Handler();
 		mCameraManager = new CameraManager(this);
 		try {
 			mCameraManager.openDriver();
-			mCamera = mCameraManager.getCamera();
-			mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
-			scanPreview.addView(mPreview);
-			TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT,
-					0.85f);
-			animation.setDuration(3000);
-			animation.setRepeatCount(-1);
-			animation.setRepeatMode(Animation.REVERSE);
-			scanLine.startAnimation(animation);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-			new Toastor(getApplicationContext()).showLongToast("打开相机失败");
 		}
+
+		mCamera = mCameraManager.getCamera();
+		mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
+		scanPreview.addView(mPreview);
+		TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT,
+				0.85f);
+		animation.setDuration(3000);
+		animation.setRepeatCount(-1);
+		animation.setRepeatMode(Animation.REVERSE);
+		scanLine.startAnimation(animation);
+
 
 	}
 
@@ -149,8 +152,8 @@ public class CaptureActivity extends Activity {
 				previewing = false;
 				mCamera.setPreviewCallback(null);
 				mCamera.stopPreview();
+				Log.d("result:" + result);
 
-				scanResult.setText("barcode result " + result);
 				barcodeScanned = true;
 			}
 		}

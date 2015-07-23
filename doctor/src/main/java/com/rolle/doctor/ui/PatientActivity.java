@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.astuetz.PagerSlidingTabStrip;
@@ -18,6 +19,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -59,7 +61,6 @@ public class PatientActivity extends BaseActivity{
              super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
         userModel=new UserModel(getContext());
-
     }
 
     private void loadList(){
@@ -71,6 +72,11 @@ public class PatientActivity extends BaseActivity{
         adapaterMin.checkEmpty();
     }
 
+    public void onEvent(BaseEvent event){
+        if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_USER_FRIEND){
+            loadList();
+        }
+    }
 
 
     @Override
@@ -116,6 +122,9 @@ public class PatientActivity extends BaseActivity{
                     @Override
                     public void requestView() {
                         refresh.setRefreshing(false);
+                        adapaterAll.checkEmpty();
+                        adapaterMax.checkEmpty();
+                        adapaterMin.checkEmpty();
                     }
                 });
             }

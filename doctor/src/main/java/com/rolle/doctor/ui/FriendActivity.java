@@ -66,24 +66,6 @@ public class FriendActivity extends BaseActivity{
         umSocialService= ShareUtils.initInviteShare(getContext());
         data=new ArrayList<>();
         adapater=new FriendListAdapater(this,data,lvView,FriendListAdapater.TYPE_FRIEND);
-        requestData();
-    }
-
-    /****
-     *
-     */
-    private void requestData(){
-        userModel.requestNewFriendList(null, new SimpleResponseListener<List<Recommended.Item>>() {
-            @Override
-            public void requestSuccess(List<Recommended.Item> info, Response response) {
-
-            }
-
-            @Override
-            public void requestError(HttpException e, ResponseMessage info) {
-
-            }
-        });
 
     }
 

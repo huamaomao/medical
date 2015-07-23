@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.astuetz.PagerSlidingTabStrip;
@@ -18,6 +19,7 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.FriendListAdapater;
 import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * 医生
@@ -56,6 +59,22 @@ public class TheDoctorActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
         userModel=new UserModel(getContext());
+        EventBus.getDefault().register(this);
+    }
+
+    void loadList(){
+        adapaterSame.addItemAll(userModel.querySameFriendList());
+        adapaterAll.addItemAll(userModel.queryFriendList());
+        adapaterSame.checkEmpty();
+        adapaterAll.checkEmpty();
+
+    }
+
+
+   public   void onEvent(BaseEvent event){
+        if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_USER_FRIEND){
+            loadList();
+        }
     }
 
 
@@ -82,6 +101,9 @@ public class TheDoctorActivity extends BaseActivity{
                     @Override
                     public void requestView() {
                         refresh.setRefreshing(false);
+                        adapaterSame.checkEmpty();
+                        adapaterAll.checkEmpty();
+
                     }
                 });
 
@@ -103,8 +125,7 @@ public class TheDoctorActivity extends BaseActivity{
         pagerAdapter=new ViewPagerAdapter(titles,views);
         viewPager.setAdapter(pagerAdapter);
         tabStrip.setViewPager(viewPager);
-
-
+        loadList();
 
     }
 
@@ -127,6 +148,7 @@ public class TheDoctorActivity extends BaseActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         try {
             adapaterSame.onDestroyReceiver();
             adapaterAll.onDestroyReceiver();

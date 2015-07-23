@@ -138,6 +138,7 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
         setOnClickEvent(new OnClickEvent<User>() {
             @Override
             public void onClick(View v, User user, int position) {
+                if (CommonUtil.isFastClick())return;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(AppConstants.ITEM, user);
                 if (AppConstants.USER_TYPE_PATIENT.equals(user.typeId)){

@@ -27,6 +27,8 @@ import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.service.RequestService;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.AppConstants;
+import com.rolle.doctor.util.Util;
+import com.rolle.doctor.viewmodel.RequestTag;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
@@ -80,7 +82,6 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         }
 
     }
-
 
 
     @Override
@@ -179,8 +180,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
                 msgShow("修改成功");
-                Intent intent=new Intent(getContext(), RequestService.class);
-                startService(intent);
+                Util.startRequestService(getContext(),RequestTag.R_USER_UP);
                 EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_USER_INFO));
                 finish();
 

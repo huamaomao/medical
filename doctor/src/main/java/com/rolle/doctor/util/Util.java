@@ -1,6 +1,8 @@
 package com.rolle.doctor.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 
 import com.android.common.util.CommonUtil;
@@ -13,6 +15,8 @@ import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.CityResponse;
+import com.rolle.doctor.service.RequestService;
+import com.rolle.doctor.viewmodel.RequestTag;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +29,24 @@ import java.util.List;
  * @date 2015/4/20 - 15:15
  */
 public final class Util {
+
+    public static void startRequestService(Context ctx,int tag){
+        Intent intent=new Intent(ctx, RequestService.class);
+        intent.putExtra(RequestTag.TAG,tag);
+        ctx.startService(intent);
+    }
+
+    /****
+     *
+     * @param type
+     * @return
+     */
+    public static boolean isDoctor(String type){
+        if (AppConstants.USER_TYPE_DOCTOR.equals(type)||AppConstants.USER_TYPE_DIETITAN.equals(type))return true;
+        return false;
+
+    }
+
     /****
      * 3医生，4.营养师  5用户
      * @return

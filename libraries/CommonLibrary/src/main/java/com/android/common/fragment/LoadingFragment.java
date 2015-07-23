@@ -18,6 +18,7 @@ public class LoadingFragment extends DialogFragment {
     private final  static String commit="正在提交...";
     private final  static String login="正在登陆...";
     private final  static String request="正在请求...";
+    private final  static String add="正在添加...";
     private LoadingFragment() {
     }
 
@@ -44,6 +45,10 @@ public class LoadingFragment extends DialogFragment {
     }
     public void setLoginMessage(){
         setMessage(login);
+    }
+
+    public void setAddMessage(){
+        setMessage(add);
     }
     public void setRequestMessage(){
         setMessage(request);

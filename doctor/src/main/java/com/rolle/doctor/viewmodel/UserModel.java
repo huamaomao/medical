@@ -25,6 +25,7 @@ import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.rolle.doctor.domain.BloodResponse;
 import com.rolle.doctor.domain.ContactBean;
+import com.rolle.doctor.domain.ContactListResponse;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.InviteCodeResponse;
 import com.rolle.doctor.domain.Recommended;
@@ -99,7 +100,7 @@ public class UserModel  extends ViewModel {
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
-                listener.requestError(e,info);
+                listener.requestError(e, info);
                 listener.requestView();
             }
         });
@@ -200,13 +201,13 @@ public class UserModel  extends ViewModel {
             @Override
             public void requestSuccess(FriendResponse info, Response response) {
                 saveFriendList(info.friendList);
+                EventBus.getDefault().post(new BaseEvent());
             }
 
             @Override
             public void requestError(HttpException e, ResponseMessage info) {
 
             }
-
         });
     }
 
@@ -344,6 +345,8 @@ public class UserModel  extends ViewModel {
         execute(RequestApi.requestAddFriend(getToken().token, userId, noteName), listener);
     }
 
+
+
     /******
      * 血糖记录
      */
@@ -448,7 +451,7 @@ public class UserModel  extends ViewModel {
      *  新朋友
      * @param listener
      */
-    public void requestNewFriendList(final List<ContactBean> list, final SimpleResponseListener<List<Recommended.Item>> listener){
+    public void requestNewFriendList(final List<ContactBean> list, final SimpleResponseListener<List<ContactListResponse.Item>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/getNewFriendList.json");
         List<NameValuePair> param=new ArrayList<>();
@@ -475,10 +478,10 @@ public class UserModel  extends ViewModel {
        // request.addHeader("Content-Type", "application/json");
         //request.setHttpBody(new JsonBody(builder.toString()));
         request.setHttpBody(body);
-        execute(request, new SimpleResponseListener<Recommended>() {
+        execute(request, new SimpleResponseListener<ContactListResponse>() {
             @Override
-            public void requestSuccess(Recommended info, Response response) {
-                listener.requestSuccess(info.list, response);
+            public void requestSuccess(ContactListResponse info, Response response) {
+                listener.requestSuccess(info.getList(), response);
             }
 
             @Override

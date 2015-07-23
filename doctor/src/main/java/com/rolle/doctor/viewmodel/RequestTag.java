@@ -9,4 +9,7 @@ public  interface RequestTag {
     static final String TAG="RequestTag";
     //家庭组
     static final int R_USER_UP=0x0001;
+    //  好友。
+    static final int R_USER_FRIEND=0x0002;
+
 }
