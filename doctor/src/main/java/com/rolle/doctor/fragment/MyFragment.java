@@ -64,7 +64,7 @@ public class MyFragment extends BaseFragment{
     void updateInfo(){
         User user=userModel.getLoginUser();
         tv_name.setText(user.nickname);
-        Picasso.with(getContext()).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(getContext()).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.mipmap.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
     }
 
@@ -96,10 +96,10 @@ public class MyFragment extends BaseFragment{
         super.initView(view, inflater);
         userModel=new UserModel((BaseActivity)getContext());
         lsData=new ArrayList();
-        lsData.add(new ItemInfo(R.drawable.icon_money, "我要认证"));
-        lsData.add(new ItemInfo(R.drawable.icon_money, "我的钱包"));
-        lsData.add(new ItemInfo(R.drawable.icon_zan, "收到的赞"));
-        lsData.add(new ItemInfo(R.drawable.icon_message_l, "收到的评论"));
+        lsData.add(new ItemInfo(R.mipmap.icon_money, "我要认证"));
+        lsData.add(new ItemInfo(R.mipmap.icon_money, "我的钱包"));
+        lsData.add(new ItemInfo(R.mipmap.icon_zan, "收到的赞"));
+        lsData.add(new ItemInfo(R.mipmap.icon_message_l, "收到的评论"));
         adapter=new BaseRecyclerAdapter<>(lsData);
         adapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
             @Override

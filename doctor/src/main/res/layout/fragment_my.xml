@@ -28,14 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView android:id="@id/iv_qd_code"
-            android:src="@drawable/icon_erweima"
+            android:src="@mipmap/icon_erweima"
             android:layout_width="@dimen/photo_height"
             android:layout_toLeftOf="@id/iv_more"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_height="@dimen/photo_height" />
         <ImageView android:id="@id/iv_more"
-            android:src="@drawable/icon_more"
+            android:src="@mipmap/icon_more"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"

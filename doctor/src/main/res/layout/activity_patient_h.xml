@@ -46,7 +46,7 @@
         android:layout_marginBottom="0px"
         android:layout_gravity="bottom"
         android:background="@drawable/s_btn"
-        android:src="@drawable/icon_send"
+        android:src="@mipmap/icon_send"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
 </LinearLayout>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"/>
     <android.support.v7.widget.AppCompatTextView
         android:id="@id/tv_code"
-        android:drawableLeft="@drawable/icon_seach"
+        android:drawableLeft="@mipmap/icon_seach"
         android:text="用户名/手机号"
         android:drawablePadding="25dp"
         android:background="@drawable/s_btn"
@@ -26,7 +26,7 @@
         android:id="@id/ll_scanning"
         style="@style/list_item_style">
         <ImageView
-            android:src="@drawable/icon_saosao"
+            android:src="@mipmap/icon_saosao"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_marginRight="20dp"
@@ -51,7 +51,7 @@
         style="@style/list_item_style"
      >
         <ImageView
-            android:src="@drawable/icon_my_yaoqing"
+            android:src="@mipmap/icon_my_yaoqing"
             android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"

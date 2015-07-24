@@ -25,6 +25,9 @@ import java.util.List;
 
 import butterknife.InjectView;
 
+import static com.rolle.doctor.R.mipmap;
+import static com.rolle.doctor.R.mipmap.icon_default;
+
 /**
  * 收到的推荐   赞   推荐
  */
@@ -63,7 +66,7 @@ public class RecommendedActivity extends BaseActivity{
             @Override
             public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
                 Recommended.Item item=lsData.get(i);
-                Picasso.with(getContext()).load(item.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(item.headImage).placeholder(icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
                 StringBuilder builder=new StringBuilder();
                 builder.append("收到\"").append(item.nickname).append("\"一个赞");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/icon_login"
+    android:background="@mipmap/icon_login"
     style="@style/style_wh_match_v">
   >
 

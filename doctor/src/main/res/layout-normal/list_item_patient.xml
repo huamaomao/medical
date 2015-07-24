@@ -52,7 +52,7 @@
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/iv_photo"
         android:layout_below="@id/tv_item_0"
-        android:drawableLeft="@drawable/icon_up"
+        android:drawableLeft="@mipmap/icon_up"
         android:textColor="@color/message_kemu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -61,7 +61,7 @@
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/tv_item_3"
         android:layout_below="@id/tv_item_0"
-        android:drawableLeft="@drawable/icon_down"
+        android:drawableLeft="@mipmap/icon_down"
         android:textColor="@color/message_kemu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

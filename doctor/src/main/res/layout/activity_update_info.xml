@@ -10,7 +10,6 @@
             style="@style/item_left_style" />
 
         <ImageView android:id="@id/iv_photo"
-            android:src="@drawable/icon_people_4"
             android:layout_gravity="center_vertical|right"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />

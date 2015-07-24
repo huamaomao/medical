@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/ll_login"
     style="@style/style_wh_match_v"
-    android:background="@drawable/icon_login">
+    android:background="@mipmap/icon_login">
     <include layout="@layout/toolbar" />
 
     <LinearLayout

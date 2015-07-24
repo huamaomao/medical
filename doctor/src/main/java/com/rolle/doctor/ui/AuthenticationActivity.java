@@ -81,11 +81,11 @@ public class AuthenticationActivity extends BaseLoadingActivity{
                 if (uri != null) {
                     if (flag){
                         iv_add_idcard.setTag(ViewUtil.getRealFilePath(getContext(), uri));
-                        Picasso.with(this).load(new File(iv_add_idcard.getTag().toString())).placeholder(R.drawable.icon_photo_add).
+                        Picasso.with(this).load(new File(iv_add_idcard.getTag().toString())).placeholder(R.mipmap.icon_photo_add).
                                 resize(120,120).into(iv_add_idcard);
                     }else {
                         iv_add_doctor.setTag(ViewUtil.getRealFilePath(getContext(), uri));
-                        Picasso.with(this).load(new File(iv_add_doctor.getTag().toString())).placeholder(R.drawable.icon_photo_add).
+                        Picasso.with(this).load(new File(iv_add_doctor.getTag().toString())).placeholder(R.mipmap.icon_photo_add).
                                  resize(120, 120).into(iv_add_doctor);
                     }
                 }

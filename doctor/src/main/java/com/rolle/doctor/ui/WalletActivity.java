@@ -26,6 +26,10 @@ import java.util.List;
 
 import butterknife.InjectView;
 
+import static com.rolle.doctor.R.mipmap;
+import static com.rolle.doctor.R.mipmap.icon_amount_smail;
+import static com.rolle.doctor.R.mipmap.icon_blank_add;
+
 /**
  * Created by Hua_ on 2015/4/15.
  */
@@ -51,8 +55,8 @@ public class WalletActivity extends BaseActivity {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         rvView.setLayoutManager(layoutManager);
         lsData=new ArrayList<>();
-        lsData.add(new ItemInfo(R.drawable.icon_amount_smail,CommonUtil.formatMoney("0"),WalletListAdapater.TYPE_ACMOUNT));
-        lsData.add(new ItemInfo(R.drawable.icon_blank_add,"添加支付宝",WalletListAdapater.TYPE_ADD));
+        lsData.add(new ItemInfo(icon_amount_smail,CommonUtil.formatMoney("0"),WalletListAdapater.TYPE_ACMOUNT));
+        lsData.add(new ItemInfo(icon_blank_add,"添加支付宝",WalletListAdapater.TYPE_ADD));
         adapater=new WalletListAdapater(this,lsData);
         ViewUtil.initRecyclerView(rvView,getContext(),adapater);
         rvView.addOnItemTouchListener(new RecyclerItemClickListener(this,new RecyclerItemClickListener.OnItemClickListener() {

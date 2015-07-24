@@ -20,6 +20,9 @@ import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
+import static com.rolle.doctor.R.mipmap;
+import static com.rolle.doctor.R.mipmap.ic_launcher;
+
 /**
  * @author Hua_
  * @Description:分享
@@ -38,7 +41,7 @@ public final class ShareUtils {
         config.setSsoHandler(new SinaSsoHandler());
         addCustomPlatforms(context);
         mController.setShareContent(content);
-        UMImage urlImage = new UMImage(context, R.drawable.ic_launcher);
+        UMImage urlImage = new UMImage(context, ic_launcher);
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         weixinContent.setShareContent(content);
         weixinContent.setTitle(title);

@@ -20,10 +20,6 @@ import java.util.Objects;
 public class FriendResponse extends ResponseMessage {
     public int id;
     @Mapping(Relation.OneToMany)
-    public List<User> friendList;
-  /*  @PrimaryKey(AssignType.BY_MYSELF)
-   // @Column("_name")
-    public String name;*/
-
+    public List<User> list;
 
 }

@@ -5,7 +5,7 @@
 
     <item android:id="@id/toolbar_add"
         android:title=""
-        android:icon="@drawable/icon_add"
+        android:icon="@mipmap/icon_add"
         app:showAsAction="always"
         android:orderInCategory="2"
         android:menuCategory="secondary"/>

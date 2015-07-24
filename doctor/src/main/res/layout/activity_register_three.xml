@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/ll_login"
     style="@style/style_wh_match_v"
-    android:background="@drawable/icon_login">
+    android:background="@mipmap/icon_login">
     <include layout="@layout/toolbar" />
      <Spinner
          android:id="@id/sp_doctor"
@@ -34,7 +34,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName"
                 android:textColorHighlight="@color/hintText"
-                android:drawableLeft="@drawable/icon_user"
+                android:drawableLeft="@mipmap/icon_user"
                 android:textColorHint="@color/hintText"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:inputType="textPassword"
                 android:imeActionLabel="完成"
                 android:textColorHighlight="@color/hintText"
-                android:drawableLeft="@drawable/icon_pwd"
+                android:drawableLeft="@mipmap/icon_pwd"
                 android:textColorHint="@color/hintText"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"

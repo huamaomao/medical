@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.rolle.doctor.R.mipmap;
+
 /**
  * Created by Hua on 2015/4/3.
  */
@@ -66,7 +68,7 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
                 return;
             }
             UserViewHolder viewHolder=(UserViewHolder)holder;
-            Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
+            Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.mipmap.icon_default).
                     transform(new CircleTransform()).into(viewHolder.iv_photo);
 
             viewHolder.iv_qd_code.setOnClickListener(new View.OnClickListener() {
@@ -86,10 +88,10 @@ public class UserDetialAdapater extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             if ("0".equals(user.sex)) {
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_boy);
-                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_boy), null, null, null);
             } else {
                 viewHolder.tv_sex.setBackgroundResource(R.drawable.round_bg_girl);
-                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
+                viewHolder.tv_sex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_girl), null, null, null);
             }
 
             viewHolder.rl_item_0.setOnClickListener(new View.OnClickListener() {

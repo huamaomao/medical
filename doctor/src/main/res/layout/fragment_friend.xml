@@ -10,7 +10,7 @@
         <ImageView
             android:id="@id/iv_type"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_new_friend"
+            android:src="@mipmap/icon_new_friend"
             android:layout_centerVertical="true"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />
@@ -52,7 +52,7 @@
         <ImageView
             android:id="@id/iv_type"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_patient"
+            android:src="@mipmap/icon_patient"
             android:layout_centerVertical="true"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />
@@ -95,7 +95,7 @@
         <ImageView
             android:id="@id/iv_type"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_the_doctor"
+            android:src="@mipmap/icon_the_doctor"
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:layout_width="@dimen/photo_height"
@@ -126,6 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:background="@color/divider"

@@ -44,6 +44,8 @@ import java.util.List;
 
 import butterknife.InjectView;
 
+import static com.rolle.doctor.R.mipmap;
+
 /**
  * 消息
  */
@@ -117,7 +119,7 @@ public class MessageFragment extends BaseFragment{
                 //是否是医生
                 viewHolder.setImageResource(R.id.iv_type, 0);
                 if (AppConstants.USER_TYPE_DOCTOR.equals(messageUser.typeId) || AppConstants.USER_TYPE_DIETITAN.equals(messageUser.typeId)) {
-                    viewHolder.setImageResource(R.id.iv_type, R.drawable.icon_doctor);
+                    viewHolder.setImageResource(R.id.iv_type, R.mipmap.icon_doctor);
                 }
                 TextView textView = viewHolder.getView(R.id.tv_item_2);
                 if (CommonUtil.notEmpty(messageUser.age)) {
@@ -128,12 +130,12 @@ public class MessageFragment extends BaseFragment{
                 }
                 if ("0".equals(messageUser.sex)) {
                     textView.setBackgroundResource(R.drawable.round_bg_boy);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.mipmap.icon_boy), null, null, null);
                 } else {
-                    textView.setBackgroundResource(R.drawable.round_bg_girl);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_girl), null, null, null);
+                    textView.setBackgroundResource((R.drawable.round_bg_girl));
+                    textView.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.mipmap.icon_girl), null, null, null);
                 }
-                Picasso.with(getContext()).load(RequestApi.getImageUrl(messageUser.headImage)).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(RequestApi.getImageUrl(messageUser.headImage)).placeholder(R.mipmap.icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
 
             }

@@ -60,6 +60,9 @@ public class PatientHActivity extends BaseActivity{
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
         viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
         user=getIntent().getParcelableExtra(AppConstants.ITEM);
+        if (CommonUtil.isNull(user.patientDetail)){
+            user.patientDetail=new User.PatientDetail();
+        }
         StringBuilder builder=new StringBuilder();
         builder.append(user.nickname);
         setBackActivity(builder.toString());
@@ -108,7 +111,7 @@ public class PatientHActivity extends BaseActivity{
         ViewPagerAdapter adapter=new ViewPagerAdapter(viewpages);
 
         viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 switch (position){

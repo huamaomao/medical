@@ -6,7 +6,7 @@
     android:gravity="center"
     android:padding="10dp"
     android:singleLine="true"
-    android:checkMark="@drawable/icon_spinner_write"
+    android:checkMark="@mipmap/icon_spinner_write"
     android:textColor="@color/write"
     android:drawablePadding="20dp"
     android:textSize="@dimen/font_size_20" />

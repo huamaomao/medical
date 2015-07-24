@@ -8,7 +8,7 @@
     <application
         android:name=".ui.DoctorApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppDoctorTheme" >
         <activity
@@ -70,8 +70,7 @@
         <activity android:name=".ui.CodeImageActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity" android:screenOrientation="portrait"
             android:theme="@style/AppThemeTransparent" />
-        <activity android:name=".ui.SeachUserActivity" android:screenOrientation="portrait"
-            android:theme="@style/AppThemeTransparent" />
+        <activity android:name=".ui.SeachUserActivity" android:screenOrientation="portrait" />
         <!-- service -->
         <service android:name=".service.GotyeService" />
         <service android:name=".service.RequestService" />

@@ -9,7 +9,7 @@
         style="@style/list_item_style"
         >
         <ImageView
-            android:src="@drawable/icon_weixin"
+            android:src="@mipmap/icon_weixin"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />
         <TextView
@@ -23,7 +23,7 @@
         style="@style/list_item_style"
         >
         <ImageView
-            android:src="@drawable/icon_qq"
+            android:src="@mipmap/icon_qq"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />
         <TextView
@@ -37,7 +37,7 @@
         style="@style/list_item_style"
         >
         <ImageView
-            android:src="@drawable/icon_contact"
+            android:src="@mipmap/icon_contact"
             android:layout_width="@dimen/photo_height"
             android:layout_height="@dimen/photo_height" />
         <TextView

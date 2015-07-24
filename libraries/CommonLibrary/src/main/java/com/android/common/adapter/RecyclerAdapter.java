@@ -159,7 +159,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
 
     public interface OnClickEvent<T> {
-        void onClick(View v,T t,final int position);
+        void onClick(View v,T item,final int position);
     }
 
     @Override
@@ -197,12 +197,15 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
         }else {
             final   int index=isHeadView?position-1:position;
-                mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index), index);
+            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index), index);
+
             if (mOnClickEvent != null)
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnClickEvent.onClick(v,mData.get(index), index);
+                        if (index<getItemCount()){
+                            mOnClickEvent.onClick(v,mData.get(index), index);
+                        }
                     }
 
                 });

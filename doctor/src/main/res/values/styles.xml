@@ -232,6 +232,10 @@
         <item name="android:paddingRight">5.0dip</item>
         <item name="android:drawablePadding">4.0dip</item>
     </style>
+    <style name="TitleDefaultText">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="T_DefaultText" parent="DefaultText">
         <item name="android:textSize">15.0sp</item>
     </style>

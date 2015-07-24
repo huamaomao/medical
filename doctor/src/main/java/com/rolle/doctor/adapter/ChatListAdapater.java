@@ -123,7 +123,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
             }
         }
 
-        Picasso.with(mContext).load(friendUser.headImage).placeholder(R.drawable.icon_default).
+        Picasso.with(mContext).load(friendUser.headImage).placeholder(R.mipmap.icon_default).
                 transform(new CircleTransform()).into(holder.ivPhoto);
         switch (holder.type){
             case MESSAGE_LEFT_MESSAGE:
@@ -132,7 +132,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
                 break;
             case MESSAGE_LEFT_PIC:
                 holder.tvName.setText(CommonUtil.isEmpty(friendUser.noteName)?friendUser.nickname:friendUser.noteName);
-                Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.drawable.icon_default)
+                Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.mipmap.icon_default)
                         .resize(120,120).into(holder.iv_pic);
                 // 查看图片
                 holder.iv_pic.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +162,7 @@ public class ChatListAdapater extends RecyclerView.Adapter<ChatListAdapater.View
                 break;
             case MESSAGE_RIGHT_PIC:
                 if (CommonUtil.notEmpty(message.getMedia().getPath()))
-                    Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.drawable.icon_default)
+                    Picasso.with(mContext).load(new File(message.getMedia().getPath())).placeholder(R.mipmap.icon_default)
                     .into(holder.iv_pic);
                 // 查看图片
                 Log.d(message.getMedia().getPath());

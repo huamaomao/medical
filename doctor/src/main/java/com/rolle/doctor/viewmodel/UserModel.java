@@ -200,7 +200,7 @@ public class UserModel  extends ViewModel {
         execute(RequestApi.requestFriendList(getToken().token, null), new SimpleResponseListener<FriendResponse>() {
             @Override
             public void requestSuccess(FriendResponse info, Response response) {
-                saveFriendList(info.friendList);
+                saveFriendList(info.list);
                 EventBus.getDefault().post(new BaseEvent());
             }
 
@@ -223,8 +223,8 @@ public class UserModel  extends ViewModel {
         execute(RequestApi.requestFriendList(getToken().token, null), new SimpleResponseListener<FriendResponse>() {
             @Override
             public void requestSuccess(FriendResponse info, Response response) {
-                saveFriendList(info.friendList);
-                listener.requestSuccess(info.friendList,response);
+                saveFriendList(info.list);
+                listener.requestSuccess(info.list,response);
             }
 
             @Override
@@ -730,6 +730,20 @@ public class UserModel  extends ViewModel {
         List<NameValuePair> param = new ArrayList<>();
         param.add(new NameValuePair("token", getToken().token));
         param.add(new NameValuePair("content", content));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request,listener);
+    }
+
+    /******
+     * 查询用户
+     * @param listener
+     */
+    public void requestSeachUser(String search,final SimpleResponseListener<FriendResponse> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/user_sp/getUserListByMap.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("search", search));
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
         execute(request,listener);
     }

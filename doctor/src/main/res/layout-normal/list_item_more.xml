@@ -10,7 +10,7 @@
         style="@style/my_image" />
 
     <ImageView
-        android:src="@drawable/icon_more"
+        android:src="@mipmap/icon_more"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_width="@dimen/more_height"

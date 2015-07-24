@@ -63,8 +63,10 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         this.user = user;
         model=new UserModel(mContext);
         bloodResponse=new BloodResponse();
-        initBloodList(Util.getPlaintList(user.patientDetail.createTime).get(0));
-        requestData(Util.getPlaintList(user.patientDetail.createTime).get(0));
+        if (CommonUtil.notNull(user.patientDetail)){
+            initBloodList(Util.getPlaintList(user.patientDetail.createTime).get(0));
+            requestData(Util.getPlaintList(user.patientDetail.createTime).get(0));
+        }
     }
 
     @Override

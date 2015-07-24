@@ -4,7 +4,7 @@
     tools:context=".ui.MainActivity">
     <item android:id="@+id/action_add"
         android:title=""
-        android:icon="@drawable/icon_patient"
+        android:icon="@mipmap/icon_patient"
         android:orderInCategory="0"
         app:showAsAction="always"
         android:menuCategory="secondary"/>

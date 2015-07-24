@@ -52,19 +52,24 @@ public class DoctorDetialActivity extends BaseActivity{
         if (CommonUtil.isNull(user)){
             finish();
         }
-        tv_address.setText(CommonUtil.initTextNull(user.doctorDetail.hospitalName));
         StringBuilder builder=new StringBuilder("(");
-        if (CommonUtil.isEmpty(user.doctorDetail.doctorTitle)||CommonUtil.isEmpty(user.doctorDetail.department)){
+        if (CommonUtil.notNull(user.doctorDetail)){
+            tv_address.setText(CommonUtil.initTextNull(user.doctorDetail.hospitalName));
+            if (CommonUtil.isEmpty(user.doctorDetail.doctorTitle)||CommonUtil.isEmpty(user.doctorDetail.department)){
+                builder.append("无");
+            }else {
+                builder.append(user.doctorDetail.doctorTitle ).
+                        append("-").
+                        append(user.doctorDetail.department);
+            }
+        }else{
+            tv_address.setText("无");
             builder.append("无");
-        }else {
-            builder.append(user.doctorDetail.doctorTitle ).
-                    append("-").
-                    append(user.doctorDetail.department);
         }
         builder.append(")");
         tv_section.setText(builder.toString());
         tv_resume.setText(user.intro);
-        Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
+        Picasso.with(getContext()).load(user.headImage).placeholder(R.mipmap.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         tv_name.setText(user.nickname);
 

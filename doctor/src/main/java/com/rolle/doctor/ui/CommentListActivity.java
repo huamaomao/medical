@@ -63,7 +63,7 @@ public class CommentListActivity extends BaseActivity{
             @Override
             public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
                 Recommended.Item item=lsData.get(i);
-                Picasso.with(getContext()).load(item.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(item.headImage).placeholder(R.mipmap.icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
                 viewHolder.setText(R.id.tv_name, item.nickname);
                 viewHolder.setText(R.id.tv_content, item.content);

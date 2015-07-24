@@ -39,6 +39,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.rolle.doctor.R.mipmap;
+import static com.rolle.doctor.R.mipmap.icon_default;
+
 /**
  *
  */
@@ -101,7 +104,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
     }
 
     private void uploadPhoto(){
-        Picasso.with(getContext()).load(new File( user.headImage)).placeholder(R.drawable.icon_default).
+        Picasso.with(getContext()).load(new File( user.headImage)).placeholder(icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         userModel.uploadPicture("71", user.headImage, new SimpleResponseListener<UploadPicture>() {
             @Override
@@ -156,7 +159,7 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
             }
         });
         tv_date.setText(CommonUtil.initTextNull(user.birthday));
-        Picasso.with(getContext()).load(user.headImage).placeholder(R.drawable.icon_default).
+        Picasso.with(getContext()).load(user.headImage).placeholder(icon_default).
                 transform(new CircleTransform()).into(iv_photo);
         loadingFragment.setCommitMessage();
     }

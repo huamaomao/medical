@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    style="@style/AppTheme"
+    android:background="@drawable/toolbar_title"
+    android:minHeight="?attr/actionBarSize" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@id/et_seach"
+            style="@style/et_styple"
+            android:hint="用户名/手机号"
+            android:textColorHint="@color/color_hint"
+            android:imeOptions="actionSearch"
+            android:layout_width="0px"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:singleLine="true"
+            android:gravity="bottom"
+            android:layout_marginBottom="@dimen/iten_margin_top"
+            android:background="@drawable/ic_et_bg"
+            android:layout_height="match_parent" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@id/btn_next"
+            android:text="查询"
+            android:gravity="center"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/white"
+            style="@style/TitleDefaultText"
+            android:layout_width="45dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/s_btn_blue"
+            android:layout_height="45dp" />
+    </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+
+
+
+
+
+
+

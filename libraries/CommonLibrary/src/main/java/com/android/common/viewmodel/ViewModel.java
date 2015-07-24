@@ -45,7 +45,7 @@ public abstract class ViewModel{
         return LiteUtil.getInstance().execute(request, new HttpModelHandler<String>(){
             @Override
             protected void onSuccess(String data, Response res) {
-                Log.d(request.getHttpBody().contentType+"----");
+                Log.d(data);
                  /*  if (){
 
                 }*/

@@ -63,7 +63,7 @@ public class BaseActivity extends AppCompatActivity implements IView{
 
     public void setBackActivity(String title){
        ActionBar actionBar=getSupportActionBar();
-       mToolbar.setNavigationIcon(R.drawable.icon_back);
+       mToolbar.setNavigationIcon(R.mipmap.icon_back);
        actionBar.setDisplayHomeAsUpEnabled(false);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

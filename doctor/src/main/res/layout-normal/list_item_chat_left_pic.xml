@@ -27,7 +27,6 @@
     <ImageView
         android:id="@id/iv_photo"
         android:layout_below="@id/tv_item_0"
-        android:src="@drawable/icon_people_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView

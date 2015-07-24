@@ -105,10 +105,10 @@ configurations {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     /**********v7*****************/
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile 'com.android.support:recyclerview-v7:22.1.0'
-    compile 'com.android.support:gridlayout-v7:22.1.0'
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1@aar'
     //compile 'com.android.support:design:22.2.0@aar'
     /********jar***********/
     compile 'com.alibaba:fastjson:1.1.41'

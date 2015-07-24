@@ -15,7 +15,6 @@
            <ImageView android:id="@id/iv_photo"
                android:layout_centerHorizontal="true"
                android:layout_marginTop="30dp"
-               android:src="@drawable/icon_people_4"
                android:layout_width="@dimen/photo_height"
                android:layout_height="@dimen/photo_height" />
             <TextView
@@ -53,7 +52,7 @@
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <ImageView android:src="@drawable/icon_position" android:layout_column="0"/>
+            <ImageView android:src="@mipmap/icon_position" android:layout_column="0"/>
             <TextView android:id="@id/tv_position"  android:layout_column="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_14"
@@ -62,7 +61,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_height="1dp" android:background="@color/divider" />
-        <ImageView android:src="@drawable/icon_resume"/>
+        <ImageView android:src="@mipmap/icon_resume"/>
         <TextView android:id="@id/tv_position"  android:textColor="@color/black"
             android:textSize="@dimen/font_size_14"
             android:layout_marginLeft="5dp"  android:text="个人简介" />
@@ -84,7 +83,7 @@
             android:layout_marginBottom="0px"
             android:layout_gravity="end"
             android:background="@drawable/s_btn"
-            android:src="@drawable/icon_send"
+            android:src="@mipmap/icon_send"
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_height="45dp" />

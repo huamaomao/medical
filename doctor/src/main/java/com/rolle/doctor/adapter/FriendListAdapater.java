@@ -22,9 +22,12 @@ import com.rolle.doctor.ui.PatientHActivity;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.RequestApi;
+import com.rolle.doctor.util.Util;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static com.rolle.doctor.R.mipmap;
 
 /**
  * Created by Hua on 2015/4/3.
@@ -63,19 +66,23 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                 builder.append("岁");
                 holder.tvName.setText(user.nickname);
                 holder.tvSex.setText(builder.toString());
-                Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.drawable.icon_default).
+
+                Picasso.with(mContext).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.mipmap.icon_default).
                         transform(new CircleTransform()).into(holder.ivPhoto);
                 if ("0".equals(user.sex)) {
                     holder.tvSex.setBackgroundResource(R.drawable.round_bg_boy);
-                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_boy), null, null, null);
                 } else {
                     holder.tvSex.setBackgroundResource(R.drawable.round_bg_girl);
-                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_girl), null, null, null);
+                    holder.tvSex.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.icon_girl), null, null, null);
                 }
                 switch (type) {
                     case TYPE_DOCTOR:
                         DoctorViewHolder doctor = (DoctorViewHolder) holder;
                         doctor.tvRemarks.setText(user.departmentsName);
+                        if (Util.isDoctor(user.typeId)){
+                            doctor.ivType.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case TYPE_PATIENT:
                         PatientViewHolder patient = (PatientViewHolder) holder;
@@ -112,7 +119,7 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                             friend.btnStatus.setText("接受");
                         }
                         if (AppConstants.USER_TYPE_DOCTOR.equals(user.typeId)) {
-                            friend.ivType.setImageResource(R.drawable.icon_doctor);
+                            friend.ivType.setImageResource(R.mipmap.icon_doctor);
                         }
                         friend.tvRemarks.setText("主治:血糖");
                         break;
@@ -180,9 +187,11 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
 
     public  static class DoctorViewHolder extends ViewHolder{
         TextView tvRemarks;
+        ImageView ivType;
         public DoctorViewHolder(View itemView) {
             super(itemView);
             tvRemarks=(TextView)itemView.findViewById(R.id.tv_item_1);
+            ivType=(ImageView)itemView.findViewById(R.id.iv_type);
         }
 
     }

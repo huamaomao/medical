@@ -57,7 +57,6 @@ public class PatientActivity extends BaseToolbarActivity {
 		data=new ArrayList<>();
 		adapater=new FriendListAdapater(this,data,recyclerView,FriendListAdapater.TYPE_PATIENT);
 		ViewUtil.initRecyclerViewDecoration(recyclerView, this, adapater);
-
 		scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)recyclerView.getLayoutManager()) {
 			@Override
 			public void onLoadMore(int current_page) {

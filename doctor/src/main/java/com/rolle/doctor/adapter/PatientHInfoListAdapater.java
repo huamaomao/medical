@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.FriendResponse;
@@ -60,7 +59,7 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
             UserViewHolder  userViewHolder=(UserViewHolder)viewHolder;
             StringBuilder builder=new StringBuilder("简介：");
             if (user!=null){
-                Picasso.with(mContext).load(user.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(mContext).load(user.headImage).placeholder(R.mipmap.icon_default).
                         transform(new CircleTransform()).into(userViewHolder.photo);
                 userViewHolder.title.setText(user.nickname);
                 builder.append(CommonUtil.isEmpty(user.describe) ? " 暂无介绍" : user.describe);

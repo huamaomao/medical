@@ -41,6 +41,8 @@ import java.util.List;
 
 import butterknife.InjectView;
 
+import static com.rolle.doctor.R.mipmap;
+
 /**
  * Created by Hua_ on 2015/3/27.
  * 新朋友   通讯录
@@ -112,14 +114,14 @@ public class FriendListActivity extends BaseLoadingActivity{
                 if (Util.isDoctor(item.getTypeId())){
                     viewHolder.getView(R.id.iv_type).setVisibility(View.VISIBLE);
                 }
-                Picasso.with(getContext()).load(RequestApi.getImageUrl(item.getHeadImage())).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(RequestApi.getImageUrl(item.getHeadImage())).placeholder(R.mipmap.icon_default).
                         transform(new CircleTransform()).into((ImageView)viewHolder.getView(R.id.iv_photo));
                 if ("0".equals(item.getSex())) {
                     textSex.setBackgroundResource(R.drawable.round_bg_boy);
-                    textSex.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_boy), null, null, null);
+                    textSex.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.mipmap.icon_boy), null, null, null);
                 } else {
                     textSex.setBackgroundResource(R.drawable.round_bg_girl);
-                    textSex.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.icon_girl), null, null, null);
+                    textSex.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.mipmap.icon_girl), null, null, null);
                 }
                 Button btn_status=viewHolder.getView(R.id.btn_status);
                 btn_status.setText("添加");
@@ -180,8 +182,6 @@ public class FriendListActivity extends BaseLoadingActivity{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        try {
-            adapater.onDestroyReceiver();
-        }catch (Exception e){}
+        adapater.onDestroyReceiver();
     }
 }

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
            <ImageView
                android:layout_gravity="center_vertical"
-               android:src="@drawable/icon_new_friend"
+               android:src="@mipmap/icon_new_friend"
 
                android:layout_width="@dimen/photo_height"
                android:layout_height="@dimen/photo_height" />

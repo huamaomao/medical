@@ -4,7 +4,7 @@ package com.rolle.doctor.util;
  * Created by Hua_ on 2015/4/16.
  */
 public interface UrlApi{
-    static enum RequestUrl{
+    enum RequestUrl{
         S("http://rolle.cn:8080"),T("http://192.168.1.88"),D("http://192.168.1.88:8080");
         String url;
         RequestUrl(String url){
@@ -12,6 +12,7 @@ public interface UrlApi{
         }
     }
     public static final String SERVER_NAME=RequestUrl.D.url;
+
     /***验证码**/
     public static final String TEL_CODE="/crm/send_sp/sendVerifycode.json";
 

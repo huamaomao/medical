@@ -8,7 +8,7 @@ package com.litesuits.android.log;
  */
 public final class Log {
 
-    public static  boolean isPrint    = true;
+    public static  boolean isPrint    = false;
     private static String  defaultTag = "Log";
 
     private Log() {}

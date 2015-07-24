@@ -4,7 +4,7 @@
     tools:context=".ui.MainActivity">
     <item android:id="@id/toolbar_set"
         android:title=""
-        android:icon="@drawable/icon_setting"
+        android:icon="@mipmap/icon_setting"
         android:orderInCategory="0"
         app:showAsAction="always"
         android:menuCategory="secondary"/>

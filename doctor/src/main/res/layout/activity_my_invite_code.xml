@@ -37,7 +37,7 @@
         android:id="@id/btn_invite"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/icon_yaoqing"
+        android:background="@mipmap/icon_yaoqing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
@@ -45,7 +45,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/icon_yaoqing_add"
+        android:background="@mipmap/icon_yaoqing_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

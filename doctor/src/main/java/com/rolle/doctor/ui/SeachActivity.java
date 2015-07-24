@@ -27,6 +27,9 @@ import java.util.List;
 
 import butterknife.InjectView;
 
+import static com.rolle.doctor.R.mipmap;
+import static com.rolle.doctor.R.mipmap.icon_default;
+
 /**
  * 查询
  */
@@ -59,7 +62,7 @@ public class SeachActivity extends BaseLoadingActivity {
         adapater.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
             public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, User item, int position) {
-                Picasso.with(getContext()).load(item.headImage).placeholder(R.drawable.icon_default).
+                Picasso.with(getContext()).load(item.headImage).placeholder(icon_default).
                         transform(new CircleTransform()).into((ImageView) viewHolder.getView(R.id.iv_photo));
                 viewHolder.setText(R.id.tv_item_1,item.nickname).setText(R.id.tv_item_0,item.noteName);
             }
