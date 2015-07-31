@@ -183,3 +183,7 @@
 -keep class * implements android.webkit.WebChromeClient {
     *;
 }
+
+#***** getui
+-dontwarn com.igexin.**
+-keep class com.igexin.**{*;}

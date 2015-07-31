@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.Log;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
@@ -46,6 +47,36 @@ public class RequestService extends IntentService{
 			case RequestTag.R_USER_FRIEND:
 				userModel.requestFriendList();
 				break;
+			case RequestTag.R_UPD_USER:
+				final User user=userModel.getLoginUser();
+				userModel. requestUpdateUser(user,new SimpleResponseListener<ResponseMessage>() {
+					@Override
+					public void requestSuccess(ResponseMessage info, Response response) {
+						Log.d("更新用户信息成功.......");
+						user.setNoUpdateStatus();
+						userModel.saveUser(user);
+					}
+
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						Log.d("更新用户信息失败.......");
+					}
+				});
+				userModel.requestDoctor(user, new SimpleResponseListener<ResponseMessage>() {
+					@Override
+					public void requestSuccess(ResponseMessage info, Response response) {
+						Log.d("更新用户信息成功.......");
+						user.setNoUpdateStatus();
+						userModel.saveUser(user);
+					}
+
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+						Log.d("更新用户信息失败.......");
+					}
+				});
+				break;
+
 		}
 
 	}

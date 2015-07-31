@@ -21,12 +21,34 @@
         <TextView
             android:id="@id/tv_name"
             android:layout_toRightOf="@id/iv_photo"
-            android:layout_centerVertical="true"
+
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/font_size_17"
+            android:textSize="@dimen/title_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <TextView android:id="@id/tv_title"
+            android:text="我的邀请码:"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/tv_name"
+            android:layout_toRightOf="@id/iv_photo"
+            android:textColor="@color/black"
+            style="@style/DefaultText"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <TextView android:id="@id/tv_code"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="10dp"
+            android:textIsSelectable="true"
+            android:layout_below="@id/tv_name"
+            android:layout_toRightOf="@id/tv_title"
+            android:textColor="@color/black"
+            style="@style/DefaultText"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
         <ImageView android:id="@id/iv_qd_code"
             android:src="@mipmap/icon_erweima"
             android:layout_width="@dimen/photo_height"
@@ -39,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_height="@dimen/more_height" />
+            android:layout_height="wrap_content" />
      </RelativeLayout>
     <include layout="@layout/public_wrap_recycler_view" />
 </LinearLayout>

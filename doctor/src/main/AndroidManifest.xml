@@ -3,8 +3,7 @@
     package="com.rolle.doctor"
     android:versionCode="1"
     android:versionName="1.0" >
-
-    <uses-sdk android:minSdkVersion="14" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="22" />
     <application
         android:name=".ui.DoctorApplication"
         android:allowBackup="true"
@@ -23,7 +22,7 @@
         </activity>
         <activity android:name=".ui.MainActivity"   android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity android:name=".ui.MessageActivity"   android:screenOrientation="portrait" android:launchMode="singleTask" />
         <activity android:name=".ui.AddFriendActivity"   android:screenOrientation="portrait"/>
         <activity android:name=".ui.MyInviteCodeActivity"   android:screenOrientation="portrait" />
         <activity android:name=".ui.FriendActivity"  android:screenOrientation="portrait" />
@@ -50,7 +49,7 @@
         <activity android:name=".ui.ChooseListActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SettingActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.AboutUsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.AboutUsActivity" android:screenOrientation="portrait"  android:exported="true"/>
         <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
@@ -84,7 +83,6 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID-->
                 <data android:scheme="tencent1104705689" />
             </intent-filter>
         </activity>
@@ -92,18 +90,108 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait">
         </activity>
+        <!-- weixin  -->
+        <activity android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" />
 
         <meta-data android:name="UMENG_CHANNEL" android:value="${channel}"/>
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="55aefc2b67e58ebef4002b4e" >
         </meta-data>
-        <!-- weixin  -->
-        <activity android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" />
+
+        <!-- push -->
+        <receiver
+            android:name=".service.PushDemoReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.DAy4pcXTHz8EiuoqkgcJU7" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.igexin.sdk.PushService"
+            android:exported="true"
+            android:label="NotificationCenter"
+            android:process=":pushservice" >
+        </service>
+        <service
+            android:name="com.igexin.sdk.PushServiceUser"
+            android:exported="true"
+            android:label="NotificationCenterUser" >
+        </service>
+        <receiver android:name="com.igexin.sdk.PushReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.igexin.sdk.action.refreshls" />
+                <!-- 以下三项为可选的action声明，可大大提高service存活率和消息到达速度 -->
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.igexin.sdk.PushManagerReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.pushmanager" />
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.igexin.sdk.PushActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:process=":pushservice"
+            android:taskAffinity="com.igexin.sdk.PushActivityTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <service
+            android:name="com.igexin.download.DownloadService"
+            android:process=":pushservice" />
+
+        <receiver android:name="com.igexin.download.DownloadReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="com.igexin.download.DownloadProvider"
+            android:authorities="downloads.com.rolle.doctor"
+            android:process=":pushservice" />
+
+        <activity
+            android:name="com.igexin.getuiext.activity.GetuiExtActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:process=":pushservice"
+            android:taskAffinity="android.task.myServicetask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <receiver
+            android:name="com.igexin.getuiext.service.PayloadReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
+                <action android:name="com.igexin.sdk.action.DAy4pcXTHz8EiuoqkgcJU7" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.igexin.getuiext.service.GetuiExtService"
+            android:process=":pushservice" />
+        <meta-data android:name="PUSH_APPID"  android:value="DAy4pcXTHz8EiuoqkgcJU7" />
+        <meta-data android:name="PUSH_APPKEY" android:value="globk9CAYu9zr9RKP0Eef2" />
+        <meta-data android:name="PUSH_APPSECRET" android:value="UeXGhMgLZq8Tvpb7YC3nl9" />
 
 </application>
-
-
+    <permission android:name="getui.permission.GetuiService.com.rolle.doctor" android:protectionLevel="normal"  />
+    <!-- 浮动通知权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- 自定义权限 -->  
+    <uses-permission android:name="getui.permission.GetuiService.com.rolle.doctor" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

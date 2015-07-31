@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.common.adapter.QuickAdapter;
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
@@ -44,7 +45,7 @@ import java.util.List;
 /**
  * Created by Hua on 2015/4/3.
  */
-public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PatientHListAdapater extends RecyclerAdapter<BloodResponse.Item> {
 
     private Context mContext;
     private  List<BloodResponse.Item> data;
@@ -54,71 +55,81 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
     private UserModel model;
     private User user;
     private String selectionItem;
-    private QuickAdapter<BloodResponse.Item> quickAdapter;
     private BloodResponse bloodResponse;
 
-    public PatientHListAdapater(Context mContext, List<BloodResponse.Item> data,User user) {
-        this.mContext = mContext;
-        this.data = data;
-        this.user = user;
+    public PatientHListAdapater(final Context mContext, final List<BloodResponse.Item> data,RecyclerView recyclerView) {
+        super(mContext, data, recyclerView);
         model=new UserModel(mContext);
         bloodResponse=new BloodResponse();
+        implementRecyclerAdapterMethods(new RecyclerAdapterMethods<BloodResponse.Item>() {
+            @Override
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, BloodResponse.Item item, int position) {
+                if (position == 0) {
+                    final ViewHolder holder = (ViewHolder) viewHolder;
+                    final List<String> startData = new ArrayList<>();
+                    startData.addAll(Util.getPlaintList(user.doctorDetail.createTime));
+                    YearSpinnerAdpater adpater = new YearSpinnerAdpater(mContext, R.layout.sp_check_text, startData.toArray());
+                    holder.spStart.setAdapter(adpater);
+                    holder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            selectionItem = holder.spStart.getSelectedItem().toString();
+                            initBloodList(selectionItem);
+                            requestData(selectionItem);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    initPieChart(holder.pieChart);
+                    selectionItem = holder.spStart.getSelectedItem().toString();
+
+                } else if (position != 1) {
+                    setText(viewHolder.itemView, R.id.tv_item_0, item.day);
+                    setText(viewHolder.itemView, R.id.tv_item_1, CommonUtil.initTextBlood(item.morningNum));
+                    setText(viewHolder.itemView, R.id.tv_item_2, CommonUtil.initTextBlood(item.breakfastStart));
+                    setText(viewHolder.itemView, R.id.tv_item_3, CommonUtil.initTextBlood(item.breakfastEnd));
+                    setText(viewHolder.itemView, R.id.tv_item_4, CommonUtil.initTextBlood(item.chineseFoodStart));
+                    setText(viewHolder.itemView, R.id.tv_item_5, CommonUtil.initTextBlood(item.chineseFoodEnd));
+                    setText(viewHolder.itemView, R.id.tv_item_6, CommonUtil.initTextBlood(item.dinnerStart));
+                    setText(viewHolder.itemView, R.id.tv_item_7, CommonUtil.initTextBlood(item.dinnerEnd));
+                    setText(viewHolder.itemView, R.id.tv_item_8, CommonUtil.initTextBlood(item.beforeGoingToBed));
+                }
+            }
+
+            @Override
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                switch (viewType) {
+                    case TYPE_0:
+                        return new RecyclerAdapter.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_head, parent, false));
+                    case TYPE_1:
+                        return new RecyclerAdapter.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_table, parent, false));
+                    default:
+                        return new RecyclerAdapter.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_list, parent, false));
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return data.size();
+            }
+        });
+    }
+
+    public void setUser(User user){
+        this.user = user;
+        this.data.clear();
+        this.data.add(null);
+        this.data.add(null);
         if (CommonUtil.notNull(user.patientDetail)){
             initBloodList(Util.getPlaintList(user.patientDetail.createTime).get(0));
             requestData(Util.getPlaintList(user.patientDetail.createTime).get(0));
         }
+        notifyDataSetChanged();
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-       switch (viewType){
-           case TYPE_0:
-                return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_head,parent,false)){};
-           case TYPE_1:
-               return new RecyclerView.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_table,parent,false)){};
-           default:
-               return new RecyclerView.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_list,parent,false)){};
-       }
-    }
-
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder ,int position) {
-        if (position==0){
-            final  ViewHolder holder=(ViewHolder)viewHolder;
-            final List<String> startData=new ArrayList<>();
-            startData.addAll(Util.getPlaintList(user.doctorDetail.createTime));
-            YearSpinnerAdpater adpater=new YearSpinnerAdpater(mContext,R.layout.sp_check_text,startData.toArray());
-            holder.spStart.setAdapter(adpater);
-            holder.spStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectionItem= holder.spStart.getSelectedItem().toString();
-                    initBloodList(selectionItem);
-                    requestData(selectionItem);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            initPieChart(holder.pieChart);
-            selectionItem=holder.spStart.getSelectedItem().toString();
-
-        }else if (position!=1){
-                    BloodResponse.Item item=data.get(position);
-                    setText(viewHolder.itemView, R.id.tv_item_0, item.day);
-                    setText(viewHolder.itemView,R.id.tv_item_1, CommonUtil.initTextBlood(item.morningNum));
-                    setText(viewHolder.itemView,R.id.tv_item_2, CommonUtil.initTextBlood(item.breakfastStart));
-                    setText(viewHolder.itemView,R.id.tv_item_3, CommonUtil.initTextBlood(item.breakfastEnd));
-                    setText(viewHolder.itemView,R.id.tv_item_4, CommonUtil.initTextBlood(item.chineseFoodStart));
-                    setText(viewHolder.itemView,R.id.tv_item_5, CommonUtil.initTextBlood(item.chineseFoodEnd));
-                    setText(viewHolder.itemView,R.id.tv_item_6, CommonUtil.initTextBlood(item.dinnerStart));
-                    setText(viewHolder.itemView,R.id.tv_item_7, CommonUtil.initTextBlood(item.dinnerEnd));
-                    setText(viewHolder.itemView,R.id.tv_item_8, CommonUtil.initTextBlood(item.beforeGoingToBed));
-        }
-
-    }
 
     public void setText(View view,int res,String str){
         ((TextView)view.findViewById(res)).setText(str);
@@ -264,12 +275,6 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
         l.setYEntrySpace(5f);
     }
 
-
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
-
     @Override
     public int getItemViewType(int position) {
             if (position==0)
@@ -282,7 +287,7 @@ public class PatientHListAdapater extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    public  static class ViewHolder extends RecyclerView.ViewHolder{
+    public  static class ViewHolder extends RecyclerAdapter.ViewHolder{
         Spinner spStart;
         PieChart pieChart;
         public ViewHolder(View itemView) {

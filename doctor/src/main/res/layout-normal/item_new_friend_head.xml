@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/appbg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@id/tv_code"
+        android:paddingBottom="20dp"
+        android:layout_marginBottom="@dimen/iten_margin_top"
+        android:paddingTop="20dp"
+        android:drawableLeft="@mipmap/icon_seach"
+        android:text="用户名/手机号"
+        android:drawablePadding="25dp"
+        android:background="@drawable/s_btn"
+        android:paddingLeft="@dimen/iten_margin_top"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_hint"
+        android:textSize="@dimen/font_size_14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <include layout="@layout/divider" />
+    <LinearLayout
+        android:layout_marginBottom="@dimen/iten_margin_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout android:id="@id/ll_item_0"
+            style="@style/list_item_style"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:src="@mipmap/icon_weixin"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/photo_height"
+                android:layout_height="@dimen/photo_height" />
+            <TextView
+                android:text="邀请微信好友"
+                style="@style/ListTileText"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout android:id="@id/ll_item_1"
+            style="@style/list_item_style"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:src="@mipmap/icon_qq"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/photo_height"
+                android:layout_height="@dimen/photo_height" />
+            <TextView
+                android:text="邀请QQ好友"
+                android:layout_gravity="center_horizontal"
+                style="@style/ListTileText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@id/ll_item_2"
+            style="@style/list_item_style"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:src="@mipmap/icon_contact"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/photo_height"
+                android:layout_height="@dimen/photo_height" />
+            <TextView
+                android:text="通讯录好友"
+                style="@style/ListTileText"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

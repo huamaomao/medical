@@ -26,7 +26,7 @@
     <TextView
         android:layout_marginTop="@dimen/iten_margin_top"
         android:text="关注我们"
-
+        android:paddingLeft="@dimen/iten_margin_top"
         android:textSize="@dimen/font_size_18"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
@@ -40,7 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView android:id="@id/tv_item_1"
-            android:text="nwww.rolle.cn"
+            android:text="www.rolle.cn"
+            android:autoLink="web"
             android:layout_below="@id/tv_item_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -55,7 +56,7 @@
         android:layout_width="match_parent"
         android:background="@color/divider"
         android:layout_height="0.5dp" />
-    <RelativeLayout android:id="@id/rl_item_0"
+    <RelativeLayout android:id="@id/rl_item_1"
         style="@style/list_item_style"
         >
         <TextView android:id="@id/tv_item_0"
@@ -63,9 +64,10 @@
             android:textColor="@color/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView android:id="@id/tv_item_1"
+        <TextView android:id="@id/tv_item_4"
             android:text="点击关注我们公众账号"
             android:layout_below="@id/tv_item_0"
+            android:autoLink="web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView

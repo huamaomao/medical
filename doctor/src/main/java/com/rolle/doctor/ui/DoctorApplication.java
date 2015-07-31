@@ -9,6 +9,7 @@ import com.android.common.util.LiteUtil;
 import com.android.common.util.Log;
 import com.android.common.util.ViewUtil;
 import com.gotye.api.GotyeAPI;
+import com.igexin.sdk.PushManager;
 import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.util.AppConstants;
 
@@ -23,6 +24,7 @@ public class DoctorApplication extends Application {
         GotyeAPI gotyeApi=GotyeAPI.getInstance();
         gotyeApi.init(getApplicationContext(), AppConstants.QINJIA_KEY);
         EventBus.getDefault().register(this);
+        PushManager.getInstance().initialize(this.getApplicationContext());
 
     }
 

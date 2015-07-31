@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.common.domain.ResponseMessage;
+import com.android.common.util.CommonUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.viewmodel.ViewModel;
 import com.litesuits.http.exception.HttpException;
@@ -38,7 +39,8 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
         setBackActivity("详细地址");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
-        loadingFragment.setMessage("正在提交数据...");
+        loadingFragment.setCommitMessage();
+
     }
 
 
@@ -55,7 +57,7 @@ public class UpdateAddressActivity extends BaseLoadingActivity{
                 user.address=et_intro.getText().toString();
                 user.doctorDetail.workAddress=user.workRegion+et_intro.getText().toString();
                 showLoading();
-                userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
+                userModel.requestDoctor(user, new SimpleResponseListener<ResponseMessage>() {
                     @Override
                     public void requestSuccess(ResponseMessage info, Response response) {
                         msgShow("保存成功");

@@ -52,6 +52,7 @@
     <item name="tv_jianjie" type="id" />
     <item name="tv_code" type="id" />
     <item name="tv_num" type="id" />
+    <item name="tv_title" type="id" />
     <item name="tv_content" type="id" />
     <item name="tv_date" type="id" />
     <item name="tv_status" type="id" />

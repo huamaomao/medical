@@ -39,11 +39,11 @@ public class UpdateHospitalActivity extends BaseLoadingActivity{
         setBackActivity("修改所在医院");
         userModel=new UserModel(getContext());
         user=userModel.getLoginUser();
-        if(CommonUtil.notEmpty(user.hospitalName)){
-            et_intro.setText(user.hospitalName);
-            et_intro.setSelection(user.hospitalName.length());
+        if(CommonUtil.notEmpty(user.doctorDetail.hospitalName)){
+            et_intro.setText(user.doctorDetail.hospitalName);
+            et_intro.setSelection(user.doctorDetail.hospitalName.length());
         }
-        loadingFragment.setMessage("正在提交数据...");
+        loadingFragment.setCommitMessage();
 
 
     }
@@ -65,7 +65,7 @@ public class UpdateHospitalActivity extends BaseLoadingActivity{
                 }
                 user.doctorDetail.hospitalName=et_intro.getText().toString();
                 showLoading();
-                userModel.requestSaveUser(user, new SimpleResponseListener<ResponseMessage>() {
+                userModel.requestDoctor(user, new SimpleResponseListener<ResponseMessage>() {
                     @Override
                     public void requestSuccess(ResponseMessage info, Response response) {
                         msgShow("保存成功");

@@ -63,25 +63,7 @@ public class AddFriendActivity extends BaseLoadingActivity {
        ViewUtil.openActivity(CaptureActivity.class, this);
     }
 
-    public void doAdd(){
-        showLoading();
-        model.requestAddFriend(null,null, new SimpleResponseListener<ResponseMessage>() {
-            @Override
-            public void requestSuccess(ResponseMessage info, Response response) {
-                msgShow("添加成功...");
-            }
 
-            @Override
-            public void requestError(HttpException e, ResponseMessage info) {
-                new AppHttpExceptionHandler().via(getContext()).handleException(e,info);
-            }
-
-            @Override
-            public void requestView() {
-                hideLoading();
-            }
-        });
-    }
 
 
 

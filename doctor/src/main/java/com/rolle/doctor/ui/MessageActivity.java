@@ -17,6 +17,7 @@ import com.gotye.api.GotyeUser;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.ChatListAdapater;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.service.GotyeService;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.viewmodel.GotyeModel;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -51,6 +52,7 @@ public class MessageActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        startService(new Intent(this, GotyeService.class));
         lvView.scrollToPosition(adapater.getItemCount() - 1);
     }
 
@@ -84,6 +86,8 @@ public class MessageActivity extends BaseActivity{
                 Log.d(code+"==onSendMessage="+message);
                 if (code==805){
                     msgLongShow("已被加入黑名单...");
+                }else if (code==804){
+                    msgLongShow("用户不存在...");
                 }
                 adapater.updateItem(message);
             }

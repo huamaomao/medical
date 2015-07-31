@@ -45,7 +45,7 @@ public class UpdateSpecialityActivity extends BaseLoadingActivity{
             et_intro.setText(user.doctorDetail.speciality);
             et_intro.setSelection(user.doctorDetail.speciality.length());
         }
-        loadingFragment.setMessage("正在提交数据...");
+        loadingFragment.setCommitMessage();
 
 
     }

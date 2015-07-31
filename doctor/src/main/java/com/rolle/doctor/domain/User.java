@@ -18,7 +18,9 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     public String message;
     public String date;
     public int messageNum;
-
+    //默认需要推送
+    public boolean isPush=true;
+    public String statusId;
     /****好友关系***/
     public int friendId;
 

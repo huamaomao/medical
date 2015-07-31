@@ -37,7 +37,7 @@ public interface UrlApi{
     /***职称***/
     public static final String TITLE="/crm/cd_sp/getCDByParentId.json";
     /***修改医生****/
-    public static final String  UPD_DOCTOR_INFO="/crm/user_sp/saveDoctor.json";
+    public static final String  UPD_DOCTOR_INFO="/crm/user_sp/saveDoctorDetail.json";
     /***添加好友***/
     public static final String  ADD_FRIEND="/crm/user_sp/addFriendRelation.json";
     public static final String FRIEND_ADD_ID="/crm/relation_sp/saveRelationByUserId.json";

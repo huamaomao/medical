@@ -11,5 +11,7 @@ public  interface RequestTag {
     static final int R_USER_UP=0x0001;
     //  好友。
     static final int R_USER_FRIEND=0x0002;
+    //更新好友信息
+    static final int R_UPD_USER=0x0003;
 
 }

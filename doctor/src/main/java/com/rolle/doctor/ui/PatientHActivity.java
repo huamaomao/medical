@@ -9,10 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.android.common.domain.ResponseMessage;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.DividerItemDecoration;
 import com.android.common.util.ViewUtil;
+import com.android.common.viewmodel.SimpleResponseListener;
+import com.baoyz.widget.PullRefreshLayout;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.adapter.PatientHInfoListAdapater;
 import com.rolle.doctor.adapter.PatientHListAdapater;
@@ -20,7 +25,9 @@ import com.rolle.doctor.adapter.ViewPagerAdapter;
 import com.rolle.doctor.domain.BloodResponse;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.util.AppConstants;
+import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +43,11 @@ public class PatientHActivity extends BaseActivity{
     private List<View> viewpages;
     @InjectView(R.id.rg_group)RadioGroup radioGroup;
     private List<ItemInfo> lsData;
+
+
+    @InjectView(R.id.refresh)
+    PullRefreshLayout refresh;
+
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewInfo;
 
@@ -43,6 +55,7 @@ public class PatientHActivity extends BaseActivity{
     private PatientHInfoListAdapater adapater1;
 
     private User user;
+    private UserModel userModel;
 
 
     @Override
@@ -52,35 +65,11 @@ public class PatientHActivity extends BaseActivity{
     }
 
 
-
-    @Override
-    protected void initView() {
-        super.initView();
-        viewpages=new ArrayList<View>();
-        viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1,null));
-        viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2,null));
-        user=getIntent().getParcelableExtra(AppConstants.ITEM);
+    private void initData(){
         if (CommonUtil.isNull(user.patientDetail)){
             user.patientDetail=new User.PatientDetail();
         }
-        StringBuilder builder=new StringBuilder();
-        builder.append(user.nickname);
-        setBackActivity(builder.toString());
-        recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
-        LinearLayoutManager manager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        List ls=new ArrayList();
-        ls.add(new BloodResponse.Item());
-        ls.add(new BloodResponse.Item());
-        adapater=new PatientHListAdapater(this,ls,user);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(adapater);
-
-        recyclerViewInfo=(RecyclerView)viewpages.get(1).findViewById(R.id.rv_view);
-        LinearLayoutManager manage1=new LinearLayoutManager(this);
-        recyclerViewInfo.setLayoutManager(manage1);
-        lsData=new ArrayList<>();
+        lsData.clear();
         lsData.add(null);
         lsData.add(new ItemInfo("性别",user.sex));
         lsData.add(new ItemInfo("生日",user.birthday));
@@ -89,15 +78,41 @@ public class PatientHActivity extends BaseActivity{
         lsData.add(null);
         lsData.add(new ItemInfo("健康",CommonUtil.initTextNull(user.patientDetail.health)));
         lsData.add(new ItemInfo("过敏药物", CommonUtil.initTextNull(user.patientDetail.drugAllergy)));
-        adapater1=new PatientHInfoListAdapater(this,lsData);
         adapater1.setUser(user);
-        recyclerViewInfo.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
-        recyclerViewInfo.setAdapter(adapater1);
+    }
 
+    @Override
+    protected void initView() {
+        super.initView();
+        viewpages=new ArrayList<View>();
+        userModel=new UserModel(getContext());
+        viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_1, null));
+        viewpages.add(getLayoutInflater().inflate(R.layout.viewpage_patient_2, null));
+        user=getIntent().getParcelableExtra(AppConstants.ITEM);
+
+        refresh.setRefreshStyle(AppConstants.PULL_STYLE);
+        refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
+        StringBuilder builder=new StringBuilder();
+        builder.append(user.nickname);
+        setBackActivity(builder.toString());
+        recyclerView=(RecyclerView)viewpages.get(0).findViewById(R.id.rv_view);
+        recyclerViewInfo=(RecyclerView)viewpages.get(1).findViewById(R.id.rv_view);
+        List ls=new ArrayList();
+        adapater=new PatientHListAdapater(this,ls,recyclerView);
+        ViewUtil.initRecyclerViewDecoration(recyclerView, getContext(), adapater);
+
+        lsData=new ArrayList<>();
+        adapater1=new PatientHInfoListAdapater(this,lsData,recyclerViewInfo);
+        ViewUtil.initRecyclerViewDecoration(recyclerViewInfo, getContext(), adapater1);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_tab_1:
                         viewPager.setCurrentItem(0);
                         break;
@@ -109,12 +124,11 @@ public class PatientHActivity extends BaseActivity{
         });
 
         ViewPagerAdapter adapter=new ViewPagerAdapter(viewpages);
-
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         radioGroup.check(R.id.rb_tab_1);
                         break;
@@ -126,7 +140,9 @@ public class PatientHActivity extends BaseActivity{
         });
         viewPager.setCurrentItem(0);
         radioGroup.check(R.id.rb_tab_1);
-
+        refresh.setRefreshing(true);
+        adapater.empty="加载失败...";
+        loadData();
     }
 
 
@@ -153,5 +169,38 @@ public class PatientHActivity extends BaseActivity{
         Bundle bundle=new Bundle();
         bundle.putParcelable(AppConstants.ITEM,user);
         ViewUtil.openActivity(MessageActivity.class,bundle,this, ActivityModel.ACTIVITY_MODEL_1);
+    }
+
+    /*****
+     * 加载
+     */
+    public void  loadData(){
+         userModel.requestUserInfo(user.id+"", new SimpleResponseListener<UserResponse>() {
+             @Override
+             public void requestSuccess(UserResponse info, Response response) {
+                    if (CommonUtil.notNull(info.user)) {
+                        user = info.user;
+                        initData();
+                    }
+             }
+
+             @Override
+             public void requestError(HttpException e, ResponseMessage info) {
+
+             }
+
+             @Override
+             public void requestView() {
+                 super.requestView();
+                 refresh.setRefreshing(false);
+             }
+         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapater.onDestroyReceiver();
+        adapater1.onDestroyReceiver();
     }
 }

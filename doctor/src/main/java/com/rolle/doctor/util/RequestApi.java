@@ -53,9 +53,9 @@ public final class RequestApi {
         url.append(UrlApi.REGISTER);
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
-        param.add(new NameValuePair("password",password));
+        param.add(new NameValuePair("password", password));
         param.add(new NameValuePair("verifycode",verifycode));
-        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_DOCTOR));
+        param.add(new NameValuePair("appType", AppConstants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
@@ -72,7 +72,7 @@ public final class RequestApi {
         List<NameValuePair> param=new ArrayList<NameValuePair>();
         param.add(new NameValuePair("mobile",mobile));
         param.add(new NameValuePair("password",password));
-        param.add(new NameValuePair("typeId", AppConstants.USER_TYPE_DOCTOR));
+        param.add(new NameValuePair("appType", AppConstants.USER_TYPE_DOCTOR));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 
@@ -222,7 +222,7 @@ public final class RequestApi {
      */
     public static Request requestUpdUser(User user){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append(UrlApi.UPD_DOCTOR_INFO);
+        url.append(UrlApi.REGISTER);
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("typeId",user.typeId));
         param.add(new NameValuePair("nickname",user.nickname));
@@ -233,13 +233,29 @@ public final class RequestApi {
         param.add(new NameValuePair("photoId",user.photoId));
         param.add(new NameValuePair("intro",user.intro));
         param.add(new NameValuePair("address",user.address));
-        param.add(new NameValuePair("workRegionId",user.doctorDetail.workRegionId));
-
-        param.add(new NameValuePair("hospitalName",user.doctorDetail.hospitalName));  param.add(new NameValuePair("specialty",user.doctorDetail.speciality));
         param.add(new NameValuePair("userName",user.userName));
-        param.add(new NameValuePair("jobId",user.doctorDetail.jobId));
         param.add(new NameValuePair("token",user.token));
         param.add(new NameValuePair("birthday",user.birthday));
+        return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
+    }
+
+    /******
+     *   修改医生
+     * @param user
+     * @return
+     */
+    public static Request requestUpdDoctor(User user){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append(UrlApi.UPD_DOCTOR_INFO);
+        List<NameValuePair> param=new ArrayList<>();
+        param.add(new NameValuePair("typeId",user.typeId));
+        param.add(new NameValuePair("workAddress",user.doctorDetail.workAddress));
+        param.add(new NameValuePair("workRegionId",user.doctorDetail.workRegionId));
+        param.add(new NameValuePair("hospitalName ",user.doctorDetail.hospitalName));
+        param.add(new NameValuePair("jobId",user.doctorDetail.jobId));
+        param.add(new NameValuePair("token",user.token));
+        param.add(new NameValuePair("departmentsId",user.doctorDetail.departmentsId));
+        param.add(new NameValuePair("speciality",user.doctorDetail.speciality));
         return new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
     }
 

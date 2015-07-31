@@ -8,22 +8,20 @@
     style="@style/list_item_style" >
     <RelativeLayout
         android:id="@id/rl_item_0"
-        style="@style/list_item_style">
+        style="@style/list_item_c_style">
         <TextView
             android:text="推送设置"
             android:textSize="@dimen/font_size_18"
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             style="@style/my_image" />
-        <ToggleButton
+        <android.support.v7.widget.SwitchCompat
             android:id="@id/tbtn_swich"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
-            android:checked="false"
-            android:textOff=""
-            android:textOn="" />
+            />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

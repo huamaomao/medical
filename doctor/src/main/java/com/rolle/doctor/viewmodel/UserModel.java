@@ -1,9 +1,11 @@
 package com.rolle.doctor.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
 import com.android.common.domain.ResponseMessage;
+import com.android.common.domain.Version;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
 import com.android.common.util.MD5;
@@ -36,6 +38,7 @@ import com.rolle.doctor.domain.UserResponse;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.domain.WalletBill;
 import com.rolle.doctor.event.BaseEvent;
+import com.rolle.doctor.service.RequestService;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.RequestApi;
 import com.rolle.doctor.util.TimeUtil;
@@ -64,6 +67,12 @@ public class UserModel  extends ViewModel {
         if (CommonUtil.isNull(db)){
             db=LiteOrm.newCascadeInstance(context, AppConstants.DB_NAME);
         }
+    }
+
+    public Version getVersion(){
+        Version version=new Version();
+        version= db.queryById(version.id,Version.class);
+        return version;
     }
 
 
@@ -201,7 +210,7 @@ public class UserModel  extends ViewModel {
             @Override
             public void requestSuccess(FriendResponse info, Response response) {
                 saveFriendList(info.list);
-                EventBus.getDefault().post(new BaseEvent());
+                EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_USER_FRIEND));
             }
 
             @Override
@@ -341,10 +350,52 @@ public class UserModel  extends ViewModel {
 
     }
 
-    public void requestAddFriend(String userId,String noteName,final SimpleResponseListener<ResponseMessage> listener){
-        execute(RequestApi.requestAddFriend(getToken().token, userId, noteName), listener);
+    public void requestAddFriend(String tel,String noteName,final SimpleResponseListener<ResponseMessage> listener){
+        execute(RequestApi.requestAddFriend(getToken().token, tel, noteName), listener);
     }
 
+    /*****
+     * 通过id 添加
+     * @param userId
+     * @param noteName
+     * @param listener
+     */
+    public void requestAddFriendID(String userId,String noteName,final SimpleResponseListener<ResponseMessage> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/relation_sp/saveRelationByUserId.json");
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("userId",userId));
+        param.add(new NameValuePair("noteName",noteName));
+        execute( new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param)), listener);
+    }
+
+    /****
+     * 接受添加
+     * @param userId
+     * @param listener
+     */
+    public void requestAgreeFriend(String userId,final SimpleResponseListener<ResponseMessage> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/relation_sp/contactaddApproved.json");
+        List<NameValuePair> param=new ArrayList<NameValuePair>();
+        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("userId",userId));
+        execute( new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param)), listener);
+    }
+
+    /******
+     *新朋友
+     *
+     */
+    public void requestNewFriend(final SimpleResponseListener<FriendResponse> listener){
+        StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/user_sp/getNewFriendList.json");
+        List<NameValuePair> param=new ArrayList();
+        param.add(new NameValuePair("token",getToken().token));
+        param.add(new NameValuePair("pageNum","1"));
+        execute( new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param)), listener);
+    }
 
 
     /******
@@ -380,6 +431,30 @@ public class UserModel  extends ViewModel {
         user.token=getToken().token;
         user.id=getToken().userId;
         execute(RequestApi.requestUpdUser(user), new SimpleResponseListener<ResponseMessage>() {
+            @Override
+            public void requestSuccess(ResponseMessage info, Response response) {
+                saveUser(user);
+                listener.requestSuccess(info, response);
+            }
+
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                listener.requestError(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
+            }
+        });
+    }
+    /******
+     * 保存用户信息
+     */
+    public void requestDoctor(final User user, final SimpleResponseListener<ResponseMessage> listener){
+        user.token=getToken().token;
+        user.id=getToken().userId;
+        execute(RequestApi.requestUpdDoctor(user), new SimpleResponseListener<ResponseMessage>() {
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
                 saveUser(user);
@@ -451,32 +526,25 @@ public class UserModel  extends ViewModel {
      *  新朋友
      * @param listener
      */
-    public void requestNewFriendList(final List<ContactBean> list, final SimpleResponseListener<List<ContactListResponse.Item>> listener){
+    public void requestNewFriendList(final List<ContactBean> list, final SimpleResponseListener<List<User>> listener){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
         url.append("/crm/user_sp/getNewFriendList.json");
-        List<NameValuePair> param=new ArrayList<>();
-        param.add(new NameValuePair("token", getToken().token));
 
-        StringBuilder builder=new StringBuilder("{");
-        builder.append("token:'").append(getToken().token)
-                .append("',list:");
         if (CommonUtil.notNull(list)){
             for (ContactBean bean:list){
                  bean.setNickname(URLEncoder.encode(bean.getNickname()));
             }
 
         }
-        param.add(new NameValuePair("list",JSON.toJSONString(list)));
-
-        builder.append(JSON.toJSONString(list));
-        builder.append("}");
+        //List<NameValuePair> param=new ArrayList<>();
+       // param.add(new NameValuePair("token", getToken().token));
+       // param.add(new NameValuePair("list", JSON.toJSONString(list)));
         Request request=new Request(url.toString());
         request.setMethod(HttpMethod.Post);
         MultipartBody body = new MultipartBody();
         body.addPart(new StringPart("token",getToken().token));
-        body.addPart(new StringPart("list",JSON.toJSONString(list)));
-       // request.addHeader("Content-Type", "application/json");
-        //request.setHttpBody(new JsonBody(builder.toString()));
+        body.addPart(new StringPart("JSONString", JSON.toJSONString(list)));
+
         request.setHttpBody(body);
         execute(request, new SimpleResponseListener<ContactListResponse>() {
             @Override
@@ -778,19 +846,9 @@ public class UserModel  extends ViewModel {
         }
         final User user=getUser(getToken().userId);
         if (CommonUtil.notNull(user)&&user.updateState==User.UPDATE){
-            requestUpdateUser(user, new SimpleResponseListener<ResponseMessage>() {
-                @Override
-                public void requestSuccess(ResponseMessage info, Response response) {
-                    Log.d("更新用户信息成功.......");
-                    user.setNoUpdateStatus();
-                    saveUser(user);
-                }
-
-                @Override
-                public void requestError(HttpException e, ResponseMessage info) {
-                    Log.d("更新用户信息失败.......");
-                }
-            });
+            Intent intent=new Intent(mContext, RequestService.class);
+            intent.putExtra(RequestTag.TAG,RequestTag.R_UPD_USER);
+            mContext.startService(intent);
         }
         return user;
     }
@@ -821,6 +879,44 @@ public class UserModel  extends ViewModel {
         param.add(new NameValuePair("birthday", user.birthday));
         Request request=new Request(url.toString()).setMethod(HttpMethod.Post).setHttpBody(new UrlEncodedFormBody(param));
         execute(request,handler);
+    }
+
+    /******
+     * 获取版本信息
+     * @param listener
+     *  医生版	116
+     *  用户版	117
+     */
+    public void requestVersion(final SimpleResponseListener<Version> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/version_sp/getVersionByMap.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("typeId", "116"));
+        param.add(new NameValuePair("wayNo", "rolle"));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request, new SimpleResponseListener<Version>() {
+            @Override
+            public void requestSuccess(Version info, Response response) {
+                db.save(info);
+                listener.requestSuccess(info,response);
+            }
+
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                Version version =getVersion();
+                if (CommonUtil.notNull(version)){
+                    listener.requestSuccess(version,null);
+                }else {
+                    listener.requestError(e,info);
+                }
+            }
+
+            @Override
+            public void requestView() {
+                listener.requestView();
+            }
+        });
     }
 
 }

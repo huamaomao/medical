@@ -22,6 +22,7 @@ import com.rolle.doctor.ui.PatientHActivity;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.CircleTransform;
 import com.rolle.doctor.util.RequestApi;
+import com.rolle.doctor.util.ShareUtils;
 import com.rolle.doctor.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -110,18 +111,6 @@ public class FriendListAdapater extends RecyclerAdapter<User> {
                     }
 
                 }*/
-                        break;
-                    case TYPE_FRIEND:
-                        FriendViewHolder friend = (FriendViewHolder) holder;
-                        if (Constants.USER_STATUS_ADD.equals(user.status)) {
-                            friend.btnStatus.setText("添加");
-                        } else {
-                            friend.btnStatus.setText("接受");
-                        }
-                        if (AppConstants.USER_TYPE_DOCTOR.equals(user.typeId)) {
-                            friend.ivType.setImageResource(R.mipmap.icon_doctor);
-                        }
-                        friend.tvRemarks.setText("主治:血糖");
                         break;
                 }
             }

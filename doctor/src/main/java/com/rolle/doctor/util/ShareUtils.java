@@ -1,6 +1,8 @@
 package com.rolle.doctor.util;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 
 import com.rolle.doctor.R;
@@ -132,6 +134,21 @@ public final class ShareUtils {
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(activity, AppConstants.APPID_WEIXIN, AppConstants.APPID_WEIXIN_KEY);
         wxHandler.addToSocialSDK();
+    }
+
+    /******
+     * 短信分享
+     * @param tel
+     */
+    public static void smsContent(Activity activity,String tel){
+        String smsBody = "医家，为生活带来健康，无关金钱。健康是一种选择，当我们选择了健康的生活方式，我们便选择了拥抱美好的一切。" +
+                "http://rolle.cn/";
+        Uri smsToUri = Uri.parse("smsto:");
+        Intent sendIntent =  new  Intent(Intent.ACTION_VIEW, smsToUri);
+        sendIntent.putExtra("address", tel);
+        sendIntent.putExtra( "sms_body", smsBody);
+        sendIntent.setType( "vnd.android-dir/mms-sms" );
+        activity.startActivityForResult(sendIntent, 1002 );
     }
 
 }

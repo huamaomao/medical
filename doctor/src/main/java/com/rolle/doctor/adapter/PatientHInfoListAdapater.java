@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.FriendResponse;
@@ -21,7 +23,7 @@ import java.util.List;
 /**
  * Created by Hua on 2015/4/3.
  */
-public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PatientHInfoListAdapater extends RecyclerAdapter<ItemInfo> {
 
     private Context mContext;
     List<ItemInfo> data;
@@ -31,50 +33,50 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
     final  static int TYPE_1=1;
     final  static int TYPE_2=2;
 
+    public PatientHInfoListAdapater(final Context mContext, final List<ItemInfo> data, RecyclerView recyclerView) {
+        super(mContext, data, recyclerView);
+        implementRecyclerAdapterMethods(new RecyclerAdapterMethods<ItemInfo>() {
+            @Override
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, ItemInfo item, int position) {
+                ItemInfo info=data.get(position);
+                if (position==0){
+                    UserViewHolder  userViewHolder=(UserViewHolder)viewHolder;
+                    StringBuilder builder=new StringBuilder("简介：");
+                    if (user!=null){
+                        Picasso.with(mContext).load(user.headImage).placeholder(R.mipmap.icon_default).
+                                transform(new CircleTransform()).into(userViewHolder.photo);
+                        userViewHolder.title.setText(user.nickname);
+                        builder.append(CommonUtil.isEmpty(user.describe) ? " 暂无介绍" : user.describe);
+                        userViewHolder.desc.setText(builder.toString());
+                    }
+                }else if (position!=5){
+                    ViewHolder holder=(ViewHolder)viewHolder;
+                    holder.title.setText(info.title);
+                    holder.desc.setText(CommonUtil.isEmpty(info.desc)?"无":info.desc);
+                }
+            }
+
+            @Override
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+                switch (viewType){
+                    case TYPE_0:
+                        return new UserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_head,viewGroup,false));
+                    case TYPE_1:
+                        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_h,viewGroup,false));
+                    default:
+                        return new RecyclerAdapter.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_null,viewGroup,false));
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return data.size();
+            }
+        });
+    }
+
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public PatientHInfoListAdapater(Context mContext, List<ItemInfo> data) {
-        this.mContext = mContext;
-        this.data = data;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-       switch (viewType){
-           case TYPE_0:
-                return new UserViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_head,parent,false));
-           case TYPE_1:
-               return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_h,parent,false)){};
-           default:
-               return new RecyclerView.ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_patient_info_null,parent,false)){};
-       }
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder ,int position) {
-        ItemInfo info=data.get(position);
-        if (position==0){
-            UserViewHolder  userViewHolder=(UserViewHolder)viewHolder;
-            StringBuilder builder=new StringBuilder("简介：");
-            if (user!=null){
-                Picasso.with(mContext).load(user.headImage).placeholder(R.mipmap.icon_default).
-                        transform(new CircleTransform()).into(userViewHolder.photo);
-                userViewHolder.title.setText(user.nickname);
-                builder.append(CommonUtil.isEmpty(user.describe) ? " 暂无介绍" : user.describe);
-                userViewHolder.desc.setText(builder.toString());
-            }
-        }else if (position!=5){
-            ViewHolder holder=(ViewHolder)viewHolder;
-            holder.title.setText(info.title);
-            holder.desc.setText(CommonUtil.isEmpty(info.desc)?"无":info.desc);
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size();
     }
 
     @Override
@@ -86,10 +88,9 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
             else
                 return TYPE_1;
 
-
     }
 
-    public  static class ViewHolder extends RecyclerView.ViewHolder{
+    public  static class ViewHolder extends RecyclerAdapter.ViewHolder{
         TextView title,desc;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -98,7 +99,7 @@ public class PatientHInfoListAdapater extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    public  static class UserViewHolder extends RecyclerView.ViewHolder{
+    public  static class UserViewHolder extends RecyclerAdapter.ViewHolder{
         TextView title,desc;
         ImageView photo;
         public UserViewHolder(View itemView) {

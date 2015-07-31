@@ -1,6 +1,7 @@
 package com.rolle.doctor.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.common.adapter.BaseRecyclerAdapter;
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.CommonUtil;
+import com.android.common.util.DividerDecoration;
+import com.android.common.util.DividerItemDecoration;
+import com.android.common.util.FlexibleDividerDecoration;
+import com.android.common.util.HorizontalDividerItemDecoration;
+import com.android.common.util.VerticalDividerItemDecoration;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
@@ -52,7 +59,10 @@ public class MyFragment extends BaseFragment{
     ImageView iv_qd_code;
     @InjectView(R.id.tv_name)
     TextView tv_name;
-     private BaseRecyclerAdapter<ItemInfo> adapter;
+    @InjectView(R.id.tv_code)
+    TextView tv_code;
+
+     private RecyclerAdapter<ItemInfo> adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public class MyFragment extends BaseFragment{
     void updateInfo(){
         User user=userModel.getLoginUser();
         tv_name.setText(user.nickname);
+        tv_code.setText(user.inviteCode);
         Picasso.with(getContext()).load(RequestApi.getImageUrl(user.headImage)).placeholder(R.mipmap.icon_default).
                 transform(new CircleTransform()).into(iv_photo);
     }
@@ -94,24 +105,37 @@ public class MyFragment extends BaseFragment{
     @Override
     protected void initView(View view, LayoutInflater inflater) {
         super.initView(view, inflater);
-        userModel=new UserModel((BaseActivity)getContext());
+        userModel=new UserModel(getContext());
         lsData=new ArrayList();
-        lsData.add(new ItemInfo(R.mipmap.icon_money, "我要认证"));
+        lsData.add(new ItemInfo(R.mipmap.ic_renzheng, "我要认证"));
         lsData.add(new ItemInfo(R.mipmap.icon_money, "我的钱包"));
         lsData.add(new ItemInfo(R.mipmap.icon_zan, "收到的赞"));
         lsData.add(new ItemInfo(R.mipmap.icon_message_l, "收到的评论"));
-        adapter=new BaseRecyclerAdapter<>(lsData);
-        adapter.implementRecyclerAdapterMethods(new BaseRecyclerAdapter.RecyclerAdapterMethods() {
+        lsData.add(new ItemInfo(R.mipmap.ic_yaoqing, "邀请好友"));
+        lsData.add(new ItemInfo(R.mipmap.ic_yuyue, "预约"));
+        adapter=new RecyclerAdapter(getContext(),lsData,rv_view,false);
+        ViewUtil.initRecyclerViewDecoration(rv_view, getContext(), adapter);
+        FlexibleDividerDecoration.SizeProvider  sizeProvider=new FlexibleDividerDecoration.SizeProvider() {
             @Override
-            public void onBindViewHolder(BaseRecyclerAdapter.ViewHolder viewHolder, int i) {
-                ItemInfo info = lsData.get(i);
-                viewHolder.setImageResource(R.id.iv_photo, info.resId);
-                viewHolder.setText(R.id.tv_item_0, info.title);
+            public int dividerSize(int position, RecyclerView parent) {
+                if (position==1)
+                    return (int)getResources().getDimension(R.dimen.iten_margin_top);
+                return 2;
+            }
+        };
+        rv_view.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).
+                color(getResources().getColor(R.color.appbg)).sizeProvider(sizeProvider).build());
+        adapter.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<ItemInfo>() {
+
+            @Override
+            public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, ItemInfo item, int position) {
+                viewHolder.setImageResource(R.id.iv_photo, item.resId);
+                viewHolder.setText(R.id.tv_item_0, item.title);
             }
 
             @Override
-            public BaseRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new BaseRecyclerAdapter.ViewHolder(
+            public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+                return new RecyclerAdapter.ViewHolder(
                         LayoutInflater.from(getContext()).inflate(R.layout.list_item_info, viewGroup, false));
             }
 
@@ -120,9 +144,9 @@ public class MyFragment extends BaseFragment{
                 return lsData.size();
             }
         });
-        adapter.setOnClickEvent(new BaseRecyclerAdapter.OnClickEvent() {
+        adapter.setOnClickEvent(new RecyclerAdapter.OnClickEvent() {
             @Override
-            public void onClick(View v, int position) {
+            public void onClick(View v, Object item, int position) {
                 if (CommonUtil.isFastClick()) return;
                 switch (position) {
                     case 0:
@@ -140,8 +164,8 @@ public class MyFragment extends BaseFragment{
 
                 }
             }
+
         });
-         ViewUtil.initRecyclerView(rv_view,getContext(),adapter);
          updateInfo();
     }
 

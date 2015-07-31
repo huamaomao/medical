@@ -50,14 +50,16 @@ public class LoginActivity extends BaseLoadingActivity implements LoginPresenter
     }
     @OnClick(R.id.tv_create_account)
     void doRegister(){
+        if(CommonUtil.isFastClick())return;
         finish();
         ViewUtil.openActivity(RegisterOneActivity.class,this,true);
     }
     @OnClick(R.id.tv_forgot_pwd)
     void doRetrievePwd(){
+        if(CommonUtil.isFastClick())return;
         finish();
         //RetrievePwdSettingActivity
-        ViewUtil.openActivity(ChooseListActivity.class,this,true);
+        ViewUtil.openActivity(RetrievePwdSettingActivity.class,this,true);
     }
 
     @Override

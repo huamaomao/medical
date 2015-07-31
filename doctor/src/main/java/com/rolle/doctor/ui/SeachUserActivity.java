@@ -1,17 +1,18 @@
 package com.rolle.doctor.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.ActivityModel;
+import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
@@ -20,18 +21,18 @@ import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.service.RequestService;
 import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.CircleTransform;
+import com.rolle.doctor.util.ShareUtils;
 import com.rolle.doctor.util.Util;
+import com.rolle.doctor.viewmodel.RequestTag;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
-
 import static com.rolle.doctor.R.mipmap.icon_default;
 
 /**
@@ -48,8 +49,6 @@ public class SeachUserActivity extends BaseLoadingActivity {
     private RecyclerAdapter<User> adapater;
     private UserModel userModel;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +63,7 @@ public class SeachUserActivity extends BaseLoadingActivity {
         data=new ArrayList();
         adapater=new RecyclerAdapter(getContext(),data,lvView);
         adapater.empty="查不到用户...";
+        loadingFragment.setRequestMessage();
         adapater.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
             public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final User item, final int position) {
@@ -95,11 +95,31 @@ public class SeachUserActivity extends BaseLoadingActivity {
                     viewHolder.setText(R.id.tv_item_1,CommonUtil.isEmpty(item.intro)?"无":item.intro);
                 }
 
+               Button btn_status= viewHolder.getView(R.id.btn_status);
+                if (CommonUtil.notEmpty(item.statusId)) {
+                    switch (item.statusId) {
+                        case "76":
+                            btn_status.setText("添加");
+                            btn_status.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    doAdd(item.id + "", position);
+                                }
+                            });
+                            break;
+                        case "77":
+                            btn_status.setText("已添加");
+                            btn_status.setBackgroundResource(R.color.write);
+                            break;
+
+                    }
+                }
+
             }
 
             @Override
             public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-                return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_doctor, viewGroup, false));
+                return new RecyclerAdapter.ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_user_add, viewGroup, false));
             }
 
             @Override
@@ -110,13 +130,13 @@ public class SeachUserActivity extends BaseLoadingActivity {
         adapater.setOnClickEvent(new RecyclerAdapter.OnClickEvent<User>() {
             @Override
             public void onClick(View v, User item, int position) {
-                if (CommonUtil.isFastClick())return;
+                if (CommonUtil.isFastClick()) return;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(AppConstants.ITEM, item);
-                if (AppConstants.USER_TYPE_PATIENT.equals(item.typeId)){
-                    ViewUtil.openActivity(PatientHActivity.class, bundle,getContext());
-                }else {
-                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle,getContext());
+                if (AppConstants.USER_TYPE_PATIENT.equals(item.typeId)) {
+                    ViewUtil.openActivity(PatientHActivity.class, bundle, getContext());
+                } else {
+                    ViewUtil.openActivity(DoctorDetialActivity.class, bundle, getContext());
                 }
             }
         });
@@ -132,12 +152,12 @@ public class SeachUserActivity extends BaseLoadingActivity {
                 @Override
                 public void requestSuccess(FriendResponse info, Response response) {
                     adapater.addItemAll(info.list);
-                    adapater.empty="查不到用户...";
+                    adapater.empty = "查不到用户...";
                 }
 
                 @Override
                 public void requestError(HttpException e, ResponseMessage info) {
-                    adapater.empty="网络异常...";
+                    adapater.empty = "网络异常...";
                 }
 
                 @Override
@@ -147,6 +167,33 @@ public class SeachUserActivity extends BaseLoadingActivity {
             });
     }
 
+    public void doAdd(String userId,final int position){
+        showLoading();
+        userModel.requestAddFriendID(userId, null, new SimpleResponseListener<ResponseMessage>() {
+            @Override
+            public void requestSuccess(ResponseMessage info, Response response) {
+                msgShow("添加成功...");
+                //position
+                User user=data.get(position);
+                user.statusId="77";
+                adapater.notifyItemUpdate(position);
+                Intent intent=new Intent(getContext(),RequestService.class);
+                Bundle bundle=new Bundle();
+                bundle.putInt(RequestTag.TAG, RequestTag.R_USER_FRIEND);
+                startService(intent);
+            }
+
+            @Override
+            public void requestError(HttpException e, ResponseMessage info) {
+                new AppHttpExceptionHandler().via(getContext()).handleException(e, info);
+            }
+
+            @Override
+            public void requestView() {
+                hideLoading();
+            }
+        });
+    }
 
 
     @Override

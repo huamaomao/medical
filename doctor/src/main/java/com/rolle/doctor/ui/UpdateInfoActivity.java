@@ -77,16 +77,6 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         timePicker.show();
     }
 
-     void onEvent(BaseEvent event)
-    {
-        if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_TOKEN_OUT){
-            userModel.setLoginOut();
-
-        }
-
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -102,7 +92,6 @@ public class UpdateInfoActivity extends BaseLoadingActivity{
         }
 
     }
-
     private void uploadPhoto(){
         Picasso.with(getContext()).load(new File( user.headImage)).placeholder(icon_default).
                 transform(new CircleTransform()).into(iv_photo);

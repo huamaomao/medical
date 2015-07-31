@@ -63,8 +63,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
 
-
-
     public RecyclerAdapter(Context mContext, List<T> data, RecyclerView recyclerView) {
         this.mContext=mContext;
         this.mData = data;
@@ -355,6 +353,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             return this;
         }
 
+        public ViewHolder setOnClickListener(int resId,View.OnClickListener listener){
+            (getView(resId)).setOnClickListener(listener);
+            return this;
+        }
         public void setOnClick(int resId,View.OnClickListener listener){
             getView(resId).setOnClickListener(listener);
         }
