@@ -7,40 +7,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.adapter.RecyclerGroupAdapter;
+import com.android.common.util.CommonUtil;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.WalleDetail;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.domain.WalletBill;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.util.List;
+
 /**
  * Created by Hua on 2015/4/3.
  */
-public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalletBill.Item,WalletDatialListAdapater.WalleViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class WalletDatialListAdapater extends RecyclerAdapter<WalletBill.Item> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
 
-    public WalletDatialListAdapater(Context mContext) {
-        this.mContext = mContext;
-    }
-    @Override
-    public WalleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return  new WalleViewHolder(View.inflate(mContext,R.layout.list_item_blank_datial,null));
+    public WalletDatialListAdapater(Context context, final List<WalletBill.Item> items,RecyclerView recyclerView){
+        super(context,items,recyclerView);
+        setHasStableIds(true);
+        implementRecyclerAdapterMethods(new RecyclerAdapterMethods<WalletBill.Item>() {
+            @Override
+            public void onBindViewHolder(ViewHolder viewHolder, WalletBill.Item item, int position) {
+                viewHolder.setText(R.id.tv_item_0,"title");
+                viewHolder.setText(R.id.tv_item_1,item.tradingDate);
+                viewHolder.setText(R.id.tv_item_2, CommonUtil.formatMoney(item.accountAmountChange));
+                viewHolder.setText(R.id.tv_item_3,"交易成功");
+            }
+
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+                return  new ViewHolder(View.inflate(mContext,R.layout.list_item_blank_datial,null));
+            }
+
+            @Override
+            public int getItemCount() {
+                return items.size();
+            }
+        });
     }
 
-    @Override
-    public void onBindViewHolder(WalleViewHolder holder, int position){
-        WalletBill.Item item=getItem(position);
-        holder.amount.setText("¥"+item.accountAmountChange);
-        holder.date.setText(item.tradingDate);
-        holder.title.setText(item.typeId+"==");
-        holder.status.setText("交易成功");
-    }
 
 
     @Override
     public long getHeaderId(int position) {
+        if (mRecyclerAdapterMethods.getItemCount()==0)return 0;
         return getItem(position).yearMonth;
     }
 
@@ -55,25 +68,6 @@ public class WalletDatialListAdapater extends RecyclerGroupAdapter<WalletBill.It
         TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.tv_item_0);
         textView.setText(getItem(position).month+"月");
     }
-
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-
-    public  static class WalleViewHolder extends RecyclerView.ViewHolder {
-        TextView title,date,status,amount;
-        public WalleViewHolder(View itemView) {
-            super(itemView);
-            title=(TextView)itemView.findViewById(R.id.tv_item_0);
-            date=(TextView)itemView.findViewById(R.id.tv_item_1);
-            status=(TextView)itemView.findViewById(R.id.tv_item_3);
-            amount=(TextView)itemView.findViewById(R.id.tv_item_2);
-        }
-    }
-
-
 
 
 }

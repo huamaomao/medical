@@ -22,6 +22,7 @@ import com.rolle.doctor.domain.CityResponse;
 import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.util.Util;
 import com.rolle.doctor.viewmodel.ListModel;
+import com.rolle.doctor.viewmodel.RequestTag;
 import com.rolle.doctor.viewmodel.UserModel;
 
 import java.util.ArrayList;
@@ -158,7 +159,7 @@ public class AddBlankActivity extends BaseLoadingActivity implements View.OnClic
         }
 
         showLoading();
-        userModel.requestAddWalletBlankAcounnt(et_blank_account.getText().toString(), item.id, new SimpleResponseListener<ResponseMessage>() {
+        userModel.requestAddWalletBlankAcounnt(item.id,et_blank_account.getText().toString(), new SimpleResponseListener<ResponseMessage>() {
             @Override
             public void requestSuccess(ResponseMessage info, Response response) {
                 success();
@@ -190,10 +191,10 @@ public class AddBlankActivity extends BaseLoadingActivity implements View.OnClic
     }
 
     public void success(){
-        if (CommonUtil.notNull(wallet.password)){
+        Util.startRequestService(getContext(), RequestTag.R_WALLET_LIST);
+        if (CommonUtil.notEmpty(wallet.password)){
             msgLongShow("绑定成功...");
-            ViewUtil.openActivity(WalletSetPwdActivity.class, getContext(), true);
-          finish();
+            finish();
         }else {
             ViewUtil.openActivity(WalletSetPwdActivity.class,getContext(),true);
         }

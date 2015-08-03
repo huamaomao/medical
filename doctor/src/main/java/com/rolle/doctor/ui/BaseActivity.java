@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity implements IView{
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
+        return true;
     }
 
     public void setBackActivity(String title){

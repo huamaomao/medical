@@ -1,5 +1,6 @@
 package com.android.common.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -7,56 +8,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class RecyclerGroupAdapter<M, VH extends RecyclerView.ViewHolder>
-    extends RecyclerView.Adapter<VH> {
-  protected List<M> items = new ArrayList<M>();
-
-  public RecyclerGroupAdapter() {
-    setHasStableIds(true);
-  }
-
-  public void add(M object) {
-    items.add(object);
-    notifyDataSetChanged();
-  }
-
-  public void add(int index, M object) {
-    items.add(index, object);
-    notifyDataSetChanged();
-  }
-
-  public void addAll(Collection<? extends M> collection) {
-    if (collection != null) {
-      items.addAll(collection);
-      notifyDataSetChanged();
-    }
-  }
-
-  public void addAll(M... items) {
-    addAll(Arrays.asList(items));
-  }
-
-  public void clear() {
-    items.clear();
-    notifyDataSetChanged();
-  }
-
-  public void remove(M object) {
-    items.remove(object);
-    notifyDataSetChanged();
-  }
-
-  public M getItem(int position) {
-    return items.get(position);
-  }
-
-  @Override
-  public long getItemId(int position) {
-    return position;
-  }
-
-  @Override
-  public int getItemCount() {
-    return items==null?0: items.size();
-  }
+public abstract class RecyclerGroupAdapter<T>
+    extends RecyclerAdapter {
+   public RecyclerGroupAdapter(Context context,List<T> items,RecyclerView recyclerView){
+     super(context,items,recyclerView);
+     setHasStableIds(true);
+   }
 }

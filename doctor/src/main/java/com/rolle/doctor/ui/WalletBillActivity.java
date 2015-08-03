@@ -45,6 +45,7 @@ public class WalletBillActivity extends BaseActivity {
     protected void initView() {
         super.initView();
         setBackActivity("账单详细");
+
         userModel=new UserModel(getContext());
         refresh.setRefreshStyle(AppConstants.PULL_STYLE);
         refresh.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
@@ -56,9 +57,8 @@ public class WalletBillActivity extends BaseActivity {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         rvView.setLayoutManager(layoutManager);
         lsData=new ArrayList<>();
-
-        mAdapter=new WalletDatialListAdapater(this);
-        mAdapter.addAll(lsData);
+        mAdapter=new WalletDatialListAdapater(getContext(),lsData,rvView);
+        mAdapter.empty="暂无账单详情";
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
         rvView.addItemDecoration(headersDecor);
         rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -71,8 +71,7 @@ public class WalletBillActivity extends BaseActivity {
         userModel.requestAddWalletBill(new SimpleResponseListener<List<WalletBill.Item>>() {
             @Override
             public void requestSuccess(List<WalletBill.Item> info, Response response) {
-                mAdapter.clear();
-                mAdapter.addAll(info);
+               mAdapter.addItemAll(info);
             }
 
             @Override
@@ -82,8 +81,15 @@ public class WalletBillActivity extends BaseActivity {
 
             @Override
             public void requestView() {
-               hideLoading();
+                refresh.setRefreshing(false);
+                mAdapter.checkEmpty();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestroyReceiver();
     }
 }

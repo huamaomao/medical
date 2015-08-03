@@ -72,6 +72,7 @@ public class UpdateIntroActivity extends BaseLoadingActivity{
                     public void requestSuccess(ResponseMessage info, Response response) {
                         EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_USER_INFO));
                         msgShow("保存成功");
+                        finish();
                     }
 
                     @Override

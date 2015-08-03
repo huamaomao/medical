@@ -92,6 +92,8 @@ public class MyFragment extends BaseFragment{
         ViewUtil.openActivity(CodeImageActivity.class, getActivity());
     }
 
+
+
     public void onEvent(BaseEvent event)
     {
         if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_USER_INFO){
@@ -168,6 +170,8 @@ public class MyFragment extends BaseFragment{
         });
          updateInfo();
     }
+
+
 
 
     @Override

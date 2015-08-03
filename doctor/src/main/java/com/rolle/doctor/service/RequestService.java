@@ -11,6 +11,7 @@ import com.android.common.viewmodel.SimpleResponseListener;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.domain.User;
+import com.rolle.doctor.domain.Wallet;
 import com.rolle.doctor.event.BaseEvent;
 import com.rolle.doctor.viewmodel.RequestTag;
 import com.rolle.doctor.viewmodel.UserModel;
@@ -49,7 +50,7 @@ public class RequestService extends IntentService{
 				break;
 			case RequestTag.R_UPD_USER:
 				final User user=userModel.getLoginUser();
-				userModel. requestUpdateUser(user,new SimpleResponseListener<ResponseMessage>() {
+				userModel. requestUpdateUser(user, new SimpleResponseListener<ResponseMessage>() {
 					@Override
 					public void requestSuccess(ResponseMessage info, Response response) {
 						Log.d("更新用户信息成功.......");
@@ -73,6 +74,19 @@ public class RequestService extends IntentService{
 					@Override
 					public void requestError(HttpException e, ResponseMessage info) {
 						Log.d("更新用户信息失败.......");
+					}
+				});
+				break;
+			case RequestTag.R_WALLET_LIST:
+				userModel.requestWallet(new SimpleResponseListener<Wallet>() {
+					@Override
+					public void requestSuccess(Wallet info, Response response) {
+						EventBus.getDefault().post(new BaseEvent(BaseEvent.EV_WALLET_LIST));
+					}
+
+					@Override
+					public void requestError(HttpException e, ResponseMessage info) {
+
 					}
 				});
 				break;

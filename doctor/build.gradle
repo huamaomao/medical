@@ -114,7 +114,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.41'
     compile 'com.nineoldandroids:library:2.4.0'
     //compile 'com.vxfc.3rd:qinjia:3.0'
-    compile 'com.timehop.stickyheadersrecyclerview:library:0.3.6@aar'
+    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.+@aar'
     compile 'com.baoyz.pullrefreshlayout:library:1.0.+'
     compile 'de.greenrobot:eventbus:2.4.0'
 

@@ -222,7 +222,7 @@ public final class RequestApi {
      */
     public static Request requestUpdUser(User user){
         StringBuilder url=new StringBuilder(UrlApi.SERVER_NAME);
-        url.append(UrlApi.REGISTER);
+        url.append("/crm/user_sp/updateUser.json");
         List<NameValuePair> param=new ArrayList<>();
         param.add(new NameValuePair("typeId",user.typeId));
         param.add(new NameValuePair("nickname",user.nickname));

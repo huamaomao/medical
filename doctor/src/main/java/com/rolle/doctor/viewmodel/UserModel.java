@@ -629,14 +629,14 @@ public class UserModel  extends ViewModel {
                 .andEquals("id", getLoginUser().id));
         List<Wallet> list=db.query(builder);
         //   异常　－－
-        /*if (list!=null&&list.size()>0){
+        if (list!=null&&list.size()>0){
             Wallet wallet=list.get(0);
-            QueryBuilder builderList=new QueryBuilder(Wallet.Item.class).where(WhereBuilder.create()
-                    .andEquals("id", getLoginUser().id));
+           /* QueryBuilder builderList=new QueryBuilder(Wallet.Item.class).where(WhereBuilder.create()
+                    .andEquals("userId", getLoginUser().id));
             List<Wallet.Item> items=db.query(builderList);
-            wallet.list=items;
+            //wallet.list=items;*/
             return wallet;
-        }*/
+        }
         return new Wallet();
     }
 
@@ -653,8 +653,8 @@ public class UserModel  extends ViewModel {
         execute(request, new SimpleResponseListener<Wallet>() {
             @Override
             public void requestSuccess(Wallet info, Response response) {
-                listener.requestSuccess(info, response);
                 saveWallet(info);
+                listener.requestSuccess(info, response);
             }
 
             @Override

@@ -16,14 +16,16 @@ public class Wallet extends ResponseMessage{
     public String frozenAmount;
     public String password;
     public List<Item> list;
-    public static class Item implements Serializable{
+    public   static class Item implements Serializable{
         public int id;
         public int userId;
         public String userName;
         public String email;
         public String mobile;
         public String createTime;
-        public String isDefault;
-
+        public String type;
+        public String name;
+        public String account;
+        public Boolean isDefault;
     }
 }

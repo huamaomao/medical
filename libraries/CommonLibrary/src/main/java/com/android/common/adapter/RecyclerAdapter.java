@@ -51,7 +51,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     private DividerItemDecoration itemDecoration;
     private boolean isItemDecoration;
     protected List<T> mData;
-    private RecyclerAdapterMethods mRecyclerAdapterMethods;
+    protected RecyclerAdapterMethods mRecyclerAdapterMethods;
     private OnClickEvent mOnClickEvent;
     /*******是否需要注册网络广播********/
 
@@ -264,6 +264,10 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         mData = data;
         checkEmpty();
         notifyDataSetChanged();
+    }
+
+    public T getItem(int position){
+        return  mData.get(position);
     }
 
     public void addItem(T item, int position) {

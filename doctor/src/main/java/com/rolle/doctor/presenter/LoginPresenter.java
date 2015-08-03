@@ -76,7 +76,7 @@ public class LoginPresenter extends Presenter {
            if (token.isLogin()){
                doLoginService();
                ViewUtil.openActivity(MainActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2,true);
-               if (CommonUtil.isEmpty(user.doctorDetail.hospitalName)){
+               if (CommonUtil.isEmpty(user.typeId)){
                    ViewUtil.openActivity(RegisterChooseActivity.class, null, view.getContext(), ActivityModel.ACTIVITY_MODEL_2);
                    return;
                }

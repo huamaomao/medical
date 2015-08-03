@@ -1,9 +1,11 @@
 package com.android.common.util;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.android.common.R;
 import com.android.common.domain.ResponseMessage;
 import com.litesuits.http.data.HttpStatus;
 import com.litesuits.http.exception.HttpClientException;
@@ -89,7 +91,7 @@ public final class AppHttpExceptionHandler extends HttpExceptionHandler {
            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
         }else if (CommonUtil.notNull(activity)){
             try {
-               Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).show();
+               Snackbar.make(activity.getCurrentFocus(), msg, Snackbar.LENGTH_SHORT).setActionTextColor(activity.getResources().getColor(R.color.write)).show();
             }catch (Exception e){
                 new Toastor(activity).showSingletonToast(msg);
             }

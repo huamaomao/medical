@@ -13,5 +13,6 @@ public  interface RequestTag {
     static final int R_USER_FRIEND=0x0002;
     //更新好友信息
     static final int R_UPD_USER=0x0003;
+    static final int R_WALLET_LIST=0x0004;
 
 }

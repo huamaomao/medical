@@ -20,6 +20,8 @@ public  class BaseEvent {
    public static  final int EV_TOKEN_OUT=0X00f1;
     //  好友  ...
    public static  final int EV_USER_FRIEND=0X0002;
+    //钱包更新
+   public static  final int EV_WALLET_LIST=0X0003;
 
 
 
