@@ -139,6 +139,7 @@ public class PatientActivity extends BaseActivity{
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (CommonUtil.isFastClick())return true;
         switch (item.getItemId()){
             case R.id.toolbar_seach:
                 ViewUtil.openActivity(SeachActivity.class,getContext());

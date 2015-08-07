@@ -41,6 +41,7 @@
         <activity android:name=".ui.AddBlankActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdatePhotoActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.RegisterChooseActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.InviteActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.RegisterTitleActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.RegisterInfoActivity" android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
@@ -53,6 +54,7 @@
         <activity android:name=".ui.RecommendedActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateInfoActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateIntroActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.InviteExPlainActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateSpecialityActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateHospitalActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.UpdateAddressActivity" android:screenOrientation="portrait" />
@@ -66,10 +68,12 @@
         <activity android:name=".ui.FriendListActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.AuthenticationActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CaptureActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.AppointmentActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.CodeImageActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.SeachActivity" android:screenOrientation="portrait"
             android:theme="@style/AppThemeTransparent" />
         <activity android:name=".ui.SeachUserActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.ImageTouchActivity" android:screenOrientation="portrait" />
         <!-- service -->
         <service android:name=".service.GotyeService" />
         <service android:name=".service.RequestService" />

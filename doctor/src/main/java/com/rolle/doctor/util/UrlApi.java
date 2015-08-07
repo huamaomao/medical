@@ -11,7 +11,7 @@ public interface UrlApi{
             this.url=url;
         }
     }
-    public static final String SERVER_NAME=RequestUrl.T.url;
+    public static final String SERVER_NAME=RequestUrl.D.url;
 
     /***验证码**/
     public static final String TEL_CODE="/crm/send_sp/sendVerifycode.json";

@@ -60,8 +60,9 @@ import butterknife.OnClick;
  * 新朋友
  */
 public class FriendActivity extends BaseActivity{
-     @InjectView(R.id.rv_view) RecyclerView lvView;
 
+    @InjectView(R.id.rv_view)
+    RecyclerView lvView;
     @InjectView(R.id.refresh)
     SwipeRefreshLayout refresh;
 
@@ -84,6 +85,7 @@ public class FriendActivity extends BaseActivity{
         setBackActivity("新朋友");
         umSocialService= ShareUtils.initInviteShare(getContext());
         data=new ArrayList<>();
+        data.add(0,null);
         adapater=new RecyclerAdapter(this,data,lvView){
             @Override
             public int getItemType(int position) {
@@ -93,7 +95,6 @@ public class FriendActivity extends BaseActivity{
                 return  super.getItemType(position);
             }
         };
-
         adapater.implementRecyclerAdapterMethods(new RecyclerAdapter.RecyclerAdapterMethods<User>() {
             @Override
             public void onBindViewHolder(RecyclerAdapter.ViewHolder viewHolder, final User item, final int position) {
@@ -236,7 +237,9 @@ public class FriendActivity extends BaseActivity{
         userModel.requestNewFriend(new SimpleResponseListener<FriendResponse>() {
             @Override
             public void requestSuccess(FriendResponse info, Response response) {
-                adapater.addItemAll(info.list);
+                data.clear();
+                data.add(null);
+                adapater.addMoreItem(info.list);
             }
 
             @Override

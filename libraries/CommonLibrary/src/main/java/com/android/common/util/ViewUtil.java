@@ -36,6 +36,8 @@ import com.litesuits.http.exception.HttpNetException;
 import com.litesuits.http.exception.HttpServerException;
 import com.litesuits.http.response.Response;
 
+import java.util.List;
+
 /**
  * 操作view 工具类
  */
@@ -134,32 +136,34 @@ public class ViewUtil {
      */
     public static Fragment turnToFragment(FragmentManager fm, Class<? extends Fragment> fragmentClass,Bundle args,int id) {
         Fragment fragment = fm.findFragmentByTag(fragmentClass.getSimpleName());
-        boolean isFragmentExist = true;
         if (fragment == null) {
             try {
-                isFragmentExist = false;
                 fragment = fragmentClass.newInstance();
                 fragment.setArguments(new Bundle());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-       /* if(fragment.isAdded()){
-            return fragment;
-        }*/
         if( args != null && !args.isEmpty() ) {
             fragment.getArguments().putAll(args);
         }
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
                 android.R.anim.fade_in, android.R.anim.fade_out);
-        if( isFragmentExist ) {
-            ft.replace(id, fragment);
-        } else {
-            ft.replace(id, fragment, fragmentClass.getSimpleName());
+        if (CommonUtil.notNull(fm.getFragments())){
+            for (Fragment f:fm.getFragments()){
+                if (f.isVisible()){
+                    ft.hide(f);
+                    break;
+                }
+            }
         }
-        ft.addToBackStack(fragmentClass.getSimpleName());
-        ft.commitAllowingStateLoss();
+        ft.show(fragment);
+        if(!fragment.isAdded()){
+            ft.add(id, fragment, fragmentClass.getSimpleName()).commit();
+        } else {
+            ft.show(fragment).commit();
+        }
         return fragment;
     }
 

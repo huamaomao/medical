@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  refresh style-->
+    <integer-array name="RefreshStyle">
+        <item>@color/refresh_red</item>
+        <item>@color/refresh_blue</item>
+        <item>@color/refresh_green</item>
+        <item>@color/refresh_yellow</item>
+    </integer-array>
+
     <style name="rb_choose">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>

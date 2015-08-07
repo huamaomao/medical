@@ -9,10 +9,12 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.android.common.R;
 import com.android.common.util.CommonUtil;
@@ -21,14 +23,13 @@ import java.util.List;
 
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    public interface RecyclerAdapterMethods<T>{
-        void onBindViewHolder(final ViewHolder viewHolder,final T item,final int position);
-        ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewType);
-        int getItemCount();
-    }
+     private final static String MORE_MESSAGE_LOADING="加载中...";
+     private final static String MORE_MESSAGE_NO_MORE="--End--";
 
     /*****是否显示headView  无网络 无数据 item *******/
     public boolean isHeadView=false;
+    /******是否显示 FooterView  *********/
+    private boolean isFooterView=false;
 
     /****是否有网络  ***/
     public int status=STATUS_NORMAL;
@@ -43,6 +44,12 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public static final int TYPE_NET=0;
     /***********正常数据*******************/
     public static final int TYPE_ITEM=1;
+    public static final int TYPE_FOOTER=2;
+    /********* 默认多少条数据显示footerView*************/
+    public static final int DATA_PAGE_SIZE=10;
+    /****是否有更多数据****/
+    private boolean isMoreData=true;
+
     /***********无数据显示消息**********/
     public String empty=null;
 
@@ -193,17 +200,17 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     emptyViewHolder.tvEmpty.setText(empty);
             }
 
+        }else if (viewHolder instanceof FooterViewHolder){
+            FooterViewHolder footerViewHolder =(FooterViewHolder)viewHolder;
+            if (isMoreData)footerViewHolder.setMoreLoading();
+            else footerViewHolder.setNoMoreData();
         }else {
-            final   int index=isHeadView?position-1:position;
-            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, mData.get(index), index);
-
+            mRecyclerAdapterMethods.onBindViewHolder(viewHolder, getItem(position), position);
             if (mOnClickEvent != null)
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (index<getItemCount()){
-                            mOnClickEvent.onClick(v,mData.get(index), index);
-                        }
+                        mOnClickEvent.onClick(v,getItem(position), position);
                     }
 
                 });
@@ -213,7 +220,9 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType==TYPE_NET){
-            return new EmptyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.empty_view,viewGroup,false)){};
+            return new EmptyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.empty_view,viewGroup,false));
+        }else if (viewType==TYPE_FOOTER){
+            return new FooterViewHolder(LayoutInflater.from(mContext).inflate(R.layout.refresh_footer,viewGroup,false));
         }
         return mRecyclerAdapterMethods.onCreateViewHolder(viewGroup, viewType);
     }
@@ -225,6 +234,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public int getItemViewType(int position) {
         if (position==0&&isHeadView)
             return TYPE_NET;
+        if (position==getItemCount()-1)
+            return TYPE_FOOTER;
         return getItemType(position);
     }
 
@@ -238,7 +249,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
     public void notifyItemUpdate(int position){
-        notifyItemChanged(isHeadView?position+1:position);
+        notifyItemChanged(isHeadView ? position + 1 : position);
     }
 
     public void notifyItemMove(int position){
@@ -267,7 +278,8 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
     public T getItem(int position){
-        return  mData.get(position);
+        if (isHeadView&&position==0)return null;
+        return  mData.get(isHeadView ? position - 1 : position);
     }
 
     public void addItem(T item, int position) {
@@ -281,7 +293,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
             mData.remove(index);
            // notifyItemRemoved(index);
         }
-        mData.add(0,item);
+        mData.add(0, item);
         notifyDataSetChanged();
     }
 
@@ -328,9 +340,7 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
 
     }
 
-    public int getItemCount() {
-        return isHeadView?mRecyclerAdapterMethods.getItemCount()+1:mRecyclerAdapterMethods.getItemCount();
-    }
+
 
 
     /**
@@ -343,13 +353,19 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        private SparseArray views;
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
         public  <T extends  View>T getView(int resId){
-            return  (T)ViewHolder.this.itemView.findViewById(resId);
+            if (null==views)views=new SparseArray();
+            T t=(T)views.get(resId);
+            if (null==t){
+               t=(T)itemView.findViewById(resId);
+                views.append(resId,t);
+            }
+            return  t;
         }
 
         public ViewHolder setText(int resId,CharSequence title){
@@ -383,13 +399,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public static class EmptyViewHolder extends ViewHolder{
         ImageView loadView;
         TextView tvEmpty,tvNetwork;
-
         public EmptyViewHolder(View itemView) {
             super(itemView);
             loadView=getView(R.id.iv_load);
             tvEmpty=getView(R.id.tv_empty);
             tvNetwork=getView(R.id.tv_network);
-
 
         }
         public void setEmpty(String emptyMsg){
@@ -397,8 +411,28 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                 tvEmpty.setText(emptyMsg);
             }
         }
-
     }
+
+    public static class FooterViewHolder extends ViewHolder{
+        ProgressBar progressBar;
+        TextView tvMore;
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            progressBar=getView(R.id.pb_loading);
+            tvMore=getView(R.id.tv_more);
+        }
+
+        void setNoMoreData(){
+            progressBar.setVisibility(View.GONE);
+            tvMore.setText(MORE_MESSAGE_NO_MORE);
+        }
+        void setMoreLoading(){
+            progressBar.setVisibility(View.VISIBLE);
+            tvMore.setText(MORE_MESSAGE_LOADING);
+        }
+    }
+
+
     /***************网络监听广播*****************/
     public BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
         @Override
@@ -412,10 +446,34 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     };
 
 
+
     public Activity getContext(){
         return (Activity)mContext;
     }
 
+    public void setFooterView(){
+        isFooterView=true;
+    }
+
+    public void setHasMoreData(){
+        isMoreData=true;
+    }
+    public void setNoMoreData(){
+        isMoreData=false;
+    }
+
+    public final int getItemCount() {
+        int count=mRecyclerAdapterMethods.getItemCount();
+        if (isHeadView) ++count;
+        if (isFooterView&&count>=DATA_PAGE_SIZE) ++count;
+        return count;
+    }
 
 
+
+    public interface RecyclerAdapterMethods<T>{
+        void onBindViewHolder(final ViewHolder viewHolder,final T item,final int position);
+        ViewHolder onCreateViewHolder(ViewGroup viewGroup,int viewType);
+        int getItemCount();
+    }
 }

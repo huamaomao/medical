@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.android.common.domain.ResponseMessage;
 import com.android.common.util.DividerItemDecoration;
+import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
@@ -61,9 +62,11 @@ public class WalletBillActivity extends BaseActivity {
         mAdapter.empty="暂无账单详情";
         StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
         rvView.addItemDecoration(headersDecor);
-        rvView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        ViewUtil.initRecyclerViewDecoration(rvView,getContext(),mAdapter);
         rvView.setAdapter(mAdapter);
+        refresh.setRefreshing(true);
         loadData();
+
 
     }
 

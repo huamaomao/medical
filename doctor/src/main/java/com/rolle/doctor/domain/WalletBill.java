@@ -17,13 +17,14 @@ public class WalletBill extends ResponseMessage{
     public static class Item implements Serializable{
         public int id;
         public int userId;
+        public String codeName;
         /******
          等待审核
          交易成功
          交易失败
          */
         public int  typeId;
-        public int  statusId;
+        public String  statusId;
         /*****  ****/
         public String typeName;
         /*****交易时间  ****/

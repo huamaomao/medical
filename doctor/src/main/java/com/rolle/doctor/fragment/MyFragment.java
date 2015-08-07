@@ -25,10 +25,12 @@ import com.rolle.doctor.R;
 import com.rolle.doctor.domain.ItemInfo;
 import com.rolle.doctor.domain.User;
 import com.rolle.doctor.event.BaseEvent;
+import com.rolle.doctor.ui.AppointmentActivity;
 import com.rolle.doctor.ui.AuthenticationActivity;
 import com.rolle.doctor.ui.BaseActivity;
 import com.rolle.doctor.ui.CodeImageActivity;
 import com.rolle.doctor.ui.CommentListActivity;
+import com.rolle.doctor.ui.InviteActivity;
 import com.rolle.doctor.ui.RecommendedActivity;
 import com.rolle.doctor.ui.SettingActivity;
 import com.rolle.doctor.ui.UserInfoActivity;
@@ -163,6 +165,12 @@ public class MyFragment extends BaseFragment{
                     case 3:
                         ViewUtil.openActivity(CommentListActivity.class, getActivity());
                         break;
+                    case 4:
+                        ViewUtil.openActivity(InviteActivity.class, getActivity());
+                        break;
+                    case 5:
+                        ViewUtil.openActivity(AppointmentActivity.class, getActivity());
+                        break;
 
                 }
             }
@@ -170,7 +178,6 @@ public class MyFragment extends BaseFragment{
         });
          updateInfo();
     }
-
 
 
 

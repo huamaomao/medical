@@ -3,10 +3,17 @@ package com.rolle.doctor.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+
+import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.util.ActivityModel;
 import com.android.common.util.CommonUtil;
 import com.android.common.util.Log;
@@ -43,6 +50,7 @@ public class MessageActivity extends BaseActivity{
     private UserModel userModel;
     private GotyeUser otherUser;
     private GotyeUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,15 +91,18 @@ public class MessageActivity extends BaseActivity{
 
             @Override
             public void onSendMessage(int code, GotyeMessage message) {
-                Log.d(code+"==onSendMessage="+message);
-                if (code==805){
+                Log.d(code + "==onSendMessage=" + message);
+                if (code == 805) {
                     msgLongShow("已被加入黑名单...");
-                }else if (code==804){
+                } else if (code == 804) {
                     msgLongShow("用户不存在...");
+                }else if (code==2){
+                    startService(new Intent(getContext(), GotyeService.class));
                 }
                 adapater.updateItem(message);
             }
         });
+
     }
 
 
@@ -103,10 +114,11 @@ public class MessageActivity extends BaseActivity{
         if (CommonUtil.isNull(userFriend)){
             finish();
         }
+
         model=new GotyeModel();
         userModel=new UserModel(getContext());
         data=new LinkedList<>();
-        adapater=new ChatListAdapater(data, getContext(), userFriend, new ChatListAdapater.OnSendListener() {
+        adapater=new ChatListAdapater(data,lvView, getContext(),userFriend, new ChatListAdapater.OnSendListener() {
             @Override
             public void onSend(GotyeMessage message) {
                model.gotyeAPI.sendMessage(message);
@@ -124,9 +136,30 @@ public class MessageActivity extends BaseActivity{
             }
         });
         refresh.setRefreshing(false);
+
+    }
+
+   /* @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add("复制");
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }*/
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        try {
+            CommonUtil.copy(getContext(),adapater.getItem(item.getItemId()).getText());
+        }catch (Exception e){}
+        return super.onContextItemSelected(item);
     }
 
 
+
+    @Override
+    protected void onBackActivty() {
+        CommonUtil.hideInputMethod(getContext(),this.etMessage);
+        super.onBackActivty();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -149,10 +182,11 @@ public class MessageActivity extends BaseActivity{
     }
 
 
+
+
     @OnClick(R.id.iv_send)
     void sendMessage(){
         if(CommonUtil.isEmpty(etMessage.getText().toString())) return;
-
         GotyeMessage message=model.sendMessage(otherUser, etMessage.getText().toString());
         if (CommonUtil.notNull(message)){
             etMessage.getText().clear();
@@ -188,9 +222,15 @@ public class MessageActivity extends BaseActivity{
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adapater.onDestroyReceiver();
+    }
 
     @Override
-    protected void onBackActivty() {
-        super.onBackActivty();
+    public boolean onTouchEvent(MotionEvent event){
+        ViewUtil.onHideSoftInput(this, getCurrentFocus(), event);
+        return super.onTouchEvent(event);
     }
 }

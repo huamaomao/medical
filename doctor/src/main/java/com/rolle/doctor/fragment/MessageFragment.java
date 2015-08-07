@@ -239,6 +239,7 @@ public class MessageFragment extends BaseFragment{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (CommonUtil.isFastClick())return true;
         switch (item.getItemId()){
             case R.id.toolbar_add:
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());

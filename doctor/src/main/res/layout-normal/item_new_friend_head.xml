@@ -4,21 +4,34 @@
     android:background="@color/appbg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <android.support.v7.widget.AppCompatTextView
+    <LinearLayout
         android:id="@id/tv_code"
-        android:paddingBottom="20dp"
-        android:layout_marginBottom="@dimen/iten_margin_top"
-        android:paddingTop="20dp"
-        android:drawableLeft="@mipmap/icon_seach"
-        android:text="用户名/手机号"
-        android:drawablePadding="25dp"
+        android:paddingBottom="10dp"
         android:background="@drawable/s_btn"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:layout_marginBottom="@dimen/iten_margin_top"
         android:paddingLeft="@dimen/iten_margin_top"
-        android:gravity="center_vertical"
-        android:textColor="@color/color_hint"
-        android:textSize="@dimen/font_size_14"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@mipmap/icon_seach"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/iten_margin_top"
+            android:text="用户名/手机号"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/iten_margin_top"
+            android:background="@drawable/ic_et_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_hint"
+            android:textSize="@dimen/font_size_14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <include layout="@layout/divider" />
     <LinearLayout
         android:layout_marginBottom="@dimen/iten_margin_top"

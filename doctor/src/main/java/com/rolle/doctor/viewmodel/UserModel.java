@@ -25,11 +25,13 @@ import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
+import com.rolle.doctor.domain.Appointment;
 import com.rolle.doctor.domain.BloodResponse;
 import com.rolle.doctor.domain.ContactBean;
 import com.rolle.doctor.domain.ContactListResponse;
 import com.rolle.doctor.domain.FriendResponse;
 import com.rolle.doctor.domain.InviteCodeResponse;
+import com.rolle.doctor.domain.InviteInfo;
 import com.rolle.doctor.domain.Recommended;
 import com.rolle.doctor.domain.Token;
 import com.rolle.doctor.domain.UploadPicture;
@@ -815,6 +817,33 @@ public class UserModel  extends ViewModel {
         Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
         execute(request,listener);
     }
+
+    /******
+     * 邀请
+     * @param listener
+     */
+    public void requestInvite(final SimpleResponseListener<InviteInfo> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/invite_sp/getInviteInfo.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request,listener);
+    }
+    /******
+     * 预约
+     * @param listener
+     */
+    public void requestAppointmentList(int page,final SimpleResponseListener<Appointment> listener){
+        StringBuilder url = new StringBuilder(UrlApi.SERVER_NAME);
+        url.append("/crm/reservation_sp/getReservationListToDoctor.json");
+        List<NameValuePair> param = new ArrayList<>();
+        param.add(new NameValuePair("token", getToken().token));
+        param.add(new NameValuePair("pageNum",String.valueOf(page)));
+        Request request = new Request(url.toString()).setHttpBody(new UrlEncodedFormBody(param)).setMethod(HttpMethod.Post);
+        execute(request,listener);
+    }
+
 
     public  Token getToken(){
         synchronized (this){

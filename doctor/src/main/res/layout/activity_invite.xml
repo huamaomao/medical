@@ -1,10 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    style="@style/style_wh_match_v"
+    android:orientation="vertical"
     android:background="@color/appbg"
     >
-  <RecyclerView android:id="@id/rv_view"
-      android:layout_alignParentBottom="true"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-</RelativeLayout>
+    <include layout="@layout/toolbar" />
+    <LinearLayout
+        android:background="@color/write"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+           <TextView
+               android:text="邀请好友!"
+               android:textSize="14.0sp"
+               android:layout_marginTop="20dp"
+               android:gravity="center_horizontal"
+               android:layout_gravity="center_horizontal"
+               android:textColor="@color/color_hint"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="您的邀请码："
+                    android:textSize="16.0sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView android:id="@id/tv_code"
+                    android:textSize="16.0sp"
+                    android:textIsSelectable="true"
+                    android:textColor="@color/red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/write"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@id/ll_item_1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@id/btn_next"
+                android:background="@drawable/s_btn"
+                android:src="@drawable/umeng_socialize_wechat"
+                android:padding="@dimen/iten_margin_top"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/DefaultText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/hintText"
+                android:text="微信"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@id/ll_item_1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@id/btn_next"
+                android:background="@drawable/s_btn"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/umeng_socialize_wxcircle"
+                android:padding="@dimen/iten_margin_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/DefaultText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/hintText"
+                android:text="朋友圈"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@id/ll_item_1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@id/btn_next"
+                android:background="@drawable/s_btn"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/umeng_socialize_qq_on"
+                android:padding="@dimen/iten_margin_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/DefaultText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/hintText"
+                android:text="QQ好友"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@id/ll_item_1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@id/btn_next"
+                android:background="@drawable/s_btn"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/umeng_socialize_wechat"
+                android:padding="@dimen/iten_margin_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                style="@style/DefaultText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/hintText"
+                android:text="短信"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView  android:id="@id/tv_amount"
+        android:layout_marginTop="@dimen/iten_margin_top"
+        android:text="暂无邀请信息,快去邀请吧！"
+        android:background="@color/write"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -14,4 +14,12 @@
     <color name="item_selection">#c2c2c2</color>
     <color name="transparent">#66000000</color>
 
+    <!-- refresh  color -->
+    <color name="refresh_red">#d62d20</color>
+    <color name="refresh_blue">#0057e7</color>
+    <color name="refresh_green">#008744</color>
+    <color name="refresh_yellow">#ffa700</color>
+    <color name="refresh_msg">@color/divider</color>
+    <color name="refresh_bg">@color/write</color>
+
 </resources>

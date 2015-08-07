@@ -26,15 +26,32 @@ public class WalletDatialListAdapater extends RecyclerAdapter<WalletBill.Item> i
     private Context mContext;
 
     public WalletDatialListAdapater(Context context, final List<WalletBill.Item> items,RecyclerView recyclerView){
+
         super(context,items,recyclerView);
+        mContext=context;
         setHasStableIds(true);
         implementRecyclerAdapterMethods(new RecyclerAdapterMethods<WalletBill.Item>() {
             @Override
             public void onBindViewHolder(ViewHolder viewHolder, WalletBill.Item item, int position) {
-                viewHolder.setText(R.id.tv_item_0,"title");
+                viewHolder.setText(R.id.tv_item_0,item.tradingExplain);
                 viewHolder.setText(R.id.tv_item_1,item.tradingDate);
                 viewHolder.setText(R.id.tv_item_2, CommonUtil.formatMoney(item.accountAmountChange));
-                viewHolder.setText(R.id.tv_item_3,"交易成功");
+                if (CommonUtil.notEmpty(item.statusId)){
+                    String str=null;
+                    switch (item.statusId){
+                        case "89":
+                            str="交易中";
+                            break;
+                        case "90":
+                            str="交易成功";
+                            break;
+                        case "91":
+                            str="交易失败";
+                            break;
+                    }
+                    viewHolder.setText(R.id.tv_item_3,str);
+                }
+
             }
 
             @Override
@@ -50,6 +67,10 @@ public class WalletDatialListAdapater extends RecyclerAdapter<WalletBill.Item> i
     }
 
 
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
 
     @Override
     public long getHeaderId(int position) {
@@ -67,6 +88,11 @@ public class WalletDatialListAdapater extends RecyclerAdapter<WalletBill.Item> i
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.tv_item_0);
         textView.setText(getItem(position).month+"月");
+    }
+
+    @Override
+    public int getDataItemCount() {
+        return mRecyclerAdapterMethods.getItemCount();
     }
 
 

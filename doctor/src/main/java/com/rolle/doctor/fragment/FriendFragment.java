@@ -1,6 +1,5 @@
 package com.rolle.doctor.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.android.common.util.CommonUtil;
 import com.android.common.util.ViewUtil;
 import com.rolle.doctor.R;
@@ -19,10 +17,8 @@ import com.rolle.doctor.ui.FriendActivity;
 import com.rolle.doctor.ui.PatientActivity;
 import com.rolle.doctor.ui.SeachActivity;
 import com.rolle.doctor.ui.TheDoctorActivity;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -70,6 +66,7 @@ public class FriendFragment extends BaseFragment implements FriendPresenter.IFri
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (CommonUtil.isFastClick())return true;
         switch (item.getItemId()){
             case R.id.toolbar_add:
                 ViewUtil.openActivity(AddFriendActivity.class,getActivity());
@@ -101,7 +98,9 @@ public class FriendFragment extends BaseFragment implements FriendPresenter.IFri
     public void onEvent(BaseEvent event)
     {
         if (CommonUtil.notNull(event)&&event.type==BaseEvent.EV_USER_FRIEND){
-            presenter.doPaitentSum();
+            if (CommonUtil.notNull(presenter)){
+                presenter.doPaitentSum();
+            }
         }
 
     }

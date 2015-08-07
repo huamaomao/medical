@@ -1,8 +1,13 @@
 package com.android.common.util;
 
+import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
@@ -32,6 +37,47 @@ public final class CommonUtil {
         }
         lastClickTime = time;
         return false;
+    }
+
+    /********
+     * 复制
+     * @param msg
+     */
+    @TargetApi(11)
+    public static void copy(Context context,String msg){
+        try {
+            ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (CommonUtil.notNull(cmb)){
+                ClipData clip = ClipData.newPlainText("message",msg);
+                cmb.setPrimaryClip(clip);
+            }
+        }catch (Exception e){}
+
+    }
+
+    /********
+     * 粘贴
+     * @param context
+     */
+    @TargetApi(11)
+    public static String paserText(Context context){
+        StringBuilder resultString =new StringBuilder();
+        try {
+            ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (CommonUtil.notNull(cmb)&&cmb.hasPrimaryClip()){
+                ClipData clipData = cmb.getPrimaryClip();
+                int count = clipData.getItemCount();
+                for (int i = 0; i < count; ++i) {
+                    ClipData.Item item = clipData.getItemAt(i);
+                    resultString.append(item.coerceToText(context));
+                }
+            }
+
+
+        }catch (Exception e){
+
+        }
+       return resultString.toString();
     }
 
     /************************************************数据 method ******************************************************************/
@@ -333,5 +379,14 @@ public final class CommonUtil {
         return String.valueOf(i);
     }
 
+
+   public static void hideInputMethod(Context context,View view){
+       InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+       if (CommonUtil.notNull(imm)){
+           imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+           imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+       }
+
+   }
 
 }

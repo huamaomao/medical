@@ -44,7 +44,7 @@ public class AuthenticationActivity extends BaseLoadingActivity{
     private UserModel userModel;
     private User user;
     private boolean flag;
-    private MenuItem menuItem;
+
     private String doctorPath;
     private String idcardPath;
 
@@ -80,12 +80,12 @@ public class AuthenticationActivity extends BaseLoadingActivity{
                 Uri uri = data.getData();
                 if (uri != null) {
                     if (flag){
-                        iv_add_idcard.setTag(ViewUtil.getRealFilePath(getContext(), uri));
-                        Picasso.with(this).load(new File(iv_add_idcard.getTag().toString())).placeholder(R.mipmap.icon_photo_add).
+                        doctorPath=ViewUtil.getRealFilePath(getContext(), uri);
+                        Picasso.with(this).load(new File(doctorPath)).placeholder(R.mipmap.icon_photo_add).
                                 resize(120,120).into(iv_add_idcard);
                     }else {
-                        iv_add_doctor.setTag(ViewUtil.getRealFilePath(getContext(), uri));
-                        Picasso.with(this).load(new File(iv_add_doctor.getTag().toString())).placeholder(R.mipmap.icon_photo_add).
+                        idcardPath=ViewUtil.getRealFilePath(getContext(), uri);
+                        Picasso.with(this).load(new File(idcardPath)).placeholder(R.mipmap.icon_photo_add).
                                  resize(120, 120).into(iv_add_doctor);
                     }
                 }
@@ -116,20 +116,20 @@ public class AuthenticationActivity extends BaseLoadingActivity{
      */
     @OnClick(R.id.btn_next)
      void uploadPhoto(){
-        if (CommonUtil.isEmpty(iv_add_doctor.getTag().toString())){
+        if (CommonUtil.isEmpty(doctorPath)){
             msgShow("请上传从医证件照...");
             return;
         }
-        if (CommonUtil.isEmpty(iv_add_idcard.getTag().toString())){
+        if (CommonUtil.isEmpty(idcardPath)){
             msgShow("请上传身份证件照...");
             return;
         }
         showLoading();
-        userModel.uploadPicture("24", iv_add_idcard.getTag().toString(), new SimpleResponseListener<UploadPicture>() {
+        userModel.uploadPicture("24", doctorPath, new SimpleResponseListener<UploadPicture>() {
             @Override
             public void requestSuccess(UploadPicture info, Response response) {
                 user.businessLicense = info.id;
-                userModel.uploadPicture("26", iv_add_doctor.getTag().toString(), new SimpleResponseListener<UploadPicture>() {
+                userModel.uploadPicture("26", idcardPath, new SimpleResponseListener<UploadPicture>() {
                     @Override
                     public void requestSuccess(UploadPicture info, Response response) {
                         user.businessLicense = info.id;
@@ -194,19 +194,12 @@ public class AuthenticationActivity extends BaseLoadingActivity{
         setCommitMessage();
         if ("94".equals(user.isAudit)){
             tv_status.setText("审核中");
-            setNoCommit();
         }else if ("95".equals(user.isAudit)){
             tv_status.setText("认证失败");
         }else if ("96".equals(user.isAudit)){
             tv_status.setText("认证成功");
-            setNoCommit();
             tv_status.setTextColor(getResources().getColor(R.color.hintText));
         }
-    }
-
-    public void setNoCommit(){
-        if (CommonUtil.notNull(menuItem))
-            menuItem.setEnabled(false);
     }
 
 

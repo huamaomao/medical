@@ -16,7 +16,8 @@ public class Wallet extends ResponseMessage{
     public String frozenAmount;
     public String password;
     public List<Item> list;
-    public   static class Item implements Serializable{
+    public  static final class Item implements Serializable{
+        private static final long serialVersionUID = 1229260615062906386L;
         public int id;
         public int userId;
         public String userName;

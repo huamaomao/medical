@@ -4,7 +4,6 @@
     android:background="@color/appbg"
     >
    <include layout="@layout/toolbar" />
-
     <include layout="@layout/divider" />
     <include layout="@layout/public_refresh_recycler_view" android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/iten_margin_top"

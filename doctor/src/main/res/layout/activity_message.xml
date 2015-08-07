@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
    style="@style/style_wh_match_v"
     android:background="@color/appbg"
     >
    <include layout="@layout/toolbar" />
 
-    <com.baoyz.widget.PullRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.baoyz.widget.PullRefreshLayout
                 android:id="@id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="0px"
                 android:layout_weight="1">
-                <include layout="@layout/public_recycler_view"
-                    android:background="@color/appbg"
-                    android:layout_height="0px"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    />
+
+                        <include layout="@layout/public_recycler_view"
+                            android:background="@color/appbg"
+                            android:layout_height="0px"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            />
+
                 </com.baoyz.widget.PullRefreshLayout>
 
             <View android:background="@color/message_border"

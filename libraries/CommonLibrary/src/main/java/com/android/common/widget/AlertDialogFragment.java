@@ -20,7 +20,7 @@ public class AlertDialogFragment extends DialogFragment{
 
     private OnClickListener listener;
     public String msg=null;
-
+    private int position=-1;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -46,7 +46,16 @@ public class AlertDialogFragment extends DialogFragment{
         });
         return builder.create();
     }
-  public void setClickListener(OnClickListener listener){
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void setClickListener(OnClickListener listener){
         this.listener=listener;
   }
 

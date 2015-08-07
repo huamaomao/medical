@@ -4,7 +4,9 @@
     <TextView
         android:id="@id/tv_item_0"
         android:layout_marginLeft="10dp"
-        android:textSize="@dimen/font_size_15"
+        android:textSize="14.0sp"
+        android:layout_marginRight="60dp"
+        android:layout_toLeftOf="@id/tv_item_1"
         android:textColor="@color/black"
         style="@style/my_image" />
 

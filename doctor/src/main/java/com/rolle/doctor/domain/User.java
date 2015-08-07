@@ -24,6 +24,10 @@ public class User extends ResponseMessage  implements Serializable,Parcelable {
     /****好友关系***/
     public int friendId;
 
+    /* 正常	119  轻微	120  严重	121
+    */
+    /*******病情*****/
+    public String condition;
     public int id;
     public String nickname;
     public String noteName;

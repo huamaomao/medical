@@ -55,7 +55,6 @@ public class WalletDetialActivity extends BaseActivity {
             return;
         }
         ViewUtil.openActivity(WalletCashoutActivity.class,getContext());
-
     }
 
 }
