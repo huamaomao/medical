@@ -67,10 +67,6 @@ public class WalletDatialListAdapater extends RecyclerAdapter<WalletBill.Item> i
     }
 
 
-    @Override
-    public int getItemCount() {
-        return super.getItemCount();
-    }
 
     @Override
     public long getHeaderId(int position) {

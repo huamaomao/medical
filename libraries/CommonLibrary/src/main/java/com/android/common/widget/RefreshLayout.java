@@ -69,12 +69,6 @@ public final class RefreshLayout extends SwipeRefreshLayout {
             listView.addFooterView(mListViewFooter);
             listView.setFooterDividersEnabled(false);
         }else if (mListView instanceof RecyclerView){
-            RecyclerView recyclerView=(RecyclerView)mListView;
-            RecyclerView.Adapter adapter= recyclerView.getAdapter();
-            if (adapter instanceof RecyclerAdapter){
-                RecyclerAdapter recyclerAdapter=(RecyclerAdapter)adapter;
-                recyclerAdapter.setFooterView();
-            }
 
         }else {
             throw new RuntimeException("View  is ListView or RecyclerView !");
@@ -115,7 +109,6 @@ public final class RefreshLayout extends SwipeRefreshLayout {
     }
 
     private boolean isBottom() {
-
         if (this.mListView instanceof  ListView){
             ListView listView=(ListView)this.mListView;
             listView.addFooterView(mListViewFooter);
@@ -127,7 +120,6 @@ public final class RefreshLayout extends SwipeRefreshLayout {
                 }
             }
         }
-
         return false;
     }
 

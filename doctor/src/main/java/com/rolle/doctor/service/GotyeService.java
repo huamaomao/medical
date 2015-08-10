@@ -46,7 +46,6 @@ public class GotyeService extends Service implements NotifyListener,LoginListene
 	public int onStartCommand(Intent intent, int flags, int startId) {
        // User token=userModel.getLoginUser();
 		 Token token=userModel.getToken();
-		Log.e(TAG,"开始登陆了......"+token);
         if (CommonUtil.notNull(token)&&token.isLogin()){
             int code = api.login(token.userId+"");
 			Log.e(TAG,"开始登陆了......"+code+"==getLoginUser=="+api.getLoginUser().getName());
@@ -62,8 +61,9 @@ public class GotyeService extends Service implements NotifyListener,LoginListene
 
 	@Override
 	public void onDestroy() {
+		GotyeAPI.getInstance().removeListener(this);
 		/*try {
-			// GotyeAPI.getInstance().removeListener(this);
+			//
 			Intent localIntent = new Intent();
 			localIntent.setClass(this, GotyeService.class); // 銷毀時重新啟動Service 流氓
 			this.startService(localIntent);

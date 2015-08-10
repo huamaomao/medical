@@ -23,13 +23,11 @@ import java.util.List;
 
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-     private final static String MORE_MESSAGE_LOADING="加载中...";
-     private final static String MORE_MESSAGE_NO_MORE="--End--";
+
 
     /*****是否显示headView  无网络 无数据 item *******/
     public boolean isHeadView=false;
-    /******是否显示 FooterView  *********/
-    private boolean isFooterView=false;
+
 
     /****是否有网络  ***/
     public int status=STATUS_NORMAL;
@@ -44,11 +42,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public static final int TYPE_NET=0;
     /***********正常数据*******************/
     public static final int TYPE_ITEM=1;
-    public static final int TYPE_FOOTER=2;
-    /********* 默认多少条数据显示footerView*************/
-    public static final int DATA_PAGE_SIZE=10;
-    /****是否有更多数据****/
-    private boolean isMoreData=true;
 
     /***********无数据显示消息**********/
     public String empty=null;
@@ -200,10 +193,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
                     emptyViewHolder.tvEmpty.setText(empty);
             }
 
-        }else if (viewHolder instanceof FooterViewHolder){
-            FooterViewHolder footerViewHolder =(FooterViewHolder)viewHolder;
-            if (isMoreData)footerViewHolder.setMoreLoading();
-            else footerViewHolder.setNoMoreData();
         }else {
             mRecyclerAdapterMethods.onBindViewHolder(viewHolder, getItem(position), position);
             if (mOnClickEvent != null)
@@ -221,8 +210,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType==TYPE_NET){
             return new EmptyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.empty_view,viewGroup,false));
-        }else if (viewType==TYPE_FOOTER){
-            return new FooterViewHolder(LayoutInflater.from(mContext).inflate(R.layout.refresh_footer,viewGroup,false));
         }
         return mRecyclerAdapterMethods.onCreateViewHolder(viewGroup, viewType);
     }
@@ -234,8 +221,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
     public int getItemViewType(int position) {
         if (position==0&&isHeadView)
             return TYPE_NET;
-        if (position==getItemCount()-1)
-            return TYPE_FOOTER;
         return getItemType(position);
     }
 
@@ -413,26 +398,6 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         }
     }
 
-    public static class FooterViewHolder extends ViewHolder{
-        ProgressBar progressBar;
-        TextView tvMore;
-        public FooterViewHolder(View itemView) {
-            super(itemView);
-            progressBar=getView(R.id.pb_loading);
-            tvMore=getView(R.id.tv_more);
-        }
-
-        void setNoMoreData(){
-            progressBar.setVisibility(View.GONE);
-            tvMore.setText(MORE_MESSAGE_NO_MORE);
-        }
-        void setMoreLoading(){
-            progressBar.setVisibility(View.VISIBLE);
-            tvMore.setText(MORE_MESSAGE_LOADING);
-        }
-    }
-
-
     /***************网络监听广播*****************/
     public BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
         @Override
@@ -451,24 +416,15 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAdapter.Vie
         return (Activity)mContext;
     }
 
-    public void setFooterView(){
-        isFooterView=true;
-    }
 
-    public void setHasMoreData(){
-        isMoreData=true;
-    }
-    public void setNoMoreData(){
-        isMoreData=false;
-    }
 
-    public final int getItemCount() {
+
+
+    public  int getItemCount() {
         int count=mRecyclerAdapterMethods.getItemCount();
         if (isHeadView) ++count;
-        if (isFooterView&&count>=DATA_PAGE_SIZE) ++count;
         return count;
     }
-
 
 
     public interface RecyclerAdapterMethods<T>{

@@ -5,4 +5,5 @@
     android:orientation="vertical">
     <include layout="@layout/toolbar" />
     <include layout="@layout/public_refresh_recycle" />
+
 </LinearLayout>

@@ -1,40 +1,28 @@
 package com.rolle.doctor.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.android.common.adapter.MultiplicityRecylerAdapter;
 import com.android.common.adapter.RecyclerAdapter;
 import com.android.common.adapter.RecyclerOnScrollListener;
 import com.android.common.domain.ResponseMessage;
-import com.android.common.util.AppHttpExceptionHandler;
 import com.android.common.util.CommonUtil;
-import com.android.common.util.Log;
-import com.android.common.util.ViewUtil;
 import com.android.common.viewmodel.SimpleResponseListener;
 import com.android.common.widget.RefreshLayout;
-import com.baoyz.widget.PullRefreshLayout;
 import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.response.Response;
 import com.rolle.doctor.R;
 import com.rolle.doctor.domain.Appointment;
-import com.rolle.doctor.domain.FriendResponse;
-import com.rolle.doctor.domain.InviteInfo;
-import com.rolle.doctor.domain.User;
-import com.rolle.doctor.service.RequestService;
-import com.rolle.doctor.util.AppConstants;
 import com.rolle.doctor.util.CircleTransform;
-import com.rolle.doctor.util.Util;
-import com.rolle.doctor.viewmodel.RequestTag;
 import com.rolle.doctor.viewmodel.UserModel;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 import static com.rolle.doctor.R.mipmap.icon_default;
 
@@ -55,13 +42,9 @@ public class AppointmentActivity extends BaseLoadingActivity {
     RefreshLayout refresh;
     @InjectView(R.id.rv_view)
     RecyclerView lvView;
-
     private List<Appointment.Item> data;
-    private RecyclerAdapter<Appointment.Item> adapater;
+    private MultiplicityRecylerAdapter<Appointment.Item> adapater;
     private UserModel userModel;
-    private RecyclerOnScrollListener scrollListener;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +62,13 @@ public class AppointmentActivity extends BaseLoadingActivity {
                 requestData(1);
             }
         });
+        refresh.setProgressViewOffset(false, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                        .getDisplayMetrics()));
 
         userModel=new UserModel(getContext());
         data=new ArrayList();
-        adapater=new RecyclerAdapter(getContext(),data,lvView);
+        adapater=new MultiplicityRecylerAdapter(getContext(),data,lvView);
 
         adapater.empty="暂无预约信息...";
         loadingFragment.setRequestMessage();
@@ -108,12 +94,28 @@ public class AppointmentActivity extends BaseLoadingActivity {
                 return data.size();
             }
         });
-        adapater.setOnClickEvent(new RecyclerAdapter.OnClickEvent<User>() {
+        adapater.setOnLoadMoreListener(new MultiplicityRecylerAdapter.OnLoadMoreListener() {
             @Override
-            public void onClick(View v, User item, int position) {
+            public void onLoadMore(int page) {
+                requestData(page);
+            }
+        });
+
+        lvView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (refresh.isRefreshing()){
+                    return true;
+                }
+                return false;
+            }
+        });
+        adapater.setOnClickEvent(new RecyclerAdapter.OnClickEvent<Appointment.Item>() {
+            @Override
+            public void onClick(View v, Appointment.Item item, int position) {
                 if (CommonUtil.isFastClick()) return;
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(AppConstants.ITEM, item);
+                // bundle.putParcelable(AppConstants.ITEM, item);
                 /*if (AppConstants.USER_TYPE_PATIENT.equals(item.typeId)) {
                     ViewUtil.openActivity(PatientHActivity.class, bundle, getContext());
                 } else {
@@ -122,23 +124,16 @@ public class AppointmentActivity extends BaseLoadingActivity {
             }
         });
 
-        ViewUtil.initRecyclerViewDecoration(lvView, getContext(), adapater);
-      /*  scrollListener=new RecyclerOnScrollListener((LinearLayoutManager)lvView.getLayoutManager()) {
+        refresh.setAnimationCacheEnabled(true);
+        (new Handler()).post(new Runnable() {
             @Override
-            public void onLoadMore(int current_page) {
-                requestData(current_page);
-            }
-        };
-        lvView.addOnScrollListener(scrollListener);*/
-        refresh.setFooterView(lvView);
-        refresh.setOnMoreListener(new RefreshLayout.OnMoreListener() {
-            @Override
-            public void onMore(int page) {
-                Log.d("onMore....."+page);
+            public void run() {
+                refresh.setRefreshing(true);
+                requestData(1);
             }
         });
-        refresh.setRefreshing(true);
-        requestData(1);
+
+
     }
 
     private void requestData(final int page){
@@ -148,7 +143,7 @@ public class AppointmentActivity extends BaseLoadingActivity {
                 if (page==1){
                     adapater.addItemAll(info.getList());
                 }else {
-                    adapater.addMoreItem(info.getList());
+                    adapater.setNextPage(info.getList());
                 }
                 //scrollListener.nextPage(info.getList());
             }
@@ -165,7 +160,7 @@ public class AppointmentActivity extends BaseLoadingActivity {
                     if (page==1) {
                         refresh.setRefreshing(false);
                     }else{
-                        scrollListener.setLoadMore();
+
                     }
                     adapater.checkEmpty();
                 }
